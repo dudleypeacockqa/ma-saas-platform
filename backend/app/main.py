@@ -8,7 +8,7 @@ import logging
 
 from app.core.database import get_db, engine
 from app.core.config import settings
-from app.api import auth, tenants, users, ai
+from app.api import auth, tenants, users, ai, content
 from app.routers import due_diligence, deals
 from app.models import models
 
@@ -60,6 +60,7 @@ app.include_router(deals.router)  # Deal management (prefix already defined in r
 app.include_router(users.router, prefix="/api/users", tags=["users"])
 app.include_router(ai.router, prefix="/api/ai", tags=["ai-analysis"])
 app.include_router(due_diligence.router)  # Due diligence management
+app.include_router(content.router)  # Content creation and management
 
 @app.on_event("startup")
 async def startup_event():
