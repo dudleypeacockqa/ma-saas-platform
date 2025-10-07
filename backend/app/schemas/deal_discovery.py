@@ -112,7 +112,7 @@ class CompanyUpdate(BaseModel):
 
 class CompanyResponse(CompanyBase):
     id: uuid.UUID
-    tenant_id: uuid.UUID
+    tenant_id: int
     last_data_refresh: Optional[datetime] = None
     created_at: datetime
     updated_at: datetime
@@ -173,7 +173,7 @@ class DealOpportunityUpdate(BaseModel):
 
 class DealOpportunityResponse(DealOpportunityBase):
     id: uuid.UUID
-    tenant_id: uuid.UUID
+    tenant_id: int
     user_id: str
     financial_score: Optional[float] = None
     strategic_fit_score: Optional[float] = None
@@ -233,7 +233,7 @@ class FinancialSnapshotCreate(FinancialSnapshotBase):
 class FinancialSnapshotResponse(FinancialSnapshotBase):
     id: uuid.UUID
     company_id: uuid.UUID
-    tenant_id: uuid.UUID
+    tenant_id: int
     created_at: datetime
     updated_at: datetime
 
@@ -259,7 +259,7 @@ class DealActivityCreate(DealActivityBase):
 class DealActivityResponse(DealActivityBase):
     id: uuid.UUID
     opportunity_id: uuid.UUID
-    tenant_id: uuid.UUID
+    tenant_id: int
     user_id: str
     activity_date: datetime
     created_at: datetime
@@ -294,7 +294,7 @@ class OpportunityEvaluationCreate(OpportunityEvaluationBase):
 class OpportunityEvaluationResponse(OpportunityEvaluationBase):
     id: uuid.UUID
     opportunity_id: uuid.UUID
-    tenant_id: uuid.UUID
+    tenant_id: int
     evaluator_id: str
     evaluation_date: datetime
     created_at: datetime

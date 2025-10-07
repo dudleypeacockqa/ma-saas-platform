@@ -889,8 +889,8 @@ class OpportunityManagementService:
         # For now, just return a placeholder
         deal_id = f"deal_{opportunity.id}"
 
-        opportunity.metadata = opportunity.metadata or {}
-        opportunity.metadata["converted_deal_id"] = deal_id
+        opportunity.extra_data = opportunity.extra_data or {}
+        opportunity.extra_data["converted_deal_id"] = deal_id
 
         self.db.commit()
 

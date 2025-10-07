@@ -36,7 +36,7 @@ async def create_company(
         raise HTTPException(status_code=400, detail="Tenant ID not found")
 
     db_company = Company(
-        tenant_id=uuid.UUID(tenant_id),
+        tenant_id=int(tenant_id),
         **company.dict()
     )
     db.add(db_company)
@@ -62,7 +62,7 @@ async def list_companies(
     if not tenant_id:
         raise HTTPException(status_code=400, detail="Tenant ID not found")
 
-    query = db.query(Company).filter(Company.tenant_id == uuid.UUID(tenant_id))
+    query = db.query(Company).filter(Company.tenant_id == int(tenant_id))
 
     if industry:
         query = query.filter(Company.industry == industry)
@@ -90,7 +90,7 @@ async def get_company(
 
     company = db.query(Company).filter(
         Company.id == company_id,
-        Company.tenant_id == uuid.UUID(tenant_id)
+        Company.tenant_id == int(tenant_id)
     ).first()
 
     if not company:
@@ -113,7 +113,7 @@ async def update_company(
 
     company = db.query(Company).filter(
         Company.id == company_id,
-        Company.tenant_id == uuid.UUID(tenant_id)
+        Company.tenant_id == int(tenant_id)
     ).first()
 
     if not company:
@@ -143,7 +143,7 @@ async def create_opportunity(
         raise HTTPException(status_code=400, detail="User information incomplete")
 
     db_opportunity = DealOpportunity(
-        tenant_id=uuid.UUID(tenant_id),
+        tenant_id=int(tenant_id),
         user_id=user_id,
         **opportunity.dict()
     )
@@ -170,7 +170,7 @@ async def list_opportunities(
         raise HTTPException(status_code=400, detail="Tenant ID not found")
 
     query = db.query(DealOpportunity).filter(
-        DealOpportunity.tenant_id == uuid.UUID(tenant_id)
+        DealOpportunity.tenant_id == int(tenant_id)
     )
 
     if stage:
@@ -196,7 +196,7 @@ async def get_opportunity(
 
     opportunity = db.query(DealOpportunity).filter(
         DealOpportunity.id == opportunity_id,
-        DealOpportunity.tenant_id == uuid.UUID(tenant_id)
+        DealOpportunity.tenant_id == int(tenant_id)
     ).first()
 
     if not opportunity:
@@ -219,7 +219,7 @@ async def update_opportunity(
 
     opportunity = db.query(DealOpportunity).filter(
         DealOpportunity.id == opportunity_id,
-        DealOpportunity.tenant_id == uuid.UUID(tenant_id)
+        DealOpportunity.tenant_id == int(tenant_id)
     ).first()
 
     if not opportunity:
@@ -250,7 +250,7 @@ async def update_opportunity_stage(
 
     opportunity = db.query(DealOpportunity).filter(
         DealOpportunity.id == opportunity_id,
-        DealOpportunity.tenant_id == uuid.UUID(tenant_id)
+        DealOpportunity.tenant_id == int(tenant_id)
     ).first()
 
     if not opportunity:
@@ -287,7 +287,7 @@ async def create_activity(
     # Verify opportunity exists and belongs to tenant
     opportunity = db.query(DealOpportunity).filter(
         DealOpportunity.id == opportunity_id,
-        DealOpportunity.tenant_id == uuid.UUID(tenant_id)
+        DealOpportunity.tenant_id == int(tenant_id)
     ).first()
 
     if not opportunity:
@@ -295,7 +295,7 @@ async def create_activity(
 
     db_activity = DealActivity(
         opportunity_id=opportunity_id,
-        tenant_id=uuid.UUID(tenant_id),
+        tenant_id=int(tenant_id),
         user_id=user_id,
         **activity.dict()
     )
@@ -326,7 +326,7 @@ async def list_activities(
     # Verify opportunity exists and belongs to tenant
     opportunity = db.query(DealOpportunity).filter(
         DealOpportunity.id == opportunity_id,
-        DealOpportunity.tenant_id == uuid.UUID(tenant_id)
+        DealOpportunity.tenant_id == int(tenant_id)
     ).first()
 
     if not opportunity:
@@ -356,7 +356,7 @@ async def create_evaluation(
     # Verify opportunity exists and belongs to tenant
     opportunity = db.query(DealOpportunity).filter(
         DealOpportunity.id == opportunity_id,
-        DealOpportunity.tenant_id == uuid.UUID(tenant_id)
+        DealOpportunity.tenant_id == int(tenant_id)
     ).first()
 
     if not opportunity:
@@ -364,7 +364,7 @@ async def create_evaluation(
 
     db_evaluation = OpportunityEvaluation(
         opportunity_id=opportunity_id,
-        tenant_id=uuid.UUID(tenant_id),
+        tenant_id=int(tenant_id),
         evaluator_id=user_id,
         **evaluation.dict()
     )
@@ -390,7 +390,7 @@ async def create_financial_snapshot(
     # Verify company exists and belongs to tenant
     company = db.query(Company).filter(
         Company.id == company_id,
-        Company.tenant_id == uuid.UUID(tenant_id)
+        Company.tenant_id == int(tenant_id)
     ).first()
 
     if not company:
@@ -398,7 +398,7 @@ async def create_financial_snapshot(
 
     db_snapshot = FinancialSnapshot(
         company_id=company_id,
-        tenant_id=uuid.UUID(tenant_id),
+        tenant_id=int(tenant_id),
         **snapshot.dict()
     )
     db.add(db_snapshot)
@@ -429,7 +429,7 @@ async def list_financial_snapshots(
     # Verify company exists and belongs to tenant
     company = db.query(Company).filter(
         Company.id == company_id,
-        Company.tenant_id == uuid.UUID(tenant_id)
+        Company.tenant_id == int(tenant_id)
     ).first()
 
     if not company:
@@ -455,7 +455,7 @@ async def screen_companies(
 
     screening_service = DealScreeningService(db)
     companies = screening_service.screen_companies(
-        tenant_id=uuid.UUID(tenant_id),
+        tenant_id=int(tenant_id),
         filters=filters.dict(exclude_unset=True)
     )
 
@@ -477,7 +477,7 @@ async def find_distressed_companies(
 
     screening_service = DealScreeningService(db)
     companies = screening_service.identify_distressed_companies(
-        tenant_id=uuid.UUID(tenant_id),
+        tenant_id=int(tenant_id),
         threshold_metrics={
             'min_current_ratio': min_current_ratio,
             'max_debt_to_equity': max_debt_to_equity,
@@ -503,7 +503,7 @@ async def find_succession_opportunities(
 
     screening_service = DealScreeningService(db)
     opportunities = screening_service.find_succession_opportunities(
-        tenant_id=uuid.UUID(tenant_id),
+        tenant_id=int(tenant_id),
         min_years_in_business=min_years_in_business,
         owner_age_threshold=owner_age_threshold
     )
@@ -525,7 +525,7 @@ async def calculate_opportunity_score(
 
     opportunity = db.query(DealOpportunity).filter(
         DealOpportunity.id == opportunity_id,
-        DealOpportunity.tenant_id == uuid.UUID(tenant_id)
+        DealOpportunity.tenant_id == int(tenant_id)
     ).first()
 
     if not opportunity:
@@ -566,7 +566,7 @@ async def get_ranked_opportunities(
 
     screening_service = DealScreeningService(db)
     ranked = screening_service.rank_opportunities(
-        tenant_id=uuid.UUID(tenant_id),
+        tenant_id=int(tenant_id),
         filters=filters if filters else None,
         limit=limit
     )

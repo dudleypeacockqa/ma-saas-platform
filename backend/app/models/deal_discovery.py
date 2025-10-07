@@ -105,7 +105,7 @@ class Company(Base):
     opportunities = relationship("DealOpportunity", back_populates="company")
     financial_snapshots = relationship("FinancialSnapshot", back_populates="company")
 
-    tenant = relationship("Tenant", back_populates="companies")
+    # tenant = relationship("Tenant", back_populates="companies")
 
 
 class DealOpportunity(Base):
@@ -171,7 +171,7 @@ class DealOpportunity(Base):
     activities = relationship("DealActivity", back_populates="opportunity")
     evaluations = relationship("OpportunityEvaluation", back_populates="opportunity")
 
-    tenant = relationship("Tenant", back_populates="deal_opportunities")
+    # tenant = relationship("Tenant", back_populates="deal_opportunities")
 
 
 class FinancialSnapshot(Base):
@@ -232,7 +232,7 @@ class FinancialSnapshot(Base):
 
     # Relationships
     company = relationship("Company", back_populates="financial_snapshots")
-    tenant = relationship("Tenant", back_populates="financial_snapshots")
+    # tenant = relationship("Tenant", back_populates="financial_snapshots")
 
 
 class DealActivity(Base):
@@ -262,7 +262,7 @@ class DealActivity(Base):
 
     # Relationships
     opportunity = relationship("DealOpportunity", back_populates="activities")
-    tenant = relationship("Tenant", back_populates="deal_activities")
+    # tenant = relationship("Tenant", back_populates="deal_activities")
 
 
 class OpportunityEvaluation(Base):
@@ -302,7 +302,7 @@ class OpportunityEvaluation(Base):
 
     # Relationships
     opportunity = relationship("DealOpportunity", back_populates="evaluations")
-    tenant = relationship("Tenant", back_populates="opportunity_evaluations")
+    # tenant = relationship("Tenant", back_populates="opportunity_evaluations")
 
 
 class MarketIntelligence(Base):
@@ -338,4 +338,4 @@ class MarketIntelligence(Base):
     processed_date = Column(DateTime)
 
     # Relationships
-    tenant = relationship("Tenant", back_populates="market_intelligence")
+    # tenant = relationship("Tenant", back_populates="market_intelligence")

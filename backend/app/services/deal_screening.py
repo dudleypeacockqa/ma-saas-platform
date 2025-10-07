@@ -19,7 +19,7 @@ class DealScreeningService:
 
     def screen_companies(
         self,
-        tenant_id: uuid.UUID,
+        tenant_id: int,
         filters: Dict[str, Any]
     ) -> List[Company]:
         """
@@ -79,7 +79,7 @@ class DealScreeningService:
 
     def identify_distressed_companies(
         self,
-        tenant_id: uuid.UUID,
+        tenant_id: int,
         threshold_metrics: Optional[Dict[str, float]] = None
     ) -> List[Company]:
         """
@@ -145,7 +145,7 @@ class DealScreeningService:
 
     def find_succession_opportunities(
         self,
-        tenant_id: uuid.UUID,
+        tenant_id: int,
         min_years_in_business: int = 20,
         owner_age_threshold: int = 60
     ) -> List[DealOpportunity]:
@@ -366,7 +366,7 @@ class DealScreeningService:
 
     def rank_opportunities(
         self,
-        tenant_id: uuid.UUID,
+        tenant_id: int,
         filters: Optional[Dict[str, Any]] = None,
         limit: int = 50
     ) -> List[Dict[str, Any]]:

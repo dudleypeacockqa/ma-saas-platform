@@ -128,8 +128,8 @@ class MarketOpportunity(BaseModel, SoftDeleteMixin):
     analyzed_by = Column(UUID(as_uuid=False), ForeignKey("users.id"))
     converted_to_deal_id = Column(UUID(as_uuid=False), ForeignKey("deals.id"))
 
-    # Metadata
-    metadata = Column(JSON, comment="Additional structured data")
+    # Additional Data
+    extra_data = Column(JSON, comment="Additional structured data")
     tags = Column(ARRAY(String))
 
     # Relationships
@@ -350,7 +350,7 @@ class MarketIntelligence(BaseModel, SoftDeleteMixin):
     keywords = Column(ARRAY(String))
 
     # Metadata
-    metadata = Column(JSON)
+    extra_data = Column(JSON)
 
     # Relationships
     organization = relationship("Organization")
@@ -394,7 +394,7 @@ class DataSource(BaseModel):
 
     # Metadata
     configuration = Column(JSON)
-    metadata = Column(JSON)
+    extra_data = Column(JSON)
 
     # Relationships
     organization = relationship("Organization")

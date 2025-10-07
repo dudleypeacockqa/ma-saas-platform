@@ -28,7 +28,7 @@ CREATE TYPE opportunity_source AS ENUM (
 -- Companies table
 CREATE TABLE IF NOT EXISTS companies (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    tenant_id UUID NOT NULL REFERENCES tenants(id),
+    tenant_id INTEGER NOT NULL REFERENCES tenants(id),
     name VARCHAR(255) NOT NULL,
     registration_number VARCHAR(100),
     website VARCHAR(255),
@@ -61,7 +61,7 @@ CREATE TABLE IF NOT EXISTS companies (
 -- Deal Opportunities table
 CREATE TABLE IF NOT EXISTS deal_opportunities (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    tenant_id UUID NOT NULL REFERENCES tenants(id),
+    tenant_id INTEGER NOT NULL REFERENCES tenants(id),
     company_id UUID NOT NULL REFERENCES companies(id),
     user_id VARCHAR(255) NOT NULL,
     title VARCHAR(255) NOT NULL,
@@ -102,7 +102,7 @@ CREATE TABLE IF NOT EXISTS deal_opportunities (
 CREATE TABLE IF NOT EXISTS financial_snapshots (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     company_id UUID NOT NULL REFERENCES companies(id),
-    tenant_id UUID NOT NULL REFERENCES tenants(id),
+    tenant_id INTEGER NOT NULL REFERENCES tenants(id),
     year INTEGER NOT NULL,
     quarter INTEGER,
     revenue DECIMAL(15,2),
@@ -140,7 +140,7 @@ CREATE TABLE IF NOT EXISTS financial_snapshots (
 CREATE TABLE IF NOT EXISTS deal_activities (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     opportunity_id UUID NOT NULL REFERENCES deal_opportunities(id),
-    tenant_id UUID NOT NULL REFERENCES tenants(id),
+    tenant_id INTEGER NOT NULL REFERENCES tenants(id),
     user_id VARCHAR(255) NOT NULL,
     activity_type VARCHAR(100) NOT NULL,
     title VARCHAR(255) NOT NULL,
@@ -157,7 +157,7 @@ CREATE TABLE IF NOT EXISTS deal_activities (
 CREATE TABLE IF NOT EXISTS opportunity_evaluations (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     opportunity_id UUID NOT NULL REFERENCES deal_opportunities(id),
-    tenant_id UUID NOT NULL REFERENCES tenants(id),
+    tenant_id INTEGER NOT NULL REFERENCES tenants(id),
     evaluator_id VARCHAR(255) NOT NULL,
     market_opportunity INTEGER CHECK (market_opportunity >= 1 AND market_opportunity <= 10),
     competitive_position INTEGER CHECK (competitive_position >= 1 AND competitive_position <= 10),
@@ -181,7 +181,7 @@ CREATE TABLE IF NOT EXISTS opportunity_evaluations (
 -- Market Intelligence table
 CREATE TABLE IF NOT EXISTS market_intelligence (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    tenant_id UUID NOT NULL REFERENCES tenants(id),
+    tenant_id INTEGER NOT NULL REFERENCES tenants(id),
     intelligence_type VARCHAR(100),
     source VARCHAR(255),
     source_url VARCHAR(500),

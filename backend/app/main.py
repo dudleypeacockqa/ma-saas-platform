@@ -66,7 +66,7 @@ app.include_router(marketing.router)  # Marketing and subscriber acquisition
 app.include_router(payments.router)  # Payment and subscription management
 app.include_router(integrations.router)  # Platform integrations and workflows
 app.include_router(deal_discovery.router)  # Deal discovery and sourcing system
-app.include_router(opportunities.router, prefix="/api")  # M&A opportunity management
+app.include_router(opportunities.router, prefix="/api")  # Opportunities management
 
 @app.on_event("startup")
 async def startup_event():
