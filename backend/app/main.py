@@ -8,7 +8,8 @@ import logging
 
 from app.core.database import get_db, engine
 from app.core.config import settings
-from app.api import auth, tenants, users, ai, content
+from app.api import auth, tenants, users, content
+# from app.api import ai  # Temporarily disabled - needs Deal model update
 from app.routers import due_diligence, deals
 from app.models import models
 
@@ -58,7 +59,7 @@ app.include_router(auth.router, prefix="/api/auth", tags=["authentication"])
 app.include_router(tenants.router, prefix="/api/tenants", tags=["tenants"])
 app.include_router(deals.router)  # Deal management (prefix already defined in router)
 app.include_router(users.router, prefix="/api/users", tags=["users"])
-app.include_router(ai.router, prefix="/api/ai", tags=["ai-analysis"])
+# app.include_router(ai.router, prefix="/api/ai", tags=["ai-analysis"])  # Temporarily disabled
 app.include_router(due_diligence.router)  # Due diligence management
 app.include_router(content.router)  # Content creation and management
 
