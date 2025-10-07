@@ -1,0 +1,26 @@
+services:
+  - type: web
+    name: ma-saas-backend
+    env: python
+    plan: starter
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn app.main:app --host 0.0.0.0 --port $PORT
+    envVars:
+      - key: DATABASE_URL
+        fromDatabase:
+          name: ma-saas-db
+          property: connectionString
+      - key: SECRET_KEY
+        generateValue: true
+      - key: ANTHROPIC_API_KEY
+        sync: false  # Will be set manually in Render dashboard
+      - key: DEBUG
+        value: false
+      - key: ACCESS_TOKEN_EXPIRE_MINUTES
+        value: 30
+
+databases:
+  - name: ma-saas-db
+    plan: starter
+    databaseName: ma_saas_platform
+    user: ma_saas_user
