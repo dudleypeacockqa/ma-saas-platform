@@ -37,7 +37,7 @@ class Content(BaseModel, SoftDeleteMixin):
 
     # Content data
     content_body = Column(Text, nullable=False)
-    metadata = Column(JSON)  # Stores timestamps, keywords, SEO data, etc.
+    content_metadata = Column(JSON)  # Stores timestamps, keywords, SEO data, etc.
 
     # Source information
     source_type = Column(String(100))  # e.g., "audio_transcript", "video", "manual"

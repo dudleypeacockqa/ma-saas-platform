@@ -7,7 +7,7 @@ from datetime import datetime
 from app.core.database import get_db
 from app.models.content import ContentType, ContentStatus
 from app.services.content_service import ContentService
-from app.api.auth import get_current_user, get_current_tenant
+from app.auth.clerk_auth import get_current_user, get_current_organization_user
 
 router = APIRouter(prefix="/api/content", tags=["content"])
 
@@ -117,8 +117,7 @@ class ValidationResponse(BaseModel):
 async def create_content(
     content_data: ContentCreate,
     db: Session = Depends(get_db),
-    current_user: dict = Depends(get_current_user),
-    tenant_id: int = Depends(get_current_tenant)
+    current_user = Depends(get_current_organization_user)
 ):
     """Create a new content item."""
     service = ContentService(db)
@@ -137,7 +136,7 @@ async def list_contents(
     limit: int = 50,
     offset: int = 0,
     db: Session = Depends(get_db),
-    tenant_id: int = Depends(get_current_tenant)
+    current_user = Depends(get_current_organization_user)
 ):
     """List all contents with optional filters."""
     service = ContentService(db)
@@ -155,7 +154,7 @@ async def list_contents(
 async def get_content(
     content_id: int,
     db: Session = Depends(get_db),
-    tenant_id: int = Depends(get_current_tenant)
+    current_user = Depends(get_current_organization_user)
 ):
     """Get a specific content item by ID."""
     service = ContentService(db)
@@ -173,8 +172,7 @@ async def update_content(
     content_id: int,
     updates: ContentUpdate,
     db: Session = Depends(get_db),
-    current_user: dict = Depends(get_current_user),
-    tenant_id: int = Depends(get_current_tenant)
+    current_user = Depends(get_current_organization_user)
 ):
     """Update a content item."""
     service = ContentService(db)
@@ -195,7 +193,7 @@ async def update_content(
 async def delete_content(
     content_id: int,
     db: Session = Depends(get_db),
-    tenant_id: int = Depends(get_current_tenant)
+    current_user = Depends(get_current_organization_user)
 ):
     """Delete a content item."""
     service = ContentService(db)
@@ -213,7 +211,7 @@ async def delete_content(
 async def create_podcast_episode(
     episode_data: PodcastEpisodeCreate,
     db: Session = Depends(get_db),
-    tenant_id: int = Depends(get_current_tenant)
+    current_user = Depends(get_current_organization_user)
 ):
     """Create a new podcast episode."""
     service = ContentService(db)
@@ -229,7 +227,7 @@ async def list_podcast_episodes(
     limit: int = 50,
     offset: int = 0,
     db: Session = Depends(get_db),
-    tenant_id: int = Depends(get_current_tenant)
+    current_user = Depends(get_current_organization_user)
 ):
     """List all podcast episodes."""
     service = ContentService(db)
@@ -245,7 +243,7 @@ async def list_podcast_episodes(
 async def get_podcast_episode(
     episode_id: int,
     db: Session = Depends(get_db),
-    tenant_id: int = Depends(get_current_tenant)
+    current_user = Depends(get_current_organization_user)
 ):
     """Get a specific podcast episode."""
     service = ContentService(db)
@@ -265,8 +263,7 @@ async def generate_show_notes(
     request: GenerateShowNotesRequest,
     background_tasks: BackgroundTasks,
     db: Session = Depends(get_db),
-    current_user: dict = Depends(get_current_user),
-    tenant_id: int = Depends(get_current_tenant)
+    current_user = Depends(get_current_organization_user)
 ):
     """Generate podcast show notes using AI."""
     service = ContentService(db)
@@ -293,8 +290,7 @@ async def generate_show_notes(
 async def generate_social_media_content(
     request: GenerateSocialMediaRequest,
     db: Session = Depends(get_db),
-    current_user: dict = Depends(get_current_user),
-    tenant_id: int = Depends(get_current_tenant)
+    current_user = Depends(get_current_organization_user)
 ):
     """Generate social media content from existing content."""
     service = ContentService(db)
@@ -322,8 +318,7 @@ async def generate_social_media_content(
 async def generate_blog_article(
     request: GenerateBlogArticleRequest,
     db: Session = Depends(get_db),
-    current_user: dict = Depends(get_current_user),
-    tenant_id: int = Depends(get_current_tenant)
+    current_user = Depends(get_current_organization_user)
 ):
     """Generate a blog article using AI."""
     service = ContentService(db)
@@ -347,8 +342,7 @@ async def generate_blog_article(
 async def generate_newsletter(
     request: GenerateNewsletterRequest,
     db: Session = Depends(get_db),
-    current_user: dict = Depends(get_current_user),
-    tenant_id: int = Depends(get_current_tenant)
+    current_user = Depends(get_current_organization_user)
 ):
     """Generate email newsletter content."""
     service = ContentService(db)
@@ -371,7 +365,7 @@ async def generate_newsletter(
 async def validate_content(
     content_id: int,
     db: Session = Depends(get_db),
-    tenant_id: int = Depends(get_current_tenant)
+    current_user = Depends(get_current_organization_user)
 ):
     """Validate content quality and get improvement suggestions."""
     service = ContentService(db)
