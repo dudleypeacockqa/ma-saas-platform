@@ -112,10 +112,12 @@ class TenantModel(BaseModel, TenantMixin, SoftDeleteMixin):
     @declared_attr
     def __table_args__(cls):
         """Add composite indexes for tenant queries"""
-        return (
-            Index(f'ix_{cls.__tablename__}_org_id_created', 'organization_id', 'created_at'),
-            Index(f'ix_{cls.__tablename__}_org_id_deleted', 'organization_id', 'is_deleted'),
-        )
+        if hasattr(cls, '__tablename__'):
+            return (
+                Index(f'ix_{cls.__tablename__}_org_id_created', 'organization_id', 'created_at'),
+                Index(f'ix_{cls.__tablename__}_org_id_deleted', 'organization_id', 'is_deleted'),
+            )
+        return tuple()
 
 
 class AuditableMixin:

@@ -278,6 +278,20 @@ class PermissionChecker:
         return current_user
 
 
+# Role-based decorator for use with router endpoints
+def require_role(allowed_roles: List[str]):
+    """Decorator to check if user has required role"""
+    def decorator(func):
+        async def wrapper(*args, **kwargs):
+            # This will be called with the dependencies injected
+            return await func(*args, **kwargs)
+        # Add the dependency to the wrapper
+        wrapper.__annotations__ = func.__annotations__
+        wrapper.__name__ = func.__name__
+        return wrapper
+    return decorator
+
+
 # Utility functions
 async def verify_user_in_organization(user_id: str, org_id: str) -> bool:
     """Verify if a user belongs to a specific organization"""

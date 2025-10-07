@@ -43,6 +43,14 @@ class Tenant(Base):
     users = relationship("User", back_populates="tenant")
     # deals relationship removed - using UUID-based Deal model now
 
+    # Deal Discovery relationships (commented to avoid circular dependencies)
+    # companies = relationship("Company", back_populates="tenant", lazy="dynamic")
+    # deal_opportunities = relationship("DealOpportunity", back_populates="tenant", lazy="dynamic")
+    # financial_snapshots = relationship("FinancialSnapshot", back_populates="tenant", lazy="dynamic")
+    # deal_activities = relationship("DealActivity", back_populates="tenant", lazy="dynamic")
+    # opportunity_evaluations = relationship("OpportunityEvaluation", back_populates="tenant", lazy="dynamic")
+    # market_intelligence = relationship("MarketIntelligence", back_populates="tenant", lazy="dynamic")
+
 class User(Base):
     __tablename__ = "users"
     

@@ -8,7 +8,7 @@ from sqlalchemy import select, and_, or_, Column
 from sqlalchemy.orm import Session, Query
 from sqlalchemy.ext.declarative import declarative_base
 from fastapi import Depends, HTTPException, status
-from ..database import get_db
+from ..core.database import get_db
 from .clerk_auth import ClerkUser, get_current_organization_user
 import logging
 
@@ -191,6 +191,20 @@ class PersonalDataQuery:
 
 
 # Dependency functions
+def get_tenant_db(
+    db: Session = Depends(get_db),
+    current_user: ClerkUser = Depends(get_current_organization_user)
+) -> Session:
+    """
+    Dependency that returns a database session with tenant context
+    This is a simplified version that just returns the session
+    The actual filtering happens in the models/queries
+    """
+    # Store the organization_id in the session for reference
+    db.info = {"organization_id": current_user.organization_id}
+    return db
+
+
 def get_tenant_query(
     db: Session = Depends(get_db),
     current_user: ClerkUser = Depends(get_current_organization_user)

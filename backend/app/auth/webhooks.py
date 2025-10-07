@@ -11,8 +11,9 @@ from datetime import datetime
 from fastapi import APIRouter, Request, HTTPException, Depends, Header, status
 from sqlalchemy.orm import Session
 from svix.webhooks import Webhook, WebhookVerificationError
-from ..database import get_db
-from ..models import User, Organization, OrganizationMembership
+from app.core.database import get_db
+from app.models.user import User
+from app.models.organization import Organization, OrganizationMembership
 from pydantic import BaseModel, Field
 
 logger = logging.getLogger(__name__)
