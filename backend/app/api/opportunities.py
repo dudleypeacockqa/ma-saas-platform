@@ -9,7 +9,7 @@ from fastapi import APIRouter, Depends, HTTPException, Query, status
 from sqlalchemy.orm import Session
 from pydantic import BaseModel, Field
 
-from ..database import get_db
+from ..core.database import get_db
 from ..auth.dependencies import get_current_user, get_current_tenant
 from ..services.deal_sourcing import (
     OpportunityDiscoveryService,
