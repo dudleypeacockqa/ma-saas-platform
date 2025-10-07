@@ -8,14 +8,24 @@ const __dirname = path.dirname(__filename);
 const app = express();
 const port = process.env.PORT || 3000;
 
-// Serve static files from the dist directory
-app.use(express.static(path.join(__dirname, 'dist')));
+// Serve static files from the public directory (our website)
+app.use(express.static(path.join(__dirname, 'public')));
 
-// Handle React Router (return `index.html` for all non-API routes)
+// Serve blog and podcast pages
+app.get('/blog', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'blog', 'index.html'));
+});
+
+app.get('/podcast', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'podcast', 'index.html'));
+});
+
+// Serve the main website for all other routes
 app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'dist', 'index.html'));
+  res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
 app.listen(port, '0.0.0.0', () => {
-  console.log(`Server is running on port ${port}`);
+  console.log(`Website server is running on port ${port}`);
+  console.log(`Serving static files from: ${path.join(__dirname, 'public')}`);
 });
