@@ -98,7 +98,7 @@ class MetricSnapshot(BaseModel, UUIDPrimaryKeyMixin, TimestampMixin):
     tags = Column(ARRAY(String), default=[])
 
     # Additional context
-    metadata = Column(JSONB, default={})
+    meta_data = Column(JSONB, default={})
     source = Column(String(50))  # e.g., "api", "batch_job", "webhook"
 
     # Relationships
@@ -152,7 +152,7 @@ class AggregatedMetric(BaseModel, UUIDPrimaryKeyMixin, TimestampMixin):
 
     # Dimensions and metadata
     dimensions = Column(JSONB, default={})
-    metadata = Column(JSONB, default={})
+    meta_data = Column(JSONB, default={})
 
     # Relationships
     organization = relationship("Organization", back_populates="aggregated_metrics")
@@ -205,7 +205,7 @@ class ReportConfiguration(TenantModel):
 
     # Metadata
     tags = Column(ARRAY(String), default=[])
-    metadata = Column(JSONB, default={})
+    meta_data = Column(JSONB, default={})
 
 class AlertConfiguration(TenantModel):
     """
@@ -245,7 +245,7 @@ class AlertConfiguration(TenantModel):
 
     # Metadata
     tags = Column(ARRAY(String), default=[])
-    metadata = Column(JSONB, default={})
+    meta_data = Column(JSONB, default={})
 
 class AlertHistory(BaseModel, UUIDPrimaryKeyMixin, TimestampMixin):
     """
@@ -271,7 +271,7 @@ class AlertHistory(BaseModel, UUIDPrimaryKeyMixin, TimestampMixin):
 
     # Context
     dimensions = Column(JSONB, default={})
-    metadata = Column(JSONB, default={})
+    meta_data = Column(JSONB, default={})
 
     # Resolution tracking
     acknowledged = Column(Boolean, default=False)
@@ -323,7 +323,7 @@ class AnalyticsSession(BaseModel, UUIDPrimaryKeyMixin, TimestampMixin):
     # Metadata
     user_agent = Column(String(500))
     ip_address = Column(String(45))
-    metadata = Column(JSONB, default={})
+    meta_data = Column(JSONB, default={})
 
     # Relationships
     user = relationship("User")
@@ -372,7 +372,7 @@ class BusinessGoal(TenantModel):
     # Metadata
     priority = Column(String(20), default="medium")  # low, medium, high, critical
     tags = Column(ARRAY(String), default=[])
-    metadata = Column(JSONB, default={})
+    meta_data = Column(JSONB, default={})
 
     # Relationships
     owner = relationship("User")

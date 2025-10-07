@@ -16,10 +16,11 @@ from ..services.deal_sourcing import (
     OpportunityScoringService,
     OpportunityManagementService
 )
+from ..services.deal_screening import DealScreeningService
 from ..models.opportunities import (
     MarketOpportunity, OpportunityScore, OpportunityActivity,
     OpportunityStatus, CompanyRegion, IndustryVertical,
-    SourceType, ActivityType
+    SourceType, ActivityType, FinancialSnapshot, FinancialHealth
 )
 
 router = APIRouter(prefix="/opportunities", tags=["opportunities"])
@@ -141,6 +142,34 @@ class ROIProjectionRequest(BaseModel):
     hold_period_years: int = Field(default=5, ge=1, le=15)
 
 
+class EnhancedScreeningRequest(BaseModel):
+    revenue_min: Optional[float] = Field(None, ge=0, description="Minimum revenue in millions")
+    revenue_max: Optional[float] = Field(None, ge=0, description="Maximum revenue in millions")
+    industries: Optional[List[IndustryVertical]] = None
+    countries: Optional[List[str]] = None
+    employee_min: Optional[int] = Field(None, ge=0)
+    employee_max: Optional[int] = Field(None, ge=0)
+    growth_rate_min: Optional[float] = Field(None, ge=-1.0, le=5.0, description="Minimum growth rate as decimal")
+    ebitda_margin_min: Optional[float] = Field(None, ge=-1.0, le=1.0, description="Minimum EBITDA margin as decimal")
+    financial_health: Optional[List[FinancialHealth]] = None
+
+
+class DistressedCompanyFilters(BaseModel):
+    min_current_ratio: float = Field(default=1.0, ge=0, description="Below this indicates liquidity issues")
+    max_debt_to_equity: float = Field(default=3.0, ge=0, description="Above this indicates high leverage")
+    min_ebitda_margin: float = Field(default=0.05, ge=-1.0, le=1.0, description="Below this indicates profitability issues")
+    negative_growth: bool = Field(default=True, description="Consider negative growth as distress signal")
+
+
+class OpportunityRankingResponse(BaseModel):
+    opportunity: OpportunityResponse
+    scores: Dict[str, Any]
+    overall_score: float
+
+    class Config:
+        from_attributes = True
+
+
 # ============================================================================
 # Opportunity Management Endpoints
 # ============================================================================
@@ -218,7 +247,7 @@ async def list_opportunities(
     filters = {k: v for k, v in filters.items() if v is not None}
 
     opportunities = service.filter_opportunities(
-        organization_id=tenant_id,
+        organization_id=current_user.organization_id,
         filters=filters
     )
 
@@ -238,7 +267,7 @@ async def get_opportunity(
     """
     opportunity = db.query(MarketOpportunity).filter(
         MarketOpportunity.id == opportunity_id,
-        MarketOpportunity.organization_id == tenant_id
+        MarketOpportunity.organization_id == current_user.organization_id
     ).first()
 
     if not opportunity:
@@ -267,7 +296,7 @@ async def update_opportunity(
     # Verify opportunity exists and belongs to tenant
     opportunity = db.query(MarketOpportunity).filter(
         MarketOpportunity.id == opportunity_id,
-        MarketOpportunity.organization_id == tenant_id
+        MarketOpportunity.organization_id == current_user.organization_id
     ).first()
 
     if not opportunity:
@@ -309,7 +338,7 @@ async def delete_opportunity(
     """
     opportunity = db.query(MarketOpportunity).filter(
         MarketOpportunity.id == opportunity_id,
-        MarketOpportunity.organization_id == tenant_id
+        MarketOpportunity.organization_id == current_user.organization_id
     ).first()
 
     if not opportunity:
@@ -355,7 +384,7 @@ async def scan_companies_house(
     }
 
     opportunities = await service.scan_companies_house(
-        organization_id=tenant_id,
+        organization_id=current_user.organization_id,
         filters=filters
     )
 
@@ -393,7 +422,7 @@ async def scan_sec_edgar(
     }
 
     opportunities = await service.scan_sec_edgar(
-        organization_id=tenant_id,
+        organization_id=current_user.organization_id,
         filters=filters
     )
 
@@ -416,7 +445,7 @@ async def identify_distressed_companies(
     service = OpportunityDiscoveryService(db)
 
     opportunities = await service.identify_distressed_companies(
-        organization_id=tenant_id,
+        organization_id=current_user.organization_id,
         industry=industry.value,
         region=region
     )
@@ -444,7 +473,7 @@ async def score_opportunity(
     # Verify opportunity exists
     opportunity = db.query(MarketOpportunity).filter(
         MarketOpportunity.id == opportunity_id,
-        MarketOpportunity.organization_id == tenant_id
+        MarketOpportunity.organization_id == current_user.organization_id
     ).first()
 
     if not opportunity:
@@ -477,7 +506,7 @@ async def get_opportunity_score(
     # Verify opportunity belongs to tenant
     opportunity = db.query(MarketOpportunity).filter(
         MarketOpportunity.id == opportunity_id,
-        MarketOpportunity.organization_id == tenant_id
+        MarketOpportunity.organization_id == current_user.organization_id
     ).first()
 
     if not opportunity:
@@ -538,7 +567,7 @@ async def convert_opportunity_to_deal(
     # Verify opportunity exists and is qualified
     opportunity = db.query(MarketOpportunity).filter(
         MarketOpportunity.id == opportunity_id,
-        MarketOpportunity.organization_id == tenant_id
+        MarketOpportunity.organization_id == current_user.organization_id
     ).first()
 
     if not opportunity:
@@ -582,7 +611,7 @@ async def get_opportunity_timeline(
     # Verify opportunity exists
     opportunity = db.query(MarketOpportunity).filter(
         MarketOpportunity.id == opportunity_id,
-        MarketOpportunity.organization_id == tenant_id
+        MarketOpportunity.organization_id == current_user.organization_id
     ).first()
 
     if not opportunity:
@@ -597,6 +626,108 @@ async def get_opportunity_timeline(
     return activities
 
 
+# ============================================================================
+# Enhanced Screening & Filtering Endpoints
+# ============================================================================
+
+@router.post("/screen/enhanced", response_model=List[OpportunityResponse])
+async def enhanced_company_screening(
+    screening_request: EnhancedScreeningRequest,
+    db: Session = Depends(get_db),
+    current_user: ClerkUser = Depends(get_current_user)
+):
+    """
+    Enhanced company screening with financial health filters
+
+    Advanced filtering that includes financial health assessment,
+    growth metrics, and sophisticated business criteria.
+    """
+    screening_service = DealScreeningService(db)
+
+    filters = screening_request.model_dump(exclude_unset=True)
+
+    opportunities = screening_service.screen_companies(
+        organization_id=current_user.organization_id,
+        filters=filters
+    )
+
+    return opportunities
+
+
+@router.post("/screen/distressed", response_model=List[OpportunityResponse])
+async def identify_distressed_opportunities(
+    filters: Optional[DistressedCompanyFilters] = None,
+    db: Session = Depends(get_db),
+    current_user: ClerkUser = Depends(get_current_user)
+):
+    """
+    Identify financially distressed companies for acquisition
+
+    Scans for companies showing signs of financial distress such as
+    liquidity issues, high leverage, or declining profitability.
+    """
+    screening_service = DealScreeningService(db)
+
+    threshold_metrics = None
+    if filters:
+        threshold_metrics = filters.model_dump()
+
+    opportunities = screening_service.identify_distressed_companies(
+        organization_id=current_user.organization_id,
+        threshold_metrics=threshold_metrics
+    )
+
+    return opportunities
+
+
+@router.get("/screen/succession", response_model=List[OpportunityResponse])
+async def find_succession_opportunities(
+    min_years_in_business: int = Query(20, ge=10, le=100),
+    owner_age_threshold: int = Query(60, ge=50, le=90),
+    db: Session = Depends(get_db),
+    current_user: ClerkUser = Depends(get_current_user)
+):
+    """
+    Find succession planning opportunities
+
+    Identifies established companies with potential succession planning
+    opportunities based on business age and owner demographics.
+    """
+    screening_service = DealScreeningService(db)
+
+    opportunities = screening_service.find_succession_opportunities(
+        organization_id=current_user.organization_id,
+        min_years_in_business=min_years_in_business,
+        owner_age_threshold=owner_age_threshold
+    )
+
+    return opportunities
+
+
+@router.get("/rank", response_model=List[OpportunityRankingResponse])
+async def rank_opportunities(
+    filters: Optional[Dict[str, Any]] = None,
+    limit: int = Query(50, ge=1, le=200),
+    db: Session = Depends(get_db),
+    current_user: ClerkUser = Depends(get_current_user)
+):
+    """
+    Rank opportunities by comprehensive scoring
+
+    Returns opportunities ranked by AI-powered scoring that considers
+    financial health, strategic fit, growth potential, and risk factors.
+    """
+    screening_service = DealScreeningService(db)
+
+    ranked_opportunities = screening_service.rank_opportunities(
+        organization_id=current_user.organization_id,
+        filters=filters,
+        limit=limit
+    )
+
+    return ranked_opportunities
+
+
 @router.get("/metrics/pipeline", response_model=PipelineMetricsResponse)
 async def get_pipeline_metrics(
     db: Session = Depends(get_db),
@@ -609,6 +740,6 @@ async def get_pipeline_metrics(
     status breakdown, conversion rates, and average scores.
     """
     service = OpportunityManagementService(db)
-    metrics = service.get_pipeline_metrics(organization_id=tenant_id)
+    metrics = service.get_pipeline_metrics(organization_id=current_user.organization_id)
 
     return metrics

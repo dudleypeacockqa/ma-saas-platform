@@ -119,7 +119,7 @@ class GuestCommunication(BaseModel):
     read_at = Column(DateTime)
     responded_at = Column(DateTime)
 
-    metadata = Column(JSON)
+    meta_data = Column(JSON)
 
     # Relationships
     guest = relationship("PodcastGuest", back_populates="communications")
@@ -227,7 +227,7 @@ class Episode(BaseModel, SoftDeleteMixin):
     post_production_notes = Column(Text)
 
     # Metadata
-    metadata = Column(JSON)
+    meta_data = Column(JSON)
     tags = Column(ARRAY(String))
 
     # Relationships
@@ -352,7 +352,7 @@ class SocialClip(BaseModel, SoftDeleteMixin):
     quality_score = Column(Float)
 
     # Metadata
-    metadata = Column(JSON)
+    meta_data = Column(JSON)
     tags = Column(ARRAY(String))
 
     # Relationships
@@ -409,7 +409,7 @@ class EpisodeAnalytics(BaseModel):
     sponsor_revenue = Column(Numeric(10, 2))
 
     # Metadata
-    metadata = Column(JSON)
+    meta_data = Column(JSON)
 
     # Relationships
     episode = relationship("Episode", back_populates="analytics")
@@ -468,7 +468,7 @@ class PodcastSeries(BaseModel, SoftDeleteMixin):
     enable_transcription = Column(Boolean, default=True)
 
     # Metadata
-    metadata = Column(JSON)
+    meta_data = Column(JSON)
 
     # Relationships
     organization = relationship("Organization")

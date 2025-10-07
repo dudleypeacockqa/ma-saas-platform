@@ -50,7 +50,7 @@ class StripeCustomer(Base):
     name = Column(String)
 
     # Metadata
-    metadata = Column(JSON, default={})
+    meta_data = Column(JSON, default={})
 
     # Timestamps
     created_at = Column(DateTime, default=datetime.utcnow, nullable=False)
@@ -97,7 +97,7 @@ class Subscription(Base):
     ai_credits_per_month = Column(Integer, default=100)
 
     # Metadata
-    metadata = Column(JSON, default={})
+    meta_data = Column(JSON, default={})
 
     # Timestamps
     created_at = Column(DateTime, default=datetime.utcnow, nullable=False)
@@ -137,7 +137,7 @@ class Payment(Base):
 
     # Metadata
     description = Column(Text)
-    metadata = Column(JSON, default={})
+    meta_data = Column(JSON, default={})
 
     # Timestamps
     paid_at = Column(DateTime)

@@ -1,0 +1,54 @@
+# Git
+.git
+.gitignore
+
+# Documentation
+README.md
+*.md
+
+# Frontend (not needed in backend Docker image)
+frontend/
+node_modules/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+.venv/
+pip-log.txt
+pip-delete-this-directory.txt
+.pytest_cache/
+.coverage
+htmlcov/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Local development
+.env*
+docker-compose.override.yml
+.python-version
+
+# Build artifacts
+build/
+dist/
+*.egg-info/
+
+# Logs
+logs/
+*.log
+
+# Claude
+.claude/

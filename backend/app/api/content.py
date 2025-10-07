@@ -18,7 +18,7 @@ class ContentBase(BaseModel):
     title: str
     content_type: ContentType
     content_body: str
-    metadata: Optional[dict] = None
+    content_metadata: Optional[dict] = None
     status: Optional[ContentStatus] = ContentStatus.DRAFT
 
 
@@ -29,14 +29,14 @@ class ContentCreate(ContentBase):
 class ContentUpdate(BaseModel):
     title: Optional[str] = None
     content_body: Optional[str] = None
-    metadata: Optional[dict] = None
+    content_metadata: Optional[dict] = None
     status: Optional[ContentStatus] = None
     published_url: Optional[str] = None
 
 
 class ContentResponse(ContentBase):
     id: int
-    tenant_id: int
+    organization_id: int
     user_id: int
     source_type: Optional[str] = None
     source_file_url: Optional[str] = None
@@ -63,7 +63,7 @@ class PodcastEpisodeCreate(BaseModel):
 
 class PodcastEpisodeResponse(BaseModel):
     id: int
-    tenant_id: int
+    organization_id: int
     episode_number: Optional[int] = None
     episode_title: str
     guest_name: Optional[str] = None
@@ -122,7 +122,7 @@ async def create_content(
     """Create a new content item."""
     service = ContentService(db)
     content = service.create_content(
-        tenant_id=tenant_id,
+        organization_id=current_user["organization_id"],
         user_id=current_user["id"],
         **content_data.model_dump()
     )
@@ -141,7 +141,7 @@ async def list_contents(
     """List all contents with optional filters."""
     service = ContentService(db)
     contents = service.list_contents(
-        tenant_id=tenant_id,
+        organization_id=current_user["organization_id"],
         content_type=content_type,
         status=status_filter,
         limit=limit,
@@ -158,7 +158,7 @@ async def get_content(
 ):
     """Get a specific content item by ID."""
     service = ContentService(db)
-    content = service.get_content_by_id(content_id, tenant_id)
+    content = service.get_content_by_id(content_id, current_user["organization_id"])
     if not content:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
@@ -178,7 +178,7 @@ async def update_content(
     service = ContentService(db)
     content = service.update_content(
         content_id=content_id,
-        tenant_id=tenant_id,
+        organization_id=current_user["organization_id"],
         **updates.model_dump(exclude_unset=True)
     )
     if not content:
@@ -197,7 +197,7 @@ async def delete_content(
 ):
     """Delete a content item."""
     service = ContentService(db)
-    deleted = service.delete_content(content_id, tenant_id)
+    deleted = service.delete_content(content_id, current_user["organization_id"])
     if not deleted:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
@@ -216,7 +216,7 @@ async def create_podcast_episode(
     """Create a new podcast episode."""
     service = ContentService(db)
     episode = service.create_podcast_episode(
-        tenant_id=tenant_id,
+        organization_id=current_user["organization_id"],
         **episode_data.model_dump()
     )
     return episode
@@ -232,7 +232,7 @@ async def list_podcast_episodes(
     """List all podcast episodes."""
     service = ContentService(db)
     episodes = service.list_podcast_episodes(
-        tenant_id=tenant_id,
+        organization_id=current_user["organization_id"],
         limit=limit,
         offset=offset
     )
@@ -247,7 +247,7 @@ async def get_podcast_episode(
 ):
     """Get a specific podcast episode."""
     service = ContentService(db)
-    episode = service.get_podcast_episode(episode_id, tenant_id)
+    episode = service.get_podcast_episode(episode_id, current_user["organization_id"])
     if not episode:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
@@ -269,7 +269,7 @@ async def generate_show_notes(
     service = ContentService(db)
     try:
         content = await service.generate_podcast_show_notes(
-            tenant_id=tenant_id,
+            organization_id=current_user["organization_id"],
             user_id=current_user["id"],
             episode_id=request.episode_id
         )
@@ -296,7 +296,7 @@ async def generate_social_media_content(
     service = ContentService(db)
     try:
         content = await service.generate_social_media_content(
-            tenant_id=tenant_id,
+            organization_id=current_user["organization_id"],
             user_id=current_user["id"],
             source_content_id=request.source_content_id,
             platform=request.platform
@@ -324,7 +324,7 @@ async def generate_blog_article(
     service = ContentService(db)
     try:
         content = await service.generate_blog_article(
-            tenant_id=tenant_id,
+            organization_id=current_user["organization_id"],
             user_id=current_user["id"],
             topic=request.topic,
             source_content_id=request.source_content_id,
@@ -348,7 +348,7 @@ async def generate_newsletter(
     service = ContentService(db)
     try:
         content = await service.generate_newsletter(
-            tenant_id=tenant_id,
+            organization_id=current_user["organization_id"],
             user_id=current_user["id"],
             recent_episode_ids=request.recent_episode_ids,
             market_insights=request.market_insights
@@ -372,7 +372,7 @@ async def validate_content(
     try:
         validation_result = await service.validate_and_score_content(
             content_id=content_id,
-            tenant_id=tenant_id
+            organization_id=current_user["organization_id"]
         )
         return validation_result
     except ValueError as e:

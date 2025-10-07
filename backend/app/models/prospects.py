@@ -74,7 +74,7 @@ class Prospect(BaseModel, UUIDPrimaryKeyMixin, TimestampMixin):
 
     # LinkedIn Information
     linkedin_url = Column(String(500))
-    linkedin_id = Column(String(100), unique=True, sparse=True)
+    linkedin_id = Column(String(100), unique=True)
     linkedin_connections = Column(Integer)
     linkedin_headline = Column(String(500))
     linkedin_summary = Column(Text)

@@ -34,7 +34,7 @@ class ContentService:
             title=title,
             content_type=content_type,
             content_body=content_body,
-            metadata=metadata or {},
+            content_metadata=metadata or {},
             status=status
         )
         self.db.add(content)
@@ -257,7 +257,7 @@ class ContentService:
                 title=f"{platform.title()} Post - {source.title[:100]}",
                 content_type=content_type,
                 content_body=content_body,
-                metadata=metadata,
+                content_metadata=metadata,
                 status=ContentStatus.PENDING_REVIEW
             )
 
@@ -293,7 +293,7 @@ class ContentService:
                 title=result.get("title", topic),
                 content_type=ContentType.BLOG_ARTICLE,
                 content_body=result.get("content", ""),
-                metadata={
+                content_metadata={
                     "slug": result.get("slug"),
                     "meta_description": result.get("meta_description"),
                     "excerpt": result.get("excerpt"),
@@ -337,7 +337,7 @@ class ContentService:
                 title=result.get("subject_line", "Weekly Newsletter"),
                 content_type=ContentType.EMAIL_NEWSLETTER,
                 content_body=result.get("content", ""),
-                metadata={
+                content_metadata={
                     "subject_line": result.get("subject_line"),
                     "preview_text": result.get("preview_text")
                 },
@@ -367,12 +367,12 @@ class ContentService:
             )
 
             # Update content metadata with quality scores
-            metadata = content.metadata or {}
+            metadata = content.content_metadata or {}
             metadata["quality_score"] = validation_result.get("quality_score")
             metadata["seo_score"] = validation_result.get("seo_score")
             metadata["last_validated"] = datetime.utcnow().isoformat()
 
-            self.update_content(content_id, tenant_id, metadata=metadata)
+            self.update_content(content_id, tenant_id, content_metadata=metadata)
 
             return validation_result
 

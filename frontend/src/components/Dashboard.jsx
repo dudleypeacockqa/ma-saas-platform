@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { useUser, useOrganization, useOrganizationList, UserButton } from '@clerk/clerk-react'
+import { useUser, useOrganization, useOrganizationList, UserButton, useAuth } from '@clerk/clerk-react'
 import { useNavigate } from 'react-router-dom'
 import {
   Building2,
@@ -130,18 +130,19 @@ function OrganizationSwitcher() {
 export default function Dashboard() {
   const { isLoaded, isSignedIn, user } = useUser()
   const { organization } = useOrganization()
+  const { getToken } = useAuth()
   const navigate = useNavigate()
-  const [deals, setDeals] = useState([])
+  const [opportunities, setOpportunities] = useState([])
   const [loading, setLoading] = useState(true)
   const [stats, setStats] = useState({
-    totalDeals: 0,
-    activeDeals: 0,
+    totalOpportunities: 0,
+    activeOpportunities: 0,
     portfolioValue: 0,
-    avgDealSize: 0,
-    closedThisMonth: 0,
+    avgOpportunitySize: 0,
+    newThisMonth: 0,
     pipeline: 0,
-    winRate: 0,
-    avgTimeToClose: 0
+    conversionRate: 0,
+    avgScore: 0
   })
 
   useEffect(() => {
@@ -157,61 +158,55 @@ export default function Dashboard() {
   const loadDashboardData = async () => {
     setLoading(true)
     try {
-      // Mock data for now
-      await new Promise(resolve => setTimeout(resolve, 500))
+      const token = await getToken()
+      const headers = {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json'
+      }
 
-      const mockDeals = [
-        {
-          id: 1,
-          name: 'TechCorp Acquisition',
-          stage: 'Due Diligence',
-          value: 5000000,
-          probability: 75,
-          expectedClose: '2024-03-15',
-          priority: 'high'
-        },
-        {
-          id: 2,
-          name: 'DataFlow Merger',
-          stage: 'Negotiation',
-          value: 12000000,
-          probability: 60,
-          expectedClose: '2024-04-01',
-          priority: 'medium'
-        },
-        {
-          id: 3,
-          name: 'CloudBase Investment',
-          stage: 'Initial Review',
-          value: 3500000,
-          probability: 30,
-          expectedClose: '2024-05-20',
-          priority: 'low'
-        },
-        {
-          id: 4,
-          name: 'RetailPro Buyout',
-          stage: 'LOI Drafting',
-          value: 8000000,
-          probability: 85,
-          expectedClose: '2024-02-28',
-          priority: 'high'
-        }
-      ]
+      // Fetch opportunities from API
+      const response = await fetch('/api/opportunities/', {
+        headers
+      })
 
-      setDeals(mockDeals)
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`)
+      }
+
+      const opportunitiesData = await response.json()
+
+      // Fetch pipeline metrics
+      const metricsResponse = await fetch('/api/opportunities/metrics/pipeline', {
+        headers
+      })
+
+      let metrics = null
+      if (metricsResponse.ok) {
+        metrics = await metricsResponse.json()
+      }
+
+      setOpportunities(opportunitiesData)
+
+      // Calculate stats from opportunities data
+      const totalValue = opportunitiesData.reduce((sum, opp) => sum + (opp.annual_revenue || 0), 0)
+      const avgScore = opportunitiesData.length > 0
+        ? opportunitiesData.reduce((sum, opp) => sum + (opp.overall_score || 0), 0) / opportunitiesData.length
+        : 0
+
       setStats({
-        totalDeals: mockDeals.length,
-        activeDeals: mockDeals.filter(d => d.stage !== 'Closed').length,
-        portfolioValue: mockDeals.reduce((sum, d) => sum + d.value, 0),
-        avgDealSize: mockDeals.reduce((sum, d) => sum + d.value, 0) / mockDeals.length,
-        closedThisMonth: 2,
-        pipeline: mockDeals.reduce((sum, d) => sum + (d.value * d.probability / 100), 0),
-        winRate: 67,
-        avgTimeToClose: 45
+        totalOpportunities: opportunitiesData.length,
+        activeOpportunities: opportunitiesData.filter(o => o.status !== 'REJECTED' && o.status !== 'COMPLETED').length,
+        portfolioValue: totalValue,
+        avgOpportunitySize: opportunitiesData.length > 0 ? totalValue / opportunitiesData.length : 0,
+        newThisMonth: metrics?.new_this_week || 0,
+        pipeline: totalValue,
+        conversionRate: metrics?.conversion_rate || 0,
+        avgScore: avgScore
       })
     } catch (error) {
       console.error('Error loading dashboard data:', error)
+      // Keep empty state on error
+      setOpportunities([])
     } finally {
       setLoading(false)
     }
@@ -226,26 +221,37 @@ export default function Dashboard() {
     }).format(value)
   }
 
-  const getStageColor = (stage) => {
+  const getStatusColor = (status) => {
     const colors = {
-      'Initial Review': 'bg-gray-100 text-gray-700',
-      'Due Diligence': 'bg-blue-100 text-blue-700',
-      'Negotiation': 'bg-yellow-100 text-yellow-700',
-      'LOI Drafting': 'bg-purple-100 text-purple-700',
-      'Documentation': 'bg-orange-100 text-orange-700',
-      'Closing': 'bg-green-100 text-green-700',
-      'Closed': 'bg-gray-500 text-white'
+      'NEW': 'bg-blue-100 text-blue-700',
+      'RESEARCHING': 'bg-yellow-100 text-yellow-700',
+      'CONTACTED': 'bg-purple-100 text-purple-700',
+      'QUALIFIED': 'bg-green-100 text-green-700',
+      'IN_DISCUSSION': 'bg-orange-100 text-orange-700',
+      'REJECTED': 'bg-red-100 text-red-700',
+      'COMPLETED': 'bg-gray-500 text-white'
     }
-    return colors[stage] || 'bg-gray-100 text-gray-700'
+    return colors[status] || 'bg-gray-100 text-gray-700'
   }
 
-  const getPriorityColor = (priority) => {
-    const colors = {
-      'high': 'text-red-600',
-      'medium': 'text-yellow-600',
-      'low': 'text-gray-600'
+  const getScoreColor = (score) => {
+    if (score >= 80) return 'text-green-600'
+    if (score >= 60) return 'text-yellow-600'
+    if (score >= 40) return 'text-orange-600'
+    return 'text-red-600'
+  }
+
+  const formatStatus = (status) => {
+    const statusLabels = {
+      'NEW': 'New',
+      'RESEARCHING': 'Researching',
+      'CONTACTED': 'Contacted',
+      'QUALIFIED': 'Qualified',
+      'IN_DISCUSSION': 'In Discussion',
+      'REJECTED': 'Rejected',
+      'COMPLETED': 'Completed'
     }
-    return colors[priority] || 'text-gray-600'
+    return statusLabels[status] || status
   }
 
   if (!isLoaded) {
@@ -304,8 +310,8 @@ export default function Dashboard() {
               <span className="text-sm text-gray-500">This month</span>
             </div>
             <div>
-              <p className="text-2xl font-bold text-gray-900">{stats.totalDeals}</p>
-              <p className="text-sm text-gray-600">Active Investments</p>
+              <p className="text-2xl font-bold text-gray-900">{stats.totalOpportunities}</p>
+              <p className="text-sm text-gray-600">Total Opportunities</p>
             </div>
           </div>
 
@@ -327,11 +333,11 @@ export default function Dashboard() {
               <div className="p-2 bg-purple-100 rounded-lg">
                 <Target className="h-6 w-6 text-purple-600" />
               </div>
-              <span className="text-sm font-medium text-purple-600">{stats.winRate}%</span>
+              <span className="text-sm font-medium text-purple-600">{Math.round(stats.conversionRate)}%</span>
             </div>
             <div>
               <p className="text-2xl font-bold text-gray-900">{formatCurrency(stats.pipeline)}</p>
-              <p className="text-sm text-gray-600">Pipeline Value</p>
+              <p className="text-sm text-gray-600">Portfolio Value</p>
             </div>
           </div>
 
@@ -343,8 +349,8 @@ export default function Dashboard() {
               <Activity className="h-4 w-4 text-gray-400" />
             </div>
             <div>
-              <p className="text-2xl font-bold text-gray-900">{stats.avgTimeToClose}</p>
-              <p className="text-sm text-gray-600">Avg. Days to Close</p>
+              <p className="text-2xl font-bold text-gray-900">{Math.round(stats.avgScore)}</p>
+              <p className="text-sm text-gray-600">Avg. Opportunity Score</p>
             </div>
           </div>
         </div>
@@ -354,25 +360,25 @@ export default function Dashboard() {
           <div className="flex items-center">
             <AlertCircle className="h-5 w-5 text-blue-600 mr-2" />
             <p className="text-sm text-blue-900">
-              <span className="font-medium">3 deals</span> require your attention today
+              <span className="font-medium">{stats.activeOpportunities} opportunities</span> are actively being tracked
             </p>
           </div>
         </div>
 
-        {/* Deal Pipeline */}
+        {/* Opportunity Pipeline */}
         <div className="bg-white rounded-lg shadow-sm border border-gray-200">
           <div className="p-6 border-b border-gray-200">
             <div className="flex items-center justify-between">
               <div>
-                <h3 className="text-lg font-semibold text-gray-900">Deal Pipeline</h3>
-                <p className="text-sm text-gray-600 mt-1">Your investment opportunities</p>
+                <h3 className="text-lg font-semibold text-gray-900">Opportunity Pipeline</h3>
+                <p className="text-sm text-gray-600 mt-1">Your M&A opportunities</p>
               </div>
               <button
-                onClick={() => navigate('/deals')}
+                onClick={() => navigate('/opportunities')}
                 className="flex items-center space-x-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
               >
                 <Plus className="h-4 w-4" />
-                <span>New Deal</span>
+                <span>New Opportunity</span>
               </button>
             </div>
           </div>
@@ -380,14 +386,17 @@ export default function Dashboard() {
           {loading ? (
             <div className="p-12 text-center">
               <Loader2 className="h-8 w-8 animate-spin text-blue-600 mx-auto" />
-              <p className="text-gray-600 mt-4">Loading deals...</p>
+              <p className="text-gray-600 mt-4">Loading opportunities...</p>
             </div>
-          ) : deals.length === 0 ? (
+          ) : opportunities.length === 0 ? (
             <div className="p-12 text-center">
               <Briefcase className="h-12 w-12 text-gray-400 mx-auto" />
-              <p className="text-gray-600 mt-4">No active deals</p>
-              <button className="mt-4 text-blue-600 hover:text-blue-700 font-medium">
-                Create your first deal →
+              <p className="text-gray-600 mt-4">No opportunities found</p>
+              <button
+                onClick={() => navigate('/opportunities')}
+                className="mt-4 text-blue-600 hover:text-blue-700 font-medium"
+              >
+                Discover your first opportunity →
               </button>
             </div>
           ) : (
@@ -396,19 +405,19 @@ export default function Dashboard() {
                 <thead className="bg-gray-50 border-b border-gray-200">
                   <tr>
                     <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                      Deal Name
+                      Company Name
                     </th>
                     <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                      Stage
+                      Status
                     </th>
                     <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                      Value
+                      Revenue
                     </th>
                     <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                      Probability
+                      Score
                     </th>
                     <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                      Expected Close
+                      Industry
                     </th>
                     <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                       Actions
@@ -416,40 +425,48 @@ export default function Dashboard() {
                   </tr>
                 </thead>
                 <tbody className="bg-white divide-y divide-gray-200">
-                  {deals.map((deal) => (
-                    <tr key={deal.id} className="hover:bg-gray-50">
+                  {opportunities.map((opportunity) => (
+                    <tr key={opportunity.id} className="hover:bg-gray-50">
                       <td className="px-6 py-4 whitespace-nowrap">
                         <div className="flex items-center">
-                          <div className={`h-2 w-2 rounded-full mr-2 ${getPriorityColor(deal.priority)} bg-current`} />
+                          <div className={`h-2 w-2 rounded-full mr-2 ${getScoreColor(opportunity.overall_score || 0)} bg-current`} />
                           <div>
-                            <div className="text-sm font-medium text-gray-900">{deal.name}</div>
+                            <div className="text-sm font-medium text-gray-900">{opportunity.company_name}</div>
+                            <div className="text-xs text-gray-500">{opportunity.region}</div>
                           </div>
                         </div>
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap">
-                        <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${getStageColor(deal.stage)}`}>
-                          {deal.stage}
+                        <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${getStatusColor(opportunity.status)}`}>
+                          {formatStatus(opportunity.status)}
                         </span>
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                        {formatCurrency(deal.value)}
+                        {opportunity.annual_revenue ? formatCurrency(opportunity.annual_revenue) : 'N/A'}
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap">
                         <div className="flex items-center">
-                          <div className="text-sm text-gray-900">{deal.probability}%</div>
-                          <div className="ml-2 w-16 bg-gray-200 rounded-full h-2">
-                            <div
-                              className="bg-blue-600 h-2 rounded-full"
-                              style={{ width: `${deal.probability}%` }}
-                            />
+                          <div className={`text-sm ${getScoreColor(opportunity.overall_score || 0)}`}>
+                            {opportunity.overall_score ? Math.round(opportunity.overall_score) : 'N/A'}
                           </div>
+                          {opportunity.overall_score && (
+                            <div className="ml-2 w-16 bg-gray-200 rounded-full h-2">
+                              <div
+                                className={`h-2 rounded-full ${opportunity.overall_score >= 70 ? 'bg-green-600' : opportunity.overall_score >= 50 ? 'bg-yellow-600' : 'bg-red-600'}`}
+                                style={{ width: `${opportunity.overall_score}%` }}
+                              />
+                            </div>
+                          )}
                         </div>
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
-                        {new Date(deal.expectedClose).toLocaleDateString()}
+                        {opportunity.industry_vertical?.replace('_', ' ') || 'N/A'}
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap text-sm">
-                        <button className="text-blue-600 hover:text-blue-700 flex items-center space-x-1">
+                        <button
+                          onClick={() => navigate(`/opportunities/${opportunity.id}`)}
+                          className="text-blue-600 hover:text-blue-700 flex items-center space-x-1"
+                        >
                           <Eye className="h-4 w-4" />
                           <span>View</span>
                         </button>

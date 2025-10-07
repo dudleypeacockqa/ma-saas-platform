@@ -16,16 +16,13 @@ services:
   # Backend API Service
   - type: web
     name: ma-saas-backend
-    env: python
+    env: docker
     plan: starter
-    rootDir: backend
-    buildCommand: python --version && pip install -r requirements.txt
-    startCommand: uvicorn app.main:app --host 0.0.0.0 --port $PORT
+    dockerfilePath: ./Dockerfile
+    dockerCommand: uvicorn app.main:app --host 0.0.0.0 --port $PORT
     domains:
       - api.100daysandbeyond.com
     envVars:
-      - key: PYTHON_VERSION
-        value: "3.12.0"
       - key: DATABASE_URL
         fromDatabase:
           name: ma-saas-db

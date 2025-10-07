@@ -104,7 +104,7 @@ class PlatformIntegration(BaseModel, SoftDeleteMixin):
     feature_flags = Column(JSON, comment="Enabled/disabled features")
 
     # Metadata
-    metadata = Column(JSON)
+    meta_data = Column(JSON)
     tags = Column(ARRAY(String))
 
     # Relationships
@@ -161,7 +161,7 @@ class IntegrationEvent(BaseModel):
     response_headers = Column(JSON)
 
     # Metadata
-    metadata = Column(JSON)
+    meta_data = Column(JSON)
 
     # Relationships
     integration = relationship("PlatformIntegration", back_populates="events")
@@ -214,7 +214,7 @@ class DataSyncJob(BaseModel):
 
     # Metadata
     configuration = Column(JSON, comment="Sync-specific settings")
-    metadata = Column(JSON)
+    meta_data = Column(JSON)
 
     # Relationships
     integration = relationship("PlatformIntegration", back_populates="sync_jobs")
@@ -279,7 +279,7 @@ class WorkflowAutomation(BaseModel, SoftDeleteMixin):
     schedule_timezone = Column(String(50), default="UTC")
 
     # Metadata
-    metadata = Column(JSON)
+    meta_data = Column(JSON)
     tags = Column(ARRAY(String))
 
     # Relationships
@@ -324,7 +324,7 @@ class WorkflowExecution(BaseModel):
     error_details = Column(JSON)
 
     # Metadata
-    metadata = Column(JSON)
+    meta_data = Column(JSON)
 
     # Relationships
     workflow = relationship("WorkflowAutomation", back_populates="executions")
@@ -378,7 +378,7 @@ class APIGatewayLog(BaseModel):
     rate_limit_remaining = Column(Integer)
 
     # Metadata
-    metadata = Column(JSON)
+    meta_data = Column(JSON)
     created_at = Column(DateTime, default=datetime.utcnow, nullable=False, index=True)
 
     # Relationships
@@ -460,7 +460,7 @@ class WebhookEndpoint(BaseModel, SoftDeleteMixin):
     failed_webhooks = Column(Integer, default=0)
 
     # Metadata
-    metadata = Column(JSON)
+    meta_data = Column(JSON)
 
     # Relationships
     organization = relationship("Organization")
