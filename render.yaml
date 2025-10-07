@@ -19,12 +19,13 @@ services:
     env: python
     plan: starter
     rootDir: backend
-    pythonVersion: "3.11.11"
     buildCommand: python --version && pip install -r requirements.txt
     startCommand: uvicorn app.main:app --host 0.0.0.0 --port $PORT
     domains:
       - api.100daysandbeyond.com
     envVars:
+      - key: PYTHON_VERSION
+        value: "3.11.11"
       - key: DATABASE_URL
         fromDatabase:
           name: ma-saas-db
