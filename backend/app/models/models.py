@@ -12,15 +12,8 @@ class SubscriptionPlan(enum.Enum):
     ENTERPRISE = "enterprise"
     CUSTOM = "custom"
 
-class DealStage(enum.Enum):
-    SOURCING = "sourcing"
-    INITIAL_REVIEW = "initial_review"
-    DUE_DILIGENCE = "due_diligence"
-    NEGOTIATION = "negotiation"
-    CLOSING = "closing"
-    INTEGRATION = "integration"
-    MONITORING = "monitoring"
-    EXIT = "exit"
+# DealStage enum moved to app.models.deal
+# Import from app.models.deal if needed
 
 class TaskStatus(enum.Enum):
     TODO = "todo"
@@ -48,7 +41,7 @@ class Tenant(Base):
     
     # Relationships
     users = relationship("User", back_populates="tenant")
-    deals = relationship("Deal", back_populates="tenant")
+    # deals relationship removed - using UUID-based Deal model now
 
 class User(Base):
     __tablename__ = "users"
@@ -67,26 +60,8 @@ class User(Base):
     tenant = relationship("Tenant", back_populates="users")
     assigned_tasks = relationship("Task", back_populates="assignee")
 
-class Deal(Base):
-    __tablename__ = "deals"
-    
-    id = Column(Integer, primary_key=True, index=True)
-    tenant_id = Column(Integer, ForeignKey("tenants.id"), nullable=False)
-    name = Column(String(255), nullable=False)
-    description = Column(Text)
-    stage = Column(Enum(DealStage), default=DealStage.SOURCING)
-    target_company = Column(String(255))
-    deal_value = Column(Numeric(15, 2))
-    currency = Column(String(3), default="GBP")
-    expected_close_date = Column(DateTime)
-    created_at = Column(DateTime, default=datetime.utcnow)
-    updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
-    is_active = Column(Boolean, default=True)
-    
-    # Relationships
-    tenant = relationship("Tenant", back_populates="deals")
-    tasks = relationship("Task", back_populates="deal")
-    documents = relationship("Document", back_populates="deal")
+# Deal model moved to app.models.deal for better organization
+# Import from app.models.deal if needed
 
 class Task(Base):
     __tablename__ = "tasks"
@@ -104,12 +79,12 @@ class Task(Base):
     updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
     
     # Relationships
-    deal = relationship("Deal", back_populates="tasks")
+    # deal relationship removed - Task model is legacy, use new Deal model
     assignee = relationship("User", back_populates="assigned_tasks")
 
 class Document(Base):
     __tablename__ = "documents"
-    
+
     id = Column(Integer, primary_key=True, index=True)
     deal_id = Column(Integer, ForeignKey("deals.id"), nullable=False)
     name = Column(String(255), nullable=False)
@@ -120,9 +95,9 @@ class Document(Base):
     uploaded_by = Column(Integer, ForeignKey("users.id"))
     created_at = Column(DateTime, default=datetime.utcnow)
     updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
-    
+
     # Relationships
-    deal = relationship("Deal", back_populates="documents")
+    # deal relationship removed - Document model is legacy, use new DealDocument model
 
 class AuditLog(Base):
     __tablename__ = "audit_logs"
