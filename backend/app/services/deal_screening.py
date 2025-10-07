@@ -4,10 +4,10 @@ from sqlalchemy import and_, or_, func
 from sqlalchemy.orm import Session
 import uuid
 
-from ..models.deal_discovery import (
-    Company, DealOpportunity, FinancialSnapshot,
-    IndustryCategory, DealStage, FinancialHealth,
-    OpportunitySource
+from ..models.opportunities import (
+    MarketOpportunity, FinancialSnapshot,
+    IndustryVertical, OpportunityStatus, FinancialHealth,
+    DataSourceType
 )
 
 
@@ -19,18 +19,18 @@ class DealScreeningService:
 
     def screen_companies(
         self,
-        tenant_id: int,
+        organization_id: str,
         filters: Dict[str, Any]
-    ) -> List[Company]:
+    ) -> List[MarketOpportunity]:
         """
         Screen companies based on specified criteria
 
         Args:
-            tenant_id: Tenant ID for multi-tenant filtering
+            organization_id: Tenant ID for multi-tenant filtering
             filters: Dictionary of filter criteria
                 - revenue_min: Minimum revenue (millions)
                 - revenue_max: Maximum revenue (millions)
-                - industries: List of IndustryCategory values
+                - industries: List of IndustryVertical values
                 - countries: List of country codes
                 - employee_min: Minimum employee count
                 - employee_max: Maximum employee count
@@ -41,33 +41,33 @@ class DealScreeningService:
         Returns:
             List of companies matching criteria
         """
-        query = self.db.query(Company).filter(Company.tenant_id == tenant_id)
+        query = self.db.query(MarketOpportunity).filter(MarketOpportunity.organization_id == organization_id)
 
         # Revenue filters
         if revenue_min := filters.get('revenue_min'):
-            query = query.filter(Company.revenue_range_min >= revenue_min)
+            query = query.filter(MarketOpportunity.revenue_range_min >= revenue_min)
         if revenue_max := filters.get('revenue_max'):
-            query = query.filter(Company.revenue_range_max <= revenue_max)
+            query = query.filter(MarketOpportunity.revenue_range_max <= revenue_max)
 
         # Industry filters
         if industries := filters.get('industries'):
-            query = query.filter(Company.industry.in_(industries))
+            query = query.filter(MarketOpportunity.industry.in_(industries))
 
         # Geographic filters
         if countries := filters.get('countries'):
-            query = query.filter(Company.country.in_(countries))
+            query = query.filter(MarketOpportunity.country.in_(countries))
 
         # Size filters
         if employee_min := filters.get('employee_min'):
-            query = query.filter(Company.employee_count >= employee_min)
+            query = query.filter(MarketOpportunity.employee_count >= employee_min)
         if employee_max := filters.get('employee_max'):
-            query = query.filter(Company.employee_count <= employee_max)
+            query = query.filter(MarketOpportunity.employee_count <= employee_max)
 
         # Performance filters
         if growth_rate_min := filters.get('growth_rate_min'):
-            query = query.filter(Company.growth_rate >= growth_rate_min)
+            query = query.filter(MarketOpportunity.growth_rate >= growth_rate_min)
         if ebitda_margin_min := filters.get('ebitda_margin_min'):
-            query = query.filter(Company.ebitda_margin >= ebitda_margin_min)
+            query = query.filter(MarketOpportunity.ebitda_margin >= ebitda_margin_min)
 
         # Financial health filter (requires join with financial snapshots)
         if financial_health := filters.get('financial_health'):
@@ -79,14 +79,14 @@ class DealScreeningService:
 
     def identify_distressed_companies(
         self,
-        tenant_id: int,
+        organization_id: str,
         threshold_metrics: Optional[Dict[str, float]] = None
-    ) -> List[Company]:
+    ) -> List[MarketOpportunity]:
         """
         Identify companies showing signs of financial distress
 
         Args:
-            tenant_id: Tenant ID
+            organization_id: Tenant ID
             threshold_metrics: Custom thresholds for distress indicators
                 - min_current_ratio: Below this indicates liquidity issues
                 - max_debt_to_equity: Above this indicates high leverage
@@ -110,14 +110,14 @@ class DealScreeningService:
                 FinancialSnapshot.company_id,
                 func.max(FinancialSnapshot.year).label('latest_year')
             )
-            .filter(FinancialSnapshot.tenant_id == tenant_id)
+            .filter(FinancialSnapshot.organization_id == organization_id)
             .group_by(FinancialSnapshot.company_id)
             .subquery()
         )
 
         # Join with financial snapshots to check distress indicators
         query = (
-            self.db.query(Company)
+            self.db.query(MarketOpportunity)
             .join(FinancialSnapshot)
             .join(
                 subquery,
@@ -126,7 +126,7 @@ class DealScreeningService:
                     FinancialSnapshot.year == subquery.c.latest_year
                 )
             )
-            .filter(Company.tenant_id == tenant_id)
+            .filter(MarketOpportunity.organization_id == organization_id)
             .filter(
                 or_(
                     FinancialSnapshot.financial_health == FinancialHealth.DISTRESSED,
@@ -145,15 +145,15 @@ class DealScreeningService:
 
     def find_succession_opportunities(
         self,
-        tenant_id: int,
+        organization_id: str,
         min_years_in_business: int = 20,
         owner_age_threshold: int = 60
-    ) -> List[DealOpportunity]:
+    ) -> List[MarketOpportunity]:
         """
         Identify companies with potential succession planning opportunities
 
         Args:
-            tenant_id: Tenant ID
+            organization_id: Tenant ID
             min_years_in_business: Minimum years company has been operating
             owner_age_threshold: Age threshold for considering succession
 
@@ -163,26 +163,26 @@ class DealScreeningService:
         current_year = datetime.now().year
 
         query = (
-            self.db.query(DealOpportunity)
-            .join(Company)
-            .filter(DealOpportunity.tenant_id == tenant_id)
-            .filter(DealOpportunity.source == OpportunitySource.SUCCESSION_PLANNING)
-            .filter(Company.year_founded <= (current_year - min_years_in_business))
-            .filter(DealOpportunity.is_active == True)
+            self.db.query(MarketOpportunity)
+            .join(MarketOpportunity)
+            .filter(MarketOpportunity.organization_id == organization_id)
+            .filter(MarketOpportunity.source == DataSourceType.SUCCESSION_PLANNING)
+            .filter(MarketOpportunity.year_founded <= (current_year - min_years_in_business))
+            .filter(MarketOpportunity.is_active == True)
         )
 
         return query.all()
 
     def calculate_opportunity_score(
         self,
-        opportunity: DealOpportunity,
+        opportunity: MarketOpportunity,
         weights: Optional[Dict[str, float]] = None
     ) -> Dict[str, Any]:
         """
         Calculate comprehensive opportunity score
 
         Args:
-            opportunity: DealOpportunity to score
+            opportunity: MarketOpportunity to score
             weights: Custom weights for scoring components
                 - financial: Weight for financial metrics (default 0.35)
                 - strategic: Weight for strategic fit (default 0.25)
@@ -282,9 +282,9 @@ class DealScreeningService:
             strategic_factors = []
 
             # Industry alignment
-            if company.industry in [IndustryCategory.TECHNOLOGY, IndustryCategory.HEALTHCARE]:
+            if company.industry in [IndustryVertical.TECHNOLOGY, IndustryVertical.HEALTHCARE]:
                 strategic_factors.append(80)
-            elif company.industry in [IndustryCategory.SERVICES, IndustryCategory.MANUFACTURING]:
+            elif company.industry in [IndustryVertical.SERVICES, IndustryVertical.MANUFACTURING]:
                 strategic_factors.append(60)
             else:
                 strategic_factors.append(40)
@@ -366,7 +366,7 @@ class DealScreeningService:
 
     def rank_opportunities(
         self,
-        tenant_id: int,
+        organization_id: str,
         filters: Optional[Dict[str, Any]] = None,
         limit: int = 50
     ) -> List[Dict[str, Any]]:
@@ -374,7 +374,7 @@ class DealScreeningService:
         Rank and return top opportunities based on scoring
 
         Args:
-            tenant_id: Tenant ID
+            organization_id: Tenant ID
             filters: Optional filters to apply before ranking
             limit: Maximum number of opportunities to return
 
@@ -382,18 +382,18 @@ class DealScreeningService:
             List of ranked opportunities with scores
         """
         query = (
-            self.db.query(DealOpportunity)
-            .filter(DealOpportunity.tenant_id == tenant_id)
-            .filter(DealOpportunity.is_active == True)
+            self.db.query(MarketOpportunity)
+            .filter(MarketOpportunity.organization_id == organization_id)
+            .filter(MarketOpportunity.is_active == True)
         )
 
         # Apply stage filter if provided
         if filters and 'stages' in filters:
-            query = query.filter(DealOpportunity.stage.in_(filters['stages']))
+            query = query.filter(MarketOpportunity.stage.in_(filters['stages']))
 
         # Apply priority filter if provided
         if filters and 'min_priority' in filters:
-            query = query.filter(DealOpportunity.priority <= filters['min_priority'])
+            query = query.filter(MarketOpportunity.priority <= filters['min_priority'])
 
         opportunities = query.all()
 

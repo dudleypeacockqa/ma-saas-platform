@@ -6,17 +6,17 @@ import uuid
 
 from ..core.database import get_db
 from ..auth.clerk_auth import get_current_user, require_role
-from ..models.deal_discovery import (
-    Company, DealOpportunity, FinancialSnapshot,
-    DealActivity, OpportunityEvaluation, MarketIntelligence,
-    IndustryCategory, DealStage, FinancialHealth, OpportunitySource
+from ..models.opportunities import (
+    MarketOpportunity, FinancialSnapshot, OpportunityActivity,
+    OpportunityStatus, IndustryVertical, FinancialHealth,
+    CompanyRegion, OpportunityPriority, DataSourceType
 )
 from ..services.deal_screening import DealScreeningService
 from ..schemas.deal_discovery import (
-    CompanyCreate, CompanyUpdate, CompanyResponse,
-    DealOpportunityCreate, DealOpportunityUpdate, DealOpportunityResponse,
+    MarketOpportunityCreate, MarketOpportunityUpdate, MarketOpportunityResponse,
+    MarketOpportunityCreate, MarketOpportunityUpdate, MarketOpportunityResponse,
     FinancialSnapshotCreate, FinancialSnapshotResponse,
-    DealActivityCreate, DealActivityResponse,
+    OpportunityActivityCreate, OpportunityActivityResponse,
     OpportunityEvaluationCreate, OpportunityEvaluationResponse,
     ScreeningFilters, OpportunityScoring, RankedOpportunity
 )
@@ -24,19 +24,19 @@ from ..schemas.deal_discovery import (
 router = APIRouter(prefix="/api/deal-discovery", tags=["Deal Discovery"])
 
 
-@router.post("/companies", response_model=CompanyResponse)
+@router.post("/companies", response_model=MarketOpportunityResponse)
 async def create_company(
-    company: CompanyCreate,
+    company: MarketOpportunityCreate,
     current_user: dict = Depends(get_current_user),
     db: Session = Depends(get_db)
 ):
     """Create a new company for tracking"""
-    tenant_id = current_user.get("tenant_id")
-    if not tenant_id:
+    organization_id = current_user.organization_id
+    if not organization_id:
         raise HTTPException(status_code=400, detail="Tenant ID not found")
 
-    db_company = Company(
-        tenant_id=int(tenant_id),
+    db_company = MarketOpportunity(
+        organization_id=int(organization_id),
         **company.dict()
     )
     db.add(db_company)
@@ -46,7 +46,7 @@ async def create_company(
     return db_company
 
 
-@router.get("/companies", response_model=List[CompanyResponse])
+@router.get("/companies", response_model=List[MarketOpportunityResponse])
 async def list_companies(
     skip: int = Query(0, ge=0),
     limit: int = Query(100, ge=1, le=500),
@@ -58,66 +58,66 @@ async def list_companies(
     db: Session = Depends(get_db)
 ):
     """List companies with optional filters"""
-    tenant_id = current_user.get("tenant_id")
-    if not tenant_id:
+    organization_id = current_user.organization_id
+    if not organization_id:
         raise HTTPException(status_code=400, detail="Tenant ID not found")
 
-    query = db.query(Company).filter(Company.tenant_id == int(tenant_id))
+    query = db.query(MarketOpportunity).filter(MarketOpportunity.organization_id == int(organization_id))
 
     if industry:
-        query = query.filter(Company.industry == industry)
+        query = query.filter(MarketOpportunity.industry == industry)
     if country:
-        query = query.filter(Company.country == country)
+        query = query.filter(MarketOpportunity.country == country)
     if revenue_min is not None:
-        query = query.filter(Company.revenue_range_min >= revenue_min)
+        query = query.filter(MarketOpportunity.revenue_range_min >= revenue_min)
     if revenue_max is not None:
-        query = query.filter(Company.revenue_range_max <= revenue_max)
+        query = query.filter(MarketOpportunity.revenue_range_max <= revenue_max)
 
     companies = query.offset(skip).limit(limit).all()
     return companies
 
 
-@router.get("/companies/{company_id}", response_model=CompanyResponse)
+@router.get("/companies/{company_id}", response_model=MarketOpportunityResponse)
 async def get_company(
     company_id: uuid.UUID,
     current_user: dict = Depends(get_current_user),
     db: Session = Depends(get_db)
 ):
     """Get a specific company by ID"""
-    tenant_id = current_user.get("tenant_id")
-    if not tenant_id:
+    organization_id = current_user.organization_id
+    if not organization_id:
         raise HTTPException(status_code=400, detail="Tenant ID not found")
 
-    company = db.query(Company).filter(
-        Company.id == company_id,
-        Company.tenant_id == int(tenant_id)
+    company = db.query(MarketOpportunity).filter(
+        MarketOpportunity.id == company_id,
+        MarketOpportunity.organization_id == int(organization_id)
     ).first()
 
     if not company:
-        raise HTTPException(status_code=404, detail="Company not found")
+        raise HTTPException(status_code=404, detail="MarketOpportunity not found")
 
     return company
 
 
-@router.put("/companies/{company_id}", response_model=CompanyResponse)
+@router.put("/companies/{company_id}", response_model=MarketOpportunityResponse)
 async def update_company(
     company_id: uuid.UUID,
-    company_update: CompanyUpdate,
+    company_update: MarketOpportunityUpdate,
     current_user: dict = Depends(get_current_user),
     db: Session = Depends(get_db)
 ):
     """Update company information"""
-    tenant_id = current_user.get("tenant_id")
-    if not tenant_id:
+    organization_id = current_user.organization_id
+    if not organization_id:
         raise HTTPException(status_code=400, detail="Tenant ID not found")
 
-    company = db.query(Company).filter(
-        Company.id == company_id,
-        Company.tenant_id == int(tenant_id)
+    company = db.query(MarketOpportunity).filter(
+        MarketOpportunity.id == company_id,
+        MarketOpportunity.organization_id == int(organization_id)
     ).first()
 
     if not company:
-        raise HTTPException(status_code=404, detail="Company not found")
+        raise HTTPException(status_code=404, detail="MarketOpportunity not found")
 
     for key, value in company_update.dict(exclude_unset=True).items():
         setattr(company, key, value)
@@ -129,21 +129,21 @@ async def update_company(
     return company
 
 
-@router.post("/opportunities", response_model=DealOpportunityResponse)
+@router.post("/opportunities", response_model=MarketOpportunityResponse)
 async def create_opportunity(
-    opportunity: DealOpportunityCreate,
+    opportunity: MarketOpportunityCreate,
     current_user: dict = Depends(get_current_user),
     db: Session = Depends(get_db)
 ):
     """Create a new deal opportunity"""
-    tenant_id = current_user.get("tenant_id")
-    user_id = current_user.get("user_id")
+    organization_id = current_user.organization_id
+    user_id = current_user.user_id
 
-    if not tenant_id or not user_id:
+    if not organization_id or not user_id:
         raise HTTPException(status_code=400, detail="User information incomplete")
 
-    db_opportunity = DealOpportunity(
-        tenant_id=int(tenant_id),
+    db_opportunity = MarketOpportunity(
+        organization_id=int(organization_id),
         user_id=user_id,
         **opportunity.dict()
     )
@@ -154,7 +154,7 @@ async def create_opportunity(
     return db_opportunity
 
 
-@router.get("/opportunities", response_model=List[DealOpportunityResponse])
+@router.get("/opportunities", response_model=List[MarketOpportunityResponse])
 async def list_opportunities(
     skip: int = Query(0, ge=0),
     limit: int = Query(100, ge=1, le=500),
@@ -165,38 +165,38 @@ async def list_opportunities(
     db: Session = Depends(get_db)
 ):
     """List deal opportunities with filters"""
-    tenant_id = current_user.get("tenant_id")
-    if not tenant_id:
+    organization_id = current_user.organization_id
+    if not organization_id:
         raise HTTPException(status_code=400, detail="Tenant ID not found")
 
-    query = db.query(DealOpportunity).filter(
-        DealOpportunity.tenant_id == int(tenant_id)
+    query = db.query(MarketOpportunity).filter(
+        MarketOpportunity.organization_id == int(organization_id)
     )
 
     if stage:
-        query = query.filter(DealOpportunity.stage == stage)
+        query = query.filter(MarketOpportunity.stage == stage)
     if priority is not None:
-        query = query.filter(DealOpportunity.priority == priority)
-    query = query.filter(DealOpportunity.is_active == is_active)
+        query = query.filter(MarketOpportunity.priority == priority)
+    query = query.filter(MarketOpportunity.is_active == is_active)
 
     opportunities = query.offset(skip).limit(limit).all()
     return opportunities
 
 
-@router.get("/opportunities/{opportunity_id}", response_model=DealOpportunityResponse)
+@router.get("/opportunities/{opportunity_id}", response_model=MarketOpportunityResponse)
 async def get_opportunity(
     opportunity_id: uuid.UUID,
     current_user: dict = Depends(get_current_user),
     db: Session = Depends(get_db)
 ):
     """Get a specific opportunity"""
-    tenant_id = current_user.get("tenant_id")
-    if not tenant_id:
+    organization_id = current_user.organization_id
+    if not organization_id:
         raise HTTPException(status_code=400, detail="Tenant ID not found")
 
-    opportunity = db.query(DealOpportunity).filter(
-        DealOpportunity.id == opportunity_id,
-        DealOpportunity.tenant_id == int(tenant_id)
+    opportunity = db.query(MarketOpportunity).filter(
+        MarketOpportunity.id == opportunity_id,
+        MarketOpportunity.organization_id == int(organization_id)
     ).first()
 
     if not opportunity:
@@ -205,21 +205,21 @@ async def get_opportunity(
     return opportunity
 
 
-@router.put("/opportunities/{opportunity_id}", response_model=DealOpportunityResponse)
+@router.put("/opportunities/{opportunity_id}", response_model=MarketOpportunityResponse)
 async def update_opportunity(
     opportunity_id: uuid.UUID,
-    opportunity_update: DealOpportunityUpdate,
+    opportunity_update: MarketOpportunityUpdate,
     current_user: dict = Depends(get_current_user),
     db: Session = Depends(get_db)
 ):
     """Update opportunity information"""
-    tenant_id = current_user.get("tenant_id")
-    if not tenant_id:
+    organization_id = current_user.organization_id
+    if not organization_id:
         raise HTTPException(status_code=400, detail="Tenant ID not found")
 
-    opportunity = db.query(DealOpportunity).filter(
-        DealOpportunity.id == opportunity_id,
-        DealOpportunity.tenant_id == int(tenant_id)
+    opportunity = db.query(MarketOpportunity).filter(
+        MarketOpportunity.id == opportunity_id,
+        MarketOpportunity.organization_id == int(organization_id)
     ).first()
 
     if not opportunity:
@@ -244,13 +244,13 @@ async def update_opportunity_stage(
     db: Session = Depends(get_db)
 ):
     """Update the stage of an opportunity"""
-    tenant_id = current_user.get("tenant_id")
-    if not tenant_id:
+    organization_id = current_user.organization_id
+    if not organization_id:
         raise HTTPException(status_code=400, detail="Tenant ID not found")
 
-    opportunity = db.query(DealOpportunity).filter(
-        DealOpportunity.id == opportunity_id,
-        DealOpportunity.tenant_id == int(tenant_id)
+    opportunity = db.query(MarketOpportunity).filter(
+        MarketOpportunity.id == opportunity_id,
+        MarketOpportunity.organization_id == int(organization_id)
     ).first()
 
     if not opportunity:
@@ -270,32 +270,32 @@ async def update_opportunity_stage(
     return {"message": f"Opportunity stage updated to {stage.value}"}
 
 
-@router.post("/opportunities/{opportunity_id}/activities", response_model=DealActivityResponse)
+@router.post("/opportunities/{opportunity_id}/activities", response_model=OpportunityActivityResponse)
 async def create_activity(
     opportunity_id: uuid.UUID,
-    activity: DealActivityCreate,
+    activity: OpportunityActivityCreate,
     current_user: dict = Depends(get_current_user),
     db: Session = Depends(get_db)
 ):
     """Log an activity for an opportunity"""
-    tenant_id = current_user.get("tenant_id")
-    user_id = current_user.get("user_id")
+    organization_id = current_user.organization_id
+    user_id = current_user.user_id
 
-    if not tenant_id or not user_id:
+    if not organization_id or not user_id:
         raise HTTPException(status_code=400, detail="User information incomplete")
 
     # Verify opportunity exists and belongs to tenant
-    opportunity = db.query(DealOpportunity).filter(
-        DealOpportunity.id == opportunity_id,
-        DealOpportunity.tenant_id == int(tenant_id)
+    opportunity = db.query(MarketOpportunity).filter(
+        MarketOpportunity.id == opportunity_id,
+        MarketOpportunity.organization_id == int(organization_id)
     ).first()
 
     if not opportunity:
         raise HTTPException(status_code=404, detail="Opportunity not found")
 
-    db_activity = DealActivity(
+    db_activity = OpportunityActivity(
         opportunity_id=opportunity_id,
-        tenant_id=int(tenant_id),
+        organization_id=int(organization_id),
         user_id=user_id,
         **activity.dict()
     )
@@ -310,7 +310,7 @@ async def create_activity(
     return db_activity
 
 
-@router.get("/opportunities/{opportunity_id}/activities", response_model=List[DealActivityResponse])
+@router.get("/opportunities/{opportunity_id}/activities", response_model=List[OpportunityActivityResponse])
 async def list_activities(
     opportunity_id: uuid.UUID,
     skip: int = Query(0, ge=0),
@@ -319,22 +319,22 @@ async def list_activities(
     db: Session = Depends(get_db)
 ):
     """List activities for an opportunity"""
-    tenant_id = current_user.get("tenant_id")
-    if not tenant_id:
+    organization_id = current_user.organization_id
+    if not organization_id:
         raise HTTPException(status_code=400, detail="Tenant ID not found")
 
     # Verify opportunity exists and belongs to tenant
-    opportunity = db.query(DealOpportunity).filter(
-        DealOpportunity.id == opportunity_id,
-        DealOpportunity.tenant_id == int(tenant_id)
+    opportunity = db.query(MarketOpportunity).filter(
+        MarketOpportunity.id == opportunity_id,
+        MarketOpportunity.organization_id == int(organization_id)
     ).first()
 
     if not opportunity:
         raise HTTPException(status_code=404, detail="Opportunity not found")
 
-    activities = db.query(DealActivity).filter(
-        DealActivity.opportunity_id == opportunity_id
-    ).order_by(DealActivity.activity_date.desc()).offset(skip).limit(limit).all()
+    activities = db.query(OpportunityActivity).filter(
+        OpportunityActivity.opportunity_id == opportunity_id
+    ).order_by(OpportunityActivity.activity_date.desc()).offset(skip).limit(limit).all()
 
     return activities
 
@@ -347,16 +347,16 @@ async def create_evaluation(
     db: Session = Depends(get_db)
 ):
     """Create an evaluation for an opportunity"""
-    tenant_id = current_user.get("tenant_id")
-    user_id = current_user.get("user_id")
+    organization_id = current_user.organization_id
+    user_id = current_user.user_id
 
-    if not tenant_id or not user_id:
+    if not organization_id or not user_id:
         raise HTTPException(status_code=400, detail="User information incomplete")
 
     # Verify opportunity exists and belongs to tenant
-    opportunity = db.query(DealOpportunity).filter(
-        DealOpportunity.id == opportunity_id,
-        DealOpportunity.tenant_id == int(tenant_id)
+    opportunity = db.query(MarketOpportunity).filter(
+        MarketOpportunity.id == opportunity_id,
+        MarketOpportunity.organization_id == int(organization_id)
     ).first()
 
     if not opportunity:
@@ -364,7 +364,7 @@ async def create_evaluation(
 
     db_evaluation = OpportunityEvaluation(
         opportunity_id=opportunity_id,
-        tenant_id=int(tenant_id),
+        organization_id=int(organization_id),
         evaluator_id=user_id,
         **evaluation.dict()
     )
@@ -383,22 +383,22 @@ async def create_financial_snapshot(
     db: Session = Depends(get_db)
 ):
     """Add a financial snapshot for a company"""
-    tenant_id = current_user.get("tenant_id")
-    if not tenant_id:
+    organization_id = current_user.organization_id
+    if not organization_id:
         raise HTTPException(status_code=400, detail="Tenant ID not found")
 
     # Verify company exists and belongs to tenant
-    company = db.query(Company).filter(
-        Company.id == company_id,
-        Company.tenant_id == int(tenant_id)
+    company = db.query(MarketOpportunity).filter(
+        MarketOpportunity.id == company_id,
+        MarketOpportunity.organization_id == int(organization_id)
     ).first()
 
     if not company:
-        raise HTTPException(status_code=404, detail="Company not found")
+        raise HTTPException(status_code=404, detail="MarketOpportunity not found")
 
     db_snapshot = FinancialSnapshot(
         company_id=company_id,
-        tenant_id=int(tenant_id),
+        organization_id=int(organization_id),
         **snapshot.dict()
     )
     db.add(db_snapshot)
@@ -422,18 +422,18 @@ async def list_financial_snapshots(
     db: Session = Depends(get_db)
 ):
     """List financial snapshots for a company"""
-    tenant_id = current_user.get("tenant_id")
-    if not tenant_id:
+    organization_id = current_user.organization_id
+    if not organization_id:
         raise HTTPException(status_code=400, detail="Tenant ID not found")
 
     # Verify company exists and belongs to tenant
-    company = db.query(Company).filter(
-        Company.id == company_id,
-        Company.tenant_id == int(tenant_id)
+    company = db.query(MarketOpportunity).filter(
+        MarketOpportunity.id == company_id,
+        MarketOpportunity.organization_id == int(organization_id)
     ).first()
 
     if not company:
-        raise HTTPException(status_code=404, detail="Company not found")
+        raise HTTPException(status_code=404, detail="MarketOpportunity not found")
 
     snapshots = db.query(FinancialSnapshot).filter(
         FinancialSnapshot.company_id == company_id
@@ -442,27 +442,27 @@ async def list_financial_snapshots(
     return snapshots
 
 
-@router.post("/screen/companies", response_model=List[CompanyResponse])
+@router.post("/screen/companies", response_model=List[MarketOpportunityResponse])
 async def screen_companies(
     filters: ScreeningFilters = Body(...),
     current_user: dict = Depends(get_current_user),
     db: Session = Depends(get_db)
 ):
     """Screen companies based on criteria"""
-    tenant_id = current_user.get("tenant_id")
-    if not tenant_id:
+    organization_id = current_user.organization_id
+    if not organization_id:
         raise HTTPException(status_code=400, detail="Tenant ID not found")
 
     screening_service = DealScreeningService(db)
     companies = screening_service.screen_companies(
-        tenant_id=int(tenant_id),
+        organization_id=int(organization_id),
         filters=filters.dict(exclude_unset=True)
     )
 
     return companies
 
 
-@router.get("/screen/distressed", response_model=List[CompanyResponse])
+@router.get("/screen/distressed", response_model=List[MarketOpportunityResponse])
 async def find_distressed_companies(
     min_current_ratio: float = Query(1.0),
     max_debt_to_equity: float = Query(3.0),
@@ -471,13 +471,13 @@ async def find_distressed_companies(
     db: Session = Depends(get_db)
 ):
     """Find companies showing signs of distress"""
-    tenant_id = current_user.get("tenant_id")
-    if not tenant_id:
+    organization_id = current_user.organization_id
+    if not organization_id:
         raise HTTPException(status_code=400, detail="Tenant ID not found")
 
     screening_service = DealScreeningService(db)
     companies = screening_service.identify_distressed_companies(
-        tenant_id=int(tenant_id),
+        organization_id=int(organization_id),
         threshold_metrics={
             'min_current_ratio': min_current_ratio,
             'max_debt_to_equity': max_debt_to_equity,
@@ -489,7 +489,7 @@ async def find_distressed_companies(
     return companies
 
 
-@router.get("/screen/succession", response_model=List[DealOpportunityResponse])
+@router.get("/screen/succession", response_model=List[MarketOpportunityResponse])
 async def find_succession_opportunities(
     min_years_in_business: int = Query(20, ge=10),
     owner_age_threshold: int = Query(60, ge=50),
@@ -497,13 +497,13 @@ async def find_succession_opportunities(
     db: Session = Depends(get_db)
 ):
     """Find succession planning opportunities"""
-    tenant_id = current_user.get("tenant_id")
-    if not tenant_id:
+    organization_id = current_user.organization_id
+    if not organization_id:
         raise HTTPException(status_code=400, detail="Tenant ID not found")
 
     screening_service = DealScreeningService(db)
     opportunities = screening_service.find_succession_opportunities(
-        tenant_id=int(tenant_id),
+        organization_id=int(organization_id),
         min_years_in_business=min_years_in_business,
         owner_age_threshold=owner_age_threshold
     )
@@ -519,13 +519,13 @@ async def calculate_opportunity_score(
     db: Session = Depends(get_db)
 ):
     """Calculate comprehensive score for an opportunity"""
-    tenant_id = current_user.get("tenant_id")
-    if not tenant_id:
+    organization_id = current_user.organization_id
+    if not organization_id:
         raise HTTPException(status_code=400, detail="Tenant ID not found")
 
-    opportunity = db.query(DealOpportunity).filter(
-        DealOpportunity.id == opportunity_id,
-        DealOpportunity.tenant_id == int(tenant_id)
+    opportunity = db.query(MarketOpportunity).filter(
+        MarketOpportunity.id == opportunity_id,
+        MarketOpportunity.organization_id == int(organization_id)
     ).first()
 
     if not opportunity:
@@ -554,8 +554,8 @@ async def get_ranked_opportunities(
     db: Session = Depends(get_db)
 ):
     """Get ranked list of opportunities"""
-    tenant_id = current_user.get("tenant_id")
-    if not tenant_id:
+    organization_id = current_user.organization_id
+    if not organization_id:
         raise HTTPException(status_code=400, detail="Tenant ID not found")
 
     filters = {}
@@ -566,7 +566,7 @@ async def get_ranked_opportunities(
 
     screening_service = DealScreeningService(db)
     ranked = screening_service.rank_opportunities(
-        tenant_id=int(tenant_id),
+        organization_id=int(organization_id),
         filters=filters if filters else None,
         limit=limit
     )

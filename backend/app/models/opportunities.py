@@ -66,6 +66,28 @@ class DataSourceType(str, enum.Enum):
     INDUSTRY_REPORT = "industry_report"
 
 
+class ActivityType(str, enum.Enum):
+    """Types of activities that can occur on opportunities"""
+    STATUS_CHANGE = "status_change"
+    SCORE_UPDATE = "score_update"
+    NOTE_ADDED = "note_added"
+    CONTACT_ATTEMPT = "contact_attempt"
+    MEETING_SCHEDULED = "meeting_scheduled"
+    DOCUMENT_UPLOADED = "document_uploaded"
+    CONVERTED_TO_DEAL = "converted_to_deal"
+    REJECTED = "rejected"
+
+
+class SourceType(str, enum.Enum):
+    """Source of opportunity discovery"""
+    COMPANIES_HOUSE_SCAN = "companies_house_scan"
+    SEC_EDGAR_SCAN = "sec_edgar_scan"
+    MANUAL_ENTRY = "manual_entry"
+    API_INTEGRATION = "api_integration"
+    REFERRAL = "referral"
+    WEB_SCRAPING = "web_scraping"
+
+
 class MarketOpportunity(BaseModel, SoftDeleteMixin):
     """
     Market opportunities discovered through automated scanning
@@ -401,4 +423,162 @@ class DataSource(BaseModel):
 
     __table_args__ = (
         Index('ix_datasource_active_refresh', 'is_active', 'next_refresh_at'),
+    )
+
+
+class OpportunityActivity(BaseModel):
+    """
+    Track all activities and status changes for opportunities
+    Provides audit trail and timeline functionality
+    """
+    __tablename__ = "opportunity_activities"
+
+    organization_id = Column(UUID(as_uuid=False), ForeignKey("organizations.id"), nullable=False, index=True)
+    opportunity_id = Column(UUID(as_uuid=False), ForeignKey("market_opportunities.id"), nullable=False, index=True)
+    user_id = Column(UUID(as_uuid=False), ForeignKey("users.id"), nullable=False)
+
+    # Activity Details
+    activity_type = Column(SQLEnum(ActivityType), nullable=False, index=True)
+    description = Column(Text, nullable=False)
+    old_value = Column(Text, comment="Previous value for tracking changes")
+    new_value = Column(Text, comment="New value for tracking changes")
+
+    # Metadata
+    activity_metadata = Column(JSON, comment="Additional activity-specific data")
+    occurred_at = Column(DateTime, default=datetime.utcnow, nullable=False, index=True)
+
+    # Relationships
+    organization = relationship("Organization")
+    opportunity = relationship("MarketOpportunity")
+    user = relationship("User")
+
+    __table_args__ = (
+        Index('ix_activity_opportunity_date', 'opportunity_id', 'occurred_at'),
+    )
+
+
+class OpportunitySource(BaseModel):
+    """
+    Track the source and origin of opportunities for attribution
+    """
+    __tablename__ = "opportunity_sources"
+
+    opportunity_id = Column(UUID(as_uuid=False), ForeignKey("market_opportunities.id"), nullable=False, unique=True)
+
+    # Source Details
+    source_type = Column(SQLEnum(SourceType), nullable=False, index=True)
+    source_name = Column(String(255))
+    source_url = Column(String(1000))
+    source_reference = Column(String(255), comment="External ID or reference")
+
+    # Discovery Details
+    discovered_at = Column(DateTime, default=datetime.utcnow, nullable=False)
+    discovered_by = Column(UUID(as_uuid=False), ForeignKey("users.id"))
+    discovery_method = Column(String(255))
+
+    # Source Quality
+    confidence_score = Column(Float, comment="Confidence in source data quality 0-1")
+    data_freshness = Column(DateTime, comment="When source data was last updated")
+
+    # Metadata
+    source_metadata = Column(JSON, comment="Source-specific additional data")
+
+    # Relationships
+    opportunity = relationship("MarketOpportunity")
+
+    __table_args__ = (
+        Index('ix_source_type_discovered', 'source_type', 'discovered_at'),
+    )
+
+
+class FinancialHealth(str, enum.Enum):
+    """Financial health assessment levels"""
+    EXCELLENT = "excellent"
+    GOOD = "good"
+    FAIR = "fair"
+    POOR = "poor"
+    DISTRESSED = "distressed"
+    UNKNOWN = "unknown"
+
+
+class FinancialSnapshot(BaseModel, SoftDeleteMixin):
+    """
+    Historical financial data snapshots for companies
+    Tracks financial performance over time for valuation and analysis
+    """
+    __tablename__ = "financial_snapshots"
+
+    organization_id = Column(UUID(as_uuid=False), ForeignKey("organizations.id"), nullable=False, index=True)
+    opportunity_id = Column(UUID(as_uuid=False), ForeignKey("market_opportunities.id"), nullable=False, index=True)
+
+    # Period Information
+    year = Column(Integer, nullable=False, index=True)
+    quarter = Column(Integer, comment="Optional for quarterly data")
+    period_end_date = Column(DateTime)
+
+    # Income Statement
+    revenue = Column(Numeric(20, 2))
+    gross_profit = Column(Numeric(20, 2))
+    operating_income = Column(Numeric(20, 2))
+    ebitda = Column(Numeric(20, 2))
+    net_income = Column(Numeric(20, 2))
+
+    # Balance Sheet
+    total_assets = Column(Numeric(20, 2))
+    current_assets = Column(Numeric(20, 2))
+    total_liabilities = Column(Numeric(20, 2))
+    current_liabilities = Column(Numeric(20, 2))
+    shareholders_equity = Column(Numeric(20, 2))
+    cash_and_equivalents = Column(Numeric(20, 2))
+
+    # Cash Flow
+    operating_cash_flow = Column(Numeric(20, 2))
+    free_cash_flow = Column(Numeric(20, 2))
+    capital_expenditures = Column(Numeric(20, 2))
+
+    # Key Ratios (calculated)
+    gross_margin = Column(Numeric(5, 4), comment="Gross profit / Revenue")
+    ebitda_margin = Column(Numeric(5, 4), comment="EBITDA / Revenue")
+    net_margin = Column(Numeric(5, 4), comment="Net income / Revenue")
+    current_ratio = Column(Numeric(5, 2), comment="Current assets / Current liabilities")
+    debt_to_equity = Column(Numeric(5, 2), comment="Total debt / Shareholders equity")
+    return_on_assets = Column(Numeric(5, 4), comment="Net income / Total assets")
+    return_on_equity = Column(Numeric(5, 4), comment="Net income / Shareholders equity")
+
+    # Growth Metrics (year-over-year)
+    revenue_growth = Column(Numeric(5, 4), comment="YoY revenue growth rate")
+    ebitda_growth = Column(Numeric(5, 4), comment="YoY EBITDA growth rate")
+    profit_growth = Column(Numeric(5, 4), comment="YoY net income growth rate")
+
+    # Health Assessment
+    financial_health = Column(SQLEnum(FinancialHealth), index=True)
+    health_score = Column(Float, comment="Overall financial health score 0-100")
+    distress_indicators = Column(JSON, comment="List of distress signals identified")
+
+    # Data Quality & Source
+    data_source = Column(String(255), comment="Source of financial data")
+    data_quality_score = Column(Float, comment="Confidence in data accuracy 0-1")
+    is_audited = Column(Boolean, default=False, comment="Whether financials are audited")
+    filing_date = Column(DateTime, comment="When original filing was made")
+    currency = Column(String(3), default="GBP", comment="Currency of financial figures")
+
+    # Analysis
+    peer_comparison_percentile = Column(Integer, comment="Performance vs industry peers (0-100)")
+    valuation_multiple_revenue = Column(Numeric(5, 2), comment="Estimated revenue multiple")
+    valuation_multiple_ebitda = Column(Numeric(5, 2), comment="Estimated EBITDA multiple")
+
+    # Metadata
+    analyst_notes = Column(Text, comment="Additional analysis notes")
+    red_flags = Column(JSON, comment="Identified financial red flags")
+    opportunities_identified = Column(JSON, comment="Improvement opportunities")
+
+    # Relationships
+    organization = relationship("Organization")
+    opportunity = relationship("MarketOpportunity")
+
+    __table_args__ = (
+        Index('ix_financial_opportunity_year', 'opportunity_id', 'year'),
+        Index('ix_financial_health_score', 'financial_health', 'health_score'),
+        CheckConstraint('quarter IS NULL OR (quarter >= 1 AND quarter <= 4)', name='check_valid_quarter'),
+        CheckConstraint('year >= 1900 AND year <= 2100', name='check_valid_year'),
     )

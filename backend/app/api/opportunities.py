@@ -10,7 +10,7 @@ from sqlalchemy.orm import Session
 from pydantic import BaseModel, Field
 
 from ..core.database import get_db
-from ..auth.dependencies import get_current_user, get_current_tenant
+from ..auth.clerk_auth import get_current_user, ClerkUser
 from ..services.deal_sourcing import (
     OpportunityDiscoveryService,
     OpportunityScoringService,
@@ -149,8 +149,7 @@ class ROIProjectionRequest(BaseModel):
 async def create_opportunity(
     opportunity: OpportunityCreate,
     db: Session = Depends(get_db),
-    current_user: dict = Depends(get_current_user),
-    tenant_id: str = Depends(get_current_tenant)
+    current_user: ClerkUser = Depends(get_current_user)
 ):
     """
     Create a new M&A opportunity manually
@@ -161,10 +160,16 @@ async def create_opportunity(
 
     company_data = opportunity.model_dump()
 
+    if not current_user.organization_id:
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="Organization membership required"
+        )
+
     result = service.create_opportunity(
-        organization_id=tenant_id,
+        organization_id=current_user.organization_id,
         company_data=company_data,
-        user_id=current_user["id"]
+        user_id=current_user.user_id
     )
 
     return result
@@ -185,8 +190,7 @@ async def list_opportunities(
     limit: int = Query(50, ge=1, le=200),
     offset: int = Query(0, ge=0),
     db: Session = Depends(get_db),
-    current_user: dict = Depends(get_current_user),
-    tenant_id: str = Depends(get_current_tenant)
+    current_user: ClerkUser = Depends(get_current_user)
 ):
     """
     List and filter M&A opportunities
@@ -225,8 +229,7 @@ async def list_opportunities(
 async def get_opportunity(
     opportunity_id: str,
     db: Session = Depends(get_db),
-    current_user: dict = Depends(get_current_user),
-    tenant_id: str = Depends(get_current_tenant)
+    current_user: ClerkUser = Depends(get_current_user)
 ):
     """
     Get a specific opportunity by ID
@@ -252,8 +255,7 @@ async def update_opportunity(
     opportunity_id: str,
     update: OpportunityUpdate,
     db: Session = Depends(get_db),
-    current_user: dict = Depends(get_current_user),
-    tenant_id: str = Depends(get_current_tenant)
+    current_user: ClerkUser = Depends(get_current_user)
 ):
     """
     Update an opportunity
@@ -298,8 +300,7 @@ async def update_opportunity(
 async def delete_opportunity(
     opportunity_id: str,
     db: Session = Depends(get_db),
-    current_user: dict = Depends(get_current_user),
-    tenant_id: str = Depends(get_current_tenant)
+    current_user: ClerkUser = Depends(get_current_user)
 ):
     """
     Delete an opportunity (soft delete)
@@ -332,8 +333,7 @@ async def delete_opportunity(
 async def scan_companies_house(
     scan_request: ScanRequest,
     db: Session = Depends(get_db),
-    current_user: dict = Depends(get_current_user),
-    tenant_id: str = Depends(get_current_tenant)
+    current_user: ClerkUser = Depends(get_current_user)
 ):
     """
     Scan Companies House for UK opportunities
@@ -366,8 +366,7 @@ async def scan_companies_house(
 async def scan_sec_edgar(
     scan_request: ScanRequest,
     db: Session = Depends(get_db),
-    current_user: dict = Depends(get_current_user),
-    tenant_id: str = Depends(get_current_tenant)
+    current_user: ClerkUser = Depends(get_current_user)
 ):
     """
     Scan SEC EDGAR for US opportunities
@@ -406,8 +405,7 @@ async def identify_distressed_companies(
     region: CompanyRegion,
     industry: IndustryVertical,
     db: Session = Depends(get_db),
-    current_user: dict = Depends(get_current_user),
-    tenant_id: str = Depends(get_current_tenant)
+    current_user: ClerkUser = Depends(get_current_user)
 ):
     """
     Identify financially distressed companies
@@ -435,8 +433,7 @@ async def score_opportunity(
     opportunity_id: str,
     score_request: ScoreRequest,
     db: Session = Depends(get_db),
-    current_user: dict = Depends(get_current_user),
-    tenant_id: str = Depends(get_current_tenant)
+    current_user: ClerkUser = Depends(get_current_user)
 ):
     """
     Calculate AI-powered opportunity score
@@ -470,8 +467,7 @@ async def score_opportunity(
 async def get_opportunity_score(
     opportunity_id: str,
     db: Session = Depends(get_db),
-    current_user: dict = Depends(get_current_user),
-    tenant_id: str = Depends(get_current_tenant)
+    current_user: ClerkUser = Depends(get_current_user)
 ):
     """
     Get existing opportunity score
@@ -507,8 +503,7 @@ async def get_opportunity_score(
 async def calculate_roi_projection(
     roi_request: ROIProjectionRequest,
     db: Session = Depends(get_db),
-    current_user: dict = Depends(get_current_user),
-    tenant_id: str = Depends(get_current_tenant)
+    current_user: ClerkUser = Depends(get_current_user)
 ):
     """
     Calculate ROI projection for potential deal
@@ -533,8 +528,7 @@ async def convert_opportunity_to_deal(
     opportunity_id: str,
     convert_request: ConvertToDealRequest,
     db: Session = Depends(get_db),
-    current_user: dict = Depends(get_current_user),
-    tenant_id: str = Depends(get_current_tenant)
+    current_user: ClerkUser = Depends(get_current_user)
 ):
     """
     Convert qualified opportunity to active deal
@@ -578,8 +572,7 @@ async def convert_opportunity_to_deal(
 async def get_opportunity_timeline(
     opportunity_id: str,
     db: Session = Depends(get_db),
-    current_user: dict = Depends(get_current_user),
-    tenant_id: str = Depends(get_current_tenant)
+    current_user: ClerkUser = Depends(get_current_user)
 ):
     """
     Get activity timeline for opportunity
@@ -607,8 +600,7 @@ async def get_opportunity_timeline(
 @router.get("/metrics/pipeline", response_model=PipelineMetricsResponse)
 async def get_pipeline_metrics(
     db: Session = Depends(get_db),
-    current_user: dict = Depends(get_current_user),
-    tenant_id: str = Depends(get_current_tenant)
+    current_user: ClerkUser = Depends(get_current_user)
 ):
     """
     Get pipeline metrics and analytics

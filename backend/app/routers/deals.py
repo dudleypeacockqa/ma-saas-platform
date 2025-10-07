@@ -11,7 +11,7 @@ from sqlalchemy.orm import Session, joinedload
 from sqlalchemy import and_, or_, func
 from pydantic import BaseModel, Field, validator
 
-from ..database import get_db
+from ..core.database import get_db
 from ..models.deal import (
     Deal, DealStage, DealType, DealPriority,
     DealTeamMember, DealValuation, DealActivity, DealMilestone,
