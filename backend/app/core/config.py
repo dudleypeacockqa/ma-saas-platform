@@ -18,8 +18,13 @@ class Settings(BaseSettings):
     app_name: str = "M&A SaaS Platform"
     debug: bool = os.getenv("DEBUG", "false").lower() == "true"
     
-    # CORS
-    allowed_origins: list = ["http://localhost:3000", "http://localhost:5173"]
+    # CORS - Handle comma-separated string from environment
+    allowed_origins_str: str = os.getenv("ALLOWED_ORIGINS", "http://localhost:3000,http://localhost:5173")
+    
+    @property
+    def allowed_origins(self) -> list:
+        """Convert comma-separated origins string to list"""
+        return [origin.strip() for origin in self.allowed_origins_str.split(",") if origin.strip()]
     
     class Config:
         env_file = ".env"
