@@ -3,13 +3,22 @@ Stripe Payment Service Integration
 Handles payment processing, subscription management, and customer sync with Clerk
 """
 
+from __future__ import annotations
+
 import os
 import logging
-from typing import Dict, List, Optional, Any
+from typing import Dict, List, Optional, Any, TYPE_CHECKING
 from datetime import datetime
-import stripe
 import httpx
 from sqlalchemy.orm import Session
+
+try:
+    import stripe
+except ImportError:
+    stripe = None
+
+if TYPE_CHECKING:
+    import stripe
 
 logger = logging.getLogger(__name__)
 
@@ -19,10 +28,10 @@ STRIPE_PUBLISHABLE_KEY = os.getenv("STRIPE_PUBLISHABLE_KEY")
 STRIPE_WEBHOOK_SECRET = os.getenv("STRIPE_WEBHOOK_SECRET")
 CLERK_SECRET_KEY = os.getenv("CLERK_SECRET_KEY")
 
-if STRIPE_SECRET_KEY:
+if STRIPE_SECRET_KEY and stripe:
     stripe.api_key = STRIPE_SECRET_KEY
 else:
-    logger.warning("STRIPE_SECRET_KEY not set. Payment processing will fail.")
+    logger.warning("STRIPE_SECRET_KEY not set or stripe not available. Payment processing will fail.")
 
 
 class StripeService:
@@ -109,10 +118,10 @@ class StripeService:
         cancel_url: str,
         mode: str = "subscription",
         metadata: Optional[Dict[str, Any]] = None
-    ) -> Optional[stripe.checkout.Session]:
+    ) -> Optional["stripe.checkout.Session"]:
         """Create a Stripe Checkout session"""
         try:
-            session = stripe.checkout.Session.create(
+            session = "stripe.checkout.Session".create(
                 customer=customer_id,
                 payment_method_types=["card"],
                 line_items=[{
@@ -432,7 +441,7 @@ class StripeService:
         # TODO: Send notification to user
         return {"status": "success", "invoice_id": invoice.id}
 
-    async def _handle_checkout_completed(self, session: stripe.checkout.Session, db: Session) -> Dict[str, Any]:
+    async def _handle_checkout_completed(self, session: "stripe.checkout.Session", db: Session) -> Dict[str, Any]:
         """Handle checkout.session.completed event"""
         logger.info(f"Checkout completed: {session.id}")
         return {"status": "success", "session_id": session.id}
