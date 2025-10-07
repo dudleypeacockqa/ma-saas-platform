@@ -1,0 +1,47 @@
+services:
+  # Frontend Static Site
+  - type: static_site
+    name: ma-saas-frontend
+    buildCommand: cd frontend && pnpm install && pnpm run build
+    staticPublishPath: ./frontend/dist
+    domains:
+      - 100daysandbeyond.com
+      - www.100daysandbeyond.com
+    envVars:
+      - key: VITE_API_URL
+        value: https://api.100daysandbeyond.com
+      - key: NODE_ENV
+        value: production
+
+  # Backend API Service  
+  - type: web
+    name: ma-saas-backend
+    env: python
+    plan: starter
+    rootDir: backend
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn app.main:app --host 0.0.0.0 --port $PORT
+    domains:
+      - api.100daysandbeyond.com
+    envVars:
+      - key: DATABASE_URL
+        fromDatabase:
+          name: ma-saas-db
+          property: connectionString
+      - key: SECRET_KEY
+        generateValue: true
+      - key: ANTHROPIC_API_KEY
+        sync: false  # Set manually in dashboard
+      - key: DEBUG
+        value: false
+      - key: ACCESS_TOKEN_EXPIRE_MINUTES
+        value: 30
+      - key: ALLOWED_ORIGINS
+        value: https://100daysandbeyond.com,https://www.100daysandbeyond.com
+
+# Database
+databases:
+  - name: ma-saas-db
+    plan: starter
+    databaseName: ma_saas_platform
+    user: ma_saas_user
