@@ -16,7 +16,8 @@ from ..models.integration import (
     IntegrationTask, CulturalAssessment, ChangeInitiative, PerformanceMetric,
     IntegrationRisk, IntegrationDocument,
     IntegrationApproach, SynergyType, WorkstreamType, IntegrationStatus,
-    TaskStatus, RiskLevel, MilestoneStatus, SynergyStatus
+    TaskStatus, TaskPriority, RiskLevel, RiskStatus, MilestoneStatus, MilestoneType,
+    SynergyStatus, ChangeType, DocumentType
 )
 from ..services.integration_management import (
     IntegrationProjectService,
@@ -107,144 +108,43 @@ class SynergyRealizationCreate(BaseModel):
 
 
 class TaskCreate(BaseModel):
-    title: str
+    task_name: str
     description: Optional[str] = None
-    milestone_id: Optional[str] = None
-    workstream_id: Optional[str] = None
-    priority: IssuePriority = IssuePriority.MEDIUM
-    assigned_to_id: Optional[str] = None
-    due_date: Optional[date] = None
-    estimated_hours: Optional[float] = None
-    is_critical_path: bool = False
-    is_day_1_critical: bool = False
-    depends_on_task_ids: Optional[List[str]] = []
-    meta_data: Optional[dict] = {}
-
-
-class TaskUpdate(BaseModel):
-    status: Optional[TaskStatus] = None
-    completion_percentage: Optional[int] = None
-    actual_hours: Optional[float] = None
-    notes: Optional[str] = None
+    priority: TaskPriority = TaskPriority.MEDIUM
+    assigned_to_user_id: Optional[str] = None
+    assigned_team: Optional[str] = None
+    planned_start_date: Optional[datetime] = None
+    planned_end_date: Optional[datetime] = None
+    estimated_hours: Optional[int] = None
+    predecessor_tasks: Optional[List[str]] = []
+    acceptance_criteria: Optional[List[str]] = []
 
 
 class TaskResponse(BaseModel):
     id: str
-    title: str
+    task_name: str
     status: str
     priority: str
-    assigned_to_id: Optional[str]
-    due_date: Optional[date]
-    completion_percentage: int
-    is_critical_path: bool
+    assigned_to_user_id: Optional[str]
+    planned_end_date: Optional[datetime]
+    completion_percent: Optional[int]
     created_at: datetime
 
     class Config:
         from_attributes = True
 
 
-class CulturalAssessmentCreate(BaseModel):
-    assessment_name: str
-    assessment_date: Optional[date] = None
-    leadership_style_score: Optional[int] = None
-    decision_making_score: Optional[int] = None
-    communication_style_score: Optional[int] = None
-    work_life_balance_score: Optional[int] = None
-    innovation_score: Optional[int] = None
-    risk_tolerance_score: Optional[int] = None
-    collaboration_score: Optional[int] = None
-    hierarchy_score: Optional[int] = None
-    identified_gaps: Optional[List[dict]] = []
-    gap_severity: Optional[str] = None
-    integration_recommendations: Optional[List[dict]] = []
-    change_initiatives_needed: Optional[List[dict]] = []
-    acquirer_sentiment_score: Optional[int] = None
-    target_sentiment_score: Optional[int] = None
-    survey_responses: Optional[int] = None
-    survey_response_rate: Optional[float] = None
-    key_strengths: Optional[List[dict]] = []
-    key_risks: Optional[List[dict]] = []
-    meta_data: Optional[dict] = {}
-
-
-class ChangeInitiativeCreate(BaseModel):
-    name: str
-    description: Optional[str] = None
-    initiative_type: str
-    target_audience: Optional[str] = None
-    impacted_employee_count: Optional[int] = None
-    start_date: Optional[date] = None
-    end_date: Optional[date] = None
-    initiative_lead_id: Optional[str] = None
-    executive_sponsor_id: Optional[str] = None
-    planned_activities: Optional[List[dict]] = []
-    communication_channels: Optional[List[str]] = []
-    communication_frequency: Optional[str] = None
-    training_modules: Optional[List[dict]] = []
-    allocated_budget: Optional[float] = None
-    meta_data: Optional[dict] = {}
-
-
-class KPICreate(BaseModel):
-    name: str
-    description: Optional[str] = None
-    category: str
-    workstream_id: Optional[str] = None
-    measurement_unit: Optional[str] = None
-    measurement_frequency: Optional[str] = None
-    baseline_value: Optional[float] = None
-    target_value: float
-    current_value: Optional[float] = None
-    threshold_green: Optional[float] = None
-    threshold_yellow: Optional[float] = None
-    threshold_red: Optional[float] = None
-    owner_id: Optional[str] = None
-    start_date: Optional[date] = None
-    target_date: Optional[date] = None
-    calculation_method: Optional[str] = None
-    data_source: Optional[str] = None
-    meta_data: Optional[dict] = {}
-
-
-class KPIUpdate(BaseModel):
-    current_value: float
-    measurement_date: date
-
-
 class RiskCreate(BaseModel):
-    title: str
+    risk_name: str
     description: Optional[str] = None
     category: Optional[str] = None
-    workstream_id: Optional[str] = None
-    severity: RiskSeverity
-    probability: int
-    impact_score: int
-    risk_owner_id: Optional[str] = None
-    mitigation_plan: Optional[str] = None
-    mitigation_actions: Optional[List[dict]] = []
-    mitigation_owner_id: Optional[str] = None
-    mitigation_deadline: Optional[date] = None
-    mitigation_budget: Optional[float] = None
+    probability: Optional[str] = "medium"  # very_low, low, medium, high, very_high
+    impact: Optional[str] = "medium"  # very_low, low, medium, high, very_high
+    potential_impact: Optional[str] = None
+    financial_impact: Optional[float] = None
+    mitigation_strategy: Optional[str] = None
     contingency_plan: Optional[str] = None
-    review_frequency_days: int = 7
-    meta_data: Optional[dict] = {}
-
-
-class IssueCreate(BaseModel):
-    title: str
-    description: Optional[str] = None
-    workstream_id: Optional[str] = None
-    related_task_id: Optional[str] = None
-    issue_type: Optional[str] = None
-    priority: IssuePriority
-    impact_level: Optional[str] = None
-    assigned_to_id: Optional[str] = None
-    due_date: Optional[date] = None
-    impacted_tasks: Optional[List[str]] = []
-    impacted_milestones: Optional[List[str]] = []
-    delay_days: Optional[int] = None
-    cost_impact: Optional[float] = None
-    meta_data: Optional[dict] = {}
+    owner_user_id: Optional[str] = None
 
 
 # ==================== Integration Project Endpoints ====================
@@ -253,14 +153,13 @@ class IssueCreate(BaseModel):
 async def create_integration_project(
     project_data: IntegrationProjectCreate,
     db: Session = Depends(get_db),
-    current_user: dict = Depends(get_current_user),
-    current_org: str = Depends(get_current_org)
+    current_user: ClerkUser = Depends(get_current_user)
 ):
     """Create a new integration project for a closed deal"""
     try:
         service = IntegrationProjectService(db)
         project = service.create_integration_project(
-            organization_id=current_org,
+            organization_id=current_user.organization_id,
             deal_id=project_data.deal_id,
             project_data=project_data.model_dump()
         )
@@ -272,12 +171,12 @@ async def create_integration_project(
 @router.get("/projects", response_model=List[IntegrationProjectResponse])
 async def list_integration_projects(
     db: Session = Depends(get_db),
-    current_org: str = Depends(get_current_org),
+    current_user: ClerkUser = Depends(get_current_user),
     status: Optional[IntegrationStatus] = None
 ):
     """List all integration projects for the organization"""
     query = db.query(IntegrationProject).filter(
-        IntegrationProject.organization_id == current_org,
+        IntegrationProject.organization_id == current_user.organization_id,
         IntegrationProject.deleted_at.is_(None)
     )
 
@@ -292,74 +191,90 @@ async def list_integration_projects(
 async def get_integration_project(
     project_id: str,
     db: Session = Depends(get_db),
-    current_org: str = Depends(get_current_org)
+    current_user: ClerkUser = Depends(get_current_user)
 ):
-    """Get integration plan details"""
-    plan = db.query(IntegrationPlan).filter(
-        IntegrationPlan.id == plan_id,
-        IntegrationPlan.organization_id == current_org
+    """Get integration project details"""
+    project = db.query(IntegrationProject).filter(
+        IntegrationProject.id == project_id,
+        IntegrationProject.organization_id == current_user.organization_id
     ).first()
 
-    if not plan:
-        raise HTTPException(status_code=404, detail="Integration plan not found")
+    if not project:
+        raise HTTPException(status_code=404, detail="Integration project not found")
 
-    return plan
+    return project
 
 
-@router.post("/plans/{plan_id}/refresh-progress")
-async def refresh_plan_progress(
-    plan_id: str,
+@router.get("/projects/{project_id}/dashboard")
+async def get_project_dashboard(
+    project_id: str,
     db: Session = Depends(get_db),
-    current_org: str = Depends(get_current_org)
+    current_user: ClerkUser = Depends(get_current_user)
 ):
-    """Recalculate and update plan progress metrics"""
+    """Get comprehensive project dashboard metrics"""
+    service = IntegrationProjectService(db)
     try:
-        plan = await IntegrationPlanningService.update_plan_progress(
-            db=db,
-            plan_id=plan_id,
-            organization_id=current_org
+        dashboard = service.get_project_dashboard(
+            project_id=project_id,
+            organization_id=current_user.organization_id
         )
-        return plan
+        return dashboard
+    except ValueError as e:
+        raise HTTPException(status_code=404, detail=str(e))
+
+
+@router.post("/projects/{project_id}/update-health")
+async def update_project_health(
+    project_id: str,
+    db: Session = Depends(get_db),
+    current_user: ClerkUser = Depends(get_current_user)
+):
+    """Recalculate and update project health score"""
+    service = IntegrationProjectService(db)
+    try:
+        health_score = service.update_project_health(
+            project_id=project_id,
+            organization_id=current_user.organization_id
+        )
+        return {"health_score": health_score}
     except ValueError as e:
         raise HTTPException(status_code=404, detail=str(e))
 
 
 # ==================== Synergy Management Endpoints ====================
 
-@router.post("/plans/{plan_id}/synergies", response_model=SynergyResponse)
+@router.post("/projects/{project_id}/synergies", response_model=SynergyResponse)
 async def create_synergy(
-    plan_id: str,
+    project_id: str,
     synergy_data: SynergyCreate,
     db: Session = Depends(get_db),
-    current_user: dict = Depends(get_current_user),
-    current_org: str = Depends(get_current_org)
+    current_user: ClerkUser = Depends(get_current_user)
 ):
     """Identify and create a new synergy opportunity"""
+    service = SynergyTrackingService(db)
     try:
-        synergy = await SynergyManagementService.identify_synergy(
-            db=db,
-            plan_id=plan_id,
-            organization_id=current_org,
-            synergy_data=synergy_data.model_dump(),
-            user_id=current_user["user_id"]
+        synergy = service.create_synergy(
+            organization_id=current_user.organization_id,
+            project_id=project_id,
+            synergy_data=synergy_data.model_dump()
         )
         return synergy
     except ValueError as e:
         raise HTTPException(status_code=400, detail=str(e))
 
 
-@router.get("/plans/{plan_id}/synergies", response_model=List[SynergyResponse])
+@router.get("/projects/{project_id}/synergies", response_model=List[SynergyResponse])
 async def list_synergies(
-    plan_id: str,
+    project_id: str,
     db: Session = Depends(get_db),
-    current_org: str = Depends(get_current_org),
+    current_user: ClerkUser = Depends(get_current_user),
     synergy_type: Optional[SynergyType] = None,
-    status: Optional[str] = None
+    status: Optional[SynergyStatus] = None
 ):
-    """List synergies for an integration plan"""
+    """List synergies for an integration project"""
     query = db.query(SynergyOpportunity).filter(
-        SynergyOpportunity.plan_id == plan_id,
-        SynergyOpportunity.organization_id == current_org,
+        SynergyOpportunity.project_id == project_id,
+        SynergyOpportunity.organization_id == current_user.organization_id,
         SynergyOpportunity.deleted_at.is_(None)
     )
 
@@ -373,56 +288,62 @@ async def list_synergies(
     return synergies
 
 
-@router.post("/synergies/{synergy_id}/realizations")
-async def record_synergy_realization(
+@router.patch("/synergies/{synergy_id}/realization")
+async def update_synergy_realization(
     synergy_id: str,
-    realization_data: SynergyRealizationCreate,
+    realized_value: float,
+    notes: Optional[str] = None,
     db: Session = Depends(get_db),
-    current_user: dict = Depends(get_current_user),
-    current_org: str = Depends(get_current_org)
+    current_user: ClerkUser = Depends(get_current_user)
 ):
-    """Record actual synergy realization for a period"""
+    """Update synergy realization value"""
+    service = SynergyTrackingService(db)
     try:
-        realization = await SynergyManagementService.record_synergy_realization(
-            db=db,
+        from decimal import Decimal
+        synergy = service.update_synergy_realization(
             synergy_id=synergy_id,
-            organization_id=current_org,
-            realization_data=realization_data.model_dump(),
-            user_id=current_user["user_id"]
+            organization_id=current_user.organization_id,
+            realized_value=Decimal(str(realized_value)),
+            notes=notes
         )
-        return realization
+        return synergy
     except ValueError as e:
         raise HTTPException(status_code=400, detail=str(e))
 
 
-@router.get("/plans/{plan_id}/synergies/waterfall")
-async def get_synergy_waterfall(
-    plan_id: str,
+@router.get("/projects/{project_id}/synergies/trends")
+async def get_synergy_trends(
+    project_id: str,
+    months: int = 12,
     db: Session = Depends(get_db),
-    current_org: str = Depends(get_current_org)
+    current_user: ClerkUser = Depends(get_current_user)
 ):
-    """Get synergy waterfall chart data"""
-    waterfall_data = await SynergyManagementService.get_synergy_waterfall(
-        db=db,
-        plan_id=plan_id,
-        organization_id=current_org
-    )
-    return waterfall_data
+    """Get synergy realization trends over time"""
+    service = SynergyTrackingService(db)
+    try:
+        trends = service.get_synergy_trends(
+            project_id=project_id,
+            organization_id=current_user.organization_id,
+            months=months
+        )
+        return trends
+    except ValueError as e:
+        raise HTTPException(status_code=404, detail=str(e))
 
 
 # ==================== Workstream & Task Endpoints ====================
 
-@router.get("/plans/{plan_id}/workstreams")
+@router.get("/projects/{project_id}/workstreams")
 async def list_workstreams(
-    plan_id: str,
+    project_id: str,
     db: Session = Depends(get_db),
-    current_org: str = Depends(get_current_org),
+    current_user: ClerkUser = Depends(get_current_user),
     workstream_type: Optional[WorkstreamType] = None
 ):
-    """List workstreams for an integration plan"""
+    """List workstreams for an integration project"""
     query = db.query(IntegrationWorkstream).filter(
-        IntegrationWorkstream.plan_id == plan_id,
-        IntegrationWorkstream.organization_id == current_org,
+        IntegrationWorkstream.project_id == project_id,
+        IntegrationWorkstream.organization_id == current_user.organization_id,
         IntegrationWorkstream.deleted_at.is_(None)
     )
 
@@ -433,42 +354,57 @@ async def list_workstreams(
     return workstreams
 
 
-@router.post("/plans/{plan_id}/tasks", response_model=TaskResponse)
+@router.get("/workstreams/{workstream_id}/summary")
+async def get_workstream_summary(
+    workstream_id: str,
+    db: Session = Depends(get_db),
+    current_user: ClerkUser = Depends(get_current_user)
+):
+    """Get comprehensive workstream summary"""
+    service = WorkstreamManagementService(db)
+    try:
+        summary = service.get_workstream_summary(
+            workstream_id=workstream_id,
+            organization_id=current_user.organization_id
+        )
+        return summary
+    except ValueError as e:
+        raise HTTPException(status_code=404, detail=str(e))
+
+
+@router.post("/workstreams/{workstream_id}/tasks", response_model=TaskResponse)
 async def create_task(
-    plan_id: str,
+    workstream_id: str,
     task_data: TaskCreate,
     db: Session = Depends(get_db),
-    current_user: dict = Depends(get_current_user),
-    current_org: str = Depends(get_current_org)
+    current_user: ClerkUser = Depends(get_current_user)
 ):
     """Create a new integration task"""
+    service = WorkstreamManagementService(db)
     try:
-        task = await WorkstreamManagementService.create_task(
-            db=db,
-            plan_id=plan_id,
-            organization_id=current_org,
-            task_data=task_data.model_dump(),
-            user_id=current_user["user_id"]
+        task = service.create_task(
+            organization_id=current_user.organization_id,
+            workstream_id=workstream_id,
+            task_data=task_data.model_dump()
         )
         return task
     except ValueError as e:
         raise HTTPException(status_code=400, detail=str(e))
 
 
-@router.get("/plans/{plan_id}/tasks", response_model=List[TaskResponse])
+@router.get("/projects/{project_id}/tasks", response_model=List[TaskResponse])
 async def list_tasks(
-    plan_id: str,
+    project_id: str,
     db: Session = Depends(get_db),
-    current_org: str = Depends(get_current_org),
+    current_user: ClerkUser = Depends(get_current_user),
     workstream_id: Optional[str] = None,
     status: Optional[TaskStatus] = None,
-    assigned_to_id: Optional[str] = None,
-    is_critical_path: Optional[bool] = None
+    assigned_to_user_id: Optional[str] = None
 ):
-    """List tasks for an integration plan"""
-    query = db.query(IntegrationTask).filter(
-        IntegrationTask.plan_id == plan_id,
-        IntegrationTask.organization_id == current_org,
+    """List tasks for an integration project"""
+    query = db.query(IntegrationTask).join(IntegrationWorkstream).filter(
+        IntegrationWorkstream.project_id == project_id,
+        IntegrationTask.organization_id == current_user.organization_id,
         IntegrationTask.deleted_at.is_(None)
     )
 
@@ -478,32 +414,31 @@ async def list_tasks(
     if status:
         query = query.filter(IntegrationTask.status == status)
 
-    if assigned_to_id:
-        query = query.filter(IntegrationTask.assigned_to_id == assigned_to_id)
+    if assigned_to_user_id:
+        query = query.filter(IntegrationTask.assigned_to_user_id == assigned_to_user_id)
 
-    if is_critical_path is not None:
-        query = query.filter(IntegrationTask.is_critical_path == is_critical_path)
-
-    tasks = query.order_by(IntegrationTask.due_date).all()
+    tasks = query.order_by(IntegrationTask.planned_end_date).all()
     return tasks
 
 
 @router.patch("/tasks/{task_id}")
 async def update_task(
     task_id: str,
-    task_update: TaskUpdate,
+    status: TaskStatus,
+    completion_percent: Optional[int] = None,
+    update_note: Optional[str] = None,
     db: Session = Depends(get_db),
-    current_org: str = Depends(get_current_org)
+    current_user: ClerkUser = Depends(get_current_user)
 ):
     """Update task status and completion"""
+    service = WorkstreamManagementService(db)
     try:
-        task = await WorkstreamManagementService.update_task_status(
-            db=db,
+        task = service.update_task_status(
             task_id=task_id,
-            organization_id=current_org,
-            status=task_update.status,
-            completion_percentage=task_update.completion_percentage,
-            actual_hours=task_update.actual_hours
+            organization_id=current_user.organization_id,
+            status=status,
+            completion_percent=completion_percent,
+            update_note=update_note
         )
         return task
     except ValueError as e:
@@ -512,25 +447,26 @@ async def update_task(
 
 # ==================== Milestone Endpoints ====================
 
-@router.get("/plans/{plan_id}/milestones")
+@router.get("/projects/{project_id}/milestones")
 async def list_milestones(
-    plan_id: str,
+    project_id: str,
     db: Session = Depends(get_db),
-    current_org: str = Depends(get_current_org),
-    phase: Optional[IntegrationPhase] = None,
-    is_completed: Optional[bool] = None
+    current_user: ClerkUser = Depends(get_current_user),
+    milestone_type: Optional[MilestoneType] = None,
+    status: Optional[MilestoneStatus] = None
 ):
-    """List milestones for an integration plan"""
+    """List milestones for an integration project"""
     query = db.query(IntegrationMilestone).filter(
-        IntegrationMilestone.plan_id == plan_id,
-        IntegrationMilestone.organization_id == current_org
+        IntegrationMilestone.project_id == project_id,
+        IntegrationMilestone.organization_id == current_user.organization_id,
+        IntegrationMilestone.deleted_at.is_(None)
     )
 
-    if phase:
-        query = query.filter(IntegrationMilestone.phase == phase)
+    if milestone_type:
+        query = query.filter(IntegrationMilestone.milestone_type == milestone_type)
 
-    if is_completed is not None:
-        query = query.filter(IntegrationMilestone.is_completed == is_completed)
+    if status:
+        query = query.filter(IntegrationMilestone.status == status)
 
     milestones = query.order_by(IntegrationMilestone.target_date).all()
     return milestones
@@ -538,82 +474,39 @@ async def list_milestones(
 
 # ==================== Cultural Assessment & Change Management ====================
 
-@router.post("/plans/{plan_id}/cultural-assessments")
-async def create_cultural_assessment(
-    plan_id: str,
-    assessment_data: CulturalAssessmentCreate,
-    db: Session = Depends(get_db),
-    current_user: dict = Depends(get_current_user),
-    current_org: str = Depends(get_current_org)
-):
-    """Conduct and record cultural assessment"""
-    try:
-        assessment = await ChangeManagementService.conduct_cultural_assessment(
-            db=db,
-            plan_id=plan_id,
-            organization_id=current_org,
-            assessment_data=assessment_data.model_dump(),
-            user_id=current_user["user_id"]
-        )
-        return assessment
-    except ValueError as e:
-        raise HTTPException(status_code=400, detail=str(e))
-
-
-@router.get("/plans/{plan_id}/cultural-assessments")
+@router.get("/projects/{project_id}/cultural-assessments")
 async def list_cultural_assessments(
-    plan_id: str,
+    project_id: str,
     db: Session = Depends(get_db),
-    current_org: str = Depends(get_current_org)
+    current_user: ClerkUser = Depends(get_current_user)
 ):
-    """List cultural assessments for an integration plan"""
+    """List cultural assessments for an integration project"""
     assessments = db.query(CulturalAssessment).filter(
-        CulturalAssessment.plan_id == plan_id,
-        CulturalAssessment.organization_id == current_org
+        CulturalAssessment.project_id == project_id,
+        CulturalAssessment.organization_id == current_user.organization_id,
+        CulturalAssessment.deleted_at.is_(None)
     ).order_by(CulturalAssessment.assessment_date.desc()).all()
 
     return assessments
 
 
-@router.post("/plans/{plan_id}/change-initiatives")
-async def create_change_initiative(
-    plan_id: str,
-    initiative_data: ChangeInitiativeCreate,
-    db: Session = Depends(get_db),
-    current_user: dict = Depends(get_current_user),
-    current_org: str = Depends(get_current_org)
-):
-    """Create a new change management initiative"""
-    try:
-        initiative = await ChangeManagementService.create_change_initiative(
-            db=db,
-            plan_id=plan_id,
-            organization_id=current_org,
-            initiative_data=initiative_data.model_dump(),
-            user_id=current_user["user_id"]
-        )
-        return initiative
-    except ValueError as e:
-        raise HTTPException(status_code=400, detail=str(e))
-
-
-@router.get("/plans/{plan_id}/change-initiatives")
+@router.get("/projects/{project_id}/change-initiatives")
 async def list_change_initiatives(
-    plan_id: str,
+    project_id: str,
     db: Session = Depends(get_db),
-    current_org: str = Depends(get_current_org),
-    initiative_type: Optional[str] = None,
-    status: Optional[str] = None
+    current_user: ClerkUser = Depends(get_current_user),
+    change_type: Optional[ChangeType] = None,
+    status: Optional[IntegrationStatus] = None
 ):
-    """List change initiatives for an integration plan"""
+    """List change initiatives for an integration project"""
     query = db.query(ChangeInitiative).filter(
-        ChangeInitiative.plan_id == plan_id,
-        ChangeInitiative.organization_id == current_org,
+        ChangeInitiative.project_id == project_id,
+        ChangeInitiative.organization_id == current_user.organization_id,
         ChangeInitiative.deleted_at.is_(None)
     )
 
-    if initiative_type:
-        query = query.filter(ChangeInitiative.initiative_type == initiative_type)
+    if change_type:
+        query = query.filter(ChangeInitiative.change_type == change_type)
 
     if status:
         query = query.filter(ChangeInitiative.status == status)
@@ -622,267 +515,143 @@ async def list_change_initiatives(
     return initiatives
 
 
-# ==================== KPI & Performance Monitoring ====================
+# ==================== Performance Metrics Monitoring ====================
 
-@router.post("/plans/{plan_id}/kpis")
-async def create_kpi(
-    plan_id: str,
-    kpi_data: KPICreate,
+@router.get("/projects/{project_id}/metrics")
+async def list_performance_metrics(
+    project_id: str,
     db: Session = Depends(get_db),
-    current_user: dict = Depends(get_current_user),
-    current_org: str = Depends(get_current_org)
+    current_user: ClerkUser = Depends(get_current_user),
+    metric_category: Optional[str] = None
 ):
-    """Create a new integration KPI"""
-    try:
-        kpi = await PerformanceMonitoringService.create_kpi(
-            db=db,
-            plan_id=plan_id,
-            organization_id=current_org,
-            kpi_data=kpi_data.model_dump(),
-            user_id=current_user["user_id"]
-        )
-        return kpi
-    except ValueError as e:
-        raise HTTPException(status_code=400, detail=str(e))
-
-
-@router.get("/plans/{plan_id}/kpis")
-async def list_kpis(
-    plan_id: str,
-    db: Session = Depends(get_db),
-    current_org: str = Depends(get_current_org),
-    category: Optional[str] = None,
-    workstream_id: Optional[str] = None,
-    health_indicator: Optional[str] = None
-):
-    """List KPIs for an integration plan"""
-    query = db.query(IntegrationKPI).filter(
-        IntegrationKPI.plan_id == plan_id,
-        IntegrationKPI.organization_id == current_org
+    """List performance metrics for an integration project"""
+    query = db.query(PerformanceMetric).filter(
+        PerformanceMetric.project_id == project_id,
+        PerformanceMetric.organization_id == current_user.organization_id,
+        PerformanceMetric.deleted_at.is_(None)
     )
 
-    if category:
-        query = query.filter(IntegrationKPI.category == category)
+    if metric_category:
+        query = query.filter(PerformanceMetric.metric_category == metric_category)
 
-    if workstream_id:
-        query = query.filter(IntegrationKPI.workstream_id == workstream_id)
-
-    if health_indicator:
-        query = query.filter(IntegrationKPI.health_indicator == health_indicator)
-
-    kpis = query.all()
-    return kpis
+    metrics = query.all()
+    return metrics
 
 
-@router.patch("/kpis/{kpi_id}/value")
-async def update_kpi_value(
-    kpi_id: str,
-    kpi_update: KPIUpdate,
+@router.patch("/metrics/{metric_id}/value")
+async def update_metric_value(
+    metric_id: str,
+    value: float,
+    measurement_date: Optional[datetime] = None,
     db: Session = Depends(get_db),
-    current_org: str = Depends(get_current_org)
+    current_user: ClerkUser = Depends(get_current_user)
 ):
-    """Update KPI with new measurement"""
+    """Update performance metric with new measurement"""
+    service = PerformanceTrackingService(db)
     try:
-        kpi = await PerformanceMonitoringService.update_kpi_value(
-            db=db,
-            kpi_id=kpi_id,
-            organization_id=current_org,
-            current_value=kpi_update.current_value,
-            measurement_date=kpi_update.measurement_date
+        from decimal import Decimal
+        metric = service.record_metric_value(
+            metric_id=metric_id,
+            organization_id=current_user.organization_id,
+            value=Decimal(str(value)),
+            measurement_date=measurement_date
         )
-        return kpi
+        return metric
     except ValueError as e:
         raise HTTPException(status_code=404, detail=str(e))
 
 
-# ==================== Risk & Issue Management ====================
+# ==================== Risk Management ====================
 
-@router.post("/plans/{plan_id}/risks")
+@router.post("/projects/{project_id}/risks")
 async def create_risk(
-    plan_id: str,
+    project_id: str,
     risk_data: RiskCreate,
     db: Session = Depends(get_db),
-    current_user: dict = Depends(get_current_user),
-    current_org: str = Depends(get_current_org)
+    current_user: ClerkUser = Depends(get_current_user)
 ):
     """Identify and create a new integration risk"""
+    service = RiskManagementService(db)
     try:
-        risk = await RiskManagementService.create_risk(
-            db=db,
-            plan_id=plan_id,
-            organization_id=current_org,
-            risk_data=risk_data.model_dump(),
-            user_id=current_user["user_id"]
+        risk = service.create_risk(
+            organization_id=current_user.organization_id,
+            project_id=project_id,
+            risk_data=risk_data.model_dump()
         )
         return risk
     except ValueError as e:
         raise HTTPException(status_code=400, detail=str(e))
 
 
-@router.get("/plans/{plan_id}/risks")
+@router.get("/projects/{project_id}/risks")
 async def list_risks(
-    plan_id: str,
+    project_id: str,
     db: Session = Depends(get_db),
-    current_org: str = Depends(get_current_org),
-    severity: Optional[RiskSeverity] = None,
-    status: Optional[str] = None,
-    workstream_id: Optional[str] = None
+    current_user: ClerkUser = Depends(get_current_user),
+    risk_level: Optional[RiskLevel] = None,
+    status: Optional[RiskStatus] = None,
+    is_active: Optional[bool] = True
 ):
-    """List risks for an integration plan"""
+    """List risks for an integration project"""
     query = db.query(IntegrationRisk).filter(
-        IntegrationRisk.plan_id == plan_id,
-        IntegrationRisk.organization_id == current_org,
+        IntegrationRisk.project_id == project_id,
+        IntegrationRisk.organization_id == current_user.organization_id,
         IntegrationRisk.deleted_at.is_(None)
     )
 
-    if severity:
-        query = query.filter(IntegrationRisk.severity == severity)
+    if risk_level:
+        query = query.filter(IntegrationRisk.risk_level == risk_level)
 
     if status:
         query = query.filter(IntegrationRisk.status == status)
 
-    if workstream_id:
-        query = query.filter(IntegrationRisk.workstream_id == workstream_id)
+    if is_active is not None:
+        query = query.filter(IntegrationRisk.is_active == is_active)
 
     risks = query.order_by(IntegrationRisk.risk_score.desc()).all()
     return risks
 
 
-@router.post("/plans/{plan_id}/issues")
-async def create_issue(
-    plan_id: str,
-    issue_data: IssueCreate,
+@router.get("/projects/{project_id}/risks/matrix")
+async def get_risk_matrix(
+    project_id: str,
     db: Session = Depends(get_db),
-    current_user: dict = Depends(get_current_user),
-    current_org: str = Depends(get_current_org)
+    current_user: ClerkUser = Depends(get_current_user)
 ):
-    """Create a new integration issue"""
+    """Get 5x5 risk matrix visualization data"""
+    service = RiskManagementService(db)
     try:
-        issue = await RiskManagementService.create_issue(
-            db=db,
-            plan_id=plan_id,
-            organization_id=current_org,
-            issue_data=issue_data.model_dump(),
-            user_id=current_user["user_id"]
+        matrix = service.get_risk_matrix(
+            project_id=project_id,
+            organization_id=current_user.organization_id
         )
-        return issue
+        return matrix
     except ValueError as e:
-        raise HTTPException(status_code=400, detail=str(e))
+        raise HTTPException(status_code=404, detail=str(e))
 
 
-@router.get("/plans/{plan_id}/issues")
-async def list_issues(
-    plan_id: str,
+# ==================== Documents & Knowledge Base ====================
+
+@router.get("/projects/{project_id}/documents")
+async def list_integration_documents(
+    project_id: str,
     db: Session = Depends(get_db),
-    current_org: str = Depends(get_current_org),
-    priority: Optional[IssuePriority] = None,
-    status: Optional[str] = None,
-    workstream_id: Optional[str] = None
+    current_user: ClerkUser = Depends(get_current_user),
+    document_type: Optional[DocumentType] = None,
+    workstream_type: Optional[WorkstreamType] = None
 ):
-    """List issues for an integration plan"""
-    query = db.query(IntegrationIssue).filter(
-        IntegrationIssue.plan_id == plan_id,
-        IntegrationIssue.organization_id == current_org,
-        IntegrationIssue.deleted_at.is_(None)
+    """List integration documents for a project"""
+    query = db.query(IntegrationDocument).filter(
+        IntegrationDocument.project_id == project_id,
+        IntegrationDocument.organization_id == current_user.organization_id,
+        IntegrationDocument.deleted_at.is_(None)
     )
 
-    if priority:
-        query = query.filter(IntegrationIssue.priority == priority)
+    if document_type:
+        query = query.filter(IntegrationDocument.document_type == document_type)
 
-    if status:
-        query = query.filter(IntegrationIssue.status == status)
+    if workstream_type:
+        query = query.filter(IntegrationDocument.workstream_type == workstream_type)
 
-    if workstream_id:
-        query = query.filter(IntegrationIssue.workstream_id == workstream_id)
-
-    issues = query.order_by(IntegrationIssue.reported_date.desc()).all()
-    return issues
-
-
-# ==================== Dashboard & Analytics ====================
-
-@router.get("/plans/{plan_id}/dashboard")
-async def get_integration_dashboard(
-    plan_id: str,
-    db: Session = Depends(get_db),
-    current_org: str = Depends(get_current_org)
-):
-    """Get comprehensive dashboard data for integration plan"""
-    plan = db.query(IntegrationPlan).filter(
-        IntegrationPlan.id == plan_id,
-        IntegrationPlan.organization_id == current_org
-    ).first()
-
-    if not plan:
-        raise HTTPException(status_code=404, detail="Integration plan not found")
-
-    # Gather dashboard metrics
-    dashboard = {
-        "plan": plan,
-        "milestones": {
-            "total": plan.milestones_total,
-            "completed": plan.milestones_completed,
-            "completion_rate": (plan.milestones_completed / plan.milestones_total * 100) if plan.milestones_total > 0 else 0
-        },
-        "tasks": {
-            "total": plan.tasks_total,
-            "completed": plan.tasks_completed,
-            "in_progress": db.query(IntegrationTask).filter(
-                IntegrationTask.plan_id == plan_id,
-                IntegrationTask.status == TaskStatus.IN_PROGRESS
-            ).count(),
-            "at_risk": db.query(IntegrationTask).filter(
-                IntegrationTask.plan_id == plan_id,
-                IntegrationTask.status == TaskStatus.AT_RISK
-            ).count()
-        },
-        "synergies": {
-            "total_target": plan.total_synergy_target,
-            "total_realized": plan.synergy_realized,
-            "capture_rate": plan.synergy_capture_rate,
-            "count": db.query(SynergyOpportunity).filter(
-                SynergyOpportunity.plan_id == plan_id
-            ).count()
-        },
-        "budget": {
-            "total": plan.total_budget,
-            "spent": plan.budget_spent,
-            "remaining": plan.budget_remaining,
-            "utilization_rate": (plan.budget_spent / plan.total_budget * 100) if plan.total_budget > 0 else 0
-        },
-        "risks": {
-            "critical": db.query(IntegrationRisk).filter(
-                IntegrationRisk.plan_id == plan_id,
-                IntegrationRisk.severity == RiskSeverity.CRITICAL,
-                IntegrationRisk.status != "closed"
-            ).count(),
-            "high": db.query(IntegrationRisk).filter(
-                IntegrationRisk.plan_id == plan_id,
-                IntegrationRisk.severity == RiskSeverity.HIGH,
-                IntegrationRisk.status != "closed"
-            ).count(),
-            "total_open": db.query(IntegrationRisk).filter(
-                IntegrationRisk.plan_id == plan_id,
-                IntegrationRisk.status != "closed"
-            ).count()
-        },
-        "issues": {
-            "urgent": db.query(IntegrationIssue).filter(
-                IntegrationIssue.plan_id == plan_id,
-                IntegrationIssue.priority == IssuePriority.URGENT,
-                IntegrationIssue.status.in_(["open", "in_progress"])
-            ).count(),
-            "total_open": db.query(IntegrationIssue).filter(
-                IntegrationIssue.plan_id == plan_id,
-                IntegrationIssue.status.in_(["open", "in_progress"])
-            ).count()
-        },
-        "health": {
-            "status": plan.health_status,
-            "is_on_track": plan.is_on_track,
-            "overall_progress": plan.overall_progress_percentage,
-            "current_phase": plan.current_phase.value if hasattr(plan.current_phase, 'value') else str(plan.current_phase)
-        }
-    }
-
-    return dashboard
+    documents = query.order_by(IntegrationDocument.created_at.desc()).all()
+    return documents
