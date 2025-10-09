@@ -38,6 +38,10 @@ logs/
 .env.test.local
 .env.production.local
 
+# MCP Configuration (contains API keys)
+.mcp.json
+.mcp-config.json
+
 # Build outputs
 dist/
 build/
@@ -59,3 +63,8 @@ docs/_build/
 # Temporary files
 *.tmp
 *.temp
+
+# Old Flask app backup
+backend/src.old-flask-app-backup/
+
+# BMAD (local only)
