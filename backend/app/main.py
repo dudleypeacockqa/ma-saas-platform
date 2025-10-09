@@ -60,16 +60,17 @@ from app.auth.webhooks import router as webhook_router
 from app.routers.users import router as users_router
 from app.routers.organizations import router as organizations_router
 
+# Import auth dependencies (needed for route handlers below)
+from app.auth.clerk_auth import ClerkUser, get_current_user, require_admin
+from app.auth.tenant_isolation import TenantAwareQuery, get_tenant_query
+from datetime import datetime
+
 # Configure logging
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 # Load environment variables
 load_dotenv()
-
-# Create database tables using unified Base
-# This will create ALL tables from all model modules imported above
-base.Base.metadata.create_all(bind=engine)
 
 # Initialize FastAPI app
 app = FastAPI(
@@ -131,6 +132,16 @@ async def startup_event():
     missing_vars = [var for var in required_vars if not os.getenv(var)]
     if missing_vars:
         logger.warning(f"Missing environment variables: {missing_vars}")
+
+    # Create database tables using unified Base
+    # This runs at startup, not import time, so the app can start even if DB is temporarily unavailable
+    try:
+        logger.info("Creating database tables...")
+        base.Base.metadata.create_all(bind=engine)
+        logger.info(f"Successfully created {len(base.Base.metadata.tables)} database tables")
+    except Exception as e:
+        logger.error(f"Failed to create database tables: {e}")
+        logger.warning("Application will continue, but database operations may fail")
 
     logger.info("API startup complete")
 
@@ -204,8 +215,3 @@ if __name__ == "__main__":
         port=int(os.getenv("PORT", 8000)),
         reload=bool(os.getenv("DEV_MODE", False))
     )
-
-# Import auth dependencies at the end to avoid circular imports
-from app.auth.clerk_auth import ClerkUser, get_current_user, require_admin
-from app.auth.tenant_isolation import TenantAwareQuery, get_tenant_query
-from datetime import datetime
