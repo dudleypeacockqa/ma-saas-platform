@@ -212,11 +212,12 @@ class FinancialModel(TenantModel, UUIDPrimaryKeyMixin, AuditableMixin):
         UniqueConstraint("deal_id", "model_name", "version"),
     )
 
-class IntegrationPlan(TenantModel, UUIDPrimaryKeyMixin, AuditableMixin):
+class TransactionIntegrationPlan(TenantModel, UUIDPrimaryKeyMixin, AuditableMixin):
     """
-    Post-acquisition integration planning and tracking
+    Post-acquisition integration planning and tracking (Transaction Module)
+    NOTE: Renamed from IntegrationPlan to avoid conflict with integration_planning.py
     """
-    __tablename__ = "integration_plans"
+    __tablename__ = "transaction_integration_plans"
 
     deal_id = Column(UUID(as_uuid=True), ForeignKey("deals.id"), nullable=False)
     plan_name = Column(String(200), nullable=False)
