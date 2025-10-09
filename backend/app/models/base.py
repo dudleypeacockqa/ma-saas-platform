@@ -6,8 +6,8 @@ Provides common functionality for all database models
 import uuid
 from datetime import datetime
 from typing import Any, Optional
-from sqlalchemy import Column, String, DateTime, Boolean, Index, event
-from sqlalchemy.dialects.postgresql import UUID
+from sqlalchemy import Column, String, DateTime, Boolean, Index, event, JSON, Text, Integer
+from sqlalchemy.dialects.postgresql import UUID, TSVECTOR
 from sqlalchemy.ext.declarative import declarative_base, declared_attr
 from sqlalchemy.orm import Session
 
@@ -135,8 +135,6 @@ class AuditableMixin:
 class MetadataMixin:
     """Mixin for storing arbitrary JSON metadata"""
 
-    from sqlalchemy import JSON
-
     metadata_json = Column(
         JSON,
         nullable=True,
@@ -166,9 +164,6 @@ class MetadataMixin:
 class SearchableMixin:
     """Mixin for full-text search support"""
 
-    from sqlalchemy import Text
-    from sqlalchemy.dialects.postgresql import TSVECTOR
-
     search_vector = Column(
         TSVECTOR,
         nullable=True,
@@ -178,7 +173,6 @@ class SearchableMixin:
     @declared_attr
     def __table_args__(cls):
         """Add GIN index for full-text search"""
-        from sqlalchemy import Index
         return (
             Index(
                 f'ix_{cls.__tablename__}_search',
@@ -190,8 +184,6 @@ class SearchableMixin:
 
 class VersionedMixin:
     """Mixin for optimistic locking with version numbers"""
-
-    from sqlalchemy import Integer
 
     version = Column(
         Integer,
