@@ -1,15 +1,3 @@
-# Git
-.git
-.gitignore
-
-# Documentation
-README.md
-*.md
-
-# Frontend (not needed in backend Docker image)
-frontend/
-node_modules/
-
 # Python
 __pycache__/
 *.py[cod]
@@ -19,11 +7,19 @@ __pycache__/
 env/
 venv/
 .venv/
-pip-log.txt
-pip-delete-this-directory.txt
+ENV/
+*.egg-info/
 .pytest_cache/
 .coverage
-htmlcov/
+
+# Old Flask app backup
+backend/src.old-flask-app-backup/
+backend/src/
+
+# Git
+.git/
+.gitignore
+.gitattributes
 
 # IDE
 .vscode/
@@ -32,23 +28,52 @@ htmlcov/
 *.swo
 *~
 
+# Documentation
+docs/
+*.md
+!backend/README*.md
+
+# Frontend
+frontend/
+node_modules/
+package.json
+package-lock.json
+
+# Build artifacts
+dist/
+build/
+*.egg
+
+# Environment files
+.env
+.env.*
+!.env.example
+
+# Logs
+*.log
+logs/
+
+# Database
+*.db
+*.sqlite
+*.sqlite3
+
 # OS
 .DS_Store
 Thumbs.db
 
-# Local development
-.env*
-docker-compose.override.yml
-.python-version
-
-# Build artifacts
-build/
-dist/
-*.egg-info/
-
-# Logs
-logs/
-*.log
-
-# Claude
+# BMAD
+bmad-*/
+.bmad/
 .claude/
+.cursor/
+.gemini/
+.github/
+bmad-integration/
+bmad-core-v4-backup/
+v4-backup/
+package-v4-backup.json
+
+# Misc
+diagnose_render.sh
+nul
