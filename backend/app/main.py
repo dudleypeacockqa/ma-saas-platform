@@ -8,6 +8,7 @@ import logging
 
 from app.core.database import get_db, engine
 from app.core.config import settings
+from app.core.db_init import init_database, verify_critical_tables, create_extensions
 
 # CRITICAL: Import models BEFORE APIs to avoid duplicate table registration
 # APIs import services, which import models. We must import models first.
@@ -138,18 +139,16 @@ async def startup_event():
     # Create database tables using unified Base
     # This runs at startup, not import time, so the app can start even if DB is temporarily unavailable
     # Note: In production, use Alembic migrations instead of create_all()
-    try:
-        logger.info("Checking database tables...")
-        base.Base.metadata.create_all(bind=engine, checkfirst=True)
-        logger.info(f"Database tables ready ({len(base.Base.metadata.tables)} tables defined)")
-    except Exception as e:
-        # Log as info instead of error if tables already exist
-        error_msg = str(e).lower()
-        if 'already exists' in error_msg or 'duplicate' in error_msg:
-            logger.info("Database tables already exist, skipping creation")
-        else:
-            logger.error(f"Failed to create database tables: {e}")
-            logger.warning("Application will continue, but database operations may fail")
+
+    # Create required PostgreSQL extensions
+    create_extensions(engine)
+
+    # Initialize database schema with proper race condition handling
+    init_database(engine, base.Base.metadata)
+
+    # Verify critical tables exist
+    critical_tables = ['organizations', 'users', 'deals']
+    verify_critical_tables(engine, critical_tables)
 
     logger.info("API startup complete")
 
