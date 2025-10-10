@@ -68,3 +68,153 @@ docs/_build/
 backend/src.old-flask-app-backup/
 
 # BMAD (local only)
+
+# =============================================================================
+# BMAD METHOD v6 SECURE STORAGE
+# =============================================================================
+
+# BMAD secure configuration
+bmad/secrets/
+bmad/keys/
+bmad/config/production/
+.bmad/secrets/
+.bmad/keys/
+
+# Agent configuration with API keys
+agents/config/production/
+agents/secrets/
+.agents/secrets/
+
+# Workflow sensitive data
+workflows/secrets/
+workflows/keys/
+.workflows/secrets/
+
+# =============================================================================
+# RENDER HOSTING CONFIGURATION
+# =============================================================================
+
+# Render API keys and deployment secrets
+render-secrets/
+.render-config/
+render-deploy-keys/
+
+# =============================================================================
+# ADDITIONAL SECURITY & API KEYS
+# =============================================================================
+
+# API Keys and Secrets (CRITICAL - NEVER COMMIT)
+secrets/
+keys/
+certificates/
+*.key
+*.pem
+*.p12
+*.pfx
+
+# Configuration files with sensitive data
+config/production.json
+config/secrets.json
+config/local.json
+
+# Authentication tokens
+auth-tokens/
+jwt-keys/
+oauth-secrets/
+
+# =============================================================================
+# BUSINESS INTELLIGENCE & SENSITIVE DATA
+# =============================================================================
+
+# Analytics data
+analytics-data/
+business-intelligence/
+reports/
+dashboards/
+*.xlsx
+*.csv
+
+# Customer data (GDPR compliance)
+customer-data/
+personal-data/
+pii-data/
+
+# M&A Platform specific sensitive data
+ma-data/
+deals/
+partnerships/
+ecosystem-intelligence/
+wealth-building-data/
+
+# Community data
+community-data/
+events-data/
+member-data/
+
+# Consulting data
+consulting-projects/
+client-data/
+deal-data/
+
+# =============================================================================
+# MEDIA & CONTENT
+# =============================================================================
+
+# User uploads
+uploads/
+media/
+static/uploads/
+public/uploads/
+
+# Podcast files
+podcasts/
+audio/
+video/
+*.mp3
+*.mp4
+*.wav
+*.avi
+*.mov
+
+# Large files
+*.zip
+*.tar.gz
+*.rar
+*.7z
+
+# =============================================================================
+# BACKUP & RECOVERY
+# =============================================================================
+
+# Backup files
+*.backup
+*.bak
+backup/
+backups/
+recovery/
+disaster-recovery/
+
+# Database backups
+*.sql.gz
+*.dump
+
+# =============================================================================
+# MONITORING & COMPLIANCE
+# =============================================================================
+
+# Security scan results
+security-reports/
+vulnerability-reports/
+audit-reports/
+compliance-reports/
+
+# Monitoring data
+monitoring/
+analytics/
+metrics/
+traces/
+
+# Audit logs
+audit-logs/
+error-logs/
+access-logs/
