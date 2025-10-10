@@ -1,0 +1,99 @@
+{
+  "workspaceConfiguration": {
+    "name": "100 Days and Beyond - M&A Ecosystem Platform",
+    "description": "AI-powered M&A ecosystem platform for £200M wealth building",
+    "version": "1.0.0",
+    "aiConfiguration": {
+      "primaryAI": "claude",
+      "secondaryAI": "codex",
+      "methodology": "BMAD Method v6.0.0-alpha.0",
+      "strategicIntelligence": "manus"
+    }
+  },
+  "projectStructure": {
+    "backend": {
+      "framework": "FastAPI",
+      "database": "PostgreSQL",
+      "architecture": "multi-tenant",
+      "authentication": "Clerk"
+    },
+    "frontend": {
+      "framework": "React",
+      "styling": "Tailwind CSS",
+      "stateManagement": "Zustand",
+      "deployment": "Render"
+    },
+    "ai": {
+      "methodology": "BMAD Method v6",
+      "agents": ["analyst", "pm", "architect", "developer", "scrum", "qa"],
+      "codeGeneration": "Claude Code CLI",
+      "specializedTasks": "OpenAI CODEX",
+      "strategicIntelligence": "Manus"
+    }
+  },
+  "contextFiles": [
+    "docs/strategy/MASTER_DETAILED_ACTION_PLAN.md",
+    "docs/strategy/STRATEGIC_DUAL_PURPOSE_PLATFORM_PLAN.md",
+    "docs/technical/TECHNOLOGY_INTEGRATION_FOUNDATION.md",
+    "docs/bmad/BMAD_V6_UPGRADE_PLAN.md",
+    "docs/architecture.md",
+    "docs/prd.md"
+  ],
+  "aiPromptOptimization": {
+    "bmadAgents": {
+      "analyst": "Focus on M&A market research, competitive analysis, partnership opportunities",
+      "productManager": "Prioritize features for ecosystem engagement and wealth-building",
+      "architect": "Design multi-tenant architecture with ecosystem intelligence",
+      "developer": "Generate code with M&A business logic and security focus",
+      "scrumMaster": "Optimize workflows for AI-accelerated development",
+      "qa": "Ensure enterprise-grade quality with comprehensive testing"
+    },
+    "claudeCodeCLI": {
+      "businessLogic": "Generate M&A-specific workflows and multi-tenant architecture",
+      "apiDevelopment": "Create scalable APIs for community, events, consulting",
+      "security": "Implement robust security for multi-tenant data protection",
+      "integration": "Build ecosystem connectivity and intelligence features"
+    },
+    "openaiCodex": {
+      "algorithms": "Develop complex analytics and AI/ML features",
+      "performance": "Optimize code for large-scale data processing",
+      "specializedFeatures": "Implement advanced ecosystem intelligence",
+      "integration": "Handle complex third-party service integrations"
+    },
+    "manusIntelligence": {
+      "strategy": "Provide market research and competitive positioning",
+      "gtm": "Develop go-to-market strategy and content marketing",
+      "partnerships": "Identify partnership opportunities and relationship building",
+      "optimization": "Optimize prompts and strategic decision-making"
+    }
+  },
+  "developmentObjectives": {
+    "primary": "£200 million personal wealth through ecosystem-generated deal flow",
+    "secondary": "SaaS platform revenue through subscriptions, consulting, events",
+    "timeline": "120 days to GTM launch",
+    "quality": "Enterprise-grade with 95% automated testing coverage",
+    "velocity": "300-400% improvement through AI acceleration"
+  },
+  "businessModel": {
+    "dualPurpose": "Personal wealth building + SaaS business revenue",
+    "subscriptionTiers": {
+      "solo": "$279/month - Individual dealmakers",
+      "growth": "$798/month - Mid-market teams", 
+      "enterprise": "$1598/month - Large organizations"
+    },
+    "additionalRevenue": [
+      "Consulting services with deal discovery",
+      "Training events with networking focus",
+      "Self-hosted podcast platform",
+      "Community and ecosystem intelligence"
+    ]
+  },
+  "competitiveAdvantages": [
+    "AI-first development with unprecedented velocity",
+    "Ecosystem intelligence for deal flow generation",
+    "Dual-purpose strategy aligning business and personal wealth",
+    "Comprehensive integration of community, events, consulting",
+    "Self-hosted solutions minimizing operational costs",
+    "Superior technology compared to competitors like dealmakers.co.uk"
+  ]
+}

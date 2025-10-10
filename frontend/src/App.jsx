@@ -1,209 +1,80 @@
-import { BrowserRouter as Router, Routes, Route, Navigate, useNavigate } from 'react-router-dom'
-import { ClerkProvider, SignIn, SignUp, useAuth, useUser, useOrganization, RedirectToSignIn } from '@clerk/clerk-react'
-import Dashboard from './components/Dashboard'
-import UserProfile from './components/UserProfile'
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
+import { ClerkProvider, SignedIn, SignedOut } from '@clerk/clerk-react'
+import { Toaster } from '@/components/ui/toaster'
+import { ThemeProvider } from '@/components/theme-provider'
+import './App.css'
 
-const publishableKey = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY
+// Import pages
+import LandingPage from '@/pages/LandingPage'
+import Dashboard from '@/pages/Dashboard'
+import DealsPage from '@/pages/DealsPage'
+import PodcastPage from '@/pages/PodcastPage'
+import SettingsPage from '@/pages/SettingsPage'
+import PricingPage from '@/pages/PricingPage'
+import BlogPage from '@/pages/BlogPage'
+import SignInPage from '@/pages/SignInPage'
+import SignUpPage from '@/pages/SignUpPage'
 
-if (!publishableKey) {
-  throw new Error("Missing Publishable Key. Please set VITE_CLERK_PUBLISHABLE_KEY in your .env file")
-}
+// Import layout components
+import Navbar from '@/components/layout/Navbar'
+import Sidebar from '@/components/layout/Sidebar'
+import Footer from '@/components/layout/Footer'
 
-function ProtectedRoute({ children }) {
-  const { isLoaded, isSignedIn } = useAuth()
+// Clerk configuration
+const clerkPubKey = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY
 
-  if (!isLoaded) {
-    return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
-          <p className="text-gray-600 mt-4">Loading authentication...</p>
-        </div>
-      </div>
-    )
-  }
-
-  if (!isSignedIn) {
-    return <RedirectToSignIn />
-  }
-
-  return children
-}
-
-function PublicRoute({ children }) {
-  const { isLoaded, isSignedIn } = useAuth()
-  const navigate = useNavigate()
-
-  if (!isLoaded) {
-    return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
-          <p className="text-gray-600 mt-4">Loading...</p>
-        </div>
-      </div>
-    )
-  }
-
-  if (isSignedIn) {
-    navigate('/dashboard')
-    return null
-  }
-
-  return children
-}
-
-function AppRoutes() {
-  return (
-    <Routes>
-      <Route
-        path="/sign-in/*"
-        element={
-          <PublicRoute>
-            <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center p-4">
-              <SignIn
-                routing="path"
-                path="/sign-in"
-                signUpUrl="/sign-up"
-                appearance={{
-                  elements: {
-                    rootBox: "mx-auto",
-                    card: "shadow-2xl",
-                    headerTitle: "text-2xl font-bold",
-                    headerSubtitle: "text-gray-600",
-                    formButtonPrimary: "bg-blue-600 hover:bg-blue-700",
-                    footerActionLink: "text-blue-600 hover:text-blue-700",
-                    identityPreviewEditButton: "text-blue-600 hover:text-blue-700",
-                    formFieldInput: "border-gray-300 focus:border-blue-500 focus:ring-blue-500",
-                    formFieldLabel: "text-gray-700",
-                    dividerLine: "bg-gray-200",
-                    dividerText: "text-gray-500",
-                    socialButtonsBlockButton: "border-gray-300 hover:bg-gray-50",
-                    socialButtonsBlockButtonText: "text-gray-700",
-                    formHeaderTitle: "text-xl font-semibold",
-                    formHeaderSubtitle: "text-gray-600",
-                    otpCodeFieldInput: "border-gray-300 focus:border-blue-500",
-                  },
-                  layout: {
-                    socialButtonsPlacement: "bottom",
-                    socialButtonsVariant: "blockButton",
-                  },
-                  variables: {
-                    colorPrimary: "#2563eb",
-                    colorText: "#111827",
-                    colorTextSecondary: "#6b7280",
-                    colorInputText: "#111827",
-                    colorBackground: "#ffffff",
-                    colorInputBackground: "#ffffff",
-                    colorDanger: "#ef4444",
-                    colorSuccess: "#10b981",
-                    colorWarning: "#f59e0b",
-                    colorNeutral: "#6b7280",
-                    fontFamily: "Inter, system-ui, sans-serif",
-                    borderRadius: "0.5rem",
-                    spacingUnit: "1rem",
-                  }
-                }}
-              />
-            </div>
-          </PublicRoute>
-        }
-      />
-      <Route
-        path="/sign-up/*"
-        element={
-          <PublicRoute>
-            <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center p-4">
-              <SignUp
-                routing="path"
-                path="/sign-up"
-                signInUrl="/sign-in"
-                appearance={{
-                  elements: {
-                    rootBox: "mx-auto",
-                    card: "shadow-2xl",
-                    headerTitle: "text-2xl font-bold",
-                    headerSubtitle: "text-gray-600",
-                    formButtonPrimary: "bg-blue-600 hover:bg-blue-700",
-                    footerActionLink: "text-blue-600 hover:text-blue-700",
-                    identityPreviewEditButton: "text-blue-600 hover:text-blue-700",
-                    formFieldInput: "border-gray-300 focus:border-blue-500 focus:ring-blue-500",
-                    formFieldLabel: "text-gray-700",
-                    dividerLine: "bg-gray-200",
-                    dividerText: "text-gray-500",
-                    socialButtonsBlockButton: "border-gray-300 hover:bg-gray-50",
-                    socialButtonsBlockButtonText: "text-gray-700",
-                    formHeaderTitle: "text-xl font-semibold",
-                    formHeaderSubtitle: "text-gray-600",
-                    otpCodeFieldInput: "border-gray-300 focus:border-blue-500",
-                  },
-                  layout: {
-                    socialButtonsPlacement: "bottom",
-                    socialButtonsVariant: "blockButton",
-                  },
-                  variables: {
-                    colorPrimary: "#2563eb",
-                    colorText: "#111827",
-                    colorTextSecondary: "#6b7280",
-                    colorInputText: "#111827",
-                    colorBackground: "#ffffff",
-                    colorInputBackground: "#ffffff",
-                    colorDanger: "#ef4444",
-                    colorSuccess: "#10b981",
-                    colorWarning: "#f59e0b",
-                    colorNeutral: "#6b7280",
-                    fontFamily: "Inter, system-ui, sans-serif",
-                    borderRadius: "0.5rem",
-                    spacingUnit: "1rem",
-                  }
-                }}
-              />
-            </div>
-          </PublicRoute>
-        }
-      />
-      <Route
-        path="/dashboard"
-        element={
-          <ProtectedRoute>
-            <Dashboard />
-          </ProtectedRoute>
-        }
-      />
-      <Route
-        path="/profile"
-        element={
-          <ProtectedRoute>
-            <UserProfile />
-          </ProtectedRoute>
-        }
-      />
-      <Route path="/" element={<Navigate to="/dashboard" replace />} />
-      <Route path="*" element={<Navigate to="/dashboard" replace />} />
-    </Routes>
-  )
+if (!clerkPubKey) {
+  throw new Error("Missing Publishable Key")
 }
 
 function App() {
   return (
-    <Router>
-      <ClerkProvider
-        publishableKey={publishableKey}
-        appearance={{
-          baseTheme: undefined,
-          variables: {
-            colorPrimary: "#2563eb",
-            colorText: "#111827",
-            colorTextSecondary: "#6b7280",
-            colorBackground: "#ffffff",
-            fontFamily: "Inter, system-ui, sans-serif",
-            borderRadius: "0.5rem",
-          }
-        }}
-      >
-        <AppRoutes />
-      </ClerkProvider>
-    </Router>
+    <ClerkProvider publishableKey={clerkPubKey}>
+      <ThemeProvider defaultTheme="light" storageKey="ma-saas-theme">
+        <Router>
+          <div className="min-h-screen bg-background">
+            <SignedOut>
+              {/* Public routes */}
+              <Navbar />
+              <main>
+                <Routes>
+                  <Route path="/" element={<LandingPage />} />
+                  <Route path="/pricing" element={<PricingPage />} />
+                  <Route path="/blog" element={<BlogPage />} />
+                  <Route path="/podcast" element={<PodcastPage />} />
+                  <Route path="/sign-in" element={<SignInPage />} />
+                  <Route path="/sign-up" element={<SignUpPage />} />
+                </Routes>
+              </main>
+              <Footer />
+            </SignedOut>
+
+            <SignedIn>
+              {/* Authenticated routes */}
+              <div className="flex h-screen">
+                <Sidebar />
+                <div className="flex-1 flex flex-col overflow-hidden">
+                  <Navbar />
+                  <main className="flex-1 overflow-y-auto bg-gray-50 dark:bg-gray-900">
+                    <Routes>
+                      <Route path="/" element={<Dashboard />} />
+                      <Route path="/dashboard" element={<Dashboard />} />
+                      <Route path="/deals" element={<DealsPage />} />
+                      <Route path="/podcast" element={<PodcastPage />} />
+                      <Route path="/settings" element={<SettingsPage />} />
+                      <Route path="/pricing" element={<PricingPage />} />
+                      <Route path="/blog" element={<BlogPage />} />
+                    </Routes>
+                  </main>
+                </div>
+              </div>
+            </SignedIn>
+
+            <Toaster />
+          </div>
+        </Router>
+      </ThemeProvider>
+    </ClerkProvider>
   )
 }
 
