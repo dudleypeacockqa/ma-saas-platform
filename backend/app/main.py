@@ -137,13 +137,19 @@ async def startup_event():
 
     # Create database tables using unified Base
     # This runs at startup, not import time, so the app can start even if DB is temporarily unavailable
+    # Note: In production, use Alembic migrations instead of create_all()
     try:
-        logger.info("Creating database tables...")
-        base.Base.metadata.create_all(bind=engine)
-        logger.info(f"Successfully created {len(base.Base.metadata.tables)} database tables")
+        logger.info("Checking database tables...")
+        base.Base.metadata.create_all(bind=engine, checkfirst=True)
+        logger.info(f"Database tables ready ({len(base.Base.metadata.tables)} tables defined)")
     except Exception as e:
-        logger.error(f"Failed to create database tables: {e}")
-        logger.warning("Application will continue, but database operations may fail")
+        # Log as info instead of error if tables already exist
+        error_msg = str(e).lower()
+        if 'already exists' in error_msg or 'duplicate' in error_msg:
+            logger.info("Database tables already exist, skipping creation")
+        else:
+            logger.error(f"Failed to create database tables: {e}")
+            logger.warning("Application will continue, but database operations may fail")
 
     logger.info("API startup complete")
 
