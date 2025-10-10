@@ -1,36 +1,23 @@
 services:
-  # Frontend Static Site - High-Performance React Application
-  - type: static_site
+  # Frontend Web Service - Docker with Nginx
+  - type: web
     name: ma-saas-frontend
-    buildCommand: cd frontend && pnpm install --frozen-lockfile && pnpm run build
-    staticPublishPath: ./frontend/dist
+    env: docker
+    plan: starter
+    dockerfilePath: ./frontend/Dockerfile
+    dockerContext: ./frontend
+    healthCheckPath: /health
     pullRequestPreviewsEnabled: false
     domains:
       - 100daysandbeyond.com
       - www.100daysandbeyond.com
-    headers:
-      - path: /*
-        name: X-Frame-Options
-        value: DENY
-      - path: /*
-        name: X-Content-Type-Options
-        value: nosniff
-      - path: /*
-        name: Referrer-Policy
-        value: strict-origin-when-cross-origin
-      - path: /*
-        name: Permissions-Policy
-        value: geolocation=(), microphone=(), camera=()
-      - path: /static/*
-        name: Cache-Control
-        value: public, max-age=31536000, immutable
     envVars:
       - key: VITE_API_URL
         value: https://api.100daysandbeyond.com
       - key: VITE_CLERK_PUBLISHABLE_KEY
-        sync: false  # Set in dashboard
+        sync: false # Set in dashboard
       - key: VITE_STRIPE_PUBLISHABLE_KEY
-        sync: false  # Set in dashboard
+        sync: false # Set in dashboard
       - key: NODE_ENV
         value: production
       - key: VITE_APP_VERSION
@@ -58,7 +45,7 @@ services:
         value: "20"
       - key: DB_MAX_OVERFLOW
         value: "30"
-      
+
       # Security & Authentication
       - key: SECRET_KEY
         generateValue: true
@@ -70,33 +57,33 @@ services:
         value: "false"
       - key: ENVIRONMENT
         value: production
-      
+
       # Clerk Authentication
       - key: CLERK_SECRET_KEY
-        sync: false  # Set manually in dashboard
+        sync: false # Set manually in dashboard
       - key: CLERK_PUBLISHABLE_KEY
-        sync: false  # Set manually in dashboard
+        sync: false # Set manually in dashboard
       - key: CLERK_WEBHOOK_SECRET
-        sync: false  # Set manually in dashboard
-      
+        sync: false # Set manually in dashboard
+
       # Stripe Payment Processing
       - key: STRIPE_SECRET_KEY
-        sync: false  # Set manually in dashboard
+        sync: false # Set manually in dashboard
       - key: STRIPE_PUBLISHABLE_KEY
-        sync: false  # Set manually in dashboard
+        sync: false # Set manually in dashboard
       - key: STRIPE_WEBHOOK_SECRET
-        sync: false  # Set manually in dashboard
-      
+        sync: false # Set manually in dashboard
+
       # Claude MCP Server & AI Integration
       - key: ANTHROPIC_API_KEY
-        sync: false  # Set manually in dashboard
+        sync: false # Set manually in dashboard
       - key: CLAUDE_MODEL
         value: claude-3-5-sonnet-20241022
       - key: CLAUDE_MAX_TOKENS
         value: "4000"
       - key: CLAUDE_TEMPERATURE
         value: "0.1"
-      
+
       # Vector Database Configuration
       - key: VECTOR_DIMENSION
         value: "1536"
@@ -104,7 +91,7 @@ services:
         value: text-embedding-3-small
       - key: SEMANTIC_SEARCH_THRESHOLD
         value: "0.8"
-      
+
       # CORS & API Configuration
       - key: ALLOWED_ORIGINS
         value: https://100daysandbeyond.com,https://www.100daysandbeyond.com,https://api.100daysandbeyond.com
@@ -114,7 +101,7 @@ services:
         value: "10485760"
       - key: RATE_LIMIT_PER_MINUTE
         value: "100"
-      
+
       # Monitoring & Performance
       - key: LOG_LEVEL
         value: INFO
@@ -124,7 +111,7 @@ services:
         value: "120"
       - key: KEEPALIVE
         value: "5"
-      
+
       # Business Intelligence
       - key: ANALYTICS_ENABLED
         value: "true"
@@ -132,7 +119,7 @@ services:
         value: "true"
       - key: PARTNERSHIP_SCORING
         value: "true"
-      
+
       # Feature Flags
       - key: FEATURE_COMMUNITY_ENABLED
         value: "true"
@@ -142,7 +129,7 @@ services:
         value: "true"
       - key: FEATURE_AI_INSIGHTS_ENABLED
         value: "true"
-      
+
       # Security Headers
       - key: SECURE_HEADERS_ENABLED
         value: "true"
@@ -199,7 +186,7 @@ environments:
   production:
     services:
       - name: ma-saas-backend
-        plan: standard  # Upgrade to standard for production
+        plan: standard # Upgrade to standard for production
         scaling:
           minInstances: 2
           maxInstances: 10
@@ -212,8 +199,8 @@ environments:
           maxInstances: 5
     databases:
       - name: ma-saas-db
-        plan: standard  # Upgrade to standard for production
-        
+        plan: standard # Upgrade to standard for production
+
   staging:
     services:
       - name: ma-saas-backend
