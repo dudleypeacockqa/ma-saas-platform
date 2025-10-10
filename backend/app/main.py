@@ -109,11 +109,11 @@ app.include_router(users.router, prefix="/api/users", tags=["users"])
 app.include_router(due_diligence.router)  # Due diligence management
 app.include_router(content.router)  # Content creation and management
 app.include_router(marketing.router)  # Marketing and subscriber acquisition
-app.include_router(payments.router)  # Payment and subscription management
+# app.include_router(payments.router)  # Temporarily disabled - needs StripeCustomer/Payment/WebhookEvent models
 app.include_router(integrations.router)  # Platform integrations and workflows
 app.include_router(opportunities.router, prefix="/api")  # M&A opportunity management
 app.include_router(valuations.router, prefix="/api")  # Financial modeling and valuation
-app.include_router(arbitrage.router, prefix="/api")  # M&A arbitrage and investment strategy
+# app.include_router(arbitrage.router, prefix="/api")  # Temporarily disabled - requires pandas dependency
 app.include_router(negotiations.router)  # Deal negotiation and structuring
 app.include_router(term_sheets.router)  # Term sheet management with collaboration
 app.include_router(documents.router)  # Document management with versioning and approvals
