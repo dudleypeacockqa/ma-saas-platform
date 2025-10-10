@@ -1,0 +1,133 @@
+# Render Blueprint Configuration
+# M&A SaaS Platform Infrastructure
+
+services:
+  # Backend FastAPI Service
+  - type: web
+    name: ma-platform-backend
+    runtime: python
+    region: oregon
+    plan: standard
+    buildCommand: |
+      cd backend && pip install -r requirements.txt
+    startCommand: |
+      cd backend && uvicorn app.main:app --host 0.0.0.0 --port $PORT
+    envVars:
+      - key: ENVIRONMENT
+        value: production
+      - key: SECRET_KEY
+        generateValue: true
+      - key: DATABASE_URL
+        fromDatabase:
+          name: ma-platform-db
+          property: connectionString
+      - key: REDIS_URL
+        fromService:
+          type: redis
+          name: ma-platform-redis
+          property: connectionString
+      - key: ANTHROPIC_API_KEY
+        sync: false
+      - key: OPENAI_API_KEY
+        sync: false
+      - key: STRIPE_SECRET_KEY
+        sync: false
+      - key: STRIPE_PUBLISHABLE_KEY
+        sync: false
+      - key: STRIPE_WEBHOOK_SECRET
+        sync: false
+      - key: CLERK_SECRET_KEY
+        sync: false
+      - key: CLERK_PUBLISHABLE_KEY
+        sync: false
+      - key: SENTRY_DSN
+        sync: false
+    autoDeploy: true
+    healthCheckPath: /health
+    domains:
+      - api.ma-platform.com
+
+  # Frontend Next.js/React Service
+  - type: web
+    name: ma-platform-frontend
+    runtime: node
+    region: oregon
+    plan: starter
+    buildCommand: |
+      cd frontend && npm install && npm run build
+    startCommand: |
+      cd frontend && npm start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: NEXT_PUBLIC_API_URL
+        value: https://api.ma-platform.com
+      - key: NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY
+        sync: false
+      - key: NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY
+        sync: false
+    autoDeploy: true
+    domains:
+      - ma-platform.com
+      - www.ma-platform.com
+
+  # Background Worker Service (Optional)
+  - type: worker
+    name: ma-platform-worker
+    runtime: python
+    region: oregon
+    plan: starter
+    buildCommand: |
+      cd backend && pip install -r requirements.txt
+    startCommand: |
+      cd backend && python -m app.workers.main
+    envVars:
+      - fromGroup: ma-platform-backend
+    autoDeploy: true
+
+databases:
+  # PostgreSQL with pgvector
+  - name: ma-platform-db
+    region: oregon
+    plan: standard
+    databaseName: ma_platform_production
+    user: ma_platform_user
+    postgresMajorVersion: 16
+
+# Redis Cache
+- type: redis
+  name: ma-platform-redis
+  region: oregon
+  plan: starter
+  maxmemoryPolicy: allkeys-lru
+
+# Environment Groups (Shared Variables)
+envVarGroups:
+  - name: ma-platform-shared
+    envVars:
+      - key: CORS_ORIGINS
+        value: https://ma-platform.com,https://www.ma-platform.com
+      - key: RATE_LIMIT_ENABLED
+        value: true
+      - key: FEATURE_AI_ANALYSIS
+        value: true
+      - key: FEATURE_PARTNERSHIP_MATCHING
+        value: true
+      - key: FEATURE_DEAL_SCORING
+        value: true
+      - key: FEATURE_ECOSYSTEM_MAPPING
+        value: true
+
+# Health checks
+healthChecks:
+  - type: http
+    name: Backend Health
+    url: https://api.ma-platform.com/health
+    interval: 300
+    timeout: 30
+
+  - type: http
+    name: Frontend Health
+    url: https://ma-platform.com
+    interval: 300
+    timeout: 30
