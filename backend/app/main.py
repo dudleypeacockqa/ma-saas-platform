@@ -50,7 +50,8 @@ from app.models import (
 # Legacy code should be migrated to use the new models.
 
 # NOW import APIs (after all models are registered)
-from app.api import auth, tenants, users, content, marketing, payments, integrations
+from app.api import auth, tenants, users, content, marketing, integrations
+# from app.api import payments  # Temporarily disabled - needs StripeCustomer/Payment/WebhookEvent models
 from app.api import opportunities, valuations, negotiations, term_sheets, documents, arbitrage, teams
 # from app.api import ai  # Temporarily disabled - needs Deal model update
 from app.routers import due_diligence, deals
