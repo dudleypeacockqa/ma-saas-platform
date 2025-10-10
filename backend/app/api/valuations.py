@@ -9,7 +9,8 @@ from sqlalchemy.orm import Session
 from pydantic import BaseModel, Field
 
 from ..core.database import get_db
-from ..auth.dependencies import get_current_user, get_current_tenant
+from ..auth.clerk_auth import get_current_user
+from ..services.tenant_service import get_current_tenant
 from ..services.valuation_engine import (
     DCFValuationService,
     ComparableCompanyService,
