@@ -6,7 +6,7 @@ Maps to Clerk organizations and handles multi-tenancy
 from typing import Optional, List, TYPE_CHECKING
 from datetime import datetime
 from sqlalchemy import (
-    Column, String, Integer, Boolean, ForeignKey,
+    Column, String, Integer, Boolean, ForeignKey, DateTime,
     UniqueConstraint, CheckConstraint, JSON, Text, Numeric
 )
 from sqlalchemy.dialects.postgresql import UUID
