@@ -7,7 +7,7 @@ from typing import Optional, List, TYPE_CHECKING
 from datetime import datetime
 from enum import Enum
 from sqlalchemy import (
-    Column, String, Boolean, ForeignKey, DateTime,
+    Column, String, Boolean, Integer, ForeignKey, DateTime,
     UniqueConstraint, CheckConstraint, JSON, Text, Index, Table
 )
 from sqlalchemy.dialects.postgresql import UUID
