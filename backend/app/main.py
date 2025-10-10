@@ -8,14 +8,62 @@ import logging
 
 from app.core.database import get_db, engine
 from app.core.config import settings
-from app.api import auth, tenants, users, ai
+
+# CRITICAL: Import models BEFORE APIs to avoid duplicate table registration
+# APIs import services, which import models. We must import models first.
+
+# Import base module first to get unified Base class
+from app.models import base
+
+# Import ALL model modules to register tables with metadata
+# IMPORTANT: Import order matters to avoid circular dependencies
+from app.models import (
+    # Core models (organization and user must come first for foreign keys)
+    organization,  # Organization model (replaces legacy models.Tenant)
+    user,  # User model (replaces legacy models.User)
+    subscription,  # Subscription model
+
+    # Business domain models
+    deal,  # Deal management
+    due_diligence as dd_models,  # Due diligence
+    content as content_models,  # Content models
+    analytics,  # Analytics
+    prospects,  # Prospects
+    transactions,  # Transactions
+    # integration,  # Skip - conflicts with integration_planning.py (use integration_planning instead)
+
+    # New M&A feature models
+    financial_models,  # Valuation models
+    opportunities as opportunity_models,  # Deal sourcing
+    negotiations as negotiation_models,  # Negotiations (includes term sheets)
+    documents as document_models,  # Documents
+    arbitrage as arbitrage_models,  # Arbitrage
+    teams as team_models,  # Teams
+    # term_sheets,  # Part of negotiations.py
+    episodes,  # Podcast production
+    integrations as integration_models,  # Multi-platform integrations
+    integration_planning,  # Integration planning
+)
+
+# NOTE: models.py contains legacy Tenant/User models that conflict with
+# organization.py and user.py. Do NOT import models.py.
+# Legacy code should be migrated to use the new models.
+
+# NOW import APIs (after all models are registered)
+from app.api import auth, tenants, users, content, marketing, payments, integrations
+from app.api import opportunities, valuations, negotiations, term_sheets, documents, arbitrage, teams
+# from app.api import ai  # Temporarily disabled - needs Deal model update
 from app.routers import due_diligence, deals
-from app.models import models
 
 # Import Clerk authentication components
 from app.auth.webhooks import router as webhook_router
 from app.routers.users import router as users_router
 from app.routers.organizations import router as organizations_router
+
+# Import auth dependencies (needed for route handlers below)
+from app.auth.clerk_auth import ClerkUser, get_current_user, require_admin
+from app.auth.tenant_isolation import TenantAwareQuery, get_tenant_query
+from datetime import datetime
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
@@ -23,9 +71,6 @@ logger = logging.getLogger(__name__)
 
 # Load environment variables
 load_dotenv()
-
-# Create database tables
-models.Base.metadata.create_all(bind=engine)
 
 # Initialize FastAPI app
 app = FastAPI(
@@ -58,8 +103,19 @@ app.include_router(auth.router, prefix="/api/auth", tags=["authentication"])
 app.include_router(tenants.router, prefix="/api/tenants", tags=["tenants"])
 app.include_router(deals.router)  # Deal management (prefix already defined in router)
 app.include_router(users.router, prefix="/api/users", tags=["users"])
-app.include_router(ai.router, prefix="/api/ai", tags=["ai-analysis"])
+# app.include_router(ai.router, prefix="/api/ai", tags=["ai-analysis"])  # Temporarily disabled
 app.include_router(due_diligence.router)  # Due diligence management
+app.include_router(content.router)  # Content creation and management
+app.include_router(marketing.router)  # Marketing and subscriber acquisition
+app.include_router(payments.router)  # Payment and subscription management
+app.include_router(integrations.router)  # Platform integrations and workflows
+app.include_router(opportunities.router, prefix="/api")  # M&A opportunity management
+app.include_router(valuations.router, prefix="/api")  # Financial modeling and valuation
+app.include_router(arbitrage.router, prefix="/api")  # M&A arbitrage and investment strategy
+app.include_router(negotiations.router)  # Deal negotiation and structuring
+app.include_router(term_sheets.router)  # Term sheet management with collaboration
+app.include_router(documents.router)  # Document management with versioning and approvals
+app.include_router(teams.router, prefix="/api")  # Team management and workflow orchestration
 
 @app.on_event("startup")
 async def startup_event():
@@ -76,6 +132,16 @@ async def startup_event():
     missing_vars = [var for var in required_vars if not os.getenv(var)]
     if missing_vars:
         logger.warning(f"Missing environment variables: {missing_vars}")
+
+    # Create database tables using unified Base
+    # This runs at startup, not import time, so the app can start even if DB is temporarily unavailable
+    try:
+        logger.info("Creating database tables...")
+        base.Base.metadata.create_all(bind=engine)
+        logger.info(f"Successfully created {len(base.Base.metadata.tables)} database tables")
+    except Exception as e:
+        logger.error(f"Failed to create database tables: {e}")
+        logger.warning("Application will continue, but database operations may fail")
 
     logger.info("API startup complete")
 
@@ -149,8 +215,3 @@ if __name__ == "__main__":
         port=int(os.getenv("PORT", 8000)),
         reload=bool(os.getenv("DEV_MODE", False))
     )
-
-# Import auth dependencies at the end to avoid circular imports
-from app.auth.clerk_auth import ClerkUser, get_current_user, require_admin
-from app.auth.tenant_isolation import TenantAwareQuery, get_tenant_query
-from datetime import datetime

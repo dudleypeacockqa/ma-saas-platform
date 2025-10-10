@@ -1,9 +1,22 @@
 from logging.config import fileConfig
+import sys
+from pathlib import Path
 
 from sqlalchemy import engine_from_config
 from sqlalchemy import pool
 
 from alembic import context
+
+# Add the parent directory to the path
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
+
+# Import settings and Base
+from app.core.config import settings
+from app.core.database import Base
+
+# Import all models to ensure they are registered with Base
+from app.models import user, organization, deal
+from app.models import integration  # New integration models
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
@@ -14,11 +27,12 @@ config = context.config
 if config.config_file_name is not None:
     fileConfig(config.config_file_name)
 
+# Set the sqlalchemy.url from settings
+config.set_main_option('sqlalchemy.url', settings.database_url)
+
 # add your model's MetaData object here
 # for 'autogenerate' support
-# from myapp import mymodel
-# target_metadata = mymodel.Base.metadata
-target_metadata = None
+target_metadata = Base.metadata
 
 # other values from the config, defined by the needs of env.py,
 # can be acquired:

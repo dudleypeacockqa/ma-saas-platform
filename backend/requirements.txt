@@ -1,17 +1,50 @@
+# Core Framework
 fastapi==0.115.0
 uvicorn[standard]==0.32.0
+python-dotenv==1.0.1
+python-multipart==0.0.12
+
+# Database
 sqlalchemy==2.0.36
 psycopg[binary]==3.2.3
 alembic==1.14.0
+
+# Validation & Settings
 pydantic>=2.0.0,<3.0.0
 pydantic-settings==2.6.0
 email-validator==2.2.0
+
+# Authentication & Security
 python-jose[cryptography]==3.3.0
 passlib[bcrypt]==1.7.4
-python-multipart==0.0.12
-httpx==0.27.2
+clerk-backend-api>=3.2.0
+pyjwt==2.9.0
+cryptography>=45.0.0
+svix==1.40.0
+
+# HTTP & API Clients
+httpx>=0.27.2
+requests-ratelimiter==0.4.0
+pyrate-limiter<3.0.0
+
+# AI & Automation
+anthropic==0.37.1
+
+# Payment Processing
+stripe==8.8.0
+
+# Testing
 pytest==8.3.3
 pytest-asyncio==0.24.0
-python-dotenv==1.0.1
-anthropic==0.37.1
-clerk-backend-api>=1.0.0
+
+# NOTE: Heavy dependencies removed for faster deployment
+# Add back incrementally as features are implemented:
+# - celery, redis (background tasks)
+# - beautifulsoup4, selenium (web scraping)
+# - pandas, numpy, scikit-learn (data analysis & ML)
+# - matplotlib, reportlab, pillow (charts & PDF reports)
+# - yfinance (market data)
+# - moviepy, ffmpeg-python, pydub (media processing)
+# - openai-whisper, assemblyai (transcription)
+# - boto3, google-cloud-storage (cloud storage)
+# - spotipy, google-api-python-client (platform APIs)

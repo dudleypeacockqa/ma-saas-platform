@@ -11,8 +11,9 @@ from datetime import datetime
 from fastapi import APIRouter, Request, HTTPException, Depends, Header, status
 from sqlalchemy.orm import Session
 from svix.webhooks import Webhook, WebhookVerificationError
-from ..database import get_db
-from ..models import User, Organization, OrganizationMembership
+from app.core.database import get_db
+from app.models.user import User, OrganizationMembership
+from app.models.organization import Organization
 from pydantic import BaseModel, Field
 
 logger = logging.getLogger(__name__)
@@ -76,7 +77,17 @@ class WebhookHandler:
 
     def __init__(self):
         self.webhook_secret = CLERK_WEBHOOK_SECRET
-        self.webhook = Webhook(self.webhook_secret) if self.webhook_secret else None
+        self._webhook = None
+
+    @property
+    def webhook(self):
+        """Lazy initialization of Webhook to avoid import-time crashes"""
+        if self._webhook is None and self.webhook_secret:
+            try:
+                self._webhook = Webhook(self.webhook_secret)
+            except Exception as e:
+                logger.error(f"Failed to initialize webhook: {e}")
+        return self._webhook
 
     def verify_webhook(self, payload: bytes, headers: Dict[str, str]) -> Dict[str, Any]:
         """Verify webhook signature and return parsed payload"""

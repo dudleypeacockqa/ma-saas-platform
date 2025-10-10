@@ -6,7 +6,7 @@ class Settings:
     
     def __init__(self):
         # Database
-        self.database_url = os.getenv("DATABASE_URL", "postgresql://user:password@localhost/ma_saas_db")
+        self.database_url = os.getenv("DATABASE_URL", "postgresql+psycopg://user:password@localhost/ma_saas_db")
         
         # Security
         self.secret_key = os.getenv("SECRET_KEY", "your-secret-key-change-in-production")

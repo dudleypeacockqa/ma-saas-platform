@@ -13,14 +13,13 @@ services:
       - key: NODE_ENV
         value: production
 
-  # Backend API Service  
+  # Backend API Service
   - type: web
     name: ma-saas-backend
-    env: python
+    env: docker
     plan: starter
-    rootDir: backend
-    buildCommand: pip install -r requirements.txt
-    startCommand: uvicorn app.main:app --host 0.0.0.0 --port $PORT
+    dockerfilePath: ./Dockerfile
+    dockerCommand: uvicorn app.main:app --host 0.0.0.0 --port $PORT
     domains:
       - api.100daysandbeyond.com
     envVars:

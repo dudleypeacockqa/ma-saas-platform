@@ -240,7 +240,8 @@ class DealTeamMember(TenantModel, AuditableMixin):
 
     __table_args__ = (
         Index('ix_deal_team_deal_user', 'deal_id', 'user_id', unique=True),
-        TenantModel.__table_args__
+        Index('ix_deal_team_members_org_id_created', 'organization_id', 'created_at'),
+        Index('ix_deal_team_members_org_id_deleted', 'organization_id', 'is_deleted'),
     )
 
 
@@ -279,7 +280,8 @@ class DealActivity(TenantModel, AuditableMixin):
     __table_args__ = (
         Index('ix_deal_activities_deal_date', 'deal_id', 'activity_date'),
         Index('ix_deal_activities_type', 'activity_type'),
-        TenantModel.__table_args__
+        Index('ix_deal_team_members_org_id_created', 'organization_id', 'created_at'),
+        Index('ix_deal_team_members_org_id_deleted', 'organization_id', 'is_deleted'),
     )
 
 
@@ -324,7 +326,8 @@ class DealValuation(TenantModel, AuditableMixin):
 
     __table_args__ = (
         Index('ix_deal_valuations_deal_date', 'deal_id', 'valuation_date'),
-        TenantModel.__table_args__
+        Index('ix_deal_team_members_org_id_created', 'organization_id', 'created_at'),
+        Index('ix_deal_team_members_org_id_deleted', 'organization_id', 'is_deleted'),
     )
 
 
@@ -359,7 +362,8 @@ class DealMilestone(TenantModel, AuditableMixin):
     __table_args__ = (
         Index('ix_deal_milestones_deal_target', 'deal_id', 'target_date'),
         Index('ix_deal_milestones_status', 'status'),
-        TenantModel.__table_args__
+        Index('ix_deal_team_members_org_id_created', 'organization_id', 'created_at'),
+        Index('ix_deal_team_members_org_id_deleted', 'organization_id', 'is_deleted'),
     )
 
     @property
@@ -417,7 +421,8 @@ class DealDocument(TenantModel, AuditableMixin):
     __table_args__ = (
         Index('ix_deal_documents_deal_category', 'deal_id', 'category'),
         Index('ix_deal_documents_upload_date', 'upload_date'),
-        TenantModel.__table_args__
+        Index('ix_deal_team_members_org_id_created', 'organization_id', 'created_at'),
+        Index('ix_deal_team_members_org_id_deleted', 'organization_id', 'is_deleted'),
     )
 
 
@@ -476,5 +481,6 @@ class DealFinancialModel(TenantModel, AuditableMixin):
 
     __table_args__ = (
         Index('ix_deal_financial_models_deal', 'deal_id'),
-        TenantModel.__table_args__
+        Index('ix_deal_team_members_org_id_created', 'organization_id', 'created_at'),
+        Index('ix_deal_team_members_org_id_deleted', 'organization_id', 'is_deleted'),
     )
