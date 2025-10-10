@@ -2,11 +2,34 @@
 Database initialization with proper error handling for concurrent deployments
 """
 import logging
-from sqlalchemy import text, inspect
+from sqlalchemy import text, inspect, event
+from sqlalchemy.schema import DDL
 from sqlalchemy.exc import ProgrammingError, IntegrityError
 from typing import Optional
 
 logger = logging.getLogger(__name__)
+
+
+def _enable_if_not_exists_for_indexes(engine):
+    """
+    Monkey-patch SQLAlchemy to use IF NOT EXISTS for index creation.
+
+    This prevents "already exists" errors when multiple app instances
+    start concurrently and try to create the same indexes.
+
+    PostgreSQL supports IF NOT EXISTS for indexes starting from version 9.5.
+    """
+    @event.listens_for(engine, "before_cursor_execute", retval=True)
+    def receive_before_cursor_execute(conn, cursor, statement, params, context, executemany):
+        # Intercept CREATE INDEX statements and add IF NOT EXISTS
+        if statement.strip().upper().startswith("CREATE INDEX"):
+            # Check if IF NOT EXISTS is already present
+            if "IF NOT EXISTS" not in statement.upper():
+                # Insert IF NOT EXISTS after CREATE INDEX
+                statement = statement.replace("CREATE INDEX", "CREATE INDEX IF NOT EXISTS", 1)
+                logger.debug(f"Modified index creation to use IF NOT EXISTS")
+
+        return statement, params
 
 
 def init_database(engine, metadata) -> bool:
@@ -26,8 +49,12 @@ def init_database(engine, metadata) -> bool:
     try:
         logger.info("Initializing database schema...")
 
-        # First, try to create all tables with checkfirst=True
+        # Enable IF NOT EXISTS for index creation to prevent race condition errors
+        _enable_if_not_exists_for_indexes(engine)
+
+        # Create all tables with checkfirst=True
         # This will skip tables that already exist
+        # The event listener will modify CREATE INDEX statements to use IF NOT EXISTS
         metadata.create_all(bind=engine, checkfirst=True)
 
         logger.info(f"Database schema initialized ({len(metadata.tables)} tables defined)")
