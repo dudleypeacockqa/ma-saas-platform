@@ -15,12 +15,11 @@ import BlogPage from '@/pages/BlogPage'
 import SignInPage from '@/pages/SignInPage'
 import SignUpPage from '@/pages/SignUpPage'
 
-<<<<<<< HEAD
 // Import layout components
 import Navbar from '@/components/layout/Navbar'
 import Sidebar from '@/components/layout/Sidebar'
 import Footer from '@/components/layout/Footer'
-=======
+
 function ConfigError() {
   return (
     <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
@@ -48,7 +47,6 @@ function ConfigError() {
     </div>
   )
 }
->>>>>>> d2df44f5143b69037867841768edc30d3c313158
 
 // Clerk configuration
 const clerkPubKey = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY
@@ -59,7 +57,7 @@ if (!clerkPubKey) {
 
 function App() {
   // Show configuration error if no valid key
-  if (!publishableKey || publishableKey === 'pk_test_YOUR_CLERK_PUBLISHABLE_KEY_HERE') {
+  if (!clerkPubKey || clerkPubKey === 'pk_test_YOUR_CLERK_PUBLISHABLE_KEY_HERE') {
     return (
       <Router>
         <ConfigError />
