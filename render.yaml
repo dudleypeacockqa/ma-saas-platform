@@ -1,46 +1,225 @@
 services:
-  # Frontend Static Site
+  # Frontend Static Site - High-Performance React Application
   - type: static_site
     name: ma-saas-frontend
-    buildCommand: cd frontend && pnpm install && pnpm run build
+    buildCommand: cd frontend && pnpm install --frozen-lockfile && pnpm run build
     staticPublishPath: ./frontend/dist
+    pullRequestPreviewsEnabled: false
     domains:
       - 100daysandbeyond.com
       - www.100daysandbeyond.com
+    headers:
+      - path: /*
+        name: X-Frame-Options
+        value: DENY
+      - path: /*
+        name: X-Content-Type-Options
+        value: nosniff
+      - path: /*
+        name: Referrer-Policy
+        value: strict-origin-when-cross-origin
+      - path: /*
+        name: Permissions-Policy
+        value: geolocation=(), microphone=(), camera=()
+      - path: /static/*
+        name: Cache-Control
+        value: public, max-age=31536000, immutable
     envVars:
       - key: VITE_API_URL
         value: https://api.100daysandbeyond.com
+      - key: VITE_CLERK_PUBLISHABLE_KEY
+        sync: false  # Set in dashboard
+      - key: VITE_STRIPE_PUBLISHABLE_KEY
+        sync: false  # Set in dashboard
       - key: NODE_ENV
         value: production
+      - key: VITE_APP_VERSION
+        value: "2.0.0"
+      - key: VITE_ENVIRONMENT
+        value: production
 
-  # Backend API Service
+  # Backend API Service - FastAPI with Advanced Features
   - type: web
     name: ma-saas-backend
     env: docker
     plan: starter
     dockerfilePath: ./Dockerfile
-    dockerCommand: uvicorn app.main:app --host 0.0.0.0 --port $PORT
+    dockerCommand: uvicorn app.main:app --host 0.0.0.0 --port $PORT --workers 4 --worker-class uvicorn.workers.UvicornWorker
+    healthCheckPath: /health
     domains:
       - api.100daysandbeyond.com
     envVars:
+      # Database Configuration
       - key: DATABASE_URL
         fromDatabase:
           name: ma-saas-db
           property: connectionString
+      - key: DB_POOL_SIZE
+        value: "20"
+      - key: DB_MAX_OVERFLOW
+        value: "30"
+      
+      # Security & Authentication
       - key: SECRET_KEY
         generateValue: true
+      - key: ALGORITHM
+        value: HS256
+      - key: ACCESS_TOKEN_EXPIRE_MINUTES
+        value: "30"
+      - key: DEBUG
+        value: "false"
+      - key: ENVIRONMENT
+        value: production
+      
+      # Clerk Authentication
+      - key: CLERK_SECRET_KEY
+        sync: false  # Set manually in dashboard
+      - key: CLERK_PUBLISHABLE_KEY
+        sync: false  # Set manually in dashboard
+      - key: CLERK_WEBHOOK_SECRET
+        sync: false  # Set manually in dashboard
+      
+      # Stripe Payment Processing
+      - key: STRIPE_SECRET_KEY
+        sync: false  # Set manually in dashboard
+      - key: STRIPE_PUBLISHABLE_KEY
+        sync: false  # Set manually in dashboard
+      - key: STRIPE_WEBHOOK_SECRET
+        sync: false  # Set manually in dashboard
+      
+      # Claude MCP Server & AI Integration
       - key: ANTHROPIC_API_KEY
         sync: false  # Set manually in dashboard
-      - key: DEBUG
-        value: false
-      - key: ACCESS_TOKEN_EXPIRE_MINUTES
-        value: 30
+      - key: CLAUDE_MODEL
+        value: claude-3-5-sonnet-20241022
+      - key: CLAUDE_MAX_TOKENS
+        value: "4000"
+      - key: CLAUDE_TEMPERATURE
+        value: "0.1"
+      
+      # Vector Database Configuration
+      - key: VECTOR_DIMENSION
+        value: "1536"
+      - key: EMBEDDING_MODEL
+        value: text-embedding-3-small
+      - key: SEMANTIC_SEARCH_THRESHOLD
+        value: "0.8"
+      
+      # CORS & API Configuration
       - key: ALLOWED_ORIGINS
-        value: https://100daysandbeyond.com,https://www.100daysandbeyond.com
+        value: https://100daysandbeyond.com,https://www.100daysandbeyond.com,https://api.100daysandbeyond.com
+      - key: API_V1_PREFIX
+        value: /api/v1
+      - key: MAX_REQUEST_SIZE
+        value: "10485760"
+      - key: RATE_LIMIT_PER_MINUTE
+        value: "100"
+      
+      # Monitoring & Performance
+      - key: LOG_LEVEL
+        value: INFO
+      - key: WORKERS
+        value: "4"
+      - key: WORKER_TIMEOUT
+        value: "120"
+      - key: KEEPALIVE
+        value: "5"
+      
+      # Business Intelligence
+      - key: ANALYTICS_ENABLED
+        value: "true"
+      - key: ECOSYSTEM_INTELLIGENCE
+        value: "true"
+      - key: PARTNERSHIP_SCORING
+        value: "true"
+      
+      # Feature Flags
+      - key: FEATURE_COMMUNITY_ENABLED
+        value: "true"
+      - key: FEATURE_EVENTS_ENABLED
+        value: "true"
+      - key: FEATURE_CONSULTING_ENABLED
+        value: "true"
+      - key: FEATURE_AI_INSIGHTS_ENABLED
+        value: "true"
+      
+      # Security Headers
+      - key: SECURE_HEADERS_ENABLED
+        value: "true"
+      - key: CSRF_PROTECTION
+        value: "true"
+      - key: GDPR_COMPLIANCE
+        value: "true"
 
-# Database
+  # Background Worker Service - Celery for Async Tasks
+  - type: worker
+    name: ma-saas-worker
+    env: docker
+    dockerfilePath: ./Dockerfile
+    dockerCommand: celery -A app.core.celery worker --loglevel=info --concurrency=2
+    plan: starter
+    envVars:
+      # Inherit all backend environment variables
+      - key: DATABASE_URL
+        fromDatabase:
+          name: ma-saas-db
+          property: connectionString
+      - key: REDIS_URL
+        fromService:
+          type: redis
+          name: ma-saas-redis
+          property: connectionString
+      - key: ANTHROPIC_API_KEY
+        sync: false
+      - key: CLERK_SECRET_KEY
+        sync: false
+      - key: STRIPE_SECRET_KEY
+        sync: false
+
+  # Redis Cache Service - High-Performance Caching
+  - type: redis
+    name: ma-saas-redis
+    plan: starter
+    maxmemoryPolicy: allkeys-lru
+
+# Database Configuration - PostgreSQL with Vector Extensions
 databases:
   - name: ma-saas-db
     plan: starter
     databaseName: ma_saas_platform
     user: ma_saas_user
+    postInitCommands:
+      - CREATE EXTENSION IF NOT EXISTS vector;
+      - CREATE EXTENSION IF NOT EXISTS pg_trgm;
+      - CREATE EXTENSION IF NOT EXISTS btree_gin;
+      - CREATE EXTENSION IF NOT EXISTS uuid-ossp;
+
+# Environment-Specific Configurations
+environments:
+  production:
+    services:
+      - name: ma-saas-backend
+        plan: standard  # Upgrade to standard for production
+        scaling:
+          minInstances: 2
+          maxInstances: 10
+          targetCPUPercent: 70
+          targetMemoryPercent: 80
+      - name: ma-saas-worker
+        plan: standard
+        scaling:
+          minInstances: 1
+          maxInstances: 5
+    databases:
+      - name: ma-saas-db
+        plan: standard  # Upgrade to standard for production
+        
+  staging:
+    services:
+      - name: ma-saas-backend
+        plan: starter
+      - name: ma-saas-worker
+        plan: starter
+    databases:
+      - name: ma-saas-db
+        plan: starter
