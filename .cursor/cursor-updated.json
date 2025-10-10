@@ -1,0 +1,215 @@
+{
+  "workspaceConfiguration": {
+    "name": "100 Days and Beyond - M&A Ecosystem Platform",
+    "description": "Render-hosted AI-powered M&A ecosystem platform for £200M wealth building",
+    "version": "2.0.0",
+    "infrastructure": {
+      "hosting": "Render Cloud Platform",
+      "database": "PostgreSQL Vector Databases (Multiple)",
+      "deployment": "Render MCP Server Automation",
+      "aiIntegration": "Claude MCP Server + Claude SDK",
+      "seoOptimization": "Traditional + AI Search Engines"
+    },
+    "aiConfiguration": {
+      "primaryAI": "claude",
+      "secondaryAI": "codex", 
+      "methodology": "BMAD Method v6.0.0-alpha.0",
+      "strategicIntelligence": "manus",
+      "deploymentAutomation": "render-mcp",
+      "backendAI": "claude-mcp-server",
+      "advancedFeatures": "claude-sdk"
+    }
+  },
+  "renderInfrastructure": {
+    "hosting": {
+      "primaryWebsite": "High-converting SEO-optimized marketing platform",
+      "masterAdminPortal": "Complete ecosystem oversight and business management",
+      "multiTenantAccounts": "Isolated environments with role-based access",
+      "personalSubAccounts": "Wealth-building M&A activities and partnerships"
+    },
+    "databases": {
+      "primaryVector": "Ecosystem intelligence and partnership assessment",
+      "communityVector": "Member engagement and networking analytics",
+      "dealFlowVector": "Opportunity scoring and predictive analytics",
+      "contentVector": "Semantic search and thought leadership",
+      "marketVector": "Competitive intelligence and positioning"
+    },
+    "mcpIntegration": {
+      "deploymentAutomation": "Automated pipeline with quality assurance",
+      "errorDebugging": "Real-time monitoring with automated resolution",
+      "performanceOptimization": "Predictive scaling and resource management",
+      "securityMonitoring": "Threat detection with compliance verification"
+    }
+  },
+  "claudeIntegration": {
+    "mcpServer": {
+      "businessLogic": "M&A workflow automation with domain expertise",
+      "dealAnalysis": "Complex transaction analysis with market intelligence",
+      "partnershipAssessment": "Compatibility scoring with success probability",
+      "relationshipIntelligence": "Influence mapping with strategic connections",
+      "ecosystemAnalytics": "Member behavior analysis with opportunity identification"
+    },
+    "sdkFeatures": {
+      "documentProcessing": "Intelligent deal analysis with automated insights",
+      "reportGeneration": "Market intelligence with strategic recommendations",
+      "conversationalAI": "Member support with domain expertise guidance",
+      "contentCreation": "Thought leadership with SEO optimization",
+      "strategicPlanning": "Wealth-building assistance with ecosystem leverage"
+    },
+    "vectorIntegration": {
+      "semanticSearch": "Advanced content and relationship discovery",
+      "similarityMatching": "Partnership compatibility with success modeling",
+      "recommendationSystems": "Deal opportunities with strategic connections",
+      "predictiveAnalytics": "Investment success probability with optimization",
+      "naturalLanguageProcessing": "Content analysis with relationship intelligence"
+    }
+  },
+  "seoOptimization": {
+    "traditionalSEO": {
+      "keywordStrategy": "M&A industry focus with thought leadership positioning",
+      "contentMarketing": "High-converting articles with partnership opportunities",
+      "technicalSEO": "Performance optimization with crawlability enhancement",
+      "linkBuilding": "Authority development with industry relationships",
+      "localSEO": "Geographic relevance with market positioning"
+    },
+    "aiSearchOptimization": {
+      "structuredData": "AI understanding with context enhancement",
+      "conversationalContent": "Natural language processing optimization",
+      "semanticMarkup": "Entity optimization with authority building",
+      "voiceSearch": "Featured snippet targeting with comprehensive answers",
+      "knowledgeGraph": "Expertise demonstration with credibility enhancement"
+    },
+    "conversionOptimization": {
+      "landingPages": "Subscription acquisition with clear value propositions",
+      "caseStudies": "Success stories with partnership opportunities",
+      "thoughtLeadership": "Expertise demonstration with market knowledge",
+      "communityFeatures": "Networking benefits with relationship building",
+      "eventPromotion": "Urgency creation with exclusivity positioning"
+    }
+  },
+  "projectStructure": {
+    "backend": {
+      "framework": "FastAPI with Claude MCP Server integration",
+      "database": "PostgreSQL Vector Databases (Multiple)",
+      "authentication": "Clerk with multi-tenant security",
+      "aiIntegration": "Claude SDK with advanced features",
+      "deployment": "Render with MCP automation"
+    },
+    "frontend": {
+      "framework": "React with modern UI/UX",
+      "styling": "Tailwind CSS with conversion optimization",
+      "stateManagement": "Zustand with performance optimization",
+      "seoOptimization": "Traditional + AI search engines",
+      "deployment": "Render with CDN integration"
+    },
+    "ai": {
+      "methodology": "BMAD Method v6 with Render integration",
+      "agents": ["analyst", "pm", "architect", "developer", "scrum", "qa"],
+      "codeGeneration": "Claude Code CLI with domain expertise",
+      "specializedTasks": "OpenAI CODEX with algorithm optimization",
+      "strategicIntelligence": "Manus with ecosystem support",
+      "deploymentAutomation": "Render MCP with quality assurance"
+    }
+  },
+  "contextFiles": [
+    "docs/strategy/UPDATED_MASTER_ACTION_PLAN.md",
+    "docs/technical/RENDER_INFRASTRUCTURE_PLAN.md",
+    "docs/strategy/STRATEGIC_DUAL_PURPOSE_PLATFORM_PLAN.md",
+    "docs/technical/TECHNOLOGY_INTEGRATION_FOUNDATION.md",
+    "docs/bmad/BMAD_V6_UPGRADE_PLAN.md",
+    "docs/architecture.md",
+    "docs/prd.md"
+  ],
+  "aiPromptOptimization": {
+    "bmadAgents": {
+      "analyst": "M&A market research with Render infrastructure and Claude integration focus",
+      "productManager": "Ecosystem features with AI enhancement and conversion optimization",
+      "architect": "Multi-tenant architecture with PostgreSQL vector databases and Claude MCP",
+      "developer": "Render deployment with Claude SDK integration and SEO optimization",
+      "scrumMaster": "AI-accelerated workflows with Render MCP automation and quality assurance",
+      "qa": "Enterprise testing with vector database validation and Claude integration verification"
+    },
+    "claudeCodeCLI": {
+      "businessLogic": "M&A workflows with Claude MCP server and vector database integration",
+      "apiDevelopment": "Render-hosted APIs with Claude SDK and PostgreSQL vector optimization",
+      "security": "Multi-tenant protection with Render security and Claude integration compliance",
+      "integration": "Ecosystem connectivity with AI intelligence and partnership identification"
+    },
+    "openaiCodex": {
+      "algorithms": "Vector database optimization with machine learning and predictive analytics",
+      "performance": "Render infrastructure optimization with Claude integration enhancement",
+      "specializedFeatures": "Advanced AI capabilities with ecosystem intelligence and automation",
+      "integration": "Complex service integration with Render MCP and Claude SDK coordination"
+    },
+    "manusIntelligence": {
+      "strategy": "Market positioning with Render infrastructure and AI competitive advantages",
+      "gtm": "SEO-optimized marketing with traditional and AI search engine visibility",
+      "partnerships": "Ecosystem development with Claude-powered relationship intelligence",
+      "optimization": "Prompt enhancement with Render deployment and Claude integration focus"
+    },
+    "renderMCP": {
+      "deployment": "Automated pipeline with PostgreSQL vector database and Claude integration",
+      "monitoring": "Performance tracking with AI optimization and ecosystem intelligence",
+      "scaling": "Resource management with predictive analytics and cost optimization",
+      "debugging": "Error resolution with Claude assistance and automated optimization"
+    }
+  },
+  "developmentObjectives": {
+    "primary": "£200 million wealth through Render-hosted ecosystem with Claude intelligence",
+    "secondary": "SaaS revenue through AI-enhanced subscriptions and premium services",
+    "timeline": "120 days with Render infrastructure and Claude integration acceleration",
+    "quality": "Enterprise-grade with vector database optimization and AI validation",
+    "velocity": "400-500% improvement through Render MCP and Claude SDK integration"
+  },
+  "businessModel": {
+    "dualPurpose": "Personal wealth building + SaaS business with AI ecosystem intelligence",
+    "subscriptionTiers": {
+      "solo": "$279/month - AI-powered individual dealmaker support",
+      "growth": "$798/month - Advanced analytics with team collaboration", 
+      "enterprise": "$1598/month - Complete AI intelligence with strategic consultation"
+    },
+    "additionalRevenue": [
+      "AI-enhanced consulting with deal discovery and Claude analysis",
+      "Training events with networking and Claude-powered insights",
+      "Self-hosted podcast with professional capabilities and monetization",
+      "Community intelligence with partnership identification and development"
+    ],
+    "aiEnhancement": {
+      "ecosystemIntelligence": "Member behavior analysis with partnership identification",
+      "dealFlowOptimization": "Opportunity scoring with predictive analytics",
+      "relationshipMapping": "Influence assessment with strategic connections",
+      "contentAnalysis": "Semantic understanding with engagement optimization",
+      "marketIntelligence": "Competitive analysis with positioning optimization"
+    }
+  },
+  "competitiveAdvantages": [
+    "Render infrastructure with PostgreSQL vector databases and enterprise capabilities",
+    "Claude MCP server integration with sophisticated business logic automation",
+    "AI-first development with 400-500% velocity through Render MCP automation",
+    "Ecosystem intelligence with partnership identification and deal flow generation",
+    "SEO optimization for traditional and AI search engines with maximum visibility",
+    "Dual-purpose strategy with technology-enabled wealth building and business success",
+    "Self-hosted solutions with cost optimization and operational independence",
+    "Superior AI capabilities compared to competitors with Claude SDK integration"
+  ],
+  "renderOptimization": {
+    "performance": {
+      "caching": "Redis integration with intelligent storage and response acceleration",
+      "cdn": "Global content delivery with image optimization and loading enhancement",
+      "database": "Vector query optimization with indexing and concurrent processing",
+      "monitoring": "Real-time analytics with bottleneck identification and resolution"
+    },
+    "security": {
+      "encryption": "SSL/TLS with data protection and privacy compliance",
+      "authentication": "Clerk integration with multi-tenant security and access controls",
+      "compliance": "GDPR and financial regulations with audit capabilities",
+      "monitoring": "Threat detection with automated response and incident management"
+    },
+    "scaling": {
+      "automatic": "Demand-responsive scaling with resource optimization",
+      "predictive": "Usage pattern analysis with capacity planning and cost management",
+      "optimization": "Performance monitoring with proactive enhancement and efficiency",
+      "recovery": "Disaster recovery with business continuity and backup verification"
+    }
+  }
+}
