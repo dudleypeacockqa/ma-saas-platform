@@ -1,357 +1,629 @@
-# Product Requirements Document (PRD): "100 Days and Beyond" M&A SaaS Platform
-
-**Document Version**: 1.0  
-**Date**: October 9, 2025  
-**Product Manager**: BMAD PM Agent  
-**Project**: 100 Days and Beyond M&A SaaS Platform  
-
-## 1. Executive Summary
-
-### 1.1 Product Vision
-"100 Days and Beyond" is a comprehensive M&A SaaS platform designed to revolutionize how dealmakers manage, track, and close transactions. The platform consolidates fragmented M&A workflows into a unified, intuitive interface while providing advanced analytics, collaboration tools, and content marketing capabilities.
-
-### 1.2 Business Objectives
-- **Primary Goal**: Achieve £200 million net worth through scalable SaaS platform
-- **Market Position**: Become the leading M&A platform for small to mid-size firms
-- **Revenue Target**: $100M ARR within 5 years
-- **Customer Target**: 15,000 paying customers across three tiers
-
-### 1.3 Success Metrics
-- **Revenue Growth**: 20% month-over-month MRR growth
-- **Customer Retention**: >95% annual retention rate
-- **Market Share**: Top 3 position in M&A SaaS category
-- **Platform Performance**: 99.9% uptime, <200ms response times
-
-## 2. Market Analysis
-
-### 2.1 Target Market
-**Primary Users**: M&A professionals, investment bankers, private equity professionals, corporate development teams, business brokers
-
-**Market Segments**:
-- Solo Dealmakers: 50,000 professionals globally
-- Growth Firms: 10,000 organizations globally  
-- Enterprise: 2,000 large organizations globally
-
-### 2.2 Competitive Analysis
-**Key Competitors**: DealRoom, Intralinks, Ansarada, SS&C Primatics
-
-**Competitive Advantages**:
-- 60-70% lower pricing than enterprise competitors
-- Modern, intuitive user interface
-- Integrated podcast platform for content marketing
-- Rapid deployment and onboarding
-- Bootstrap-friendly pricing model
-
-## 3. Product Overview
-
-### 3.1 Core Value Proposition
-Comprehensive M&A platform that combines deal management, document storage, team collaboration, and content marketing in a single, affordable, and user-friendly solution.
-
-### 3.2 Key Features
-1. **Deal Pipeline Management**: Visual tracking, workflow automation
-2. **Document Management**: Secure storage, version control, sharing
-3. **Team Collaboration**: Real-time messaging, task management
-4. **Analytics & Reporting**: Deal insights, performance metrics
-5. **Podcast Platform**: Self-hosted content marketing system
-6. **Multi-Tenant Architecture**: Scalable SaaS infrastructure
-
-## 4. Functional Requirements
-
-### 4.1 Epic 1: User Management and Authentication
-
-#### 4.1.1 User Registration and Onboarding
-**Story 1.1**: As a new user, I want to create an account so that I can access the platform
-- **Acceptance Criteria**:
-  - User can register with email and password
-  - Email verification required before access
-  - Organization creation during signup process
-  - Role assignment (Admin, Member, Viewer)
-  - Guided onboarding tour for new users
-
-**Story 1.2**: As an organization admin, I want to invite team members so that we can collaborate on deals
-- **Acceptance Criteria**:
-  - Send email invitations to team members
-  - Role-based permissions (Admin, Member, Viewer)
-  - Bulk invitation capability
-  - Invitation tracking and resend functionality
-  - Automatic organization assignment
-
-#### 4.1.2 Subscription Management
-**Story 1.3**: As an organization admin, I want to manage our subscription so that we can access appropriate features
-- **Acceptance Criteria**:
-  - View current subscription plan and usage
-  - Upgrade/downgrade subscription plans
-  - Payment method management
-  - Billing history and invoices
-  - Usage alerts and limits enforcement
-
-### 4.2 Epic 2: Deal Pipeline Management
-
-#### 4.2.1 Deal Creation and Management
-**Story 2.1**: As a dealmaker, I want to create and manage deals so that I can track my pipeline
-- **Acceptance Criteria**:
-  - Create new deals with basic information (name, value, stage, close date)
-  - Edit deal information and status
-  - Delete deals with confirmation
-  - Deal categorization and tagging
-  - Deal ownership assignment
-
-**Story 2.2**: As a dealmaker, I want to track deal progress through stages so that I can monitor pipeline health
-- **Acceptance Criteria**:
-  - Visual pipeline with customizable stages
-  - Drag-and-drop stage progression
-  - Stage-specific requirements and checklists
-  - Automated notifications for stage changes
-  - Historical stage tracking and timeline
-
-#### 4.2.2 Deal Analytics and Reporting
-**Story 2.3**: As a team lead, I want to view deal analytics so that I can optimize team performance
-- **Acceptance Criteria**:
-  - Deal pipeline overview dashboard
-  - Individual and team performance metrics
-  - Deal velocity and conversion rates
-  - Revenue forecasting and projections
-  - Customizable reporting and exports
-
-### 4.3 Epic 3: Document Management System
-
-#### 4.3.1 Document Storage and Organization
-**Story 3.1**: As a dealmaker, I want to store and organize documents so that I can manage deal information securely
-- **Acceptance Criteria**:
-  - Upload documents with drag-and-drop interface
-  - Folder structure and categorization
-  - Document search and filtering
-  - File type restrictions and size limits
-  - Bulk upload and download capabilities
-
-**Story 3.2**: As a team member, I want to share documents securely so that stakeholders can access relevant information
-- **Acceptance Criteria**:
-  - Share documents with internal team members
-  - External sharing with time-limited access
-  - Permission-based access control (view, edit, download)
-  - Share tracking and audit logs
-  - Password protection for sensitive documents
-
-#### 4.3.2 Version Control and Audit Trail
-**Story 3.3**: As a dealmaker, I want to track document versions so that I can maintain accurate records
-- **Acceptance Criteria**:
-  - Automatic version tracking for document updates
-  - Version comparison and diff viewing
-  - Rollback to previous versions
-  - Version comments and change logs
-  - Audit trail for all document activities
-
-### 4.4 Epic 4: Team Collaboration
-
-#### 4.4.1 Communication and Messaging
-**Story 4.1**: As a team member, I want to communicate with colleagues so that we can collaborate effectively
-- **Acceptance Criteria**:
-  - Real-time messaging within deals and documents
-  - @mentions and notifications
-  - Message threading and replies
-  - File sharing in messages
-  - Message search and history
-
-#### 4.4.2 Task Management
-**Story 4.2**: As a project manager, I want to assign and track tasks so that work gets completed on time
-- **Acceptance Criteria**:
-  - Create and assign tasks to team members
-  - Task due dates and priority levels
-  - Task status tracking (To Do, In Progress, Complete)
-  - Task comments and updates
-  - Task notifications and reminders
-
-### 4.5 Epic 5: Podcast Platform
-
-#### 4.5.1 Podcast Management
-**Story 5.1**: As a content creator, I want to manage podcast episodes so that I can build thought leadership
-- **Acceptance Criteria**:
-  - Create and edit podcast episodes
-  - Upload audio files with metadata
-  - Episode scheduling and publishing
-  - Episode analytics and download tracking
-  - RSS feed generation and distribution
-
-**Story 5.2**: As a marketer, I want to promote podcast content so that I can drive customer acquisition
-- **Acceptance Criteria**:
-  - Embed podcast player on website
-  - Social media sharing capabilities
-  - SEO optimization for episodes
-  - Subscriber management and notifications
-  - Integration with marketing automation tools
-
-### 4.6 Epic 6: Analytics and Insights
-
-#### 4.6.1 Platform Analytics
-**Story 6.1**: As an admin, I want to view platform usage analytics so that I can optimize performance
-- **Acceptance Criteria**:
-  - User activity and engagement metrics
-  - Feature usage and adoption rates
-  - Performance monitoring and alerts
-  - Storage and bandwidth usage tracking
-  - Custom dashboard creation
-
-#### 4.6.2 Business Intelligence
-**Story 6.2**: As a business owner, I want to access business insights so that I can make data-driven decisions
-- **Acceptance Criteria**:
-  - Revenue and subscription analytics
-  - Customer acquisition and retention metrics
-  - Market trend analysis and reporting
-  - Predictive analytics for deal outcomes
-  - Integration with external data sources
-
-## 5. Non-Functional Requirements
-
-### 5.1 Performance Requirements
-- **Response Time**: API responses <200ms for 95% of requests
-- **Throughput**: Support 10,000+ concurrent users
-- **Scalability**: Horizontal scaling capability for growth
-- **Availability**: 99.9% uptime SLA with <4 hours monthly downtime
-
-### 5.2 Security Requirements
-- **Data Encryption**: AES-256 encryption at rest and in transit
-- **Authentication**: Multi-factor authentication support
-- **Authorization**: Role-based access control (RBAC)
-- **Compliance**: SOC 2 Type II, GDPR, and industry standards
-- **Audit Logging**: Comprehensive activity tracking and logging
-
-### 5.3 Usability Requirements
-- **User Interface**: Responsive design for desktop and mobile
-- **Accessibility**: WCAG 2.1 AA compliance
-- **Internationalization**: Multi-language support capability
-- **Browser Support**: Chrome, Firefox, Safari, Edge (latest 2 versions)
-- **Mobile Apps**: Progressive Web App (PWA) functionality
-
-### 5.4 Reliability Requirements
-- **Data Backup**: Automated daily backups with 30-day retention
-- **Disaster Recovery**: RTO <4 hours, RPO <1 hour
-- **Error Handling**: Graceful error handling with user-friendly messages
-- **Monitoring**: Real-time monitoring and alerting system
-- **Failover**: Automatic failover for critical system components
-
-## 6. Technical Architecture
-
-### 6.1 System Architecture
-- **Frontend**: React with TypeScript, Tailwind CSS, shadcn/ui
-- **Backend**: FastAPI with Python, PostgreSQL database
-- **Authentication**: Clerk for user management and subscriptions
-- **Infrastructure**: Cloud-native deployment (Render, Vercel)
-- **CDN**: Global content delivery for performance optimization
-
-### 6.2 Database Design
-- **Multi-Tenant**: Organization-based data isolation
-- **Scalability**: Horizontal partitioning capability
-- **Performance**: Optimized indexing and query performance
-- **Backup**: Automated backup and point-in-time recovery
-- **Migration**: Alembic for database schema management
-
-### 6.3 API Design
-- **RESTful**: Standard REST API with OpenAPI documentation
-- **Authentication**: JWT-based authentication with Clerk
-- **Rate Limiting**: API rate limiting to prevent abuse
-- **Versioning**: API versioning for backward compatibility
-- **Monitoring**: API performance monitoring and analytics
-
-## 7. Integration Requirements
-
-### 7.1 Third-Party Integrations
-- **Email**: SendGrid for transactional emails
-- **Storage**: AWS S3 for file storage and CDN
-- **Analytics**: Google Analytics and Mixpanel for user tracking
-- **Support**: Intercom for customer support chat
-- **Payments**: Stripe for payment processing (via Clerk)
-
-### 7.2 API Integrations
-- **CRM Systems**: Salesforce, HubSpot integration capability
-- **Document Signing**: DocuSign, HelloSign integration
-- **Calendar**: Google Calendar, Outlook integration
-- **Video Conferencing**: Zoom, Teams integration
-- **Accounting**: QuickBooks, Xero integration capability
-
-## 8. User Experience Requirements
-
-### 8.1 User Interface Design
-- **Design System**: Consistent design language and components
-- **Responsive**: Mobile-first responsive design approach
-- **Accessibility**: Screen reader support and keyboard navigation
-- **Performance**: Fast loading times and smooth interactions
-- **Branding**: Professional, modern, and trustworthy appearance
-
-### 8.2 User Journey Optimization
-- **Onboarding**: Guided setup and feature introduction
-- **Navigation**: Intuitive navigation and information architecture
-- **Search**: Global search functionality across all content
-- **Notifications**: Smart notifications without overwhelming users
-- **Help System**: Contextual help and comprehensive documentation
-
-## 9. Compliance and Legal Requirements
-
-### 9.1 Data Protection
-- **GDPR Compliance**: EU data protection regulation compliance
-- **CCPA Compliance**: California Consumer Privacy Act compliance
-- **Data Retention**: Configurable data retention policies
-- **Right to Deletion**: User data deletion capabilities
-- **Privacy Policy**: Comprehensive privacy policy and terms of service
-
-### 9.2 Industry Compliance
-- **SOC 2**: Security and availability compliance
-- **ISO 27001**: Information security management
-- **Financial Regulations**: Compliance with financial industry standards
-- **Audit Requirements**: Audit trail and reporting capabilities
-- **Data Residency**: Configurable data residency options
-
-## 10. Launch Strategy
-
-### 10.1 Beta Launch
-- **Beta Users**: 50 selected customers across all tiers
-- **Duration**: 4-week beta testing period
-- **Feedback Collection**: Structured feedback collection and analysis
-- **Bug Fixes**: Critical bug fixes and performance improvements
-- **Feature Refinement**: User experience improvements based on feedback
-
-### 10.2 Public Launch
-- **Marketing Campaign**: Coordinated marketing across all channels
-- **Pricing Strategy**: Introductory pricing and promotional offers
-- **Customer Support**: 24/7 support during launch period
-- **Performance Monitoring**: Enhanced monitoring during launch
-- **Rollback Plan**: Rollback procedures for critical issues
-
-## 11. Success Criteria
-
-### 11.1 Launch Success Metrics
-- **User Acquisition**: 1,000 registered users within first month
-- **Conversion Rate**: >15% trial-to-paid conversion rate
-- **Customer Satisfaction**: >4.5/5 average customer rating
-- **Platform Stability**: <0.1% error rate during launch period
-- **Support Response**: <2 hour average support response time
-
-### 11.2 Long-Term Success Metrics
-- **Revenue Growth**: $5M ARR by end of Year 1
-- **Customer Retention**: >95% annual retention rate
-- **Market Position**: Top 3 in M&A SaaS category within 3 years
-- **Platform Performance**: Maintain 99.9% uptime SLA
-- **Customer Satisfaction**: Maintain >4.5/5 customer rating
-
-## 12. Risk Management
-
-### 12.1 Technical Risks
-- **Scalability Issues**: Mitigated by cloud-native architecture
-- **Security Breaches**: Prevented by comprehensive security measures
-- **Data Loss**: Protected by automated backups and disaster recovery
-- **Performance Degradation**: Monitored and optimized continuously
-- **Integration Failures**: Managed through robust error handling
-
-### 12.2 Business Risks
-- **Market Competition**: Differentiated through superior UX and pricing
-- **Customer Churn**: Reduced through excellent customer success programs
-- **Economic Downturn**: Diversified customer base and flexible pricing
-- **Regulatory Changes**: Proactive compliance monitoring and adaptation
-- **Technology Obsolescence**: Continuous technology evaluation and updates
-
-## 13. Conclusion
-
-This PRD defines a comprehensive M&A SaaS platform that addresses real market needs while providing a clear path to achieving the £200 million valuation goal. The combination of essential M&A functionality, innovative features like the integrated podcast platform, and competitive pricing creates a strong value proposition for the target market.
-
-The technical architecture and implementation plan provide a solid foundation for building a scalable, secure, and high-performance platform. The focus on user experience, customer success, and continuous improvement ensures long-term market success and customer satisfaction.
-
-This document serves as the foundation for technical architecture planning, development sprints, and go-to-market execution, ensuring alignment between business objectives and product implementation throughout the development lifecycle.
+# 100 Days and Beyond - M&A Ecosystem Platform Product Requirements Document (PRD)
+
+**Author:** BMad User
+**Date:** 2025-10-11
+**Project Level:** Level 3
+**Project Type:** Enterprise SaaS Platform
+**Target Scale:** 25-35 stories, 4 epics
+
+---
+
+## Description, Context and Goals
+
+The "100 Days and Beyond" M&A Ecosystem Platform is a revolutionary SaaS solution that democratizes professional M&A tools by delivering enterprise-grade capabilities at 10% of traditional costs. The platform combines AI-powered deal analysis, comprehensive pipeline management, secure document collaboration, and community networking features in a unified multi-tenant architecture.
+
+Built on modern AI-first principles with Claude Code MCP integration, the platform targets the underserved 80% of the M&A market - individual professionals, boutique firms, and emerging corporate development teams currently priced out of professional tools. The dual-purpose model serves both personal wealth-building objectives (£200M target) and SaaS revenue generation (£1.5M ARR Year 1).
+
+Core value propositions include: automated due diligence reducing analysis time by 60%, intelligent deal matching through ecosystem intelligence, integrated workflow from sourcing through exit, and community-driven deal flow generation. The platform replaces 7-10 fragmented tools with a single solution starting at £99/month versus £1,000+ for competitors.
+
+### Deployment Intent
+
+Production SaaS application with multi-tenant architecture, designed for immediate market launch and rapid scaling. The platform will operate as a commercial service with tiered subscriptions (£99-999/month), supporting individual professionals through enterprise teams. Initial deployment targets UK market with infrastructure ready for international expansion. The system requires production-grade reliability (99.9% uptime), enterprise security standards, and capacity to handle £500M+ in aggregate deal value within Year 1.
+
+### Context
+
+The M&A technology market is ripe for disruption with £4.5 trillion in global dry powder seeking deployment opportunities. Current solutions serve only the top 20% of the market, leaving individual professionals and small firms reliant on manual processes and fragmented tools. The convergence of AI capabilities, cloud infrastructure maturity, and changing work patterns post-pandemic creates a unique window for an affordable, AI-first platform.
+
+Our platform addresses this gap by leveraging BMAD methodology for rapid development (120-day timeline vs 2-year traditional), Claude Code MCP for intelligent automation, and a dual-purpose model where platform development directly supports personal wealth-building activities. This alignment ensures deep domain expertise and continuous improvement driven by real-world usage.
+
+### Goals
+
+1. **User Acquisition & Market Penetration:** Achieve 1,000 paying subscribers within 12 months, capturing 5% of UK individual M&A professionals and establishing market leadership in the affordable M&A tools segment. Success measured by 100 users in Month 1, 500 by Month 3, with 70% activation rate (first deal created).
+
+2. **Revenue Generation & Unit Economics:** Reach £1.5M ARR by Year 1 end with sustainable unit economics - CAC <£300, LTV:CAC ratio >3:1, and gross margins >40%. Build diversified revenue through subscriptions (80%), consulting services (15%), and educational events (5%).
+
+3. **Platform Value Creation:** Process £500M+ in aggregate deal value through the platform in Year 1, facilitating 1,000+ qualified deal connections and enabling users to reduce deal cycle time by 40%. Platform should demonstrate clear ROI with users reporting average revenue increase of 40% within first year.
+
+4. **Technical Excellence & Scalability:** Deliver production-grade platform with 99.9% uptime, <2 second page loads, and capacity for 10,000 concurrent users. Achieve SOC 2 Type I certification within 6 months and maintain <1% critical bug rate while supporting rapid feature deployment.
+
+5. **Ecosystem Development:** Build the largest UK M&A professional community with 50% weekly active engagement, 30% of deals including platform-sourced partners, and network effects driving <2% monthly churn. Create sustainable competitive moat through community-generated content and peer connections.
+
+## Requirements
+
+### Functional Requirements
+
+#### Deal Management & Pipeline (FR1-FR4)
+
+**FR1. Deal Creation and Tracking**
+
+- Users can create unlimited deals with customizable pipeline stages (minimum 5 stages)
+- Support for deal metadata including size, sector, geography, type, and custom fields
+- Automated deal scoring based on configurable criteria with AI recommendations
+- Deal timeline tracking with key milestones and automated alerts
+
+**FR2. Pipeline Visualization and Management**
+
+- Kanban board view for visual pipeline management with drag-drop functionality
+- List view with advanced filtering, sorting, and bulk actions
+- Pipeline analytics showing conversion rates, velocity, and bottlenecks
+- Deal prioritization with weighted scoring and ML-based recommendations
+
+**FR3. Activity and Task Management**
+
+- Activity logging with email integration and automatic capture
+- Task assignment with due dates, priorities, and team collaboration
+- Meeting scheduling with calendar integration and automated reminders
+- Deal-specific communication threads with @mentions and notifications
+
+**FR4. Reporting and Analytics**
+
+- Real-time pipeline dashboard with customizable widgets
+- Deal flow reports with funnel analysis and conversion metrics
+- Activity reports showing team performance and engagement
+- Export capabilities to PDF, Excel, and PowerPoint formats
+
+#### AI-Powered Analysis (FR5-FR8)
+
+**FR5. Automated Valuation and Financial Analysis**
+
+- Multiple valuation methodologies (DCF, Multiples, Precedent Transactions)
+- Automated financial statement analysis with ratio calculations
+- Sensitivity analysis and scenario modeling
+- Benchmarking against industry comparables
+
+**FR6. Risk Assessment and Due Diligence Automation**
+
+- AI-powered red flag detection in documents and financials
+- Risk scoring with detailed breakdown by category
+- Automated due diligence checklist generation based on deal type
+- Smart document analysis with key term extraction
+
+**FR7. Deal Matching and Recommendation Engine**
+
+- Intelligent matching of buyers and sellers based on criteria
+- Co-investment opportunity identification within community
+- Similar deal identification for precedent analysis
+- Automated alerts for relevant new opportunities
+
+**FR8. Natural Language Processing and Insights**
+
+- Document summarization for quick review
+- Contract analysis with key clause identification
+- Meeting transcription with action item extraction
+- Q&A interface for deal-specific queries
+
+#### Document Management & Data Room (FR9-FR11)
+
+**FR9. Secure Virtual Data Room**
+
+- Folder structure creation with template options
+- Granular permission controls at folder and file level
+- Watermarking and download restrictions
+- Audit trail with detailed access logs
+
+**FR10. Document Processing and Organization**
+
+- Bulk upload with automatic categorization
+- OCR for scanned documents with searchability
+- Version control with comparison tools
+- Document indexing and tagging system
+
+**FR11. Collaboration and Sharing**
+
+- Secure external sharing with time-limited access
+- Comment and annotation capabilities
+- Q&A module for buyer inquiries
+- Integration with DocuSign for e-signatures
+
+#### Community & Networking (FR12-FR14)
+
+**FR12. Professional Profiles and Networking**
+
+- Detailed user profiles with expertise and track record
+- Connection requests and relationship management
+- Expertise matching for advisory needs
+- Verified credentials and ratings system
+
+**FR13. Deal Sharing and Marketplace**
+
+- Anonymous deal posting with controlled information release
+- Expression of interest management
+- NDA execution and tracking
+- Deal room invitation system
+
+**FR14. Forums and Knowledge Sharing**
+
+- Topic-based discussion forums
+- Best practices library with templates
+- Event calendar with RSVP management
+- Resource sharing with voting system
+
+#### Multi-Tenant Architecture (FR15-FR17)
+
+**FR15. Account and Team Management**
+
+- Organization setup with multiple team members
+- Role-based access control (Admin, Manager, Analyst, Viewer)
+- Department/team structure with hierarchical permissions
+- User provisioning and deprovisioning
+
+**FR16. Subscription and Billing Management**
+
+- Self-service subscription management
+- Usage tracking and tier enforcement
+- Payment method management with Stripe integration
+- Invoice generation and history
+
+**FR17. Customization and Branding**
+
+- Custom fields and pipeline stages
+- Email template customization
+- Report branding with logos
+- API access for custom integrations
+
+#### Compliance & Risk Management (FR18-FR20)
+
+**FR18. Regulatory Compliance and Reporting**
+
+- Automated compliance checking for deal structures
+- Regulatory filing preparation and submission tools
+- KYC/AML verification workflows with third-party integration
+- Audit trail with immutable transaction logs
+
+**FR19. Advanced Security and Data Protection**
+
+- End-to-end encryption for sensitive communications
+- Biometric authentication options
+- Threat detection and anomaly monitoring
+- Data residency controls for international compliance
+
+**FR20. Mobile and Offline Capabilities**
+
+- Progressive web app with offline functionality
+- Mobile document scanning and upload
+- Push notifications for urgent deal updates
+- Voice notes and transcription for on-the-go capture
+
+### Non-Functional Requirements
+
+**NFR1. Performance and Scalability**
+
+- Page load time <2 seconds on 3G connections
+- API response time <500ms for 95% of requests
+- Support 10,000 concurrent users without degradation
+- Handle 100GB+ data rooms without performance impact
+- Process 1,000 documents/hour through AI pipeline
+
+**NFR2. Availability and Reliability**
+
+- 99.9% uptime SLA (less than 8.76 hours downtime/year)
+- Zero data loss with point-in-time recovery <15 minutes
+- Graceful degradation when AI services unavailable
+- Auto-scaling to handle 10x traffic spikes
+- Multi-region failover capability
+
+**NFR3. Security and Compliance**
+
+- SOC 2 Type II certification within 12 months
+- GDPR compliance with data subject rights automation
+- End-to-end encryption for data in transit and at rest
+- Multi-factor authentication for all users
+- Penetration testing quarterly with remediation SLA
+
+**NFR4. Usability and Accessibility**
+
+- Mobile-responsive design for all features
+- WCAG 2.1 AA accessibility compliance
+- Onboarding completion <10 minutes for new users
+- In-app help and contextual guidance
+- Support for 5 major browsers (Chrome, Safari, Firefox, Edge, Mobile Safari)
+
+**NFR5. Data Integrity and Backup**
+
+- Daily automated backups with 30-day retention
+- Real-time replication to secondary region
+- 99.999% data durability guarantee
+- Audit logs retained for 7 years
+- Version control for all documents with unlimited history
+
+**NFR6. Integration and Interoperability**
+
+- RESTful API with OpenAPI specification
+- Webhook support for real-time events
+- OAuth 2.0 for third-party authentication
+- Import/export in standard formats (Excel, CSV, JSON)
+- Email integration with major providers (Gmail, Outlook)
+
+**NFR7. Maintainability and Monitoring**
+
+- 90% automated test coverage
+- Deployment frequency of daily releases
+- Mean time to recovery (MTTR) <30 minutes
+- Application performance monitoring with <1 minute alert latency
+- Self-healing for common failure scenarios
+
+**NFR8. Tenant Isolation and Fair Use**
+
+- Complete data isolation between tenants
+- Resource usage quotas per pricing tier
+- Rate limiting at 100 requests/minute per user
+- Storage limits enforced with clear notifications
+- CPU/memory isolation for AI processing
+
+**NFR9. Localization and Internationalization**
+
+- Support for GBP, USD, EUR currencies
+- Date/time formatting per user locale
+- Right-to-left language support ready
+- Multi-language UI framework (initially English only)
+- Regional data residency options
+
+**NFR10. AI and ML Requirements**
+
+- Model accuracy >90% for deal matching
+- AI response time <5 seconds for analysis
+- Explainable AI with confidence scores
+- Model versioning and A/B testing capability
+- Fallback to rule-based systems when AI unavailable
+
+## User Journeys
+
+### Journey 1: Individual M&A Advisor - First Deal Creation to Successful Close
+
+**Persona:** Sarah, independent M&A advisor with 5 years experience, previously at boutique firm
+
+**Entry Point:** Signs up after finding platform through LinkedIn ad about affordable M&A tools
+
+**Journey Steps:**
+
+1. **Onboarding & Setup (Day 1)**
+   - Completes signup with email verification
+   - Chooses "Individual Professional" tier at £99/month
+   - Completes profile with expertise areas and track record
+   - Imports existing deals from Excel (3 active opportunities)
+   - Decision point: Skip or complete full profile? → Completes for credibility
+
+2. **First Deal Creation (Day 2)**
+   - Creates new sell-side mandate for £5M manufacturing business
+   - Uploads initial documents (IM, financials, legal)
+   - AI analyzes and suggests comparable valuations
+   - Sets up pipeline stages customized for sell-side process
+   - Decision point: Use AI valuation or manual? → Reviews AI, adjusts 10% higher
+
+3. **Buyer Outreach & Data Room (Week 1)**
+   - Creates anonymous deal teaser
+   - Posts to platform marketplace (controlled visibility)
+   - Receives 8 expressions of interest
+   - Sets up virtual data room with staged information release
+   - Decision point: Open or selective access? → Staged release after NDAs
+
+4. **Due Diligence Management (Weeks 2-8)**
+   - Manages Q&A from 3 serious buyers
+   - AI highlights unusual requests and suggests responses
+   - Tracks buyer engagement through analytics
+   - Collaborates with client through guest access
+   - Decision point: Share analytics with client? → Yes, builds trust
+
+5. **Negotiation & Close (Weeks 9-12)**
+   - Receives 2 LOIs, uses platform to compare terms
+   - AI identifies key risk areas in purchase agreements
+   - Manages final due diligence sprint
+   - Coordinates closing through platform
+   - Decision point: Continue using platform? → Upgrades to Professional tier
+
+**Success Metrics:** Deal closed 40% faster than previous manual process, client testimonial secured, 3 referrals generated
+
+### Journey 2: Small PE Firm - Portfolio Monitoring and Add-on Acquisition
+
+**Persona:** Mark, Principal at £50M PE fund with 3-person team
+
+**Entry Point:** Team signup after demo from platform sales team
+
+**Journey Steps:**
+
+1. **Team Setup & Migration (Week 1)**
+   - Creates organization account with 3 team members
+   - Assigns roles (Principal, Associate, Analyst)
+   - Imports 5 portfolio companies and 20 pipeline deals
+   - Configures custom fields for investment thesis tracking
+   - Decision point: Full migration or pilot? → Full migration for efficiency
+
+2. **Portfolio Monitoring Setup (Week 2)**
+   - Creates dashboards for each portfolio company
+   - Sets up KPI tracking with monthly reporting
+   - Configures alerts for covenant breaches
+   - Integrates with portfolio company accounting systems
+   - Decision point: Real-time or monthly data? → Monthly with exception alerts
+
+3. **Add-on Acquisition Sourcing (Month 2)**
+   - Defines acquisition criteria for platform company
+   - AI identifies 15 potential targets from marketplace
+   - Team reviews and shortlists 5 opportunities
+   - Assigns follow-up tasks to team members
+   - Decision point: Proactive or reactive sourcing? → Both strategies parallel
+
+4. **Deal Execution & Integration (Months 3-4)**
+   - Runs parallel due diligence on 2 targets
+   - Uses AI for synergy identification
+   - Manages integration planning in platform
+   - Tracks post-merger integration milestones
+   - Decision point: Separate or integrated data rooms? → Integrated for efficiency
+
+5. **LP Reporting & Fundraising (Quarter End)**
+   - Generates quarterly LP report automatically
+   - Includes portfolio analytics and deal pipeline
+   - Creates fundraising data room for Fund II
+   - Showcases platform-driven efficiency gains
+   - Decision point: Share platform access with LPs? → Read-only dashboards
+
+**Success Metrics:** 50% reduction in deal team admin time, 2 successful add-ons identified, LP satisfaction increased
+
+### Journey 3: Corporate Development Team - Strategic Acquisition Process
+
+**Persona:** Jennifer, VP Corp Dev at £500M revenue technology company
+
+**Entry Point:** Enterprise procurement process after RFP evaluation
+
+**Journey Steps:**
+
+1. **Enterprise Implementation (Month 1)**
+   - IT security review and approval
+   - SSO integration with corporate Active Directory
+   - Custom fields mapped to internal taxonomy
+   - Training sessions for 8-person team
+   - Decision point: Phased or full rollout? → Phased by deal type
+
+2. **Strategic Planning Integration (Month 2)**
+   - Links platform to corporate strategy initiatives
+   - Creates acquisition thesis templates
+   - Sets up approval workflows matching governance
+   - Integrates with board reporting requirements
+   - Decision point: Replace or augment existing tools? → Augment initially
+
+3. **Target Identification & Approach (Months 3-4)**
+   - Builds target landscape with 50 companies
+   - AI analyzes strategic fit and synergies
+   - Prioritizes outreach based on accessibility
+   - Manages relationship building activities
+   - Decision point: Direct or advisor approach? → Hybrid based on target
+
+4. **Due Diligence & Integration Planning (Months 5-7)**
+   - Coordinates 5 workstream leads
+   - Manages 200+ due diligence requests
+   - AI identifies integration risks and synergies
+   - Creates day-one integration playbooks
+   - Decision point: Platform or consultants for PMI? → Platform with selective consulting
+
+**Success Metrics:** Deal cycle reduced by 30%, integration risks identified earlier, £10M in synergies captured
+
+## UX Design Principles
+
+**1. Professional Credibility First**
+Every interface element should reinforce trust and competence. Use sophisticated color palettes (deep blues, grays), precise typography, and dense information layouts that respect users' expertise. Avoid playful elements or oversimplification that could undermine the gravity of M&A transactions.
+
+**2. Information Density with Progressive Disclosure**
+Power users need comprehensive data visible at once. Design for high information density on desktop while using progressive disclosure for complex features. Primary screens should show 80% of needed information immediately, with advanced options one click away.
+
+**3. Deal-Centric Navigation**
+All navigation paths should originate from the deal context. Users think in terms of specific transactions, not abstract features. Implement persistent deal switcher, breadcrumbs showing deal context, and quick actions relevant to current deal stage.
+
+**4. Keyboard-First Power Usage**
+Professional users demand efficiency. Implement comprehensive keyboard shortcuts (Vim-style for power users), command palette (Cmd+K) for quick actions, bulk operations with shift+click selection, and Tab navigation through all forms.
+
+**5. Real-Time Collaboration Awareness**
+Show who's working on what in real-time. Display active user avatars on documents, live cursors in shared spaces, "last seen" indicators on all content, and instant notifications for deal-critical changes with smart filtering.
+
+**6. AI as Intelligent Assistant, Not Autopilot**
+AI should augment, not replace judgment. Always show confidence scores with AI suggestions, provide "explain reasoning" for all AI outputs, allow easy override with manual input, and maintain audit trail of AI vs human decisions.
+
+**7. Mobile as Companion, Not Replacement**
+Mobile optimized for deal monitoring and quick actions. Focus on notifications and alerts, document review and approval, quick notes and task creation, but assume heavy work happens on desktop.
+
+**8. Zero Training Required**
+Interface should be intuitive for anyone familiar with Excel and email. Use standard patterns from financial software, provide contextual help without modal interruptions, include tooltips explaining M&A terminology, and offer templates for common workflows.
+
+**9. Performance as Feature**
+Speed is credibility in high-stakes deals. Ensure instant page transitions (<100ms), search results as you type, parallel data loading with skeleton screens, and offline capability for critical features.
+
+**10. Customization Without Complexity**
+Every firm works differently, but avoid feature bloat. Provide customizable pipelines and fields, saved views and filters per user, white-label options for agencies, but maintain consistent core workflows.
+
+## Epics
+
+### Epic 1: Core Deal Management Platform
+
+**Goal:** Establish foundational deal pipeline and workflow management capabilities
+**Priority:** MUST HAVE - Quarter 1
+**Success Criteria:** Users can create, track, and manage deals through complete lifecycle
+
+This epic delivers the essential deal management foundation including pipeline visualization, deal tracking, activity management, and basic reporting. It represents the minimum viable platform for M&A professionals to replace manual processes.
+
+**Key Capabilities:**
+
+- Deal creation with customizable pipelines (FR1)
+- Pipeline visualization and management (FR2)
+- Activity and task tracking (FR3)
+- Basic reporting and analytics (FR4)
+- Account setup and team management (FR15)
+
+### Epic 2: AI-Powered Intelligence Layer
+
+**Goal:** Integrate AI capabilities for automated analysis and intelligent insights
+**Priority:** MUST HAVE - Quarter 1-2
+**Success Criteria:** 60% reduction in manual analysis time with 90% accuracy
+
+This epic transforms the platform from a workflow tool to an intelligent assistant. It includes all AI/ML features that differentiate us from competitors and justify the value proposition.
+
+**Key Capabilities:**
+
+- Automated valuation and financial analysis (FR5)
+- Risk assessment and due diligence automation (FR6)
+- Deal matching and recommendations (FR7)
+- Natural language processing for documents (FR8)
+- AI performance monitoring (NFR10)
+
+### Epic 3: Secure Collaboration & Data Room
+
+**Goal:** Enable secure document management and multi-party collaboration
+**Priority:** MUST HAVE - Quarter 2
+**Success Criteria:** Support 100GB+ data rooms with bank-grade security
+
+This epic delivers the secure collaboration infrastructure required for due diligence and deal execution. It includes virtual data rooms, document processing, and secure sharing capabilities.
+
+**Key Capabilities:**
+
+- Virtual data room with permissions (FR9)
+- Document processing and OCR (FR10)
+- Collaboration and sharing tools (FR11)
+- Security and compliance features (FR19)
+- Data integrity and backup (NFR5)
+
+### Epic 4: Community & Network Effects
+
+**Goal:** Build marketplace and community features for deal flow generation
+**Priority:** SHOULD HAVE - Quarter 2-3
+**Success Criteria:** 50% of users make meaningful connections, 30% of deals involve platform-sourced partners
+
+This epic creates the network effects that form our competitive moat. It transforms isolated users into a connected ecosystem of M&A professionals.
+
+**Key Capabilities:**
+
+- Professional profiles and networking (FR12)
+- Deal sharing marketplace (FR13)
+- Forums and knowledge sharing (FR14)
+- Subscription and billing management (FR16)
+- Mobile and offline capabilities (FR20)
+
+_Note: See epics.md for detailed story breakdown with acceptance criteria for each epic_
+
+## Out of Scope
+
+The following features and capabilities are explicitly excluded from the current PRD scope but may be considered for future phases:
+
+**Advanced Financial Features:**
+
+- Complex derivative pricing models
+- Real-time market data integration
+- Automated trading execution
+- Cryptocurrency/tokenization features
+- Full ERP integration
+
+**Geographic/Regulatory:**
+
+- Multi-language localization (beyond English)
+- Region-specific compliance beyond UK/US/EU
+- Local payment methods beyond Stripe
+- Automated tax calculations
+
+**Enterprise Features (Phase 2):**
+
+- White-label full customization
+- Dedicated infrastructure
+- 24/7 phone support
+- Custom AI model training
+- On-premise deployment
+
+**Adjacent Products:**
+
+- Full CRM capabilities
+- General project management
+- Accounting/bookkeeping features
+- Legal document drafting
+- Investment committee voting
+
+---
+
+## Next Steps
+
+Since this is a Level 3 project, architecture design must be completed before story implementation begins.
+
+**Start new chat with architect and provide:**
+
+1. This PRD: `C:\Projects\ma-saas-platform\docs\PRD.md`
+2. Epic structure: `C:\Projects\ma-saas-platform\docs\epics.md`
+3. Product Brief: `C:\Projects\ma-saas-platform\docs\product-brief-ma-saas-platform-2025-10-11.md`
+
+**Ask architect to:**
+
+- Run `workflow solution-architecture`
+- Consider scalability for 10,000 users
+- Design for multi-tenant isolation
+- Plan AI/ML infrastructure
+- Create architecture.md
+
+## Complete Next Steps Checklist
+
+### Phase 1: Architecture and Design
+
+- [ ] **Run architecture workflow** (REQUIRED)
+  - Command: `workflow solution-architecture`
+  - Input: PRD.md, epics.md
+  - Output: architecture.md
+
+- [ ] **Run UX specification workflow** (HIGHLY RECOMMENDED)
+  - Command: `workflow ux-spec`
+  - Focus on: Deal workflows, data rooms, dashboards
+  - Output: ux-specification.md
+
+### Phase 2: Detailed Planning
+
+- [ ] **Generate detailed user stories**
+  - Command: `workflow create-story`
+  - Input: epics.md + architecture.md
+  - Output: Individual story files
+
+- [ ] **Create technical design documents**
+  - Database schema design
+  - API specifications
+  - Integration architecture
+  - Security implementation plan
+
+- [ ] **Define testing strategy**
+  - Unit test approach
+  - Integration test plan
+  - Performance testing
+  - Security testing
+
+### Phase 3: Development Preparation
+
+- [ ] **Set up development environment**
+  - Repository structure
+  - CI/CD pipeline
+  - Development tools
+  - Monitoring setup
+
+- [ ] **Create sprint plan**
+  - Story prioritization
+  - Sprint boundaries
+  - Resource allocation
+  - Velocity planning
+
+- [ ] **Establish monitoring and metrics**
+  - Success metrics from PRD
+  - Technical monitoring
+  - User analytics
+  - Cost tracking
+
+## Document Status
+
+- [x] Goals and context validated with stakeholders
+- [x] All functional requirements reviewed
+- [x] User journeys cover all major personas
+- [x] Epic structure approved for phased delivery
+- [ ] Ready for architecture phase
+
+_Note: Technical preferences captured in Product Brief - React/TypeScript frontend, Python/FastAPI backend, PostgreSQL database, Claude MCP integration_
+
+---
+
+_This PRD adapts to project level Level 3 - providing appropriate detail without overburden._

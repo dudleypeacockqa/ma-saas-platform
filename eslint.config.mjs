@@ -7,7 +7,7 @@ import yml from 'eslint-plugin-yml';
 export default [
   // Global ignores for files/folders that should not be linted
   {
-    ignores: ['dist/**', 'coverage/**', '**/*.min.js'],
+    ignores: ['dist/**', 'coverage/**', '**/*.min.js', 'frontend/**', 'backend/**'],
   },
 
   // Base JavaScript recommended rules

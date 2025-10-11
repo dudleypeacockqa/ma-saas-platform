@@ -59,8 +59,15 @@
     "version:patch": "node tools/version-bump.js patch"
   },
   "lint-staged": {
-    "**/*.{js,cjs,mjs}": [
-      "eslint --fix --max-warnings=0",
+    "*.{js,cjs,mjs}": [
+      "eslint --fix --max-warnings=0 --no-warn-ignored",
+      "prettier --write"
+    ],
+    "!(frontend)/**/*.{js,cjs,mjs}": [
+      "eslint --fix --max-warnings=0 --no-warn-ignored",
+      "prettier --write"
+    ],
+    "frontend/**/*.{js,jsx}": [
       "prettier --write"
     ],
     "**/*.yaml": [

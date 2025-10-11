@@ -8,7 +8,7 @@ import structlog
 from app.services.embeddings import EmbeddingService
 from app.api.deps import get_current_user, get_db
 from app.core.database import AsyncSession
-from app.models.document import Document
+from app.models.documents import Document
 
 
 logger = structlog.get_logger(__name__)

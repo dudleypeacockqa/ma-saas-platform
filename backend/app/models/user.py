@@ -17,7 +17,7 @@ from .base import BaseModel, SoftDeleteMixin, MetadataMixin, AuditableMixin
 if TYPE_CHECKING:
     from .organization import Organization
     from .deal import Deal, DealTeamMember
-    from .document import Document
+    from .documents import Document
     from .activity import ActivityLog
 
 

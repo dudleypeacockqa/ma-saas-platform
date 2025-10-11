@@ -8,6 +8,7 @@ import logging
 
 from app.core.database import get_db, engine
 from app.core.config import settings
+from app.core.db_init import init_database, verify_critical_tables, create_extensions
 
 # CRITICAL: Import models BEFORE APIs to avoid duplicate table registration
 # APIs import services, which import models. We must import models first.
@@ -56,6 +57,7 @@ from app.api import opportunities, valuations, negotiations, term_sheets, docume
 # from app.api import arbitrage  # Temporarily disabled - requires pandas dependency
 # from app.api import ai  # Temporarily disabled - needs Deal model update
 from app.routers import due_diligence, deals
+from app.api.v1 import pipeline, analytics as pipeline_analytics
 
 # Import Clerk authentication components
 from app.auth.webhooks import router as webhook_router
@@ -106,6 +108,8 @@ app.include_router(tenants.router, prefix="/api/tenants", tags=["tenants"])
 app.include_router(deals.router)  # Deal management (prefix already defined in router)
 app.include_router(users.router, prefix="/api/users", tags=["users"])
 # app.include_router(ai.router, prefix="/api/ai", tags=["ai-analysis"])  # Temporarily disabled
+app.include_router(pipeline.router, prefix="/api/v1/pipeline", tags=["pipeline"])  # Pipeline board management
+app.include_router(pipeline_analytics.router, prefix="/api/v1/analytics", tags=["analytics"])  # Pipeline analytics
 app.include_router(due_diligence.router)  # Due diligence management
 app.include_router(content.router)  # Content creation and management
 app.include_router(marketing.router)  # Marketing and subscriber acquisition
@@ -138,18 +142,16 @@ async def startup_event():
     # Create database tables using unified Base
     # This runs at startup, not import time, so the app can start even if DB is temporarily unavailable
     # Note: In production, use Alembic migrations instead of create_all()
-    try:
-        logger.info("Checking database tables...")
-        base.Base.metadata.create_all(bind=engine, checkfirst=True)
-        logger.info(f"Database tables ready ({len(base.Base.metadata.tables)} tables defined)")
-    except Exception as e:
-        # Log as info instead of error if tables already exist
-        error_msg = str(e).lower()
-        if 'already exists' in error_msg or 'duplicate' in error_msg:
-            logger.info("Database tables already exist, skipping creation")
-        else:
-            logger.error(f"Failed to create database tables: {e}")
-            logger.warning("Application will continue, but database operations may fail")
+
+    # Create required PostgreSQL extensions
+    create_extensions(engine)
+
+    # Initialize database schema with proper race condition handling
+    init_database(engine, base.Base.metadata)
+
+    # Verify critical tables exist
+    critical_tables = ['organizations', 'users', 'deals']
+    verify_critical_tables(engine, critical_tables)
 
     logger.info("API startup complete")
 
