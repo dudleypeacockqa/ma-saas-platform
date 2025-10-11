@@ -1,17 +1,16 @@
 """Database models"""
 
-from .user import User
+from .user import User, OrganizationMembership
 from .organization import Organization
 from .deal import Deal
-from .partnership import Partnership
 from .document import Document
 from .subscription import Subscription
 
 __all__ = [
     "User",
+    "OrganizationMembership",
     "Organization",
     "Deal",
-    "Partnership",
     "Document",
     "Subscription"
 ]

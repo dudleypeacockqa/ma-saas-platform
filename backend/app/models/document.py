@@ -40,7 +40,7 @@ class Document(Base):
 
     # Extracted entities and metadata
     entities = Column(JSON)  # Extracted entities (companies, people, amounts, etc.)
-    metadata = Column(JSON)  # Additional metadata
+    doc_metadata = Column(JSON)  # Additional metadata (renamed from 'metadata' to avoid SQLAlchemy conflict)
     tags = Column(JSON)  # User-defined tags
 
     # Deal/Partnership associations

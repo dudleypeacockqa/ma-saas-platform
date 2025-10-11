@@ -9,7 +9,7 @@ from decimal import Decimal
 from typing import List, Optional, Dict, Any
 from sqlalchemy import (
     Column, String, Text, Integer, Numeric, Date, DateTime, Boolean, Time,
-    ForeignKey, Enum, JSON, Index, CheckConstraint, UniqueConstraint, Table
+    ForeignKey, Enum, JSON, Index, CheckConstraint, UniqueConstraint, Table, Float
 )
 from sqlalchemy.dialects.postgresql import UUID, ARRAY
 from sqlalchemy.orm import relationship, validates

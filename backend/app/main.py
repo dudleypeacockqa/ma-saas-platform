@@ -50,8 +50,10 @@ from app.models import (
 # Legacy code should be migrated to use the new models.
 
 # NOW import APIs (after all models are registered)
-from app.api import auth, tenants, users, content, marketing, payments, integrations
-from app.api import opportunities, valuations, negotiations, term_sheets, documents, arbitrage, teams
+from app.api import auth, tenants, users, content, marketing, integrations
+# from app.api import payments  # Temporarily disabled - needs StripeCustomer/Payment/WebhookEvent models
+from app.api import opportunities, valuations, negotiations, term_sheets, documents, teams
+# from app.api import arbitrage  # Temporarily disabled - requires pandas dependency
 # from app.api import ai  # Temporarily disabled - needs Deal model update
 from app.routers import due_diligence, deals
 
@@ -107,11 +109,11 @@ app.include_router(users.router, prefix="/api/users", tags=["users"])
 app.include_router(due_diligence.router)  # Due diligence management
 app.include_router(content.router)  # Content creation and management
 app.include_router(marketing.router)  # Marketing and subscriber acquisition
-app.include_router(payments.router)  # Payment and subscription management
+# app.include_router(payments.router)  # Temporarily disabled - needs StripeCustomer/Payment/WebhookEvent models
 app.include_router(integrations.router)  # Platform integrations and workflows
 app.include_router(opportunities.router, prefix="/api")  # M&A opportunity management
 app.include_router(valuations.router, prefix="/api")  # Financial modeling and valuation
-app.include_router(arbitrage.router, prefix="/api")  # M&A arbitrage and investment strategy
+# app.include_router(arbitrage.router, prefix="/api")  # Temporarily disabled - requires pandas dependency
 app.include_router(negotiations.router)  # Deal negotiation and structuring
 app.include_router(term_sheets.router)  # Term sheet management with collaboration
 app.include_router(documents.router)  # Document management with versioning and approvals
@@ -135,13 +137,19 @@ async def startup_event():
 
     # Create database tables using unified Base
     # This runs at startup, not import time, so the app can start even if DB is temporarily unavailable
+    # Note: In production, use Alembic migrations instead of create_all()
     try:
-        logger.info("Creating database tables...")
-        base.Base.metadata.create_all(bind=engine)
-        logger.info(f"Successfully created {len(base.Base.metadata.tables)} database tables")
+        logger.info("Checking database tables...")
+        base.Base.metadata.create_all(bind=engine, checkfirst=True)
+        logger.info(f"Database tables ready ({len(base.Base.metadata.tables)} tables defined)")
     except Exception as e:
-        logger.error(f"Failed to create database tables: {e}")
-        logger.warning("Application will continue, but database operations may fail")
+        # Log as info instead of error if tables already exist
+        error_msg = str(e).lower()
+        if 'already exists' in error_msg or 'duplicate' in error_msg:
+            logger.info("Database tables already exist, skipping creation")
+        else:
+            logger.error(f"Failed to create database tables: {e}")
+            logger.warning("Application will continue, but database operations may fail")
 
     logger.info("API startup complete")
 
