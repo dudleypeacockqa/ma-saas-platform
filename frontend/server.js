@@ -27,7 +27,122 @@ const metrics = {
   },
   errors: [],
   startTime: Date.now(),
+  alerts: {
+    lastAlertTime: 0,
+    alertCooldown: 5 * 60 * 1000, // 5 minutes
+  },
 };
+
+// Performance Budgets and Thresholds
+const performanceBudgets = {
+  maxResponseTime: 1000, // 1 second
+  errorRateThreshold: 5, // 5% error rate
+  memoryThreshold: 500 * 1024 * 1024, // 500 MB
+  minUptime: 60 * 60 * 1000, // 1 hour
+};
+
+// Alert function
+async function sendAlert(type, message, data = {}) {
+  const now = Date.now();
+
+  // Cooldown to prevent alert spam
+  if (now - metrics.alerts.lastAlertTime < metrics.alerts.alertCooldown) {
+    return;
+  }
+
+  metrics.alerts.lastAlertTime = now;
+
+  const alertPayload = {
+    type,
+    message,
+    data,
+    timestamp: new Date().toISOString(),
+    service: 'ma-saas-platform-frontend',
+  };
+
+  console.error('🚨 ALERT:', type, message, data);
+
+  // Webhook alerting (Slack, Discord, etc.)
+  if (process.env.ALERT_WEBHOOK_URL) {
+    try {
+      const response = await fetch(process.env.ALERT_WEBHOOK_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          text: `🚨 *${type}*: ${message}`,
+          attachments: [
+            {
+              color: type === 'error' ? 'danger' : 'warning',
+              fields: Object.entries(data).map(([key, value]) => ({
+                title: key,
+                value: String(value),
+                short: true,
+              })),
+              footer: 'M&A SaaS Platform',
+              ts: Math.floor(Date.now() / 1000),
+            },
+          ],
+        }),
+      });
+
+      if (!response.ok) {
+        console.error('Failed to send webhook alert:', await response.text());
+      }
+    } catch (error) {
+      console.error('Failed to send alert:', error);
+    }
+  }
+
+  // Email alerting (using backend API)
+  if (process.env.BACKEND_API_URL && process.env.ALERT_EMAIL) {
+    try {
+      await fetch(`${process.env.BACKEND_API_URL}/api/internal/alert`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          ...alertPayload,
+          email: process.env.ALERT_EMAIL,
+        }),
+      });
+    } catch (error) {
+      console.error('Failed to send email alert:', error);
+    }
+  }
+}
+
+// Check performance budgets
+function checkPerformanceBudgets() {
+  const errorRate = (metrics.errors.length / metrics.requests.total) * 100;
+
+  // Check error rate
+  if (errorRate > performanceBudgets.errorRateThreshold) {
+    sendAlert('High Error Rate', `Error rate is ${errorRate.toFixed(2)}%`, {
+      threshold: `${performanceBudgets.errorRateThreshold}%`,
+      current: `${errorRate.toFixed(2)}%`,
+      totalErrors: metrics.errors.length,
+      totalRequests: metrics.requests.total,
+    });
+  }
+
+  // Check response time
+  if (metrics.performance.maxResponseTime > performanceBudgets.maxResponseTime) {
+    sendAlert('Slow Response Time', 'Maximum response time exceeded budget', {
+      threshold: `${performanceBudgets.maxResponseTime}ms`,
+      current: `${metrics.performance.maxResponseTime}ms`,
+      average: `${metrics.performance.avgResponseTime.toFixed(2)}ms`,
+    });
+  }
+
+  // Check memory usage
+  const memUsage = process.memoryUsage();
+  if (memUsage.heapUsed > performanceBudgets.memoryThreshold) {
+    sendAlert('High Memory Usage', 'Heap memory usage exceeded threshold', {
+      threshold: `${(performanceBudgets.memoryThreshold / 1024 / 1024).toFixed(2)} MB`,
+      current: `${(memUsage.heapUsed / 1024 / 1024).toFixed(2)} MB`,
+      rss: `${(memUsage.rss / 1024 / 1024).toFixed(2)} MB`,
+    });
+  }
+}
 
 // Trust proxy for rate limiting behind Render's load balancer
 app.set('trust proxy', 1);
@@ -132,6 +247,9 @@ app.use((req, res, next) => {
       if (metrics.errors.length > 100) {
         metrics.errors.shift();
       }
+
+      // Check performance budgets on every error
+      checkPerformanceBudgets();
     }
   });
 
