@@ -17,7 +17,7 @@ import {
   Star,
   Play
 } from 'lucide-react'
-import './App.css'
+
 
 const LandingPage = () => {
   const [activeFeature, setActiveFeature] = useState(0)
