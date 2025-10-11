@@ -39,10 +39,20 @@ def get_database_url():
     # Try to get from environment first (for production)
     database_url = os.getenv('DATABASE_URL')
     if database_url:
+        # Ensure we use psycopg (version 3) driver
+        if database_url.startswith('postgresql://'):
+            database_url = database_url.replace('postgresql://', 'postgresql+psycopg://', 1)
+        elif database_url.startswith('postgres://'):
+            database_url = database_url.replace('postgres://', 'postgresql+psycopg://', 1)
         return database_url
-    
+
     # Fall back to settings
-    return str(settings.DATABASE_URL)
+    db_url = str(settings.DATABASE_URL)
+    if db_url.startswith('postgresql://'):
+        db_url = db_url.replace('postgresql://', 'postgresql+psycopg://', 1)
+    elif db_url.startswith('postgres://'):
+        db_url = db_url.replace('postgres://', 'postgresql+psycopg://', 1)
+    return db_url
 
 
 def run_migrations_offline() -> None:
