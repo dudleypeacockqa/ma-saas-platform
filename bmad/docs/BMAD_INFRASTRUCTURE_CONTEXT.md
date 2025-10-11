@@ -89,21 +89,21 @@ Default Render URLs will show authentication errors - this is expected and secur
 - **Provider**: Clerk.com
 - **Environment**: Production
 - **Domain Restriction**: `100daysandbeyond.com` only
-- **Publishable Key**: `pk_live_Y2xlcmsuMTAwZGF5c2FuZGJleW9uZC5jb20k`
-- **Secret Key**: `sk_live_Jc8hTM6uXOtii2mqHMeRoUqADh7o3cp5snh4YEaEMi`
+- **Publishable Key**: `pk_live_[REDACTED_FOR_SECURITY]`
+- **Secret Key**: `sk_live_[REDACTED_FOR_SECURITY]`
 
 ### **Frontend Environment Variables**
 ```env
-VITE_CLERK_PUBLISHABLE_KEY=pk_live_Y2xlcmsuMTAwZGF5c2FuZGJleW9uZC5jb20k
-CLERK_SECRET_KEY=sk_live_Jc8hTM6uXOtii2mqHMeRoUqADh7o3cp5snh4YEaEMi
+VITE_CLERK_PUBLISHABLE_KEY=pk_live_[YOUR_CLERK_PUBLISHABLE_KEY]
+CLERK_SECRET_KEY=sk_live_[YOUR_CLERK_SECRET_KEY]
 VITE_API_URL=https://ma-saas-backend.onrender.com
 ```
 
 ### **Backend Environment Variables**
 ```env
-DATABASE_URL=postgresql://[credentials]
-CLERK_SECRET_KEY=sk_live_Jc8hTM6uXOtii2mqHMeRoUqADh7o3cp5snh4YEaEMi
-CLERK_PUBLISHABLE_KEY=pk_live_Y2xlcmsuMTAwZGF5c2FuZGJleW9uZC5jb20k
+DATABASE_URL=postgresql://[YOUR_DATABASE_CREDENTIALS]
+CLERK_SECRET_KEY=sk_live_[YOUR_CLERK_SECRET_KEY]
+CLERK_PUBLISHABLE_KEY=pk_live_[YOUR_CLERK_PUBLISHABLE_KEY]
 ENVIRONMENT=production
 ```
 
