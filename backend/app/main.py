@@ -57,6 +57,7 @@ from app.api import opportunities, valuations, negotiations, term_sheets, docume
 # from app.api import arbitrage  # Temporarily disabled - requires pandas dependency
 # from app.api import ai  # Temporarily disabled - needs Deal model update
 from app.routers import due_diligence, deals
+from app.api.v1 import pipeline, analytics as pipeline_analytics
 
 # Import Clerk authentication components
 from app.auth.webhooks import router as webhook_router
@@ -107,6 +108,8 @@ app.include_router(tenants.router, prefix="/api/tenants", tags=["tenants"])
 app.include_router(deals.router)  # Deal management (prefix already defined in router)
 app.include_router(users.router, prefix="/api/users", tags=["users"])
 # app.include_router(ai.router, prefix="/api/ai", tags=["ai-analysis"])  # Temporarily disabled
+app.include_router(pipeline.router, prefix="/api/v1/pipeline", tags=["pipeline"])  # Pipeline board management
+app.include_router(pipeline_analytics.router, prefix="/api/v1/analytics", tags=["analytics"])  # Pipeline analytics
 app.include_router(due_diligence.router)  # Due diligence management
 app.include_router(content.router)  # Content creation and management
 app.include_router(marketing.router)  # Marketing and subscriber acquisition
