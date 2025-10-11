@@ -96,7 +96,7 @@ class Document(Base):
     title = Column(String(255), nullable=True)
     description = Column(Text, nullable=True)
     tags = Column(JSON, default=list)
-    metadata = Column(JSON, default=dict)  # Additional metadata like page count, author, etc.
+    document_metadata = Column(JSON, default=dict)  # Additional metadata like page count, author, etc.
 
     # Timestamps
     uploaded_at = Column(DateTime(timezone=True), server_default=func.now(), nullable=False)
