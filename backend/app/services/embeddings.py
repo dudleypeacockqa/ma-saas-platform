@@ -14,7 +14,7 @@ import structlog
 
 from app.core.config import settings
 from app.core.database import AsyncSessionLocal
-from app.models.document import Document
+from app.models.documents import Document
 
 
 logger = structlog.get_logger(__name__)

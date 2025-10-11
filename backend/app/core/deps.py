@@ -276,3 +276,17 @@ class SortingParams:
     ):
         self.sort_by = sort_by
         self.sort_order = sort_order if sort_order in ["asc", "desc"] else "desc"
+
+
+# Alias for backward compatibility
+async def get_current_tenant(
+    current_user: User = Depends(get_current_user),
+    organization_id: Optional[str] = Header(None, alias="X-Organization-ID"),
+    db: Session = Depends(get_db)
+):
+    """
+    Alias for get_current_organization that returns organization.id
+    For backward compatibility with existing document API
+    """
+    organization = await get_current_organization(current_user, organization_id, db)
+    return organization.id

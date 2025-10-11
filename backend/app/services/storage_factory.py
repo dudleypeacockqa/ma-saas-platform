@@ -89,11 +89,11 @@ class StorageFactory:
             from app.services.s3_service import s3_service
             return s3_service
 
-        # FALLBACK 2: Use Supabase if configured
-        if provider == 'supabase':
-            if os.getenv('SUPABASE_URL') and os.getenv('SUPABASE_ANON_KEY'):
-                from app.services.supabase_storage_service import supabase_storage_service
-                return supabase_storage_service
+        # FALLBACK 2: Use Supabase if configured (removed - not using Supabase)
+        # if provider == 'supabase':
+        #     if os.getenv('SUPABASE_URL') and os.getenv('SUPABASE_ANON_KEY'):
+        #         from app.services.supabase_storage_service import supabase_storage_service
+        #         return supabase_storage_service
 
         # Try any available provider
         if os.getenv('R2_ACCESS_KEY_ID'):
@@ -104,9 +104,10 @@ class StorageFactory:
             from app.services.s3_service import s3_service
             return s3_service
 
-        if os.getenv('SUPABASE_URL'):
-            from app.services.supabase_storage_service import supabase_storage_service
-            return supabase_storage_service
+        # Supabase removed - not using it
+        # if os.getenv('SUPABASE_URL'):
+        #     from app.services.supabase_storage_service import supabase_storage_service
+        #     return supabase_storage_service
 
         # Default to R2 (show configuration needed)
         raise ValueError(
@@ -166,6 +167,28 @@ class StorageFactory:
         return current_provider
 
 
-# Global storage service instance
-storage_service = StorageFactory.create_storage_service()
-storage_info = StorageFactory.get_provider_info()
+# Global storage service instance (lazy-loaded)
+_storage_service = None
+_storage_info = None
+
+def get_storage_service():
+    """Get the storage service instance (lazy-loaded)"""
+    global _storage_service
+    if _storage_service is None:
+        from dotenv import load_dotenv
+        load_dotenv()  # Ensure env vars are loaded
+        _storage_service = StorageFactory.create_storage_service()
+    return _storage_service
+
+def get_storage_info():
+    """Get storage provider info (lazy-loaded)"""
+    global _storage_info
+    if _storage_info is None:
+        from dotenv import load_dotenv
+        load_dotenv()  # Ensure env vars are loaded
+        _storage_info = StorageFactory.get_provider_info()
+    return _storage_info
+
+# For backward compatibility
+storage_service = get_storage_service()
+storage_info = get_storage_info()

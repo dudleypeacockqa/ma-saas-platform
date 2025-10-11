@@ -10,7 +10,7 @@ import structlog
 from app.services.claude_mcp import ClaudeMCPService
 from app.services.embeddings import EmbeddingService
 from app.core.database import SessionLocal
-from app.models.document import Document
+from app.models.documents import Document
 from app.models.deal import Deal
 
 logger = structlog.get_logger(__name__)

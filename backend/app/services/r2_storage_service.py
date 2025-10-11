@@ -78,7 +78,7 @@ class R2StorageService:
         """Create R2 bucket if it doesn't exist"""
         try:
             self.client.head_bucket(Bucket=self.bucket_name)
-            print(f"✅ R2 bucket '{self.bucket_name}' exists")
+            print(f"R2 bucket '{self.bucket_name}' exists")
         except ClientError as e:
             if e.response['Error']['Code'] == '404':
                 try:
@@ -88,12 +88,12 @@ class R2StorageService:
                     # Configure bucket settings
                     self._configure_bucket()
 
-                    print(f"✅ Created R2 bucket '{self.bucket_name}'")
+                    print(f"Created R2 bucket '{self.bucket_name}'")
                 except ClientError as create_error:
-                    print(f"❌ Failed to create bucket: {create_error}")
+                    print(f"Failed to create bucket: {create_error}")
                     raise
             else:
-                print(f"⚠️ Bucket access error: {e}")
+                print(f"Bucket access error: {e}")
 
     def _configure_bucket(self):
         """Configure R2 bucket with security settings"""
@@ -150,7 +150,7 @@ class R2StorageService:
             )
 
         except ClientError as e:
-            print(f"⚠️ Bucket configuration warning: {e}")
+            print(f"Bucket configuration warning: {e}")
 
     def _generate_r2_key(self, organization_id: str, deal_id: Optional[str], filename: str) -> str:
         """

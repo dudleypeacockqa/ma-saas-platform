@@ -10,7 +10,7 @@ from enum import Enum
 
 from pydantic import BaseModel, Field, ConfigDict, field_validator
 
-from app.models.document import DocumentType, DocumentStatus
+from app.models.documents import DocumentType, DocumentStatus
 
 
 class DocumentBase(BaseModel):
@@ -22,7 +22,7 @@ class DocumentBase(BaseModel):
     deal_id: Optional[UUID] = None
     tags: List[str] = Field(default_factory=list)
     is_confidential: bool = True
-    metadata: Dict[str, Any] = Field(default_factory=dict)
+    document_metadata: Dict[str, Any] = Field(default_factory=dict)
 
     model_config = ConfigDict(from_attributes=True, use_enum_values=True)
 
@@ -40,7 +40,7 @@ class DocumentUpdate(BaseModel):
     folder_path: Optional[str] = Field(None, max_length=500)
     tags: Optional[List[str]] = None
     is_confidential: Optional[bool] = None
-    metadata: Optional[Dict[str, Any]] = None
+    document_metadata: Optional[Dict[str, Any]] = None
 
     model_config = ConfigDict(from_attributes=True, use_enum_values=True)
 

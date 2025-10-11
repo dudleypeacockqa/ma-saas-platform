@@ -16,7 +16,7 @@ from sqlalchemy import select, func, and_, or_, update, delete
 from sqlalchemy.orm import selectinload
 
 from app.core.deps import get_db, get_current_user, get_current_tenant
-from app.models.document import Document, DocumentFolder, DocumentType, DocumentStatus
+from app.models.documents import Document, DocumentCategory, DocumentStatus
 from app.services.storage_factory import storage_service
 from app.schemas.document import (
     DocumentCreate,

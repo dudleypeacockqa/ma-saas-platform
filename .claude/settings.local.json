@@ -21,7 +21,9 @@
       "Bash(alembic revision:*)",
       "Bash(pnpm add:*)",
       "Bash(npm install:*)",
-      "WebSearch"
+      "WebSearch",
+      "Bash(pip install:*)",
+      "Bash(git rm:*)"
     ],
     "deny": [],
     "ask": []
