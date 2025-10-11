@@ -33,7 +33,11 @@ try:
         try:
             # Connect to database
             print(f"🔗 Connecting to database...")
-            conn = psycopg.connect(settings.DATABASE_URL)
+            db_url = getattr(settings, 'DATABASE_URL', None) or os.getenv('DATABASE_URL')
+            if not db_url:
+                print("❌ DATABASE_URL not found")
+                return False
+            conn = psycopg.connect(db_url)
             cursor = conn.cursor()
 
             # Get all tables
@@ -106,12 +110,13 @@ try:
 
     if __name__ == "__main__":
         print("🚀 Starting Database Migration Verification")
-        print(f"⏰ Timestamp: {datetime.utcnow().isoformat()}")
+        print(f"⏰ Timestamp: {datetime.now().isoformat()}")
         print("=" * 50)
         print(f"📁 Current directory: {os.getcwd()}")
 
         # Verify environment
-        print(f"🌍 DATABASE_URL configured: {'Yes' if settings.DATABASE_URL else 'No'}")
+        db_url = getattr(settings, 'DATABASE_URL', None) or os.getenv('DATABASE_URL')
+        print(f"🌍 DATABASE_URL configured: {'Yes' if db_url else 'No'}")
         print(f"🐍 Python version: {sys.version}")
 
         # Run verifications
