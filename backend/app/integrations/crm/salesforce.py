@@ -19,7 +19,8 @@ from ..core.integration_manager import (
 )
 from ...core.database import get_db
 from ...models.deal import Deal
-from ...models.contact import Contact
+# TODO: Create Contact model - currently not implemented
+# from ...models.contact import Contact
 from ...models.organization import Organization
 
 logger = logging.getLogger(__name__)
@@ -201,11 +202,12 @@ class SalesforceIntegration(BaseIntegration):
                 if key in accounts_result:
                     result[key] += accounts_result[key]
 
-            # Sync contacts
-            contacts_result = await self._sync_contacts_from_sf()
-            for key in result:
-                if key in contacts_result:
-                    result[key] += contacts_result[key]
+            # Sync contacts - TODO: Implement when Contact model exists
+            # contacts_result = await self._sync_contacts_from_sf()
+            # for key in result:
+            #     if key in contacts_result:
+            #         result[key] += contacts_result[key]
+            logger.info("Contact sync skipped - Contact model not yet implemented")
 
         except Exception as e:
             result["errors"].append(f"Inbound sync error: {str(e)}")
@@ -337,62 +339,23 @@ class SalesforceIntegration(BaseIntegration):
         return result
 
     async def _sync_contacts_from_sf(self) -> Dict[str, Any]:
-        """Sync Salesforce contacts to M&A platform contacts"""
+        """Sync Salesforce contacts to M&A platform contacts - DISABLED until Contact model exists"""
         result = {"processed": 0, "created": 0, "updated": 0, "failed": 0, "errors": []}
-
-        try:
-            last_sync_time = self.last_sync or (datetime.now() - timedelta(days=30))
-            query = f"""
-                SELECT Id, FirstName, LastName, Email, Phone, Title,
-                       Account.Name, CreatedDate, LastModifiedDate
-                FROM Contact
-                WHERE LastModifiedDate >= {last_sync_time.isoformat()}
-                ORDER BY LastModifiedDate ASC
-            """
-
-            contacts = self.sf.query_all(query)["records"]
-
-            async with get_db() as db:
-                for contact in contacts:
-                    try:
-                        result["processed"] += 1
-
-                        existing_contact = await self._find_existing_contact(db, contact["Id"])
-
-                        contact_data = {
-                            "first_name": contact.get("FirstName"),
-                            "last_name": contact.get("LastName"),
-                            "email": contact.get("Email"),
-                            "phone": contact.get("Phone"),
-                            "title": contact.get("Title"),
-                            "external_id": contact["Id"],
-                            "external_source": "salesforce",
-                            "updated_at": datetime.now()
-                        }
-
-                        if existing_contact:
-                            for field, value in contact_data.items():
-                                setattr(existing_contact, field, value)
-                            result["updated"] += 1
-                        else:
-                            contact_data.update({
-                                "created_at": self._parse_sf_date(contact["CreatedDate"]) or datetime.now()
-                            })
-                            new_contact = Contact(**contact_data)
-                            db.add(new_contact)
-                            result["created"] += 1
-
-                    except Exception as e:
-                        result["failed"] += 1
-                        result["errors"].append(f"Failed to sync contact {contact.get('Id', 'unknown')}: {str(e)}")
-
-                await db.commit()
-
-        except Exception as e:
-            result["errors"].append(f"Contacts sync error: {str(e)}")
-            result["failed"] += 1
-
+        logger.warning("Contact sync not implemented - Contact model does not exist")
         return result
+
+        # TODO: Re-enable when Contact model is created
+        # try:
+        #     last_sync_time = self.last_sync or (datetime.now() - timedelta(days=30))
+        #     query = f"""
+        #         SELECT Id, FirstName, LastName, Email, Phone, Title,
+        #                Account.Name, CreatedDate, LastModifiedDate
+        #         FROM Contact
+        #         WHERE LastModifiedDate >= {last_sync_time.isoformat()}
+        #         ORDER BY LastModifiedDate ASC
+        #     """
+        #     contacts = self.sf.query_all(query)["records"]
+        #     ... (rest of implementation)
 
     async def _sync_to_salesforce(self) -> Dict[str, Any]:
         """Sync M&A platform data to Salesforce"""
@@ -587,14 +550,10 @@ class SalesforceIntegration(BaseIntegration):
         result = await db.execute(query)
         return result.scalar_one_or_none()
 
-    async def _find_existing_contact(self, db: AsyncSession, external_id: str) -> Optional[Contact]:
-        """Find existing contact by external ID"""
-        query = select(Contact).where(
-            Contact.external_id == external_id,
-            Contact.external_source == "salesforce"
-        )
-        result = await db.execute(query)
-        return result.scalar_one_or_none()
+    async def _find_existing_contact(self, db, external_id: str):
+        """Find existing contact by external ID - DISABLED until Contact model exists"""
+        # TODO: Re-enable when Contact model is created
+        return None
 
     def _map_sf_stage_to_platform(self, sf_stage: Optional[str]) -> str:
         """Map Salesforce stage to platform stage"""

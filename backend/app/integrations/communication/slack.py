@@ -19,9 +19,10 @@ from ..core.integration_manager import (
 )
 from ...core.database import get_db
 from ...models.deal import Deal
-from ...models.notification import Notification
-from ...models.workflow import WorkflowExecution
-from ...models.deal_room import DealRoom
+# TODO: Create these models - currently not implemented
+# from ...models.notification import Notification
+# from ...models.workflow import WorkflowExecution
+# from ...models.deal_room import DealRoom
 
 logger = logging.getLogger(__name__)
 
@@ -223,38 +224,12 @@ class SlackIntegration(BaseIntegration):
         return result
 
     async def _sync_messages_from_slack(self) -> Dict[str, Any]:
-        """Sync messages from Slack channels"""
+        """Sync messages from Slack channels - DISABLED until DealRoom model exists"""
         result = {"processed": 0, "created": 0, "updated": 0, "failed": 0, "errors": []}
-
-        try:
-            # Get deal-related channels
-            async with get_db() as db:
-                deal_rooms_query = select(DealRoom).where(DealRoom.platform == "slack")
-                deal_rooms_result = await db.execute(deal_rooms_query)
-                deal_rooms = deal_rooms_result.scalars().all()
-
-                for deal_room in deal_rooms:
-                    try:
-                        # Get recent messages from channel
-                        messages_response = await self.slack_client.conversations_history(
-                            channel=deal_room.external_id,
-                            limit=50
-                        )
-
-                        if messages_response["ok"]:
-                            messages = messages_response["messages"]
-                            result["processed"] += len(messages)
-                            # Process messages as needed
-
-                    except SlackApiError as e:
-                        result["failed"] += 1
-                        result["errors"].append(f"Failed to get messages from {deal_room.external_id}: {e.response['error']}")
-
-        except Exception as e:
-            result["errors"].append(f"Messages sync error: {str(e)}")
-            result["failed"] += 1
-
+        logger.warning("Message sync not implemented - DealRoom model does not exist")
         return result
+
+        # TODO: Re-enable when DealRoom model is created
 
     async def _sync_to_slack(self) -> Dict[str, Any]:
         """Sync M&A platform data to Slack"""
@@ -324,16 +299,17 @@ class SlackIntegration(BaseIntegration):
                             deal.slack_integration_status = "integrated"
                             deal.slack_channel_id = channel["id"]
 
-                            # Create deal room record
-                            deal_room = DealRoom(
-                                deal_id=deal.id,
-                                platform="slack",
-                                external_id=channel["id"],
-                                name=channel["name"],
-                                description=f"Deal channel for {deal.title}",
-                                created_at=datetime.now()
-                            )
-                            db.add(deal_room)
+                            # Create deal room record - TODO: Implement when DealRoom model exists
+                            # deal_room = DealRoom(
+                            #     deal_id=deal.id,
+                            #     platform="slack",
+                            #     external_id=channel["id"],
+                            #     name=channel["name"],
+                            #     description=f"Deal channel for {deal.title}",
+                            #     created_at=datetime.now()
+                            # )
+                            # db.add(deal_room)
+                            logger.info(f"Skipping deal_room creation - model not implemented")
 
                             # Send welcome message
                             await self._send_welcome_message(channel["id"], deal)
@@ -358,119 +334,20 @@ class SlackIntegration(BaseIntegration):
         return result
 
     async def _send_slack_notifications(self) -> Dict[str, Any]:
-        """Send notifications to Slack channels"""
+        """Send notifications to Slack channels - DISABLED until Notification model exists"""
         result = {"processed": 0, "created": 0, "updated": 0, "failed": 0, "errors": []}
-
-        try:
-            async with get_db() as db:
-                # Get pending Slack notifications
-                notifications_query = select(Notification).where(
-                    Notification.channel == "slack",
-                    Notification.status == "pending"
-                )
-                notifications_result = await db.execute(notifications_query)
-                notifications = notifications_result.scalars().all()
-
-                for notification in notifications:
-                    try:
-                        result["processed"] += 1
-
-                        # Get channel from notification metadata
-                        channel_id = notification.metadata.get("channel_id")
-                        if not channel_id:
-                            # Try to find deal channel
-                            if notification.deal_id:
-                                deal_query = select(Deal).where(Deal.id == notification.deal_id)
-                                deal_result = await db.execute(deal_query)
-                                deal = deal_result.scalar_one_or_none()
-                                if deal and deal.slack_channel_id:
-                                    channel_id = deal.slack_channel_id
-
-                        if channel_id:
-                            # Format message
-                            message_blocks = self._format_slack_message(notification)
-
-                            # Send message
-                            message_response = await self.slack_client.chat_postMessage(
-                                channel=channel_id,
-                                blocks=message_blocks,
-                                text=notification.title  # Fallback text
-                            )
-
-                            if message_response["ok"]:
-                                notification.status = "sent"
-                                notification.sent_at = datetime.now()
-                                result["created"] += 1
-                            else:
-                                result["failed"] += 1
-                                result["errors"].append(f"Failed to send notification {notification.id}")
-
-                        else:
-                            result["failed"] += 1
-                            result["errors"].append(f"No channel found for notification {notification.id}")
-
-                    except SlackApiError as e:
-                        result["failed"] += 1
-                        result["errors"].append(f"Failed to send notification {notification.id}: {e.response['error']}")
-
-                await db.commit()
-
-        except Exception as e:
-            result["errors"].append(f"Slack notifications error: {str(e)}")
-            result["failed"] += 1
-
+        logger.warning("Slack notifications not implemented - Notification model does not exist")
         return result
+
+        # TODO: Re-enable when Notification model is created
 
     async def _send_workflow_updates(self) -> Dict[str, Any]:
-        """Send workflow execution updates to Slack"""
+        """Send workflow execution updates to Slack - DISABLED until WorkflowExecution model exists"""
         result = {"processed": 0, "created": 0, "updated": 0, "failed": 0, "errors": []}
-
-        try:
-            async with get_db() as db:
-                # Get recent workflow executions that need Slack updates
-                workflow_query = select(WorkflowExecution).where(
-                    WorkflowExecution.status.in_(["completed", "failed"]),
-                    WorkflowExecution.slack_notified == False,
-                    WorkflowExecution.updated_at >= datetime.now() - timedelta(hours=1)
-                )
-                workflow_result = await db.execute(workflow_query)
-                workflows = workflow_result.scalars().all()
-
-                for workflow in workflows:
-                    try:
-                        result["processed"] += 1
-
-                        # Get deal channel for workflow
-                        if workflow.deal_id:
-                            deal_query = select(Deal).where(Deal.id == workflow.deal_id)
-                            deal_result = await db.execute(deal_query)
-                            deal = deal_result.scalar_one_or_none()
-
-                            if deal and deal.slack_channel_id:
-                                # Send workflow update
-                                message_blocks = self._format_workflow_message(workflow)
-
-                                message_response = await self.slack_client.chat_postMessage(
-                                    channel=deal.slack_channel_id,
-                                    blocks=message_blocks,
-                                    text=f"Workflow {workflow.workflow_name} {workflow.status}"
-                                )
-
-                                if message_response["ok"]:
-                                    workflow.slack_notified = True
-                                    result["created"] += 1
-
-                    except SlackApiError as e:
-                        result["failed"] += 1
-                        result["errors"].append(f"Failed to send workflow update {workflow.id}: {e.response['error']}")
-
-                await db.commit()
-
-        except Exception as e:
-            result["errors"].append(f"Workflow updates error: {str(e)}")
-            result["failed"] += 1
-
+        logger.warning("Workflow updates not implemented - WorkflowExecution model does not exist")
         return result
+
+        # TODO: Re-enable when WorkflowExecution model is created
 
     async def handle_webhook(self, event: WebhookEvent) -> bool:
         """Handle Slack webhook events"""
@@ -625,37 +502,10 @@ class SlackIntegration(BaseIntegration):
 
     # Helper methods
 
-    async def _find_or_create_deal_room(self, db, channel: Dict[str, Any]) -> Optional[DealRoom]:
-        """Find or create a deal room for a Slack channel"""
-        try:
-            channel_id = channel["id"]
-
-            # Check if deal room already exists
-            existing_room_query = select(DealRoom).where(
-                DealRoom.external_id == channel_id,
-                DealRoom.platform == "slack"
-            )
-            result = await db.execute(existing_room_query)
-            existing_room = result.scalar_one_or_none()
-
-            if existing_room:
-                return existing_room
-
-            # Create new deal room if this is a deal-related channel
-            if self._is_deal_channel(channel):
-                deal_room = DealRoom(
-                    platform="slack",
-                    external_id=channel_id,
-                    name=channel.get("name", ""),
-                    description=channel.get("purpose", {}).get("value", ""),
-                    created_at=datetime.now()
-                )
-                db.add(deal_room)
-                return deal_room
-
-        except Exception as e:
-            logger.error(f"Failed to find/create deal room: {str(e)}")
-
+    async def _find_or_create_deal_room(self, db, channel: Dict[str, Any]):
+        """Find or create a deal room for a Slack channel - DISABLED until DealRoom model exists"""
+        # TODO: Re-enable when DealRoom model is created
+        logger.warning("Deal room creation not implemented - DealRoom model does not exist")
         return None
 
     def _is_deal_channel(self, channel: Dict[str, Any]) -> bool:
@@ -714,54 +564,15 @@ class SlackIntegration(BaseIntegration):
         except Exception as e:
             logger.error(f"Failed to send welcome message: {str(e)}")
 
-    def _format_slack_message(self, notification: Notification) -> List[Dict[str, Any]]:
-        """Format notification for Slack message blocks"""
-        return [
-            {
-                "type": "header",
-                "text": {
-                    "type": "plain_text",
-                    "text": notification.title
-                }
-            },
-            {
-                "type": "section",
-                "text": {
-                    "type": "mrkdwn",
-                    "text": notification.content
-                }
-            },
-            {
-                "type": "context",
-                "elements": [
-                    {
-                        "type": "mrkdwn",
-                        "text": f"Sent at {notification.created_at.strftime('%Y-%m-%d %H:%M:%S')}"
-                    }
-                ]
-            }
-        ]
+    def _format_slack_message(self, notification) -> List[Dict[str, Any]]:
+        """Format notification for Slack message blocks - DISABLED until Notification model exists"""
+        # TODO: Re-enable when Notification model is created
+        return []
 
-    def _format_workflow_message(self, workflow: WorkflowExecution) -> List[Dict[str, Any]]:
-        """Format workflow execution for Slack message"""
-        status_emoji = "✅" if workflow.status == "completed" else "❌"
-
-        return [
-            {
-                "type": "section",
-                "text": {
-                    "type": "mrkdwn",
-                    "text": f"{status_emoji} *Workflow {workflow.workflow_name}* {workflow.status}"
-                }
-            },
-            {
-                "type": "section",
-                "text": {
-                    "type": "mrkdwn",
-                    "text": f"*Duration:* {workflow.execution_time_seconds}s\n*Started:* {workflow.started_at.strftime('%Y-%m-%d %H:%M:%S')}"
-                }
-            }
-        ]
+    def _format_workflow_message(self, workflow) -> List[Dict[str, Any]]:
+        """Format workflow execution for Slack message - DISABLED until WorkflowExecution model exists"""
+        # TODO: Re-enable when WorkflowExecution model is created
+        return []
 
     def _format_deal_update_message(
         self,

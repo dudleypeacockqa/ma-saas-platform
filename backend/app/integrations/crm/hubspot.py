@@ -21,9 +21,10 @@ from ..core.integration_manager import (
 )
 from ...core.database import get_db
 from ...models.deal import Deal
-from ...models.contact import Contact
+# TODO: Create Contact and Lead models - currently not implemented
+# from ...models.contact import Contact
+# from ...models.lead import Lead
 from ...models.organization import Organization
-from ...models.lead import Lead
 
 logger = logging.getLogger(__name__)
 
@@ -203,17 +204,19 @@ class HubSpotIntegration(BaseIntegration):
                 if key in companies_result:
                     result[key] += companies_result[key]
 
-            # Sync contacts
-            contacts_result = await self._sync_contacts_from_hubspot()
-            for key in result:
-                if key in contacts_result:
-                    result[key] += contacts_result[key]
+            # Sync contacts - TODO: Implement when Contact model exists
+            # contacts_result = await self._sync_contacts_from_hubspot()
+            # for key in result:
+            #     if key in contacts_result:
+            #         result[key] += contacts_result[key]
+            logger.info("Contact sync skipped - Contact model not yet implemented")
 
-            # Sync leads
-            leads_result = await self._sync_leads_from_hubspot()
-            for key in result:
-                if key in leads_result:
-                    result[key] += leads_result[key]
+            # Sync leads - TODO: Implement when Lead model exists
+            # leads_result = await self._sync_leads_from_hubspot()
+            # for key in result:
+            #     if key in leads_result:
+            #         result[key] += leads_result[key]
+            logger.info("Lead sync skipped - Lead model not yet implemented")
 
         except Exception as e:
             result["errors"].append(f"Inbound sync error: {str(e)}")
@@ -408,179 +411,20 @@ class HubSpotIntegration(BaseIntegration):
         return result
 
     async def _sync_contacts_from_hubspot(self) -> Dict[str, Any]:
-        """Sync HubSpot contacts to M&A platform"""
+        """Sync HubSpot contacts to M&A platform - DISABLED until Contact model exists"""
         result = {"processed": 0, "created": 0, "updated": 0, "failed": 0, "errors": []}
-
-        try:
-            last_sync_time = self.last_sync or (datetime.now() - timedelta(days=30))
-            properties = list(self.field_mappings["contact"].values())
-
-            after = None
-            has_more = True
-
-            async with get_db() as db:
-                while has_more:
-                    try:
-                        if after:
-                            contacts_page = self.hubspot.crm.contacts.basic_api.get_page(
-                                limit=100,
-                                properties=properties,
-                                after=after
-                            )
-                        else:
-                            contacts_page = self.hubspot.crm.contacts.basic_api.get_page(
-                                limit=100,
-                                properties=properties
-                            )
-
-                        contacts = contacts_page.results
-                        has_more = contacts_page.paging is not None
-                        after = contacts_page.paging.next.after if has_more else None
-
-                        for contact in contacts:
-                            try:
-                                result["processed"] += 1
-
-                                last_modified = self._parse_hubspot_date(
-                                    contact.properties.get("lastmodifieddate")
-                                )
-
-                                if last_modified and last_modified < last_sync_time:
-                                    continue
-
-                                existing_contact = await self._find_existing_contact(db, contact.id)
-
-                                contact_data = {
-                                    "first_name": contact.properties.get("firstname"),
-                                    "last_name": contact.properties.get("lastname"),
-                                    "email": contact.properties.get("email"),
-                                    "phone": contact.properties.get("phone"),
-                                    "title": contact.properties.get("jobtitle"),
-                                    "external_id": contact.id,
-                                    "external_source": "hubspot",
-                                    "updated_at": datetime.now()
-                                }
-
-                                if existing_contact:
-                                    for field, value in contact_data.items():
-                                        setattr(existing_contact, field, value)
-                                    result["updated"] += 1
-                                else:
-                                    contact_data.update({
-                                        "created_at": self._parse_hubspot_date(
-                                            contact.properties.get("createdate")
-                                        ) or datetime.now()
-                                    })
-                                    new_contact = Contact(**contact_data)
-                                    db.add(new_contact)
-                                    result["created"] += 1
-
-                            except Exception as e:
-                                result["failed"] += 1
-                                result["errors"].append(f"Failed to sync contact {contact.id}: {str(e)}")
-
-                    except ContactsApiException as e:
-                        result["errors"].append(f"HubSpot Contacts API error: {str(e)}")
-                        break
-
-                await db.commit()
-
-        except Exception as e:
-            result["errors"].append(f"Contacts sync error: {str(e)}")
-            result["failed"] += 1
-
+        logger.warning("Contact sync not implemented - Contact model does not exist")
         return result
+
+        # TODO: Re-enable when Contact model is created
 
     async def _sync_leads_from_hubspot(self) -> Dict[str, Any]:
-        """Sync HubSpot leads to M&A platform"""
+        """Sync HubSpot leads to M&A platform - DISABLED until Lead model exists"""
         result = {"processed": 0, "created": 0, "updated": 0, "failed": 0, "errors": []}
-
-        try:
-            # HubSpot doesn't have a separate leads object, so we sync contacts with lead status
-            last_sync_time = self.last_sync or (datetime.now() - timedelta(days=30))
-            properties = list(self.field_mappings["lead"].values())
-
-            # Filter for contacts that are leads (lifecycle stage = lead)
-            filter_group = {
-                "filters": [{
-                    "propertyName": "lifecyclestage",
-                    "operator": "EQ",
-                    "value": "lead"
-                }]
-            }
-
-            async with get_db() as db:
-                try:
-                    # Use search API for filtered results
-                    search_request = {
-                        "filterGroups": [filter_group],
-                        "properties": properties,
-                        "limit": 100
-                    }
-
-                    search_response = self.hubspot.crm.contacts.search_api.do_search(
-                        public_object_search_request=search_request
-                    )
-
-                    leads = search_response.results
-
-                    for lead_contact in leads:
-                        try:
-                            result["processed"] += 1
-
-                            last_modified = self._parse_hubspot_date(
-                                lead_contact.properties.get("lastmodifieddate")
-                            )
-
-                            if last_modified and last_modified < last_sync_time:
-                                continue
-
-                            existing_lead = await self._find_existing_lead(db, lead_contact.id)
-
-                            lead_data = {
-                                "email": lead_contact.properties.get("email"),
-                                "first_name": lead_contact.properties.get("firstname"),
-                                "last_name": lead_contact.properties.get("lastname"),
-                                "company": lead_contact.properties.get("company"),
-                                "phone": lead_contact.properties.get("phone"),
-                                "source": lead_contact.properties.get("hs_lead_source"),
-                                "score": self._parse_number(
-                                    lead_contact.properties.get("hubspotscore")
-                                ),
-                                "status": "new",  # Default status
-                                "external_id": lead_contact.id,
-                                "external_source": "hubspot",
-                                "updated_at": datetime.now()
-                            }
-
-                            if existing_lead:
-                                for field, value in lead_data.items():
-                                    setattr(existing_lead, field, value)
-                                result["updated"] += 1
-                            else:
-                                lead_data.update({
-                                    "created_at": self._parse_hubspot_date(
-                                        lead_contact.properties.get("createdate")
-                                    ) or datetime.now()
-                                })
-                                new_lead = Lead(**lead_data)
-                                db.add(new_lead)
-                                result["created"] += 1
-
-                        except Exception as e:
-                            result["failed"] += 1
-                            result["errors"].append(f"Failed to sync lead {lead_contact.id}: {str(e)}")
-
-                except ContactsApiException as e:
-                    result["errors"].append(f"HubSpot Leads search error: {str(e)}")
-
-                await db.commit()
-
-        except Exception as e:
-            result["errors"].append(f"Leads sync error: {str(e)}")
-            result["failed"] += 1
-
+        logger.warning("Lead sync not implemented - Lead model does not exist")
         return result
+
+        # TODO: Re-enable when Lead model is created
 
     async def _sync_to_hubspot(self) -> Dict[str, Any]:
         """Sync M&A platform data to HubSpot"""
@@ -599,11 +443,12 @@ class HubSpotIntegration(BaseIntegration):
                 if key in companies_result:
                     result[key] += companies_result[key]
 
-            # Sync leads to HubSpot contacts
-            leads_result = await self._sync_leads_to_hubspot()
-            for key in result:
-                if key in leads_result:
-                    result[key] += leads_result[key]
+            # Sync leads to HubSpot contacts - TODO: Implement when Lead model exists
+            # leads_result = await self._sync_leads_to_hubspot()
+            # for key in result:
+            #     if key in leads_result:
+            #         result[key] += leads_result[key]
+            logger.info("Lead to HubSpot sync skipped - Lead model not yet implemented")
 
         except Exception as e:
             result["errors"].append(f"Outbound sync error: {str(e)}")
@@ -730,65 +575,12 @@ class HubSpotIntegration(BaseIntegration):
         return result
 
     async def _sync_leads_to_hubspot(self) -> Dict[str, Any]:
-        """Sync M&A platform leads to HubSpot contacts"""
+        """Sync M&A platform leads to HubSpot contacts - DISABLED until Lead model exists"""
         result = {"processed": 0, "created": 0, "updated": 0, "failed": 0, "errors": []}
-
-        try:
-            async with get_db() as db:
-                last_sync_time = self.last_sync or (datetime.now() - timedelta(days=30))
-
-                leads_query = select(Lead).where(
-                    Lead.updated_at >= last_sync_time
-                )
-                result_leads = await db.execute(leads_query)
-                leads = result_leads.scalars().all()
-
-                for lead in leads:
-                    try:
-                        result["processed"] += 1
-
-                        contact_properties = {
-                            "email": lead.email,
-                            "firstname": lead.first_name,
-                            "lastname": lead.last_name,
-                            "company": lead.company,
-                            "phone": lead.phone,
-                            "hs_lead_source": lead.source,
-                            "hubspotscore": str(lead.score) if lead.score else None,
-                            "lifecyclestage": "lead"
-                        }
-
-                        # Remove None values
-                        contact_properties = {k: v for k, v in contact_properties.items() if v is not None}
-
-                        if lead.external_id and lead.external_source == "hubspot":
-                            # Update existing HubSpot contact
-                            self.hubspot.crm.contacts.basic_api.update(
-                                contact_id=lead.external_id,
-                                simple_public_object_input={"properties": contact_properties}
-                            )
-                            result["updated"] += 1
-                        else:
-                            # Create new HubSpot contact
-                            hs_result = self.hubspot.crm.contacts.basic_api.create(
-                                simple_public_object_input={"properties": contact_properties}
-                            )
-                            if hs_result.id:
-                                lead.external_id = hs_result.id
-                                lead.external_source = "hubspot"
-                                result["created"] += 1
-
-                    except Exception as e:
-                        result["failed"] += 1
-                        result["errors"].append(f"Failed to sync lead {lead.id}: {str(e)}")
-
-                await db.commit()
-
-        except Exception as e:
-            result["errors"].append(f"Leads to HubSpot sync error: {str(e)}")
-            result["failed"] += 1
-
+        logger.warning("Lead to HubSpot sync not implemented - Lead model does not exist")
         return result
+
+        # TODO: Re-enable when Lead model is created
 
     async def handle_webhook(self, event: WebhookEvent) -> bool:
         """Handle HubSpot webhook events"""
@@ -848,23 +640,15 @@ class HubSpotIntegration(BaseIntegration):
         result = await db.execute(query)
         return result.scalar_one_or_none()
 
-    async def _find_existing_contact(self, db, external_id: str) -> Optional[Contact]:
-        """Find existing contact by external ID"""
-        query = select(Contact).where(
-            Contact.external_id == external_id,
-            Contact.external_source == "hubspot"
-        )
-        result = await db.execute(query)
-        return result.scalar_one_or_none()
+    async def _find_existing_contact(self, db, external_id: str):
+        """Find existing contact by external ID - DISABLED until Contact model exists"""
+        # TODO: Re-enable when Contact model is created
+        return None
 
-    async def _find_existing_lead(self, db, external_id: str) -> Optional[Lead]:
-        """Find existing lead by external ID"""
-        query = select(Lead).where(
-            Lead.external_id == external_id,
-            Lead.external_source == "hubspot"
-        )
-        result = await db.execute(query)
-        return result.scalar_one_or_none()
+    async def _find_existing_lead(self, db, external_id: str):
+        """Find existing lead by external ID - DISABLED until Lead model exists"""
+        # TODO: Re-enable when Lead model is created
+        return None
 
     def _map_hubspot_stage_to_platform(self, hs_stage: Optional[str]) -> str:
         """Map HubSpot deal stage to platform stage"""
