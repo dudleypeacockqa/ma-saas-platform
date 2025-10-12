@@ -90,20 +90,20 @@ Default Render URLs will show authentication errors - this is expected and secur
 - **Environment**: Production
 - **Domain Restriction**: `100daysandbeyond.com` only
 - **Publishable Key**: `pk_live_[REDACTED_FOR_SECURITY]`
-- **Secret Key**: `sk_live_[REDACTED_FOR_SECURITY]`
+- **Secret Key**: `sk_live_XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX`
 
 ### **Frontend Environment Variables**
 ```env
-VITE_CLERK_PUBLISHABLE_KEY=pk_live_[YOUR_CLERK_PUBLISHABLE_KEY]
-CLERK_SECRET_KEY=sk_live_[YOUR_CLERK_SECRET_KEY]
+VITE_CLERK_PUBLISHABLE_KEY=pk_live_XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+CLERK_SECRET_KEY=sk_live_XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 VITE_API_URL=https://ma-saas-backend.onrender.com
 ```
 
 ### **Backend Environment Variables**
 ```env
 DATABASE_URL=postgresql://[YOUR_DATABASE_CREDENTIALS]
-CLERK_SECRET_KEY=sk_live_[YOUR_CLERK_SECRET_KEY]
-CLERK_PUBLISHABLE_KEY=pk_live_[YOUR_CLERK_PUBLISHABLE_KEY]
+CLERK_SECRET_KEY=sk_live_XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+CLERK_PUBLISHABLE_KEY=pk_live_XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 ENVIRONMENT=production
 ```
 
