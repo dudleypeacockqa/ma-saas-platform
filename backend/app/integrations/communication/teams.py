@@ -11,6 +11,7 @@ from typing import Dict, List, Optional, Any
 
 import aiohttp
 from msal import ConfidentialClientApplication
+from sqlalchemy import select
 
 from ..core.integration_manager import (
     BaseIntegration, IntegrationConfig, SyncResult, WebhookEvent,

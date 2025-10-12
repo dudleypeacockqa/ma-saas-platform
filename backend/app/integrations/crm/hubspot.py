@@ -14,6 +14,8 @@ from hubspot import HubSpot
 from hubspot.crm.deals import ApiException as DealsApiException
 from hubspot.crm.companies import ApiException as CompaniesApiException
 from hubspot.crm.contacts import ApiException as ContactsApiException
+from sqlalchemy import select
+from sqlalchemy.ext.asyncio import AsyncSession
 
 from ..core.integration_manager import (
     BaseIntegration, IntegrationConfig, SyncResult, WebhookEvent,

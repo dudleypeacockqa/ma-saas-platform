@@ -12,6 +12,8 @@ from typing import Dict, List, Optional, Any
 import aiohttp
 from simple_salesforce import Salesforce
 from simple_salesforce.exceptions import SalesforceError
+from sqlalchemy import select
+from sqlalchemy.ext.asyncio import AsyncSession
 
 from ..core.integration_manager import (
     BaseIntegration, IntegrationConfig, SyncResult, WebhookEvent,

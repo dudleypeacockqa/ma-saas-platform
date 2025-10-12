@@ -12,6 +12,7 @@ from typing import Dict, List, Optional, Any
 import aiohttp
 from slack_sdk.web.async_client import AsyncWebClient
 from slack_sdk.errors import SlackApiError
+from sqlalchemy import select
 
 from ..core.integration_manager import (
     BaseIntegration, IntegrationConfig, SyncResult, WebhookEvent,
