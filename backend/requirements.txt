@@ -50,14 +50,17 @@ boto3==1.35.56
 pytest==8.3.3
 pytest-asyncio==0.24.0
 
-# NOTE: Heavy dependencies removed for faster deployment
-# Add back incrementally as features are implemented:
+# Data Analysis & ML (required for AI predictions and analytics)
+pandas==2.2.3
+numpy==1.26.4
+
+# NOTE: Additional heavy dependencies can be added incrementally:
 # - celery, redis (background tasks)
 # - beautifulsoup4, selenium (web scraping)
-# - pandas, numpy, scikit-learn (data analysis & ML)
+# - scikit-learn (advanced ML models)
 # - matplotlib, reportlab, pillow (charts & PDF reports)
 # - yfinance (market data)
 # - moviepy, ffmpeg-python, pydub (media processing)
 # - openai-whisper, assemblyai (transcription)
-# - boto3, google-cloud-storage (cloud storage)
+# - google-cloud-storage (additional cloud storage)
 # - spotipy, google-api-python-client (platform APIs)
