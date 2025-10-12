@@ -20,7 +20,7 @@ from sqlalchemy import select, update, insert
 
 from ...core.database import get_db
 from ...core.config import settings
-from ...models.integration import Integration, IntegrationLog, DataSync
+from ...models.integrations import Integration, IntegrationLog, DataSync
 
 logger = logging.getLogger(__name__)
 
