@@ -71,9 +71,9 @@ The comprehensive assessment reveals a **partially implemented** Phase 1 with si
 ```bash
 # Create backend/.env with actual values
 DATABASE_URL=postgresql://[render-db-connection-string]
-CLERK_SECRET_KEY=sk_live_[actual-clerk-key]
-CLERK_PUBLISHABLE_KEY=pk_live_[actual-clerk-key]
-STRIPE_SECRET_KEY=sk_live_[actual-stripe-key]
+CLERK_SECRET_KEY=sk_live_XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+CLERK_PUBLISHABLE_KEY=pk_live_XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+STRIPE_SECRET_KEY=sk_live_XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 ANTHROPIC_API_KEY=[actual-anthropic-key]
 SECRET_KEY=[generated-secret-key]
 ```

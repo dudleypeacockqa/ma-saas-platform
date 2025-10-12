@@ -66,8 +66,8 @@ Create a `.env` file in the backend directory:
 
 ```bash
 # Clerk Authentication
-CLERK_SECRET_KEY=sk_test_your_secret_key_here
-CLERK_WEBHOOK_SECRET=whsec_your_webhook_secret_here
+CLERK_SECRET_KEY=sk_test_XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+CLERK_WEBHOOK_SECRET=whsec_XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
 # Database
 DATABASE_URL=postgresql://user:password@localhost:5432/ma_saas_db
