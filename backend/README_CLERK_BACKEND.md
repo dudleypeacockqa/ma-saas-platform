@@ -1,7 +1,9 @@
 # Clerk Backend Authentication Setup
 
 ## Overview
+
 This FastAPI backend integrates Clerk authentication to provide:
+
 - ✅ JWT token validation
 - ✅ User and organization ID extraction
 - ✅ Protected endpoint dependencies
@@ -13,6 +15,7 @@ This FastAPI backend integrates Clerk authentication to provide:
 ## Architecture
 
 ### Authentication Flow
+
 1. Frontend obtains JWT token from Clerk
 2. Frontend includes token in Authorization header: `Bearer <token>`
 3. Backend validates token using Clerk's secret key
@@ -22,6 +25,7 @@ This FastAPI backend integrates Clerk authentication to provide:
 ### Components
 
 #### 1. **Authentication Middleware** (`app/auth/clerk_auth.py`)
+
 - `ClerkAuthMiddleware`: Validates JWT tokens
 - `ClerkUser`: Model representing authenticated user
 - Dependency functions:
@@ -33,6 +37,7 @@ This FastAPI backend integrates Clerk authentication to provide:
   - `require_member`: Member+ endpoints
 
 #### 2. **Tenant Isolation** (`app/auth/tenant_isolation.py`)
+
 - `TenantAwareQuery`: Automatic organization filtering
 - `PersonalDataQuery`: Personal workspace queries
 - `TenantIsolationMixin`: SQLAlchemy model mixin
@@ -40,12 +45,14 @@ This FastAPI backend integrates Clerk authentication to provide:
 - Audit logging for compliance
 
 #### 3. **Webhook Handler** (`app/auth/webhooks.py`)
+
 - Processes Clerk webhook events
 - Syncs users and organizations to database
 - Handles membership changes
 - Validates webhook signatures using Svix
 
 #### 4. **API Endpoints**
+
 - **Users** (`app/routers/users.py`):
   - GET/PATCH `/api/users/me` - User profile
   - GET/PUT `/api/users/me/preferences` - User preferences
@@ -62,12 +69,13 @@ This FastAPI backend integrates Clerk authentication to provide:
 ## Setup Instructions
 
 ### 1. Environment Variables
+
 Create a `.env` file in the backend directory:
 
 ```bash
 # Clerk Authentication
-CLERK_SECRET_KEY=sk_test_your_secret_key_here
-CLERK_WEBHOOK_SECRET=whsec_your_webhook_secret_here
+CLERK_SECRET_KEY=sk_test_XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+CLERK_WEBHOOK_SECRET=whsec_XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
 # Database
 DATABASE_URL=postgresql://user:password@localhost:5432/ma_saas_db
@@ -79,6 +87,7 @@ FRONTEND_URL=http://localhost:5173
 ```
 
 ### 2. Get Clerk Keys
+
 1. Sign in to [Clerk Dashboard](https://dashboard.clerk.com)
 2. Go to **API Keys**
 3. Copy the **Secret Key** (starts with `sk_`)
@@ -91,6 +100,7 @@ FRONTEND_URL=http://localhost:5173
 7. Copy the **Webhook Secret** (starts with `whsec_`)
 
 ### 3. Database Models
+
 Ensure your SQLAlchemy models include tenant isolation:
 
 ```python
@@ -136,18 +146,20 @@ async def create_deal(
 ## API Usage Examples
 
 ### Authenticated Request from Frontend
+
 ```javascript
 const token = await clerk.session.getToken();
 
 const response = await fetch('http://localhost:8000/api/users/me', {
   headers: {
-    'Authorization': `Bearer ${token}`,
-    'Content-Type': 'application/json'
-  }
+    Authorization: `Bearer ${token}`,
+    'Content-Type': 'application/json',
+  },
 });
 ```
 
 ### Role-Based Access
+
 ```python
 # Admin only
 @router.delete("/sensitive-data")
@@ -167,6 +179,7 @@ async def approve_deal(
 ```
 
 ### Tenant-Isolated Queries
+
 ```python
 # All queries automatically filtered by organization
 deals = tenant_query.list(Deal)  # Only org's deals
@@ -177,21 +190,25 @@ tenant_query.create(Deal, title="New Deal")  # org_id auto-set
 ## Security Features
 
 ### 1. **Strict Tenant Isolation**
+
 - All queries automatically filtered by organization_id
 - Cross-tenant access prevented at query level
 - Audit logging for compliance
 
 ### 2. **Role-Based Access Control**
+
 - Three default roles: admin, manager, member
 - Custom permission checks available
 - Role inheritance (admin > manager > member)
 
 ### 3. **Webhook Security**
+
 - Signature validation using Svix
 - Replay attack prevention
 - Event deduplication
 
 ### 4. **Token Validation**
+
 - JWT signature verification
 - Expiration checking
 - Issuer validation
@@ -200,6 +217,7 @@ tenant_query.create(Deal, title="New Deal")  # org_id auto-set
 ## Testing
 
 ### Test Authentication
+
 ```bash
 # Get a token from Clerk (use frontend or Clerk CLI)
 TOKEN="your-jwt-token"
@@ -216,6 +234,7 @@ curl -X POST http://localhost:8000/api/webhooks/clerk \
 ```
 
 ### Run Tests
+
 ```bash
 cd backend
 pytest tests/test_auth.py

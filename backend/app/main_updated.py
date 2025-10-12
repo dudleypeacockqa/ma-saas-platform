@@ -23,6 +23,7 @@ from app.models import (
     organization,  # Organization model (replaces legacy models.Tenant)
     user,  # User model (replaces legacy models.User)
     subscription,  # Subscription model
+    subscription_management,  # Enhanced subscription models
 
     # Business domain models
     deal,  # Deal management
@@ -52,7 +53,7 @@ from app.models import (
 # Legacy code should be migrated to use the new models.
 
 # NOW import APIs (after all models are registered)
-from app.api import auth, tenants, users, content, marketing, integrations, emails
+from app.api import auth, tenants, users, content, marketing, integrations, emails, master_admin
 # from app.api import payments  # Temporarily disabled - needs StripeCustomer/Payment/WebhookEvent models
 from app.api import opportunities, valuations, negotiations, term_sheets, teams
 # from app.api import arbitrage  # Temporarily disabled - requires pandas dependency
@@ -80,8 +81,8 @@ load_dotenv()
 # Initialize FastAPI app
 app = FastAPI(
     title="M&A SaaS Platform",
-    description="Multi-tenant SaaS application for M&A deal management with Clerk authentication",
-    version="2.0.0",
+    description="Multi-tenant SaaS application for M&A deal management with Clerk authentication and Master Admin Portal",
+    version="2.1.0",
     docs_url="/api/docs",
     redoc_url="/api/redoc"
 )
@@ -106,6 +107,9 @@ security = HTTPBearer()
 app.include_router(webhook_router)  # Clerk webhooks (no auth required)
 app.include_router(users_router)    # User management (requires auth)
 app.include_router(organizations_router)  # Organization management (requires auth)
+
+# Include Master Admin Portal (NEW)
+app.include_router(master_admin.router)  # Master Admin & Business Portal
 
 # Include existing API routers
 app.include_router(auth.router, prefix="/api/auth", tags=["authentication"])
@@ -136,7 +140,7 @@ app.include_router(emails.router)  # Email campaign management
 @app.on_event("startup")
 def startup_event():
     """Initialize application on startup"""
-    logger.info("M&A SaaS Platform API starting up...")
+    logger.info("M&A SaaS Platform API with Master Admin Portal starting up...")
 
     # Check required environment variables
     required_vars = [
@@ -151,6 +155,9 @@ def startup_event():
     # Optional environment variables
     if not os.getenv("CLERK_WEBHOOK_SECRET"):
         logger.warning("CLERK_WEBHOOK_SECRET not set. Webhook verification will be disabled.")
+    
+    if not os.getenv("STRIPE_SECRET_KEY"):
+        logger.warning("STRIPE_SECRET_KEY not set. Payment processing will be disabled.")
 
     # Initialize database using SYNC operations only during startup
     # This prevents AsyncIO greenlet issues
@@ -168,7 +175,7 @@ def startup_event():
             logger.info("Database schema initialized")
 
         # Verify critical tables exist (sync operation)
-        critical_tables = ['organizations', 'users', 'deals', 'documents']
+        critical_tables = ['organizations', 'users', 'deals', 'documents', 'subscription_plans', 'subscriptions']
         tables_verified = verify_critical_tables(engine, critical_tables)
         if tables_verified:
             logger.info("Critical tables verified")
@@ -181,7 +188,7 @@ def startup_event():
         logger.warning("Database-dependent features may not work until database is available")
         # Don't fail startup - allow app to start even if DB is unavailable
 
-    logger.info("API startup complete")
+    logger.info("API startup complete - Master Admin Portal ready")
 
 @app.on_event("shutdown")
 async def shutdown_event():
@@ -191,11 +198,20 @@ async def shutdown_event():
 @app.get("/")
 async def root():
     return {
-        "message": "M&A SaaS Platform API",
+        "message": "M&A SaaS Platform API with Master Admin Portal",
         "status": "running",
-        "version": "2.0.0",
+        "version": "2.1.0",
         "authentication": "Clerk",
-        "documentation": "/api/docs"
+        "documentation": "/api/docs",
+        "features": [
+            "Multi-tenant M&A deal management",
+            "Master Admin & Business Portal",
+            "Advanced subscription management",
+            "Content creation suite",
+            "Lead generation system",
+            "Event management",
+            "Business intelligence dashboard"
+        ]
     }
 
 @app.get("/health")
@@ -206,7 +222,10 @@ async def health_check():
         "timestamp": datetime.utcnow().isoformat(),
         "clerk_configured": bool(os.getenv("CLERK_SECRET_KEY")),
         "database_configured": bool(os.getenv("DATABASE_URL")),
-        "webhook_configured": bool(os.getenv("CLERK_WEBHOOK_SECRET"))
+        "webhook_configured": bool(os.getenv("CLERK_WEBHOOK_SECRET")),
+        "stripe_configured": bool(os.getenv("STRIPE_SECRET_KEY")),
+        "master_admin_enabled": True,
+        "subscription_management_enabled": True
     }
 
 @app.get("/api/protected-example")
@@ -230,7 +249,8 @@ async def admin_endpoint_example(
     return {
         "message": "This is an admin-only endpoint",
         "user_id": current_user.user_id,
-        "role": current_user.organization_role
+        "role": current_user.organization_role,
+        "master_admin_access": True
     }
 
 @app.get("/api/tenant-example")

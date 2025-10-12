@@ -1,127 +1,132 @@
-import { useState } from 'react'
-import { Link } from 'react-router-dom'
-import { motion } from 'framer-motion'
-import { Button } from '@/components/ui/button'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-import { Badge } from '@/components/ui/badge'
-import { 
-  ArrowRight, 
-  TrendingUp, 
-  Users, 
-  FileText, 
-  BarChart3, 
-  Zap, 
-  Shield, 
+import { useState } from 'react';
+import { Link } from 'react-router-dom';
+import { motion } from 'framer-motion';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Badge } from '@/components/ui/badge';
+import {
+  ArrowRight,
+  TrendingUp,
+  Users,
+  FileText,
+  BarChart3,
+  Zap,
+  Shield,
   Globe,
   CheckCircle,
   Star,
-  Play
-} from 'lucide-react'
-import '../App.css'
+  Play,
+} from 'lucide-react';
 
 const LandingPage = () => {
-  const [activeFeature, setActiveFeature] = useState(0)
+  const [activeFeature, setActiveFeature] = useState(0);
 
   const features = [
     {
       icon: <TrendingUp className="h-8 w-8" />,
-      title: "Deal Pipeline Management",
-      description: "Track and manage your M&A deals from initial contact to closing with our intuitive pipeline system.",
-      benefits: ["Visual deal tracking", "Automated workflows", "Progress monitoring"]
+      title: 'Deal Pipeline Management',
+      description:
+        'Track and manage your M&A deals from initial contact to closing with our intuitive pipeline system.',
+      benefits: ['Visual deal tracking', 'Automated workflows', 'Progress monitoring'],
     },
     {
       icon: <Users className="h-8 w-8" />,
-      title: "Team Collaboration",
-      description: "Collaborate seamlessly with your team, clients, and advisors throughout the deal process.",
-      benefits: ["Real-time collaboration", "Role-based permissions", "Communication tools"]
+      title: 'Team Collaboration',
+      description:
+        'Collaborate seamlessly with your team, clients, and advisors throughout the deal process.',
+      benefits: ['Real-time collaboration', 'Role-based permissions', 'Communication tools'],
     },
     {
       icon: <FileText className="h-8 w-8" />,
-      title: "Document Management",
-      description: "Securely store, organize, and share deal documents with advanced version control.",
-      benefits: ["Secure document storage", "Version control", "Easy sharing"]
+      title: 'Document Management',
+      description:
+        'Securely store, organize, and share deal documents with advanced version control.',
+      benefits: ['Secure document storage', 'Version control', 'Easy sharing'],
     },
     {
       icon: <BarChart3 className="h-8 w-8" />,
-      title: "Analytics & Insights",
-      description: "Get data-driven insights into your deal performance and market trends.",
-      benefits: ["Performance analytics", "Market insights", "Custom reports"]
-    }
-  ]
+      title: 'Analytics & Insights',
+      description: 'Get data-driven insights into your deal performance and market trends.',
+      benefits: ['Performance analytics', 'Market insights', 'Custom reports'],
+    },
+  ];
 
   const pricingPlans = [
     {
-      name: "Solo Dealmaker",
-      price: "$279",
-      period: "/month",
-      description: "Perfect for individual professionals starting their M&A journey",
+      name: 'Solo Dealmaker',
+      price: '$279',
+      period: '/month',
+      description: 'Perfect for individual professionals starting their M&A journey',
       features: [
-        "Up to 3 team members",
-        "10 active deals",
-        "50GB storage",
-        "Basic analytics",
-        "Email support",
-        "Deal pipeline management"
+        'Up to 3 team members',
+        '10 active deals',
+        '50GB storage',
+        'Basic analytics',
+        'Email support',
+        'Deal pipeline management',
       ],
-      popular: false
+      popular: false,
     },
     {
-      name: "Growth Firm",
-      price: "$798",
-      period: "/month",
-      description: "For growing M&A teams and mid-size firms",
+      name: 'Growth Firm',
+      price: '$798',
+      period: '/month',
+      description: 'For growing M&A teams and mid-size firms',
       features: [
-        "Up to 15 team members",
-        "50 active deals",
-        "200GB storage",
-        "Advanced analytics",
-        "Priority support",
-        "AI-powered insights",
-        "Team collaboration tools",
-        "Workflow automation"
+        'Up to 15 team members',
+        '50 active deals',
+        '200GB storage',
+        'Advanced analytics',
+        'Priority support',
+        'AI-powered insights',
+        'Team collaboration tools',
+        'Workflow automation',
       ],
-      popular: true
+      popular: true,
     },
     {
-      name: "Enterprise",
-      price: "$1,598",
-      period: "/month",
-      description: "For large firms and investment banks",
+      name: 'Enterprise',
+      price: '$1,598',
+      period: '/month',
+      description: 'For large firms and investment banks',
       features: [
-        "Unlimited team members",
-        "Unlimited deals",
-        "1TB storage",
-        "Custom analytics",
-        "Dedicated support",
-        "White labeling",
-        "SSO integration",
-        "Custom integrations",
-        "Audit logs"
+        'Unlimited team members',
+        'Unlimited deals',
+        '1TB storage',
+        'Custom analytics',
+        'Dedicated support',
+        'White labeling',
+        'SSO integration',
+        'Custom integrations',
+        'Audit logs',
       ],
-      popular: false
-    }
-  ]
+      popular: false,
+    },
+  ];
 
   const testimonials = [
     {
-      name: "Sarah Chen",
-      role: "Managing Director, Apex Capital",
-      content: "100 Days and Beyond transformed our deal management process. We've closed 40% more deals since implementing the platform.",
-      rating: 5
+      name: 'Sarah Chen',
+      role: 'Managing Director, Apex Capital',
+      content:
+        "100 Days and Beyond transformed our deal management process. We've closed 40% more deals since implementing the platform.",
+      rating: 5,
     },
     {
-      name: "Michael Rodriguez",
-      role: "Partner, Sterling M&A",
-      content: "The analytics and insights have been game-changing for our firm. We can now identify trends and opportunities we never saw before.",
-      rating: 5
+      name: 'Michael Rodriguez',
+      role: 'Partner, Sterling M&A',
+      content:
+        'The analytics and insights have been game-changing for our firm. We can now identify trends and opportunities we never saw before.',
+      rating: 5,
     },
     {
-      name: "Emily Watson",
-      role: "VP Corporate Development, TechFlow",
-      content: "The collaboration features make it easy to work with our advisors and legal teams. Everything is in one place.",
-      rating: 5
-    }
-  ]
+      name: 'Emily Watson',
+      role: 'VP Corporate Development, TechFlow',
+      content:
+        'The collaboration features make it easy to work with our advisors and legal teams. Everything is in one place.',
+      rating: 5,
+    },
+  ];
 
   return (
     <div className="min-h-screen">
@@ -141,14 +146,15 @@ const LandingPage = () => {
             <h1 className="text-5xl md:text-7xl font-bold text-gray-900 dark:text-white mb-6">
               Master M&A in
               <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-                {" "}100 Days
+                {' '}
+                100 Days
               </span>
               <br />
               and Beyond
             </h1>
             <p className="text-xl md:text-2xl text-gray-600 dark:text-gray-300 mb-8 max-w-3xl mx-auto">
-              The only platform you need to manage, track, and close M&A deals faster. 
-              Built by dealmakers, for dealmakers.
+              The only platform you need to manage, track, and close M&A deals faster. Built by
+              dealmakers, for dealmakers.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Button size="lg" className="text-lg px-8 py-4" asChild>
@@ -180,7 +186,8 @@ const LandingPage = () => {
               Everything you need to close deals faster
             </h2>
             <p className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
-              From initial contact to deal closing, our platform streamlines every step of the M&A process.
+              From initial contact to deal closing, our platform streamlines every step of the M&A
+              process.
             </p>
           </motion.div>
 
@@ -201,23 +208,26 @@ const LandingPage = () => {
                   onClick={() => setActiveFeature(index)}
                 >
                   <div className="flex items-start space-x-4">
-                    <div className={`p-2 rounded-lg ${
-                      activeFeature === index
-                        ? 'bg-blue-500 text-white'
-                        : 'bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300'
-                    }`}>
+                    <div
+                      className={`p-2 rounded-lg ${
+                        activeFeature === index
+                          ? 'bg-blue-500 text-white'
+                          : 'bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300'
+                      }`}
+                    >
                       {feature.icon}
                     </div>
                     <div>
                       <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">
                         {feature.title}
                       </h3>
-                      <p className="text-gray-600 dark:text-gray-300 mb-3">
-                        {feature.description}
-                      </p>
+                      <p className="text-gray-600 dark:text-gray-300 mb-3">{feature.description}</p>
                       <ul className="space-y-1">
                         {feature.benefits.map((benefit, i) => (
-                          <li key={i} className="flex items-center text-sm text-gray-500 dark:text-gray-400">
+                          <li
+                            key={i}
+                            className="flex items-center text-sm text-gray-500 dark:text-gray-400"
+                          >
                             <CheckCircle className="h-4 w-4 text-green-500 mr-2" />
                             {benefit}
                           </li>
@@ -237,15 +247,9 @@ const LandingPage = () => {
               className="relative"
             >
               <div className="bg-gradient-to-br from-blue-500 to-purple-600 rounded-2xl p-8 text-white">
-                <div className="mb-6">
-                  {features[activeFeature].icon}
-                </div>
-                <h3 className="text-2xl font-bold mb-4">
-                  {features[activeFeature].title}
-                </h3>
-                <p className="text-blue-100 mb-6">
-                  {features[activeFeature].description}
-                </p>
+                <div className="mb-6">{features[activeFeature].icon}</div>
+                <h3 className="text-2xl font-bold mb-4">{features[activeFeature].title}</h3>
+                <p className="text-blue-100 mb-6">{features[activeFeature].description}</p>
                 <div className="space-y-3">
                   {features[activeFeature].benefits.map((benefit, i) => (
                     <div key={i} className="flex items-center">
@@ -287,11 +291,13 @@ const LandingPage = () => {
                 transition={{ duration: 0.5, delay: index * 0.1 }}
                 viewport={{ once: true }}
               >
-                <Card className={`relative h-full ${
-                  plan.popular 
-                    ? 'border-blue-500 shadow-lg scale-105' 
-                    : 'border-gray-200 dark:border-gray-700'
-                }`}>
+                <Card
+                  className={`relative h-full ${
+                    plan.popular
+                      ? 'border-blue-500 shadow-lg scale-105'
+                      : 'border-gray-200 dark:border-gray-700'
+                  }`}
+                >
                   {plan.popular && (
                     <Badge className="absolute -top-3 left-1/2 transform -translate-x-1/2 bg-blue-500">
                       Most Popular
@@ -303,9 +309,7 @@ const LandingPage = () => {
                       <span className="text-4xl font-bold">{plan.price}</span>
                       <span className="text-gray-500 dark:text-gray-400">{plan.period}</span>
                     </div>
-                    <CardDescription className="mt-2">
-                      {plan.description}
-                    </CardDescription>
+                    <CardDescription className="mt-2">{plan.description}</CardDescription>
                   </CardHeader>
                   <CardContent>
                     <ul className="space-y-3 mb-6">
@@ -316,14 +320,12 @@ const LandingPage = () => {
                         </li>
                       ))}
                     </ul>
-                    <Button 
-                      className="w-full" 
-                      variant={plan.popular ? "default" : "outline"}
+                    <Button
+                      className="w-full"
+                      variant={plan.popular ? 'default' : 'outline'}
                       asChild
                     >
-                      <Link to="/sign-up">
-                        Start Free Trial
-                      </Link>
+                      <Link to="/sign-up">Start Free Trial</Link>
                     </Button>
                   </CardContent>
                 </Card>
@@ -367,16 +369,12 @@ const LandingPage = () => {
                         <Star key={i} className="h-5 w-5 text-yellow-400 fill-current" />
                       ))}
                     </div>
-                    <p className="text-gray-600 dark:text-gray-300 mb-4">
-                      "{testimonial.content}"
-                    </p>
+                    <p className="text-gray-600 dark:text-gray-300 mb-4">"{testimonial.content}"</p>
                     <div>
                       <p className="font-semibold text-gray-900 dark:text-white">
                         {testimonial.name}
                       </p>
-                      <p className="text-sm text-gray-500 dark:text-gray-400">
-                        {testimonial.role}
-                      </p>
+                      <p className="text-sm text-gray-500 dark:text-gray-400">{testimonial.role}</p>
                     </div>
                   </CardContent>
                 </Card>
@@ -399,8 +397,8 @@ const LandingPage = () => {
               Ready to transform your M&A process?
             </h2>
             <p className="text-xl text-blue-100 mb-8 max-w-2xl mx-auto">
-              Join thousands of M&A professionals who are already using 100 Days and Beyond 
-              to close deals faster and more efficiently.
+              Join thousands of M&A professionals who are already using 100 Days and Beyond to close
+              deals faster and more efficiently.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Button size="lg" variant="secondary" className="text-lg px-8 py-4" asChild>
@@ -409,7 +407,11 @@ const LandingPage = () => {
                   <ArrowRight className="ml-2 h-5 w-5" />
                 </Link>
               </Button>
-              <Button size="lg" variant="outline" className="text-lg px-8 py-4 border-white text-white hover:bg-white hover:text-blue-600">
+              <Button
+                size="lg"
+                variant="outline"
+                className="text-lg px-8 py-4 border-white text-white hover:bg-white hover:text-blue-600"
+              >
                 Schedule Demo
               </Button>
             </div>
@@ -420,7 +422,7 @@ const LandingPage = () => {
         </div>
       </section>
     </div>
-  )
-}
+  );
+};
 
-export default LandingPage
+export default LandingPage;

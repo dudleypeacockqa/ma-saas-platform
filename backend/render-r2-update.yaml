@@ -1,0 +1,65 @@
+services:
+  - type: web
+    name: ma-saas-backend
+    env: docker
+    plan: starter
+    dockerfilePath: ../Dockerfile
+    dockerCommand: uvicorn app.main:app --host 0.0.0.0 --port $PORT
+    envVars:
+      # Database Configuration
+      - key: DATABASE_URL
+        fromDatabase:
+          name: ma-saas-db
+          property: connectionString
+
+      # Application Security
+      - key: SECRET_KEY
+        generateValue: true
+      - key: DEBUG
+        value: false
+      - key: ACCESS_TOKEN_EXPIRE_MINUTES
+        value: 30
+      - key: ALLOWED_ORIGINS
+        value: https://100daysandbeyond.com,https://www.100daysandbeyond.com,http://localhost:3000,http://localhost:5173
+
+      # AI Integration
+      - key: ANTHROPIC_API_KEY
+        sync: false # Set manually in Render dashboard
+      - key: OPENAI_API_KEY
+        sync: false # Set manually in Render dashboard
+
+      # Cloudflare R2 Storage Configuration
+      - key: STORAGE_PROVIDER
+        value: r2
+      - key: CLOUDFLARE_ACCOUNT_ID
+        sync: false # Set manually: 8424f73b33106452fa180d53b6cc128b
+      - key: CLOUDFLARE_R2_ACCESS_KEY_ID
+        sync: false # Set manually: fc23212e9240e3fdb61f90bde1c3844f
+      - key: CLOUDFLARE_R2_SECRET_ACCESS_KEY
+        sync: false # Set manually: c0ccf727fd530d84c56f82a9433fb619f56099897b9eb73760dae9ddcd05872c
+      - key: CLOUDFLARE_R2_BUCKET_NAME
+        value: ma-platform-documents
+      - key: CLOUDFLARE_R2_ENDPOINT
+        value: https://8424f73b33106452fa180d53b6cc128b.r2.cloudflarestorage.com
+
+      # R2 Configuration
+      - key: R2_REGION
+        value: auto
+      - key: R2_PUBLIC_URL
+        value: https://documents.100daysandbeyond.com
+      - key: R2_MAX_FILE_SIZE
+        value: 100MB
+      - key: R2_ALLOWED_EXTENSIONS
+        value: pdf,doc,docx,xls,xlsx,ppt,pptx,txt,csv,jpg,jpeg,png,gif
+      - key: R2_SIGNED_URL_EXPIRY
+        value: 3600
+      - key: R2_CORS_ORIGINS
+        value: https://100daysandbeyond.com,https://www.100daysandbeyond.com
+      - key: R2_ENCRYPTION_ENABLED
+        value: true
+
+databases:
+  - name: ma-saas-db
+    plan: starter
+    databaseName: ma_saas_platform
+    user: ma_saas_user
