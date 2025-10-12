@@ -146,14 +146,14 @@ setup_node_env() {
     # Install dependencies
     if [ -f "package.json" ]; then
         print_status "Installing Node.js dependencies..."
-        rm -rf node_modules package-lock.json && npm cache clean --force && npm install --legacy-peer-deps
+        pnpm install
         print_success "Node.js dependencies installed"
     else
         print_warning "package.json not found, initializing React app..."
         npx create-react-app . --template typescript
-        rm -rf node_modules package-lock.json && npm cache clean --force && npm install --legacy-peer-deps @clerk/clerk-react react-router-dom
-        rm -rf node_modules package-lock.json && npm cache clean --force && npm install --legacy-peer-deps lucide-react recharts
-        rm -rf node_modules package-lock.json && npm cache clean --force && npm install --legacy-peer-deps @tailwindcss/forms @tailwindcss/typography
+        pnpm install @clerk/clerk-react react-router-dom
+        pnpm install lucide-react recharts
+        pnpm install @tailwindcss/forms @tailwindcss/typography
         print_success "React app initialized with dependencies"
     fi
     
@@ -167,8 +167,11 @@ setup_database() {
     cd $BACKEND_DIR
     source venv/bin/activate
     
-    # Check if database configuration exists
-    if [ -f "alembic.ini" ]; then
+    # Check if using SQLite (skip migrations for testing)
+    if [[ "$DATABASE_URL" == *"sqlite"* ]]; then
+        print_status "Using SQLite database - skipping migrations"
+        print_success "Database setup completed (SQLite)"
+    elif [ -f "alembic.ini" ]; then
         print_status "Running database migrations..."
         alembic upgrade head
         print_success "Database migrations completed"
@@ -269,8 +272,9 @@ build_frontend() {
     cd $FRONTEND_DIR
     
     # Set environment variables
-    export REACT_APP_API_URL="http://localhost:8000"
-    export REACT_APP_CLERK_PUBLISHABLE_KEY="pk_test_your_key_here"
+    if [ -f ".env" ]; then
+        export $(cat .env | xargs)
+    fi
     
     print_status "Building React application..."
     npm run build
@@ -334,8 +338,9 @@ start_frontend() {
     print_status "Press Ctrl+C to stop the server"
     
     # Set environment variables
-    export REACT_APP_API_URL="http://localhost:8000"
-    export REACT_APP_CLERK_PUBLISHABLE_KEY="pk_test_your_key_here"
+    if [ -f ".env" ]; then
+        export $(cat .env | xargs)
+    fi
     
     # Start server in background for testing
     npm start &
