@@ -175,7 +175,7 @@ class IntegrationProject(BaseModel, SoftDeleteMixin):
 
 class IntegrationMilestone(BaseModel, SoftDeleteMixin):
     """Key milestones in the integration timeline (Day 1, Day 30, Day 100, etc.)"""
-    __tablename__ = "integration_milestones"
+    __tablename__ = "integration_project_milestones"
 
     organization_id = Column(UUID(as_uuid=False), ForeignKey("organizations.id"), nullable=False, index=True)
     project_id = Column(UUID(as_uuid=False), ForeignKey("integration_projects.id"), nullable=False, index=True)
@@ -218,7 +218,7 @@ class IntegrationMilestone(BaseModel, SoftDeleteMixin):
 
 class SynergyOpportunity(BaseModel, SoftDeleteMixin):
     """Synergy opportunities and realization tracking"""
-    __tablename__ = "synergy_opportunities"
+    __tablename__ = "project_synergy_opportunities"
 
     organization_id = Column(UUID(as_uuid=False), ForeignKey("organizations.id"), nullable=False, index=True)
     project_id = Column(UUID(as_uuid=False), ForeignKey("integration_projects.id"), nullable=False, index=True)
@@ -270,7 +270,7 @@ class SynergyOpportunity(BaseModel, SoftDeleteMixin):
 
 class IntegrationWorkstream(BaseModel, SoftDeleteMixin):
     """Functional workstreams for integration (IT, HR, Finance, Operations, etc.)"""
-    __tablename__ = "integration_workstreams"
+    __tablename__ = "integration_project_workstreams"
 
     organization_id = Column(UUID(as_uuid=False), ForeignKey("organizations.id"), nullable=False, index=True)
     project_id = Column(UUID(as_uuid=False), ForeignKey("integration_projects.id"), nullable=False, index=True)
@@ -322,10 +322,10 @@ class IntegrationWorkstream(BaseModel, SoftDeleteMixin):
 
 class IntegrationTask(BaseModel, SoftDeleteMixin):
     """Individual tasks within integration workstreams"""
-    __tablename__ = "integration_tasks"
+    __tablename__ = "integration_project_tasks"
 
     organization_id = Column(UUID(as_uuid=False), ForeignKey("organizations.id"), nullable=False, index=True)
-    workstream_id = Column(UUID(as_uuid=False), ForeignKey("integration_workstreams.id"), nullable=False, index=True)
+    workstream_id = Column(UUID(as_uuid=False), ForeignKey("integration_project_workstreams.id"), nullable=False, index=True)
 
     # Task details
     task_name = Column(String(300), nullable=False)
@@ -374,7 +374,7 @@ class IntegrationTask(BaseModel, SoftDeleteMixin):
 
 class CulturalAssessment(BaseModel, SoftDeleteMixin):
     """Cultural assessment and integration planning"""
-    __tablename__ = "cultural_assessments"
+    __tablename__ = "project_cultural_assessments"
 
     organization_id = Column(UUID(as_uuid=False), ForeignKey("organizations.id"), nullable=False, index=True)
     project_id = Column(UUID(as_uuid=False), ForeignKey("integration_projects.id"), nullable=False, index=True)
@@ -421,7 +421,7 @@ class CulturalAssessment(BaseModel, SoftDeleteMixin):
 
 class ChangeInitiative(BaseModel, SoftDeleteMixin):
     """Change management initiatives for integration"""
-    __tablename__ = "change_initiatives"
+    __tablename__ = "project_change_initiatives"
 
     organization_id = Column(UUID(as_uuid=False), ForeignKey("organizations.id"), nullable=False, index=True)
     project_id = Column(UUID(as_uuid=False), ForeignKey("integration_projects.id"), nullable=False, index=True)
@@ -528,7 +528,7 @@ class PerformanceMetric(BaseModel, SoftDeleteMixin):
 
 class IntegrationRisk(BaseModel, SoftDeleteMixin):
     """Risk identification and mitigation for integration"""
-    __tablename__ = "integration_risks"
+    __tablename__ = "integration_project_risks"
 
     organization_id = Column(UUID(as_uuid=False), ForeignKey("organizations.id"), nullable=False, index=True)
     project_id = Column(UUID(as_uuid=False), ForeignKey("integration_projects.id"), nullable=False, index=True)
