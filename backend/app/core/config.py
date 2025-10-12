@@ -20,6 +20,7 @@ class Settings:
         # Application
         self.app_name = "M&A SaaS Platform"
         self.debug = os.getenv("DEBUG", "false").lower() == "true"
+        self.ENVIRONMENT = os.getenv("ENVIRONMENT", "development")
         
         # CORS - Handle comma-separated string from environment
         allowed_origins_str = os.getenv("ALLOWED_ORIGINS", "http://localhost:3000,http://localhost:5173")
