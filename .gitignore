@@ -120,6 +120,10 @@ config/production.json
 config/secrets.json
 config/local.json
 
+# Context files (may contain sensitive instructions/configuration)
+.context/
+*.context/
+
 # Authentication tokens
 auth-tokens/
 jwt-keys/
