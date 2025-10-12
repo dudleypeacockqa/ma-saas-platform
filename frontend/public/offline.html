@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>M&A Platform - Offline</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+                'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+                sans-serif;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+        }
+
+        .offline-container {
+            text-align: center;
+            padding: 2rem;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        .offline-icon {
+            width: 120px;
+            height: 120px;
+            margin: 0 auto 2rem auto;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            font-weight: 300;
+        }
+
+        p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+            line-height: 1.6;
+        }
+
+        .retry-button {
+            background: rgba(255, 255, 255, 0.2);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            color: white;
+            padding: 1rem 2rem;
+            font-size: 1.1rem;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            text-decoration: none;
+            display: inline-block;
+            margin: 0.5rem;
+        }
+
+        .retry-button:hover {
+            background: rgba(255, 255, 255, 0.3);
+            border-color: rgba(255, 255, 255, 0.5);
+            transform: translateY(-2px);
+        }
+
+        .features-list {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 1.5rem;
+            margin: 2rem 0;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .features-list h3 {
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+        }
+
+        .features-list ul {
+            list-style: none;
+            text-align: left;
+        }
+
+        .features-list li {
+            padding: 0.5rem 0;
+            display: flex;
+            align-items: center;
+        }
+
+        .features-list li::before {
+            content: "✓";
+            margin-right: 0.5rem;
+            color: #4CAF50;
+            font-weight: bold;
+        }
+
+        .connection-status {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .offline {
+            background: #f44336;
+            color: white;
+        }
+
+        .online {
+            background: #4CAF50;
+            color: white;
+        }
+
+        @media (max-width: 600px) {
+            .offline-container {
+                padding: 1rem;
+            }
+
+            h1 {
+                font-size: 2rem;
+            }
+
+            p {
+                font-size: 1rem;
+            }
+
+            .offline-icon {
+                width: 80px;
+                height: 80px;
+                font-size: 2rem;
+            }
+        }
+
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.05);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="connection-status offline" id="connectionStatus">
+        📡 Offline
+    </div>
+
+    <div class="offline-container">
+        <div class="offline-icon pulse">
+            📱
+        </div>
+
+        <h1>You're Offline</h1>
+        <p>
+            No internet connection detected. Don't worry - some features are still available.
+        </p>
+
+        <div class="features-list">
+            <h3>Available Offline:</h3>
+            <ul>
+                <li>View recently cached deals</li>
+                <li>Access AI insights dashboard</li>
+                <li>Review pipeline analytics</li>
+                <li>Browse cached documents</li>
+                <li>View team information</li>
+            </ul>
+        </div>
+
+        <a href="/" class="retry-button" onclick="checkConnection()">
+            🔄 Try Again
+        </a>
+
+        <a href="/deals" class="retry-button">
+            📊 View Cached Deals
+        </a>
+    </div>
+
+    <script>
+        // Check connection status
+        function updateConnectionStatus() {
+            const statusEl = document.getElementById('connectionStatus');
+            if (navigator.onLine) {
+                statusEl.textContent = '🌐 Online';
+                statusEl.className = 'connection-status online';
+                // Automatically redirect when back online
+                setTimeout(() => {
+                    window.location.href = '/';
+                }, 2000);
+            } else {
+                statusEl.textContent = '📡 Offline';
+                statusEl.className = 'connection-status offline';
+            }
+        }
+
+        function checkConnection() {
+            if (navigator.onLine) {
+                window.location.href = '/';
+            } else {
+                // Show message
+                const button = event.target;
+                const originalText = button.textContent;
+                button.textContent = '❌ Still Offline';
+                setTimeout(() => {
+                    button.textContent = originalText;
+                }, 2000);
+            }
+        }
+
+        // Listen for connection changes
+        window.addEventListener('online', updateConnectionStatus);
+        window.addEventListener('offline', updateConnectionStatus);
+
+        // Initial check
+        updateConnectionStatus();
+
+        // Try to refresh every 30 seconds when offline
+        setInterval(() => {
+            if (!navigator.onLine) {
+                updateConnectionStatus();
+            }
+        }, 30000);
+
+        // PWA install prompt
+        let deferredPrompt;
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+
+            const installButton = document.createElement('a');
+            installButton.className = 'retry-button';
+            installButton.textContent = '📱 Install App';
+            installButton.onclick = async () => {
+                if (deferredPrompt) {
+                    deferredPrompt.prompt();
+                    const { outcome } = await deferredPrompt.userChoice;
+                    console.log(`User response to the install prompt: ${outcome}`);
+                    deferredPrompt = null;
+                }
+            };
+
+            document.querySelector('.offline-container').appendChild(installButton);
+        });
+    </script>
+</body>
+</html>

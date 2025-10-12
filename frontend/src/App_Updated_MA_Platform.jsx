@@ -40,7 +40,8 @@ import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/layout/Footer';
 
 // Clerk configuration
-const clerkPubKey = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY || 'pk_live_Y2xlcmsuMTAwZGF5c2FuZGJleW9uZC5jb20k';
+const clerkPubKey =
+  import.meta.env.VITE_CLERK_PUBLISHABLE_KEY || 'pk_live_Y2xlcmsuMTAwZGF5c2FuZGJleW9uZC5jb20k';
 
 function App() {
   return (
@@ -48,7 +49,6 @@ function App() {
       <ThemeProvider defaultTheme="light" storageKey="ma-platform-theme">
         <Router>
           <div className="min-h-screen bg-background">
-
             {/* Public Routes - Professional M&A Marketing Website */}
             <SignedOut>
               <Routes>
@@ -207,7 +207,10 @@ function App() {
                   <Route path="settings" element={<UserSettings />} />
 
                   {/* Legacy routes for existing service pages (authenticated access) */}
-                  <Route path="services/financial-intelligence" element={<FinancialIntelligencePage />} />
+                  <Route
+                    path="services/financial-intelligence"
+                    element={<FinancialIntelligencePage />}
+                  />
                   <Route path="services/template-engine" element={<TemplateEnginePage />} />
                   <Route path="services/offer-generator" element={<OfferStackGeneratorPage />} />
                   <Route path="services/deal-matching" element={<DealMatchingPage />} />
