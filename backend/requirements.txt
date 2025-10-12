@@ -30,6 +30,12 @@ aiohttp==3.10.10
 requests-ratelimiter==0.4.0
 pyrate-limiter<3.0.0
 
+# Integration SDKs
+simple-salesforce==1.12.6
+slack-sdk==3.33.1
+hubspot-api-client==9.2.0
+msal==1.31.0
+
 # AI & Claude Integration
 anthropic==0.37.1
 openai==1.58.1
@@ -53,6 +59,7 @@ sendgrid==6.10.0
 # Testing
 pytest==8.3.3
 pytest-asyncio==0.24.0
+pytest-dotenv==0.5.2
 
 # Data Analysis & ML (required for AI predictions and analytics)
 pandas==2.2.3
