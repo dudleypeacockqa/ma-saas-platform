@@ -1,42 +1,63 @@
 from sqlalchemy import create_engine
 from sqlalchemy.ext.asyncio import create_async_engine, AsyncSession
 from sqlalchemy.orm import sessionmaker
-from sqlalchemy.ext.declarative import declarative_base
 import os
 from dotenv import load_dotenv
+import logging
 
 load_dotenv()
-
-# Create declarative base for models
-Base = declarative_base()
+logger = logging.getLogger(__name__)
 
 # Database URL - will be configured for Render PostgreSQL
 DATABASE_URL = os.getenv(
     "DATABASE_URL",
-    "postgresql://user:password@localhost/ma_saas_db"
+    "postgresql://ma_user:ma_password@localhost:5432/ma_saas_platform"
 )
 
-# Handle Render's postgres:// URL format
-# Sync engine uses psycopg, async engine uses asyncpg
-SYNC_DATABASE_URL = DATABASE_URL
-ASYNC_DATABASE_URL = DATABASE_URL
+# Handle different URL formats for sync and async connections
+def get_sync_database_url(url: str) -> str:
+    """Convert database URL for synchronous psycopg connection"""
+    if url.startswith("postgres://"):
+        return url.replace("postgres://", "postgresql+psycopg://", 1)
+    elif url.startswith("postgresql://"):
+        return url.replace("postgresql://", "postgresql+psycopg://", 1)
+    elif url.startswith("postgresql+asyncpg://"):
+        return url.replace("postgresql+asyncpg://", "postgresql+psycopg://", 1)
+    return url
 
-if SYNC_DATABASE_URL.startswith("postgres://"):
-    SYNC_DATABASE_URL = SYNC_DATABASE_URL.replace("postgres://", "postgresql+psycopg://", 1)
-elif SYNC_DATABASE_URL.startswith("postgresql://"):
-    SYNC_DATABASE_URL = SYNC_DATABASE_URL.replace("postgresql://", "postgresql+psycopg://", 1)
+def get_async_database_url(url: str) -> str:
+    """Convert database URL for asynchronous asyncpg connection"""
+    if url.startswith("postgres://"):
+        return url.replace("postgres://", "postgresql+asyncpg://", 1)
+    elif url.startswith("postgresql://"):
+        return url.replace("postgresql://", "postgresql+asyncpg://", 1)
+    elif url.startswith("postgresql+psycopg"):
+        return url.replace("postgresql+psycopg://", "postgresql+asyncpg://", 1)
+    return url
 
-if ASYNC_DATABASE_URL.startswith("postgres://"):
-    ASYNC_DATABASE_URL = ASYNC_DATABASE_URL.replace("postgres://", "postgresql+asyncpg://", 1)
-elif ASYNC_DATABASE_URL.startswith("postgresql://"):
-    ASYNC_DATABASE_URL = ASYNC_DATABASE_URL.replace("postgresql://", "postgresql+asyncpg://", 1)
+# Create URLs for both sync and async
+SYNC_DATABASE_URL = get_sync_database_url(DATABASE_URL)
+ASYNC_DATABASE_URL = get_async_database_url(DATABASE_URL)
 
-# Sync engine and session
-engine = create_engine(SYNC_DATABASE_URL)
+logger.info(f"Sync DB URL configured: {SYNC_DATABASE_URL.split('@')[0]}@[HIDDEN]")
+logger.info(f"Async DB URL configured: {ASYNC_DATABASE_URL.split('@')[0]}@[HIDDEN]")
+
+# Sync engine and session (for startup, migrations, and non-async operations)
+engine = create_engine(
+    SYNC_DATABASE_URL,
+    pool_pre_ping=True,
+    pool_recycle=300,
+    echo=False  # Set to True for SQL debugging
+)
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
-# Async engine and session
-async_engine = create_async_engine(ASYNC_DATABASE_URL)
+# Async engine and session (for async API operations)
+async_engine = create_async_engine(
+    ASYNC_DATABASE_URL,
+    pool_pre_ping=True,
+    pool_recycle=300,
+    echo=False  # Set to True for SQL debugging
+)
 AsyncSessionLocal = sessionmaker(async_engine, class_=AsyncSession, expire_on_commit=False)
 
 def get_db():

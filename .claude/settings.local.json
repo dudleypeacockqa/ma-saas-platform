@@ -23,7 +23,13 @@
       "Bash(npm install:*)",
       "WebSearch",
       "Bash(pip install:*)",
-      "Bash(git rm:*)"
+      "Bash(git rm:*)",
+      "Bash(gh pr:*)",
+      "Bash(dir:*)",
+      "Bash(tree:*)",
+      "Bash(find:*)",
+      "Read(//c/Users/User/OneDrive - Q&A ERP Solutions (Pty) Ltd (1)/189 - ERP Reseller SaaS PM Software/**)",
+      "Bash(rm:*)"
     ],
     "deny": [],
     "ask": []

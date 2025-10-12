@@ -66,13 +66,14 @@ Optional workflows for project discovery and requirements gathering. Output feed
 
 ### Workflows
 
-| Workflow               | Purpose                                     | Output                 | When to Use           |
-| ---------------------- | ------------------------------------------- | ---------------------- | --------------------- |
-| **brainstorm-game**    | Game concept ideation using 5 methodologies | Concept proposals      | New game projects     |
-| **brainstorm-project** | Software solution exploration               | Architecture proposals | New software projects |
-| **game-brief**         | Structured game design foundation           | Game brief document    | Before GDD creation   |
-| **product-brief**      | Strategic product planning culmination      | Product brief          | End of analysis phase |
-| **research**           | Multi-mode research (market/technical/deep) | Research artifacts     | When evidence needed  |
+| Workflow               | Purpose                                        | Output                     | When to Use           |
+| ---------------------- | ---------------------------------------------- | -------------------------- | --------------------- |
+| **brainstorm-game**    | Game concept ideation using 5 methodologies    | Concept proposals          | New game projects     |
+| **brainstorm-project** | Software solution exploration                  | Architecture proposals     | New software projects |
+| **document-project**   | Brownfield codebase analysis and documentation | Comprehensive project docs | Existing codebases    |
+| **game-brief**         | Structured game design foundation              | Game brief document        | Before GDD creation   |
+| **product-brief**      | Strategic product planning culmination         | Product brief              | End of analysis phase |
+| **research**           | Multi-mode research (market/technical/deep)    | Research artifacts         | When evidence needed  |
 
 ### Flow
 
@@ -221,22 +222,26 @@ plan-project (Phase 2)
     │   ├─→ YES: Proceed with planning
     │   └─→ NO: HALT with message:
     │       "Brownfield project requires documentation.
-    │        Please run codebase-analysis workflow first."
-    │        └─→ [TBD: brownfield-analysis workflow]
+    │        Please run document-project workflow first."
+    │        └─→ ✅ document-project workflow (v1.2.0)
     │            ├─→ Analyzes existing code
     │            ├─→ Documents current architecture
     │            ├─→ Identifies technical debt
-    │            └─→ Creates baseline documentation
+    │            ├─→ Creates baseline documentation
+    │            ├─→ Three scan levels: Quick/Deep/Exhaustive
+    │            └─→ Resumable for large projects
     └─→ Continue with scale-adaptive planning
 ```
 
-**Critical for Brownfield**: Without adequate documentation of the existing system, the planning phase cannot accurately assess scope or create meaningful requirements. The brownfield-analysis workflow (coming soon) will:
+**Critical for Brownfield**: Without adequate documentation of the existing system, the planning phase cannot accurately assess scope or create meaningful requirements. The document-project workflow (v1.2.0) provides:
 
-- Map existing architecture
-- Document current patterns
-- Identify integration points
-- Assess technical debt
-- Create the baseline needed for planning
+- Automated project structure detection
+- Multi-type project support (12+ types)
+- Architecture documentation with templates
+- Source tree and component inventories
+- Tech stack analysis and patterns
+- Context-safe write-as-you-go approach
+- Resumable workflow for large codebases
 
 ## Agent Participation by Phase
 
@@ -309,6 +314,7 @@ plan-project (Phase 2)
 ```bash
 # Phase 1: Analysis (Optional)
 bmad analyst brainstorm-project
+bmad analyst document-project  # For brownfield projects
 bmad analyst research
 bmad analyst product-brief
 
@@ -332,7 +338,6 @@ bmad sm retrospective     # After epic
 
 ### Coming Soon
 
-- **brownfield-analysis**: Automated codebase documentation generator
 - **Workflow orchestration**: Automatic phase transitions
 - **Progress dashboards**: Real-time workflow status
 - **Team synchronization**: Multi-developer story coordination

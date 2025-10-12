@@ -161,6 +161,9 @@ class Deal(TenantModel, AuditableMixin):
     documents = relationship("DealDocument", back_populates="deal", lazy="dynamic")
     financial_models = relationship("DealFinancialModel", back_populates="deal", lazy="dynamic")
 
+    # Organization relationship
+    organization = relationship("Organization", back_populates="deals")
+
     # Table constraints
     __table_args__ = (
         CheckConstraint('probability_of_close >= 0 AND probability_of_close <= 100',
@@ -236,7 +239,7 @@ class DealTeamMember(TenantModel, AuditableMixin):
 
     # Relationships
     deal = relationship("Deal", back_populates="team_members")
-    user = relationship("User", backref="deal_memberships")
+    user = relationship("User")
 
     __table_args__ = (
         Index('ix_deal_team_deal_user', 'deal_id', 'user_id', unique=True),

@@ -18,7 +18,6 @@ if TYPE_CHECKING:
     from .organization import Organization
     from .deal import Deal, DealTeamMember
     from .documents import Document
-    from .activity import ActivityLog
 
 
 class UserRole(str, Enum):
@@ -29,12 +28,23 @@ class UserRole(str, Enum):
 
 
 class OrganizationRole(str, Enum):
-    """Organization-specific roles"""
+    """Organization-specific roles for M&A platform"""
+    # Legacy roles (for backward compatibility)
     OWNER = "org:owner"
     ADMIN = "org:admin"
     MANAGER = "org:manager"
     MEMBER = "org:member"
     VIEWER = "org:viewer"
+
+    # M&A-specific roles (Sprint 4)
+    MANAGING_PARTNER = "ma:managing_partner"    # Full access to everything
+    PARTNER = "ma:partner"                      # Deal oversight, client management
+    DIRECTOR = "ma:director"                    # Deal execution, document management
+    SENIOR_ASSOCIATE = "ma:senior_associate"   # Deal analysis, document creation
+    ASSOCIATE = "ma:associate"                  # Research, document preparation
+    ANALYST = "ma:analyst"                      # Research support, data analysis
+    CLIENT = "ma:client"                        # View assigned deals, upload documents
+    EXTERNAL_ADVISOR = "ma:external_advisor"    # Limited access to specific deals
 
 
 # Many-to-many association table for user permissions
@@ -221,6 +231,7 @@ class User(BaseModel, SoftDeleteMixin, MetadataMixin):
     organization_memberships = relationship(
         "OrganizationMembership",
         back_populates="user",
+        foreign_keys="OrganizationMembership.user_id",
         cascade="all, delete-orphan",
         lazy="dynamic"
     )
@@ -232,26 +243,17 @@ class User(BaseModel, SoftDeleteMixin, MetadataMixin):
         lazy="dynamic"
     )
 
-    created_documents = relationship(
-        "Document",
-        foreign_keys="Document.uploaded_by",
-        back_populates="uploader",
-        lazy="dynamic"
-    )
+    # Note: Document relationship removed due to missing foreign key constraint
+    # This can be re-added when Document.created_by has proper ForeignKey to users.id
 
     deal_memberships = relationship(
         "DealTeamMember",
         back_populates="user",
+        foreign_keys="DealTeamMember.user_id",
         cascade="all, delete-orphan",
         lazy="dynamic"
     )
 
-    activity_logs = relationship(
-        "ActivityLog",
-        back_populates="user",
-        cascade="all, delete-orphan",
-        lazy="dynamic"
-    )
 
     # Table constraints
     __table_args__ = (

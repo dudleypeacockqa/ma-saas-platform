@@ -18,6 +18,8 @@ from sqlalchemy.orm import selectinload
 from app.core.deps import get_db, get_current_user, get_current_tenant
 from app.models.documents import Document, DocumentCategory, DocumentStatus
 from app.services.storage_factory import storage_service
+from app.middleware.permission_middleware import require_permission, require_senior_role, load_document_context
+from app.core.permissions import ResourceType, Action
 from app.schemas.document import (
     DocumentCreate,
     DocumentUpdate,
@@ -64,12 +66,13 @@ def validate_file(file: UploadFile) -> bool:
 
 
 @router.post("/upload", response_model=UploadResponse)
+@require_permission(ResourceType.DOCUMENTS, Action.CREATE)
 async def upload_document(
     background_tasks: BackgroundTasks,
     file: UploadFile = File(...),
     deal_id: Optional[UUID] = Form(None),
     folder_path: str = Form("/"),
-    document_type: Optional[DocumentType] = Form(None),
+    document_type: Optional[DocumentCategory] = Form(None),
     title: Optional[str] = Form(None),
     description: Optional[str] = Form(None),
     tags: Optional[str] = Form(None),  # Comma-separated tags
@@ -129,7 +132,7 @@ async def upload_document(
         s3_key=storage_result.get('r2_key') or storage_result.get('s3_key') or storage_result.get('path', ''),
         s3_url=storage_result.get('r2_url') or storage_result.get('s3_url') or storage_result.get('signed_url', ''),
         s3_etag=storage_result.get('r2_etag') or storage_result.get('s3_etag') or storage_result.get('file_hash', ''),
-        document_type=document_type or DocumentType.OTHER,
+        document_type=document_type or DocumentCategory.OTHER,
         status=DocumentStatus.AVAILABLE,
         folder_path=folder_path,
         deal_id=deal_id,
@@ -164,6 +167,7 @@ async def upload_document(
 
 
 @router.post("/upload-direct", response_model=Dict[str, Any])
+@require_permission(ResourceType.DOCUMENTS, Action.CREATE)
 async def get_upload_presigned_url(
     filename: str,
     content_type: str,
@@ -208,10 +212,11 @@ async def get_upload_presigned_url(
 
 
 @router.get("/", response_model=DocumentListResponse)
+@require_permission(ResourceType.DOCUMENTS, Action.READ)
 async def list_documents(
     deal_id: Optional[UUID] = Query(None),
     folder_path: Optional[str] = Query("/"),
-    document_type: Optional[DocumentType] = Query(None),
+    document_type: Optional[DocumentCategory] = Query(None),
     search: Optional[str] = Query(None),
     tags: Optional[List[str]] = Query(None),
     is_confidential: Optional[bool] = Query(None),
@@ -305,6 +310,7 @@ async def list_documents(
 
 
 @router.get("/{document_id}", response_model=DocumentResponse)
+@require_permission(ResourceType.DOCUMENTS, Action.READ, context_loader=load_document_context)
 async def get_document(
     document_id: UUID,
     db: AsyncSession = Depends(get_db),
@@ -348,6 +354,7 @@ async def get_document(
 
 
 @router.get("/{document_id}/download")
+@require_permission(ResourceType.DOCUMENTS, Action.READ, context_loader=load_document_context)
 async def download_document(
     document_id: UUID,
     db: AsyncSession = Depends(get_db),
@@ -402,6 +409,7 @@ async def download_document(
 
 
 @router.patch("/{document_id}", response_model=DocumentResponse)
+@require_permission(ResourceType.DOCUMENTS, Action.UPDATE, context_loader=load_document_context)
 async def update_document(
     document_id: UUID,
     document_update: DocumentUpdate,
@@ -450,6 +458,7 @@ async def update_document(
 
 
 @router.delete("/{document_id}")
+@require_permission(ResourceType.DOCUMENTS, Action.DELETE, context_loader=load_document_context)
 async def delete_document(
     document_id: UUID,
     permanent: bool = Query(False, description="Permanently delete from S3"),
@@ -491,97 +500,4 @@ async def delete_document(
     return {"status": "success", "message": "Document deleted successfully"}
 
 
-@router.post("/folders", response_model=FolderResponse)
-async def create_folder(
-    folder_data: FolderCreate,
-    db: AsyncSession = Depends(get_db),
-    current_user: Dict[str, Any] = Depends(get_current_user),
-    tenant_id: UUID = Depends(get_current_tenant),
-) -> FolderResponse:
-    """
-    Create a new folder for organizing documents.
-    """
-
-    # Build folder path
-    if folder_data.parent_path:
-        folder_path = f"{folder_data.parent_path}/{folder_data.name}".replace('//', '/')
-    else:
-        folder_path = f"/{folder_data.name}"
-
-    # Check if folder already exists
-    existing_query = select(DocumentFolder).where(
-        DocumentFolder.organization_id == tenant_id,
-        DocumentFolder.path == folder_path
-    )
-    existing_result = await db.execute(existing_query)
-    if existing_result.scalar_one_or_none():
-        raise HTTPException(
-            status_code=status.HTTP_400_BAD_REQUEST,
-            detail="Folder already exists"
-        )
-
-    # Get parent folder if specified
-    parent_id = None
-    if folder_data.parent_path and folder_data.parent_path != '/':
-        parent_query = select(DocumentFolder).where(
-            DocumentFolder.organization_id == tenant_id,
-            DocumentFolder.path == folder_data.parent_path
-        )
-        parent_result = await db.execute(parent_query)
-        parent_folder = parent_result.scalar_one_or_none()
-        if parent_folder:
-            parent_id = parent_folder.id
-
-    # Create folder
-    folder = DocumentFolder(
-        id=uuid4(),
-        organization_id=tenant_id,
-        name=folder_data.name,
-        path=folder_path,
-        parent_id=parent_id,
-        deal_id=folder_data.deal_id,
-        created_by=UUID(current_user.get('id', str(tenant_id))),
-        description=folder_data.description,
-        color=folder_data.color,
-        icon=folder_data.icon
-    )
-
-    db.add(folder)
-    await db.commit()
-    await db.refresh(folder)
-
-    return FolderResponse.model_validate(folder)
-
-
-@router.get("/folders/", response_model=List[FolderResponse])
-async def list_folders(
-    deal_id: Optional[UUID] = Query(None),
-    parent_path: Optional[str] = Query("/"),
-    db: AsyncSession = Depends(get_db),
-    current_user: Dict[str, Any] = Depends(get_current_user),
-    tenant_id: UUID = Depends(get_current_tenant),
-) -> List[FolderResponse]:
-    """
-    List folders in a given path.
-    """
-
-    query = select(DocumentFolder).where(
-        DocumentFolder.organization_id == tenant_id
-    )
-
-    if deal_id:
-        query = query.where(DocumentFolder.deal_id == deal_id)
-
-    if parent_path:
-        # Get folders that are direct children of the parent path
-        query = query.where(
-            DocumentFolder.path.like(f"{parent_path}/%"),
-            ~DocumentFolder.path.like(f"{parent_path}/%/%")
-        )
-
-    query = query.order_by(DocumentFolder.name)
-
-    result = await db.execute(query)
-    folders = result.scalars().all()
-
-    return [FolderResponse.model_validate(folder) for folder in folders]
+# Folder endpoints will be implemented later when DocumentFolder model is created

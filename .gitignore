@@ -37,6 +37,9 @@ logs/
 .env.development.local
 .env.test.local
 .env.production.local
+.env.production
+secure.env
+**/. env.production
 
 # MCP Configuration (contains API keys)
 .mcp.json

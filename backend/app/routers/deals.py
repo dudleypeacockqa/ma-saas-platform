@@ -120,7 +120,7 @@ class DealResponse(BaseModel):
     activity_count: int = 0
 
     class Config:
-        orm_mode = True
+        from_attributes = True
 
 
 class DealStageUpdate(BaseModel):
@@ -462,6 +462,84 @@ async def add_team_member(
     db.commit()
 
     return {"message": "Team member added successfully"}
+
+
+@router.get("/{deal_id}/team/members", response_model=List[Dict[str, Any]])
+async def get_deal_team_members(
+    deal_id: str,
+    tenant_query: TenantAwareQuery = Depends(get_tenant_query)
+):
+    """Get deal team members (detailed endpoint for full CRUD)"""
+    deal = tenant_query.get_or_404(Deal, deal_id)
+
+    team_members = []
+    for member in deal.team_members.filter_by(is_active=True):
+        team_members.append({
+            "id": member.id,
+            "user_id": member.user_id,
+            "user_name": member.user.display_name if member.user else "Unknown",
+            "user_email": member.user.email if member.user else None,
+            "role": member.role,
+            "responsibilities": member.responsibilities,
+            "time_allocation_percentage": member.time_allocation_percentage,
+            "added_date": member.added_date,
+            "is_active": member.is_active
+        })
+
+    return team_members
+
+
+@router.post("/{deal_id}/team/members", status_code=status.HTTP_201_CREATED)
+async def add_deal_team_member(
+    deal_id: str,
+    team_member: DealTeamMemberAdd,
+    current_user: ClerkUser = Depends(get_current_organization_user),
+    tenant_query: TenantAwareQuery = Depends(get_tenant_query),
+    db: Session = Depends(get_db)
+):
+    """Add team member to deal (detailed endpoint for full CRUD)"""
+    return await add_team_member(deal_id, team_member, current_user, tenant_query, db)
+
+
+@router.delete("/{deal_id}/team/members/{member_id}", status_code=status.HTTP_204_NO_CONTENT)
+async def remove_deal_team_member(
+    deal_id: str,
+    member_id: str,
+    current_user: ClerkUser = Depends(get_current_organization_user),
+    tenant_query: TenantAwareQuery = Depends(get_tenant_query),
+    db: Session = Depends(get_db)
+):
+    """Remove team member from deal"""
+    deal = tenant_query.get_or_404(Deal, deal_id)
+
+    member = db.query(DealTeamMember).filter(
+        and_(
+            DealTeamMember.id == member_id,
+            DealTeamMember.deal_id == deal_id,
+            DealTeamMember.is_active == True
+        )
+    ).first()
+
+    if not member:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Team member not found"
+        )
+
+    member.is_active = False
+    member.removed_date = datetime.utcnow()
+
+    # Log activity
+    activity = DealActivity(
+        deal_id=deal_id,
+        activity_type="team_member_removed",
+        subject="Team Member Removed",
+        description=f"Removed team member {member.user_id}",
+        organization_id=current_user.organization_id,
+        created_by=current_user.user_id
+    )
+    db.add(activity)
+    db.commit()
 
 
 @router.get("/{deal_id}/activities", response_model=List[Dict[str, Any]])

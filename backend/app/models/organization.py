@@ -219,6 +219,7 @@ class Organization(BaseModel, SoftDeleteMixin, MetadataMixin):
     deals = relationship(
         "Deal",
         back_populates="organization",
+        foreign_keys="Deal.organization_id",
         cascade="all, delete-orphan",
         lazy="dynamic"
     )
@@ -237,12 +238,6 @@ class Organization(BaseModel, SoftDeleteMixin, MetadataMixin):
         lazy="dynamic"
     )
 
-    activity_logs = relationship(
-        "ActivityLog",
-        back_populates="organization",
-        cascade="all, delete-orphan",
-        lazy="dynamic"
-    )
 
     # Table constraints
     __table_args__ = (
