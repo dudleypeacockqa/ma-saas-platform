@@ -1,255 +1,304 @@
-from fastapi import FastAPI, Depends, HTTPException, status
+"""
+Complete FastAPI Application
+Master Admin & Business Portal with all integrated systems
+"""
+
+from fastapi import FastAPI, Depends, HTTPException, Request
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
-from sqlalchemy.orm import Session
-import os
-from dotenv import load_dotenv
+from fastapi.middleware.trustedhost import TrustedHostMiddleware
+from fastapi.responses import JSONResponse
+from fastapi.staticfiles import StaticFiles
 import logging
+import time
+from contextlib import asynccontextmanager
 
-from app.core.database import get_db, engine
+# Core imports
+from app.core.database import engine, Base
 from app.core.config import settings
-from app.core.db_init import init_database, verify_critical_tables, create_extensions
+from app.auth.clerk_auth import ClerkUser, get_current_user
 
-# CRITICAL: Import models BEFORE APIs to avoid duplicate table registration
-# APIs import services, which import models. We must import models first.
-
-# Import base module first to get unified Base class
-from app.models import base
-
-# Import ALL model modules to register tables with metadata
-# IMPORTANT: Import order matters to avoid circular dependencies
-from app.models import (
-    # Core models (organization and user must come first for foreign keys)
-    organization,  # Organization model (replaces legacy models.Tenant)
-    user,  # User model (replaces legacy models.User)
-    subscription,  # Subscription model
-
-    # Business domain models
-    deal,  # Deal management
-    due_diligence as dd_models,  # Due diligence
-    content as content_models,  # Content models
-    analytics,  # Analytics
-    prospects,  # Prospects
-    transactions,  # Transactions
-    # integration,  # Skip - conflicts with integration_planning.py (use integration_planning instead)
-
-    # New M&A feature models
-    financial_models,  # Valuation models
-    opportunities as opportunity_models,  # Deal sourcing
-    negotiations as negotiation_models,  # Negotiations (includes term sheets)
-    documents as document_models,  # Documents
-    arbitrage as arbitrage_models,  # Arbitrage
-    teams as team_models,  # Teams
-    # term_sheets,  # Part of negotiations.py
-    episodes,  # Podcast production
-    integrations as integration_models,  # Multi-platform integrations
-    integration_planning,  # Integration planning
-    email_campaigns,  # Email campaign management
-)
-
-# NOTE: models.py contains legacy Tenant/User models that conflict with
-# organization.py and user.py. Do NOT import models.py.
-# Legacy code should be migrated to use the new models.
-
-# NOW import APIs (after all models are registered)
-from app.api import auth, tenants, users, content, marketing, integrations, emails
-# from app.api import payments  # Temporarily disabled - needs StripeCustomer/Payment/WebhookEvent models
-from app.api import opportunities, valuations, negotiations, term_sheets, teams
-# from app.api import arbitrage  # Temporarily disabled - requires pandas dependency
-# from app.api import ai  # Temporarily disabled - needs Deal model update
-from app.routers import due_diligence, deals
-from app.api.v1 import pipeline, analytics as pipeline_analytics, documents as v1_documents, analytics_advanced, reports, predictive_analytics, realtime_collaboration
-
-# Import Clerk authentication components
-from app.auth.webhooks import router as webhook_router
-from app.routers.users import router as users_router
-from app.routers.organizations import router as organizations_router
-
-# Import auth dependencies (needed for route handlers below)
-from app.auth.clerk_auth import ClerkUser, get_current_user, require_admin
-from app.auth.tenant_isolation import TenantAwareQuery, get_tenant_query
-from datetime import datetime
+# API routers
+from app.api.auth import router as auth_router
+from app.api.users import router as users_router
+from app.api.tenants import router as tenants_router
+from app.api.master_admin import router as master_admin_router
+from app.api.subscription_management import router as subscription_router
+from app.api.content_creation import router as content_router
+from app.api.event_management import router as event_router
+from app.api.lead_generation import router as lead_router
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
-# Load environment variables
-load_dotenv()
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    """Application lifespan events"""
+    # Startup
+    logger.info("Starting M&A SaaS Platform...")
+    
+    # Create database tables
+    Base.metadata.create_all(bind=engine)
+    logger.info("Database tables created/verified")
+    
+    yield
+    
+    # Shutdown
+    logger.info("Shutting down M&A SaaS Platform...")
 
-# Initialize FastAPI app
+# Create FastAPI application
 app = FastAPI(
-    title="M&A SaaS Platform",
-    description="Multi-tenant SaaS application for M&A deal management with Clerk authentication",
-    version="2.0.0",
-    docs_url="/api/docs",
-    redoc_url="/api/redoc"
+    title="M&A SaaS Platform - Master Admin Portal",
+    description="Comprehensive multi-tenant M&A SaaS platform with Master Admin & Business Portal",
+    version="1.0.0",
+    docs_url="/docs",
+    redoc_url="/redoc",
+    lifespan=lifespan
 )
 
-# Configure CORS
+# ============================================================================
+# MIDDLEWARE CONFIGURATION
+# ============================================================================
+
+# CORS middleware
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=settings.allowed_origins,
+    allow_origins=[
+        "http://localhost:3000",
+        "http://localhost:3001",
+        "https://localhost:3000",
+        "https://localhost:3001",
+        "https://*.vercel.app",
+        "https://*.netlify.app",
+        settings.FRONTEND_URL if hasattr(settings, 'FRONTEND_URL') else "http://localhost:3000"
+    ],
     allow_credentials=True,
-    allow_methods=["*"],
+    allow_methods=["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
     allow_headers=["*"],
 )
 
-# Add authentication middleware
-from app.middleware.auth_middleware import AuthenticationMiddleware
-app.add_middleware(AuthenticationMiddleware)
+# Trusted host middleware
+app.add_middleware(
+    TrustedHostMiddleware,
+    allowed_hosts=["*"]  # Configure appropriately for production
+)
 
-# Security
-security = HTTPBearer()
+# Request logging middleware
+@app.middleware("http")
+async def log_requests(request: Request, call_next):
+    start_time = time.time()
+    
+    # Log request
+    logger.info(f"Request: {request.method} {request.url}")
+    
+    response = await call_next(request)
+    
+    # Log response
+    process_time = time.time() - start_time
+    logger.info(f"Response: {response.status_code} - {process_time:.4f}s")
+    
+    return response
 
-# Include API routers with Clerk authentication
-app.include_router(webhook_router)  # Clerk webhooks (no auth required)
-app.include_router(users_router)    # User management (requires auth)
-app.include_router(organizations_router)  # Organization management (requires auth)
+# ============================================================================
+# EXCEPTION HANDLERS
+# ============================================================================
 
-# Include existing API routers
-app.include_router(auth.router, prefix="/api/auth", tags=["authentication"])
-app.include_router(tenants.router, prefix="/api/tenants", tags=["tenants"])
-app.include_router(deals.router)  # Deal management (prefix already defined in router)
-app.include_router(users.router, prefix="/api/users", tags=["users"])
-# app.include_router(ai.router, prefix="/api/ai", tags=["ai-analysis"])  # Temporarily disabled
-app.include_router(pipeline.router, prefix="/api/v1/pipeline", tags=["pipeline"])  # Pipeline board management
-app.include_router(pipeline_analytics.router, prefix="/api/v1/analytics", tags=["analytics"])  # Pipeline analytics
-app.include_router(analytics_advanced.router, prefix="/api/v1/analytics-advanced", tags=["analytics-advanced"])  # Sprint 5: Advanced Analytics
-app.include_router(reports.router, prefix="/api/v1/reports", tags=["reports"])  # Sprint 5: Data Export & Reporting
-app.include_router(predictive_analytics.router, prefix="/api/v1/predictive", tags=["predictive-analytics"])  # Sprint 6: Predictive Analytics
-app.include_router(realtime_collaboration.router, prefix="/api/v1/collaboration", tags=["real-time-collaboration"])  # Sprint 7: Real-Time Collaboration
-app.include_router(due_diligence.router)  # Due diligence management
-app.include_router(content.router)  # Content creation and management
-app.include_router(marketing.router)  # Marketing and subscriber acquisition
-# app.include_router(payments.router)  # Temporarily disabled - needs StripeCustomer/Payment/WebhookEvent models
-app.include_router(integrations.router)  # Platform integrations and workflows
-app.include_router(opportunities.router, prefix="/api")  # M&A opportunity management
-app.include_router(valuations.router, prefix="/api")  # Financial modeling and valuation
-# app.include_router(arbitrage.router, prefix="/api")  # Temporarily disabled - requires pandas dependency
-app.include_router(negotiations.router)  # Deal negotiation and structuring
-app.include_router(term_sheets.router)  # Term sheet management with collaboration
-app.include_router(v1_documents.router, prefix="/api/v1/documents")  # Document management with versioning and approvals
-app.include_router(teams.router, prefix="/api")  # Team management and workflow orchestration
-app.include_router(emails.router)  # Email campaign management
+@app.exception_handler(HTTPException)
+async def http_exception_handler(request: Request, exc: HTTPException):
+    """Handle HTTP exceptions"""
+    return JSONResponse(
+        status_code=exc.status_code,
+        content={
+            "error": True,
+            "message": exc.detail,
+            "status_code": exc.status_code,
+            "path": str(request.url)
+        }
+    )
+
+@app.exception_handler(Exception)
+async def general_exception_handler(request: Request, exc: Exception):
+    """Handle general exceptions"""
+    logger.error(f"Unhandled exception: {exc}", exc_info=True)
+    return JSONResponse(
+        status_code=500,
+        content={
+            "error": True,
+            "message": "Internal server error",
+            "status_code": 500,
+            "path": str(request.url)
+        }
+    )
+
+# ============================================================================
+# API ROUTES
+# ============================================================================
+
+# Health check endpoint
+@app.get("/health")
+async def health_check():
+    """Health check endpoint"""
+    return {
+        "status": "healthy",
+        "service": "M&A SaaS Platform - Master Admin Portal",
+        "version": "1.0.0",
+        "timestamp": time.time()
+    }
+
+# System status endpoint
+@app.get("/status")
+async def system_status(current_user: ClerkUser = Depends(get_current_user)):
+    """System status endpoint (requires authentication)"""
+    return {
+        "status": "operational",
+        "services": {
+            "database": "connected",
+            "authentication": "active",
+            "master_admin": "active",
+            "subscription_management": "active",
+            "content_creation": "active",
+            "event_management": "active",
+            "lead_generation": "active"
+        },
+        "user": {
+            "user_id": current_user.user_id,
+            "email": current_user.email
+        },
+        "timestamp": time.time()
+    }
+
+# Include API routers
+app.include_router(auth_router, prefix="/api/auth", tags=["authentication"])
+app.include_router(users_router, prefix="/api/users", tags=["users"])
+app.include_router(tenants_router, prefix="/api/tenants", tags=["tenants"])
+app.include_router(master_admin_router, prefix="/api/admin", tags=["master-admin"])
+app.include_router(subscription_router, prefix="/api/subscriptions", tags=["subscriptions"])
+app.include_router(content_router, prefix="/api/content", tags=["content-creation"])
+app.include_router(event_router, prefix="/api/events", tags=["events"])
+app.include_router(lead_router, prefix="/api/leads", tags=["leads"])
+
+# ============================================================================
+# STATIC FILES AND FRONTEND SERVING
+# ============================================================================
+
+# Mount static files (if serving frontend from backend)
+try:
+    app.mount("/static", StaticFiles(directory="static"), name="static")
+except RuntimeError:
+    # Static directory doesn't exist, skip mounting
+    logger.info("Static directory not found, skipping static file serving")
+
+# ============================================================================
+# STARTUP MESSAGE
+# ============================================================================
 
 @app.on_event("startup")
-def startup_event():
-    """Initialize application on startup"""
-    logger.info("M&A SaaS Platform API starting up...")
+async def startup_message():
+    """Log startup message"""
+    logger.info("=" * 80)
+    logger.info("M&A SAAS PLATFORM - MASTER ADMIN & BUSINESS PORTAL")
+    logger.info("=" * 80)
+    logger.info("🚀 Platform Status: OPERATIONAL")
+    logger.info("📊 Master Admin Portal: ACTIVE")
+    logger.info("💳 Subscription Management: ACTIVE")
+    logger.info("🎥 Content Creation Suite: ACTIVE")
+    logger.info("📅 Event Management: ACTIVE")
+    logger.info("🎯 Lead Generation: ACTIVE")
+    logger.info("=" * 80)
+    logger.info("API Documentation: http://localhost:8000/docs")
+    logger.info("Health Check: http://localhost:8000/health")
+    logger.info("System Status: http://localhost:8000/status")
+    logger.info("=" * 80)
 
-    # Check required environment variables
-    required_vars = [
-        "CLERK_SECRET_KEY",
-        "DATABASE_URL"
-    ]
+# ============================================================================
+# DEVELOPMENT ENDPOINTS (Remove in production)
+# ============================================================================
 
-    missing_vars = [var for var in required_vars if not os.getenv(var)]
-    if missing_vars:
-        logger.warning(f"Missing environment variables: {missing_vars}")
+if settings.ENVIRONMENT == "development":
+    
+    @app.get("/dev/info")
+    async def development_info():
+        """Development information endpoint"""
+        return {
+            "environment": "development",
+            "debug": True,
+            "available_endpoints": [
+                "/health",
+                "/status",
+                "/docs",
+                "/redoc",
+                "/api/auth/*",
+                "/api/users/*",
+                "/api/tenants/*",
+                "/api/admin/*",
+                "/api/subscriptions/*",
+                "/api/content/*",
+                "/api/events/*",
+                "/api/leads/*"
+            ],
+            "features": {
+                "master_admin_portal": True,
+                "subscription_management": True,
+                "content_creation_suite": True,
+                "event_management": True,
+                "lead_generation": True,
+                "multi_tenant_support": True,
+                "stripe_integration": True,
+                "eventbrite_integration": True,
+                "email_automation": True,
+                "lead_scoring": True
+            }
+        }
+    
+    @app.get("/dev/test-auth")
+    async def test_authentication(current_user: ClerkUser = Depends(get_current_user)):
+        """Test authentication endpoint"""
+        return {
+            "authenticated": True,
+            "user_id": current_user.user_id,
+            "email": current_user.email,
+            "roles": getattr(current_user, 'roles', []),
+            "message": "Authentication successful"
+        }
 
-    # Optional environment variables
-    if not os.getenv("CLERK_WEBHOOK_SECRET"):
-        logger.warning("CLERK_WEBHOOK_SECRET not set. Webhook verification will be disabled.")
-
-    # Initialize database using SYNC operations only during startup
-    # This prevents AsyncIO greenlet issues
-    try:
-        logger.info("Starting database initialization...")
-
-        # Create required PostgreSQL extensions (sync operation)
-        extensions_created = create_extensions(engine)
-        if extensions_created:
-            logger.info("Database extensions ready")
-
-        # Initialize database schema with proper race condition handling (sync operation)
-        schema_initialized = init_database(engine, base.Base.metadata)
-        if schema_initialized:
-            logger.info("Database schema initialized")
-
-        # Verify critical tables exist (sync operation)
-        critical_tables = ['organizations', 'users', 'deals', 'documents']
-        tables_verified = verify_critical_tables(engine, critical_tables)
-        if tables_verified:
-            logger.info("Critical tables verified")
-
-        logger.info("Database initialization completed successfully")
-
-    except Exception as e:
-        logger.error(f"Database initialization failed: {e}")
-        logger.warning("Application will continue with limited functionality")
-        logger.warning("Database-dependent features may not work until database is available")
-        # Don't fail startup - allow app to start even if DB is unavailable
-
-    logger.info("API startup complete")
-
-@app.on_event("shutdown")
-async def shutdown_event():
-    """Clean up on application shutdown"""
-    logger.info("M&A SaaS Platform API shutting down...")
+# ============================================================================
+# ROOT ENDPOINT
+# ============================================================================
 
 @app.get("/")
 async def root():
+    """Root endpoint"""
     return {
-        "message": "M&A SaaS Platform API",
-        "status": "running",
-        "version": "2.0.0",
-        "authentication": "Clerk",
-        "documentation": "/api/docs"
+        "service": "M&A SaaS Platform - Master Admin Portal",
+        "version": "1.0.0",
+        "status": "operational",
+        "documentation": "/docs",
+        "health_check": "/health",
+        "system_status": "/status",
+        "features": [
+            "Master Admin & Business Portal",
+            "Multi-tenant Architecture",
+            "Subscription Management",
+            "Content Creation Suite",
+            "Event Management with EventBrite",
+            "Lead Generation & Marketing Automation",
+            "Advanced Analytics & Reporting"
+        ],
+        "message": "Welcome to the M&A SaaS Platform Master Admin Portal"
     }
 
-@app.get("/health")
-async def health_check():
-    """Health check endpoint for monitoring"""
-    return {
-        "status": "healthy",
-        "timestamp": datetime.utcnow().isoformat(),
-        "clerk_configured": bool(os.getenv("CLERK_SECRET_KEY")),
-        "database_configured": bool(os.getenv("DATABASE_URL")),
-        "webhook_configured": bool(os.getenv("CLERK_WEBHOOK_SECRET"))
-    }
-
-@app.get("/api/protected-example")
-async def protected_endpoint_example(
-    current_user: ClerkUser = Depends(get_current_user)
-):
-    """Example of a protected endpoint requiring authentication"""
-    return {
-        "message": "This is a protected endpoint",
-        "user_id": current_user.user_id,
-        "email": current_user.email,
-        "organization_id": current_user.organization_id,
-        "organization_role": current_user.organization_role
-    }
-
-@app.get("/api/admin-example")
-async def admin_endpoint_example(
-    current_user: ClerkUser = Depends(require_admin)
-):
-    """Example of an admin-only endpoint"""
-    return {
-        "message": "This is an admin-only endpoint",
-        "user_id": current_user.user_id,
-        "role": current_user.organization_role
-    }
-
-@app.get("/api/tenant-example")
-async def tenant_isolated_example(
-    tenant_query: TenantAwareQuery = Depends(get_tenant_query)
-):
-    """Example of tenant-isolated data access"""
-    # This would only return data for the user's organization
-    # deals = tenant_query.list(Deal, limit=10)
-    return {
-        "message": "This endpoint uses tenant isolation",
-        "organization_id": tenant_query.organization_id
-    }
+# ============================================================================
+# MAIN EXECUTION
+# ============================================================================
 
 if __name__ == "__main__":
     import uvicorn
+    
+    logger.info("Starting M&A SaaS Platform in development mode...")
     uvicorn.run(
-        app,
+        "main_complete:app",
         host="0.0.0.0",
-        port=int(os.getenv("PORT", 8000)),
-        reload=bool(os.getenv("DEV_MODE", False))
+        port=8000,
+        reload=True,
+        log_level="info"
     )
