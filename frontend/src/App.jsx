@@ -15,6 +15,9 @@ import BlogPage from '@/pages/BlogPage';
 import SignInPage from '@/pages/SignInPage';
 import SignUpPage from '@/pages/SignUpPage';
 import MetricsDashboard from '@/pages/MetricsDashboard';
+import SubscriptionPage from '@/pages/SubscriptionPage';
+import SubscriptionSuccessPage from '@/pages/SubscriptionSuccessPage';
+import SubscriptionCancelPage from '@/pages/SubscriptionCancelPage';
 
 // Import layout components
 import Navbar from '@/components/layout/Navbar';
@@ -106,6 +109,8 @@ function App() {
                   <Route path="/sign-in" element={<SignInPage />} />
                   <Route path="/sign-up" element={<SignUpPage />} />
                   <Route path="/metrics" element={<MetricsDashboard />} />
+                  <Route path="/subscription/success" element={<SubscriptionSuccessPage />} />
+                  <Route path="/subscription/cancel" element={<SubscriptionCancelPage />} />
                 </Routes>
               </main>
               <Footer />
@@ -127,6 +132,9 @@ function App() {
                       <Route path="/pricing" element={<PricingPage />} />
                       <Route path="/blog" element={<BlogPage />} />
                       <Route path="/metrics" element={<MetricsDashboard />} />
+                      <Route path="/subscription" element={<SubscriptionPage />} />
+                      <Route path="/subscription/success" element={<SubscriptionSuccessPage />} />
+                      <Route path="/subscription/cancel" element={<SubscriptionCancelPage />} />
                     </Routes>
                   </main>
                 </div>
