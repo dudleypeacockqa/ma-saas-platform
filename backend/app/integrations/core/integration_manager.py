@@ -20,7 +20,9 @@ from sqlalchemy import select, update, insert
 
 from ...core.database import get_db
 from ...core.config import settings
-from ...models.integrations import Integration, IntegrationLog, DataSync
+from ...models.integration import Integration
+# TODO: IntegrationLog and DataSync models need to be created
+# from ...models.integration import IntegrationLog, DataSync
 
 logger = logging.getLogger(__name__)
 
@@ -257,23 +259,25 @@ class DataSyncManager:
 
     async def _log_sync_result(self, result: SyncResult):
         """Log synchronization result to database"""
-        async with get_db() as db:
-            log_entry = IntegrationLog(
-                integration_id=result.integration_id,
-                operation_type="sync",
-                direction=result.direction.value,
-                records_processed=result.records_processed,
-                records_created=result.records_created,
-                records_updated=result.records_updated,
-                records_failed=result.records_failed,
-                success=result.success,
-                error_messages=result.errors,
-                execution_time=(result.end_time - result.start_time).total_seconds(),
-                created_at=result.start_time
-            )
-
-            db.add(log_entry)
-            await db.commit()
+        # TODO: Implement when IntegrationLog model is created
+        logger.info(f"Sync result for {result.integration_id}: {result.records_processed} records processed")
+        # async with get_db() as db:
+        #     log_entry = IntegrationLog(
+        #         integration_id=result.integration_id,
+        #         operation_type="sync",
+        #         direction=result.direction.value,
+        #         records_processed=result.records_processed,
+        #         records_created=result.records_created,
+        #         records_updated=result.records_updated,
+        #         records_failed=result.records_failed,
+        #         success=result.success,
+        #         error_messages=result.errors,
+        #         execution_time=(result.end_time - result.start_time).total_seconds(),
+        #         created_at=result.start_time
+        #     )
+        #
+        #     db.add(log_entry)
+        #     await db.commit()
 
     async def _handle_conflicts(self, result: SyncResult):
         """Handle data conflicts during synchronization"""
@@ -382,18 +386,20 @@ class WebhookManager:
 
     async def _log_webhook_event(self, event: WebhookEvent, success: bool):
         """Log webhook event to database"""
-        async with get_db() as db:
-            log_entry = IntegrationLog(
-                integration_id=event.integration_id,
-                operation_type="webhook",
-                webhook_event_type=event.event_type,
-                success=success,
-                payload_size=len(json.dumps(event.payload)),
-                created_at=event.timestamp
-            )
-
-            db.add(log_entry)
-            await db.commit()
+        # TODO: Implement when IntegrationLog model is created
+        logger.info(f"Webhook event for {event.integration_id}: {event.event_type}")
+        # async with get_db() as db:
+        #     log_entry = IntegrationLog(
+        #         integration_id=event.integration_id,
+        #         operation_type="webhook",
+        #         webhook_event_type=event.event_type,
+        #         success=success,
+        #         payload_size=len(json.dumps(event.payload)),
+        #         created_at=event.timestamp
+        #     )
+        #
+        #     db.add(log_entry)
+        #     await db.commit()
 
 
 class IntegrationManager:
@@ -607,32 +613,40 @@ class IntegrationManager:
 
     async def _get_integration_stats(self, integration_id: str) -> Dict[str, Any]:
         """Get integration statistics from database"""
-        async with get_db() as db:
-            # Get recent sync stats
-            recent_logs = await db.execute(
-                select(IntegrationLog)
-                .where(
-                    IntegrationLog.integration_id == integration_id,
-                    IntegrationLog.created_at >= datetime.now() - timedelta(days=7)
-                )
-                .order_by(IntegrationLog.created_at.desc())
-                .limit(100)
-            )
-
-            logs = recent_logs.scalars().all()
-
-            # Calculate statistics
-            total_syncs = len([log for log in logs if log.operation_type == "sync"])
-            successful_syncs = len([log for log in logs if log.operation_type == "sync" and log.success])
-            total_records_processed = sum([log.records_processed or 0 for log in logs])
-
-            return {
-                "total_syncs_7d": total_syncs,
-                "successful_syncs_7d": successful_syncs,
-                "success_rate": (successful_syncs / total_syncs * 100) if total_syncs > 0 else 0,
-                "total_records_processed_7d": total_records_processed,
-                "last_sync_time": logs[0].created_at.isoformat() if logs else None
-            }
+        # TODO: Implement when IntegrationLog model is created
+        return {
+            "total_syncs_7d": 0,
+            "successful_syncs_7d": 0,
+            "success_rate": 0,
+            "total_records_processed_7d": 0,
+            "last_sync_time": None
+        }
+        # async with get_db() as db:
+        #     # Get recent sync stats
+        #     recent_logs = await db.execute(
+        #         select(IntegrationLog)
+        #         .where(
+        #             IntegrationLog.integration_id == integration_id,
+        #             IntegrationLog.created_at >= datetime.now() - timedelta(days=7)
+        #         )
+        #         .order_by(IntegrationLog.created_at.desc())
+        #         .limit(100)
+        #     )
+        #
+        #     logs = recent_logs.scalars().all()
+        #
+        #     # Calculate statistics
+        #     total_syncs = len([log for log in logs if log.operation_type == "sync"])
+        #     successful_syncs = len([log for log in logs if log.operation_type == "sync" and log.success])
+        #     total_records_processed = sum([log.records_processed or 0 for log in logs])
+        #
+        #     return {
+        #         "total_syncs_7d": total_syncs,
+        #         "successful_syncs_7d": successful_syncs,
+        #         "success_rate": (successful_syncs / total_syncs * 100) if total_syncs > 0 else 0,
+        #         "total_records_processed_7d": total_records_processed,
+        #         "last_sync_time": logs[0].created_at.isoformat() if logs else None
+        #     }
 
 
 # Service factory function
