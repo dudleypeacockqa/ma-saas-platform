@@ -81,8 +81,8 @@ setup_logging()
 logger = get_logger(__name__)
 
 # Initialize Sentry for error tracking
-from app.core.sentry import init_sentry
-init_sentry()
+# from app.core.sentry import init_sentry  # Temporarily disabled - sentry_sdk not in requirements
+# init_sentry()
 
 # Load environment variables
 load_dotenv()
