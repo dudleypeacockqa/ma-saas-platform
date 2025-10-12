@@ -25,13 +25,13 @@ import {
 } from 'lucide-react';
 
 interface QuickActionsMenuProps {
-  open?: boolean;
-  onToggle?: (open: boolean) => void;
+  isOpen?: boolean;
+  onClose?: () => void;
 }
 
 const QuickActionsMenu: React.FC<QuickActionsMenuProps> = ({
-  open,
-  onToggle,
+  isOpen,
+  onClose,
 }) => {
   const quickActions = [
     {
@@ -61,7 +61,7 @@ const QuickActionsMenu: React.FC<QuickActionsMenuProps> = ({
   ];
 
   return (
-    <DropdownMenu open={open} onOpenChange={onToggle}>
+    <DropdownMenu open={isOpen} onOpenChange={(open) => !open && onClose?.()}>
       <DropdownMenuTrigger asChild>
         <Button size="sm" className="bg-blue-600 hover:bg-blue-700">
           <Plus className="h-4 w-4 mr-2" />
