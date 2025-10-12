@@ -17,7 +17,7 @@ import {
 } from 'lucide-react';
 import PlatformNavbar from '@/components/platform/PlatformNavbar';
 import PlatformSidebar from '@/components/platform/PlatformSidebar';
-import QuickActionsMenu from '@/components/platform/QuickActionsMenu';
+import QuickActionsMenu from '@/components/platform/QuickActionsMenu.tsx';
 
 const PlatformLayout = () => {
   const [sidebarOpen, setSidebarOpen] = useState(true);
