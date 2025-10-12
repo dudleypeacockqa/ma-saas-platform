@@ -1,0 +1,287 @@
+BMAD Agent Instructions for Story Discovery
+
+Platform: "100 Days and Beyond" M&A Ecosystem
+Agent: Amelia (Senior Implementation Engineer)
+Workflow: Dev Story Implementation
+Objective: Phase 1 Infrastructure Completion
+
+Immediate Instructions for BMAD Agent
+
+Story File Location
+
+When the BMAD agent (Amelia) requests story file location, provide the following path:
+
+For Windows/Cursor Environment:
+
+Plain Text
+
+
+C:\Projects\ma-saas-platform\docs\stories
+
+
+For Linux/Unix Environment:
+
+Plain Text
+
+
+docs/stories
+
+
+Available Story Files
+
+The following story files are available for implementation:
+
+1.
+Phase 1 Infrastructure Implementation.md - Critical priority story for complete infrastructure foundation
+
+2.
+story-phase1-infrastructure.md - Alternative format of the same story
+
+Story Selection Guidance
+
+Select "Phase 1 Infrastructure Implementation.md" as it contains:
+
+•
+Comprehensive acceptance criteria for Claude MCP server integration
+
+•
+Vector database implementation with semantic search capabilities
+
+•
+Stripe payment processing with three-tier subscription model
+
+•
+Production environment configuration with enterprise-grade security
+
+•
+Render deployment optimization with performance enhancement
+
+Implementation Priority
+
+This story represents Critical Priority implementation that transforms the platform from 85% infrastructure foundation to 100% operational status with enterprise-grade capabilities.
+
+BMAD Agent Workflow Instructions
+
+Step 1: Story Discovery
+
+When prompted for story file location, respond with:
+
+Plain Text
+
+
+docs/stories
+
+
+Step 2: Story Selection
+
+Select the Phase 1 Infrastructure Implementation story when presented with options.
+
+Step 3: Implementation Execution
+
+Follow the systematic BMAD workflow for:
+
+•
+Task breakdown and planning
+
+•
+Implementation with quality gates
+
+•
+Testing and validation
+
+•
+Documentation and review
+
+Step 4: Quality Assurance
+
+Ensure all acceptance criteria are met with comprehensive validation:
+
+•
+Claude MCP server integration functional
+
+•
+Vector database operational with semantic search
+
+•
+Stripe payments processing all subscription tiers
+
+•
+Production environment secure and monitored
+
+•
+Render deployment optimized for performance
+
+Strategic Context for Implementation
+
+Business Objective Alignment
+
+This implementation directly supports the £200 million wealth-building objective by:
+
+•
+Enabling immediate customer acquisition through functional subscription system
+
+•
+Providing AI-powered ecosystem intelligence for partnership identification
+
+•
+Creating competitive advantage through advanced M&A domain capabilities
+
+•
+Establishing foundation for scalable business growth and market leadership
+
+Technical Excellence Standards
+
+Maintain enterprise-grade quality with:
+
+•
+API response times < 200ms
+
+•
+Database query performance < 50ms
+
+•
+99.9% uptime reliability
+
+•
+Comprehensive security compliance
+
+•
+Multi-tenant data isolation
+
+Success Validation
+
+Implementation success validated through:
+
+•
+Functional testing of all integrated systems
+
+•
+Performance benchmarking against specified metrics
+
+•
+Security assessment with vulnerability validation
+
+•
+User experience optimization with conversion testing
+
+•
+Business value confirmation with stakeholder approval
+
+Coordination with Other Systems
+
+Integration Requirements
+
+The implementation coordinates with:
+
+•
+Existing FastAPI backend architecture (85% complete)
+
+•
+React frontend with TypeScript and PWA capabilities
+
+•
+PostgreSQL database with multi-tenant design
+
+•
+Render hosting infrastructure with monitoring
+
+•
+Third-party services (Clerk, Stripe, Anthropic)
+
+Quality Gate Coordination
+
+Implementation includes coordination with:
+
+•
+Architecture validation for scalability and performance
+
+•
+Security assessment for compliance and protection
+
+•
+Performance testing for optimization and reliability
+
+•
+User experience validation for conversion and satisfaction
+
+•
+Business value confirmation for strategic alignment
+
+Expected Implementation Timeline
+
+Phase 1 Completion Schedule
+
+•
+Hours 1-8: Claude MCP server and AI integration
+
+•
+Hours 9-16: Vector database and semantic search implementation
+
+•
+Hours 17-24: Stripe payment processing and subscription management
+
+•
+Hours 25-32: Production environment and security configuration
+
+•
+Hours 33-40: Render deployment optimization and performance tuning
+
+•
+Hours 41-48: Comprehensive testing and quality validation
+
+Success Criteria Timeline
+
+•
+Day 1: Core AI and database functionality operational
+
+•
+Day 2: Payment processing and subscription management active
+
+•
+Day 3: Production deployment with monitoring and security
+
+•
+Day 4: Performance optimization and quality validation complete
+
+Communication and Reporting
+
+Progress Updates
+
+Provide systematic progress updates including:
+
+•
+Task completion status with quality validation
+
+•
+Performance metrics achievement with benchmark comparison
+
+•
+Integration testing results with comprehensive coverage
+
+•
+Security validation with compliance confirmation
+
+•
+Business value delivery with stakeholder satisfaction
+
+Issue Escalation
+
+Escalate issues immediately for:
+
+•
+Integration failures that prevent system functionality
+
+•
+Performance bottlenecks that impact user experience
+
+•
+Security vulnerabilities that compromise data protection
+
+•
+Quality gate failures that prevent production deployment
+
+•
+Business value concerns that impact strategic objectives
+
+The successful execution of this story establishes the complete foundation for customer acquisition, ecosystem intelligence development, and systematic progress toward the £200 million wealth-building objective through strategic platform leverage and competitive advantage creation.
+

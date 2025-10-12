@@ -64,8 +64,10 @@ class TenantMixin:
 
     @declared_attr
     def organization_id(cls):
+        from sqlalchemy import ForeignKey
         return Column(
             UUID(as_uuid=False),
+            ForeignKey('organizations.id', ondelete='CASCADE'),
             nullable=False,
             index=True
         )

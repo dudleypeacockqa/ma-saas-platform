@@ -10,14 +10,14 @@ from enum import Enum
 
 from pydantic import BaseModel, Field, ConfigDict, field_validator
 
-from app.models.documents import DocumentType, DocumentStatus
+from app.models.documents import DocumentCategory, DocumentStatus
 
 
 class DocumentBase(BaseModel):
     """Base document schema"""
     title: Optional[str] = Field(None, max_length=255)
     description: Optional[str] = None
-    document_type: Optional[DocumentType] = DocumentType.OTHER
+    document_type: Optional[DocumentCategory] = DocumentCategory.OTHER
     folder_path: str = Field("/", max_length=500)
     deal_id: Optional[UUID] = None
     tags: List[str] = Field(default_factory=list)
@@ -36,7 +36,7 @@ class DocumentUpdate(BaseModel):
     """Schema for updating document metadata"""
     title: Optional[str] = Field(None, max_length=255)
     description: Optional[str] = None
-    document_type: Optional[DocumentType] = None
+    document_type: Optional[DocumentCategory] = None
     folder_path: Optional[str] = Field(None, max_length=500)
     tags: Optional[List[str]] = None
     is_confidential: Optional[bool] = None
@@ -153,7 +153,7 @@ class DocumentSearchParams(BaseModel):
     search: Optional[str] = None
     deal_id: Optional[UUID] = None
     folder_path: Optional[str] = "/"
-    document_type: Optional[DocumentType] = None
+    document_type: Optional[DocumentCategory] = None
     tags: Optional[List[str]] = None
     is_confidential: Optional[bool] = None
     uploaded_after: Optional[datetime] = None

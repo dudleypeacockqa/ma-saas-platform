@@ -53,11 +53,11 @@ from app.models import (
 # NOW import APIs (after all models are registered)
 from app.api import auth, tenants, users, content, marketing, integrations
 # from app.api import payments  # Temporarily disabled - needs StripeCustomer/Payment/WebhookEvent models
-from app.api import opportunities, valuations, negotiations, term_sheets, documents, teams
+from app.api import opportunities, valuations, negotiations, term_sheets, teams
 # from app.api import arbitrage  # Temporarily disabled - requires pandas dependency
 # from app.api import ai  # Temporarily disabled - needs Deal model update
 from app.routers import due_diligence, deals
-from app.api.v1 import pipeline, analytics as pipeline_analytics
+from app.api.v1 import pipeline, analytics as pipeline_analytics, documents as v1_documents, analytics_advanced, reports, predictive_analytics, realtime_collaboration
 
 # Import Clerk authentication components
 from app.auth.webhooks import router as webhook_router
@@ -94,6 +94,10 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+# Add authentication middleware
+from app.middleware.auth_middleware import AuthenticationMiddleware
+app.add_middleware(AuthenticationMiddleware)
+
 # Security
 security = HTTPBearer()
 
@@ -110,6 +114,10 @@ app.include_router(users.router, prefix="/api/users", tags=["users"])
 # app.include_router(ai.router, prefix="/api/ai", tags=["ai-analysis"])  # Temporarily disabled
 app.include_router(pipeline.router, prefix="/api/v1/pipeline", tags=["pipeline"])  # Pipeline board management
 app.include_router(pipeline_analytics.router, prefix="/api/v1/analytics", tags=["analytics"])  # Pipeline analytics
+app.include_router(analytics_advanced.router, prefix="/api/v1/analytics-advanced", tags=["analytics-advanced"])  # Sprint 5: Advanced Analytics
+app.include_router(reports.router, prefix="/api/v1/reports", tags=["reports"])  # Sprint 5: Data Export & Reporting
+app.include_router(predictive_analytics.router, prefix="/api/v1/predictive", tags=["predictive-analytics"])  # Sprint 6: Predictive Analytics
+app.include_router(realtime_collaboration.router, prefix="/api/v1/collaboration", tags=["real-time-collaboration"])  # Sprint 7: Real-Time Collaboration
 app.include_router(due_diligence.router)  # Due diligence management
 app.include_router(content.router)  # Content creation and management
 app.include_router(marketing.router)  # Marketing and subscriber acquisition
@@ -120,18 +128,17 @@ app.include_router(valuations.router, prefix="/api")  # Financial modeling and v
 # app.include_router(arbitrage.router, prefix="/api")  # Temporarily disabled - requires pandas dependency
 app.include_router(negotiations.router)  # Deal negotiation and structuring
 app.include_router(term_sheets.router)  # Term sheet management with collaboration
-app.include_router(documents.router)  # Document management with versioning and approvals
+app.include_router(v1_documents.router, prefix="/api/v1/documents")  # Document management with versioning and approvals
 app.include_router(teams.router, prefix="/api")  # Team management and workflow orchestration
 
 @app.on_event("startup")
-async def startup_event():
+def startup_event():
     """Initialize application on startup"""
     logger.info("M&A SaaS Platform API starting up...")
 
     # Check required environment variables
     required_vars = [
         "CLERK_SECRET_KEY",
-        "CLERK_WEBHOOK_SECRET",
         "DATABASE_URL"
     ]
 
@@ -139,19 +146,38 @@ async def startup_event():
     if missing_vars:
         logger.warning(f"Missing environment variables: {missing_vars}")
 
-    # Create database tables using unified Base
-    # This runs at startup, not import time, so the app can start even if DB is temporarily unavailable
-    # Note: In production, use Alembic migrations instead of create_all()
+    # Optional environment variables
+    if not os.getenv("CLERK_WEBHOOK_SECRET"):
+        logger.warning("CLERK_WEBHOOK_SECRET not set. Webhook verification will be disabled.")
 
-    # Create required PostgreSQL extensions
-    create_extensions(engine)
+    # Initialize database using SYNC operations only during startup
+    # This prevents AsyncIO greenlet issues
+    try:
+        logger.info("Starting database initialization...")
 
-    # Initialize database schema with proper race condition handling
-    init_database(engine, base.Base.metadata)
+        # Create required PostgreSQL extensions (sync operation)
+        extensions_created = create_extensions(engine)
+        if extensions_created:
+            logger.info("Database extensions ready")
 
-    # Verify critical tables exist
-    critical_tables = ['organizations', 'users', 'deals']
-    verify_critical_tables(engine, critical_tables)
+        # Initialize database schema with proper race condition handling (sync operation)
+        schema_initialized = init_database(engine, base.Base.metadata)
+        if schema_initialized:
+            logger.info("Database schema initialized")
+
+        # Verify critical tables exist (sync operation)
+        critical_tables = ['organizations', 'users', 'deals', 'documents']
+        tables_verified = verify_critical_tables(engine, critical_tables)
+        if tables_verified:
+            logger.info("Critical tables verified")
+
+        logger.info("Database initialization completed successfully")
+
+    except Exception as e:
+        logger.error(f"Database initialization failed: {e}")
+        logger.warning("Application will continue with limited functionality")
+        logger.warning("Database-dependent features may not work until database is available")
+        # Don't fail startup - allow app to start even if DB is unavailable
 
     logger.info("API startup complete")
 

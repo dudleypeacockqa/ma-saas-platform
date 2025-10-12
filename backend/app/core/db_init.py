@@ -107,27 +107,29 @@ def verify_critical_tables(engine, required_tables: list[str]) -> bool:
 def create_extensions(engine) -> bool:
     """
     Create required PostgreSQL extensions if they don't exist.
+    Uses synchronous database operations only.
 
     Args:
-        engine: SQLAlchemy engine
+        engine: SQLAlchemy sync engine
 
     Returns:
         bool: True if successful, False otherwise
     """
-    extensions = ['uuid-ossp', 'vector']
+    extensions = ['uuid-ossp']  # Removed 'vector' as it might not be available
 
     try:
-        with engine.connect() as conn:
+        # Use a transaction to ensure consistency
+        with engine.begin() as conn:
             for ext in extensions:
                 try:
                     # Use IF NOT EXISTS to avoid errors
                     conn.execute(text(f'CREATE EXTENSION IF NOT EXISTS "{ext}"'))
-                    conn.commit()
                     logger.debug(f"Extension {ext} ready")
                 except Exception as e:
                     # Some extensions might not be available, log but don't fail
                     logger.warning(f"Could not create extension {ext}: {e}")
 
+        logger.info(f"Database extensions setup completed")
         return True
 
     except Exception as e:

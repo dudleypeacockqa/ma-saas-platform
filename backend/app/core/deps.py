@@ -18,7 +18,7 @@ from app.models.organization import Organization
 
 
 # Security scheme for JWT bearer tokens
-security = HTTPBearer()
+security = HTTPBearer(auto_error=False)  # Don't auto-raise errors, let us handle them
 
 
 def get_db() -> Generator:
@@ -75,12 +75,20 @@ async def verify_clerk_token(token: str) -> dict:
 
 
 async def get_current_user(
-    credentials: HTTPAuthorizationCredentials = Depends(security),
+    credentials: Optional[HTTPAuthorizationCredentials] = Depends(security),
     db: Session = Depends(get_db)
 ) -> User:
     """
     Get the current authenticated user from the JWT token
     """
+    # Check if credentials are provided
+    if not credentials:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Missing authorization header",
+            headers={"WWW-Authenticate": "Bearer"}
+        )
+
     token = credentials.credentials
 
     # Verify the token with Clerk

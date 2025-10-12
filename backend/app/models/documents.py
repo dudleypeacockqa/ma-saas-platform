@@ -91,7 +91,7 @@ class Document(TenantModel, AuditableMixin):
     # Relationships
     negotiation_id = Column(UUID(as_uuid=False), ForeignKey("negotiations.id"), index=True)
     deal_id = Column(UUID(as_uuid=False), ForeignKey("deals.id"), index=True)
-    term_sheet_id = Column(UUID(as_uuid=False), ForeignKey("term_sheets.id"))
+    term_sheet_id = Column(UUID(as_uuid=False), ForeignKey("term_sheets.id"), index=True)
 
     # File Information
     file_name = Column(String(255), nullable=False)
@@ -150,9 +150,13 @@ class Document(TenantModel, AuditableMixin):
     signatures = relationship("DocumentSignature", back_populates="document", lazy="dynamic")
     activities = relationship("DocumentActivity", back_populates="document", lazy="dynamic")
 
+    # Organization relationship
+    organization = relationship("Organization", back_populates="documents")
+
     __table_args__ = (
         Index('ix_documents_negotiation_category', 'negotiation_id', 'category'),
         Index('ix_documents_deal_category', 'deal_id', 'category'),
+        Index('ix_documents_term_sheet_category', 'term_sheet_id', 'category'),
         Index('ix_documents_version', 'parent_document_id', 'version_number'),
         Index('ix_documents_status', 'status'),
         Index('ix_documents_access_level', 'access_level'),

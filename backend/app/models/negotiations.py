@@ -132,7 +132,7 @@ class Negotiation(TenantModel, AuditableMixin):
     participants = relationship("NegotiationParticipant", back_populates="negotiation", lazy="dynamic")
     positions = relationship("NegotiationPosition", back_populates="negotiation", lazy="dynamic")
     messages = relationship("NegotiationMessage", back_populates="negotiation", lazy="dynamic")
-    term_sheets = relationship("TermSheet", back_populates="negotiation", lazy="dynamic")
+    term_sheets = relationship("TermSheet", back_populates="negotiation", foreign_keys="TermSheet.negotiation_id", lazy="dynamic")
 
     __table_args__ = (
         CheckConstraint('completion_percentage >= 0 AND completion_percentage <= 100'),
@@ -336,7 +336,7 @@ class TermSheetTemplate(TenantModel, AuditableMixin):
     tags = Column(ARRAY(String(50)), default=list)
 
     # Relationships
-    term_sheets = relationship("TermSheet", back_populates="template", lazy="dynamic")
+    term_sheets = relationship("TermSheet", back_populates="template", foreign_keys="TermSheet.template_id", lazy="dynamic")
 
     __table_args__ = (
         Index('ix_term_sheet_templates_industry_type', 'industry', 'deal_type'),
@@ -391,8 +391,8 @@ class TermSheet(TenantModel, AuditableMixin):
     notes = Column(Text)
 
     # Relationships
-    negotiation = relationship("Negotiation", back_populates="term_sheets")
-    template = relationship("TermSheetTemplate", back_populates="term_sheets")
+    negotiation = relationship("Negotiation", back_populates="term_sheets", foreign_keys=[negotiation_id])
+    template = relationship("TermSheetTemplate", back_populates="term_sheets", foreign_keys=[template_id])
     previous_version = relationship("TermSheet", remote_side="TermSheet.id", backref="newer_versions")
 
     __table_args__ = (
