@@ -12,6 +12,7 @@
 The platform operates on a revolutionary dual-purpose model where every interaction creates opportunities for deal flow generation, partnership development, and wealth accumulation. The multi-tenant architecture enables operation of personal M&A sub-accounts while maintaining ecosystem oversight for identifying investment opportunities and potential partners.
 
 **Key Capabilities:**
+
 - **Ecosystem Intelligence**: AI-powered analytics for deal flow and partnership identification
 - **Community Platform**: Circle.so/Skool alternative with networking and relationship building
 - **Event Integration**: Zoom/Teams integration for live training and workshops
@@ -31,6 +32,7 @@ The platform operates on a revolutionary dual-purpose model where every interact
 ## Multi-Tenant Structure
 
 The platform supports:
+
 - **Master Admin**: Full system oversight and subscription management
 - **Individual Tenants**: Isolated environments for different users/firms
 - **Role-Based Access**: Different permissions for team members
@@ -49,24 +51,28 @@ This project follows the BMAD methodology for development:
 ## Development Roadmap
 
 ### Phase 1: Foundation (Weeks 1-4)
+
 - Set up development environment
 - Implement basic multi-tenant architecture
 - Create user authentication and authorization
 - Build core deal management features
 
 ### Phase 2: AI Integration (Weeks 5-8)
+
 - Integrate Claude MCP server
 - Implement AI-powered deal analysis
 - Add document processing capabilities
 - Build intelligent reporting features
 
 ### Phase 3: Advanced Features (Weeks 9-12)
+
 - Portfolio management tools
 - Advanced analytics and dashboards
 - Integration with external data sources
 - Mobile-responsive design
 
 ### Phase 4: Launch Preparation (Weeks 13-16)
+
 - Performance optimization
 - Security hardening
 - Marketing website development
@@ -101,3 +107,5 @@ This project uses the BMAD methodology. To contribute:
 ## License
 
 Private project - All rights reserved.
+
+# Force deployment refresh
