@@ -6,7 +6,7 @@ Tracks email campaigns, templates, and subscriber management
 from sqlalchemy import Column, Integer, String, Text, Boolean, DateTime, ForeignKey, JSON, Enum
 from sqlalchemy.orm import relationship
 from sqlalchemy.sql import func
-from app.core.database import Base
+from app.models.base import Base
 import enum
 
 class CampaignType(str, enum.Enum):

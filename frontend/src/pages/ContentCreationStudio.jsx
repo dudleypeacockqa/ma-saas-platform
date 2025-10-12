@@ -1,15 +1,53 @@
 import React, { useState, useEffect } from 'react';
-import { 
-  BarChart, Bar, LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, 
-  ResponsiveContainer, PieChart, Pie, Cell 
+import {
+  BarChart,
+  Bar,
+  LineChart,
+  Line,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  Legend,
+  ResponsiveContainer,
+  PieChart,
+  Pie,
+  Cell,
 } from 'recharts';
-import { 
-  PlayCircle, Video, Mic, Settings, Calendar, Users, 
-  Upload, Download, Share2, Eye, ThumbsUp, MessageCircle,
-  Clock, TrendingUp, Award, Zap, Plus, Edit3, 
-  Camera, Headphones, Monitor, Smartphone, Globe,
-  FileText, Image, Film, Radio, Tv, Youtube,
-  Linkedin, Twitter, Facebook, Instagram
+import {
+  PlayCircle,
+  Video,
+  Mic,
+  Settings,
+  Calendar,
+  Users,
+  Upload,
+  Download,
+  Share2,
+  Eye,
+  ThumbsUp,
+  MessageCircle,
+  Clock,
+  TrendingUp,
+  Award,
+  Zap,
+  Plus,
+  Edit3,
+  Camera,
+  Headphones,
+  Monitor,
+  Smartphone,
+  Globe,
+  FileText,
+  Image,
+  Film,
+  Radio,
+  Tv,
+  Youtube,
+  Linkedin,
+  Twitter,
+  Facebook,
+  Instagram,
 } from 'lucide-react';
 
 const ContentCreationStudio = () => {
@@ -25,73 +63,73 @@ const ContentCreationStudio = () => {
     totalEpisodes: 47,
     averageEngagement: 8.2,
     monthlyGrowth: 23.5,
-    revenueGenerated: 15750
+    revenueGenerated: 15750,
   };
 
   const contentSeries = [
     {
       id: 1,
-      name: "M&A Masterclass",
-      type: "podcast",
+      name: 'M&A Masterclass',
+      type: 'podcast',
       episodes: 12,
       totalViews: 45200,
       avgRating: 4.8,
-      status: "active",
-      nextEpisode: "2025-01-15"
+      status: 'active',
+      nextEpisode: '2025-01-15',
     },
     {
       id: 2,
-      name: "Deal Breakdown Weekly",
-      type: "video",
+      name: 'Deal Breakdown Weekly',
+      type: 'video',
       episodes: 8,
       totalViews: 32100,
       avgRating: 4.6,
-      status: "active",
-      nextEpisode: "2025-01-12"
+      status: 'active',
+      nextEpisode: '2025-01-12',
     },
     {
       id: 3,
-      name: "Private Equity Insights",
-      type: "podcast",
+      name: 'Private Equity Insights',
+      type: 'podcast',
       episodes: 15,
       totalViews: 28900,
       avgRating: 4.7,
-      status: "active",
-      nextEpisode: "2025-01-18"
-    }
+      status: 'active',
+      nextEpisode: '2025-01-18',
+    },
   ];
 
   const recentEpisodes = [
     {
       id: 1,
-      title: "Valuation Methods in Tech M&A",
-      series: "M&A Masterclass",
-      type: "podcast",
-      duration: "42:15",
+      title: 'Valuation Methods in Tech M&A',
+      series: 'M&A Masterclass',
+      type: 'podcast',
+      duration: '42:15',
       views: 2850,
-      status: "published",
-      publishDate: "2025-01-08"
+      status: 'published',
+      publishDate: '2025-01-08',
     },
     {
       id: 2,
-      title: "Due Diligence Red Flags",
-      series: "Deal Breakdown Weekly",
-      type: "video",
-      duration: "28:30",
+      title: 'Due Diligence Red Flags',
+      series: 'Deal Breakdown Weekly',
+      type: 'video',
+      duration: '28:30',
       views: 1920,
-      status: "published",
-      publishDate: "2025-01-05"
+      status: 'published',
+      publishDate: '2025-01-05',
     },
     {
       id: 3,
-      title: "PE Fund Structures Explained",
-      series: "Private Equity Insights",
-      type: "podcast",
-      duration: "35:45",
+      title: 'PE Fund Structures Explained',
+      series: 'Private Equity Insights',
+      type: 'podcast',
+      duration: '35:45',
       views: 1650,
-      status: "in_production",
-      publishDate: null
-    }
+      status: 'in_production',
+      publishDate: null,
+    },
   ];
 
   const analyticsData = [
@@ -100,7 +138,7 @@ const ContentCreationStudio = () => {
     { month: 'Oct', views: 10800, downloads: 7900, engagement: 7.8 },
     { month: 'Nov', views: 12400, downloads: 9100, engagement: 8.0 },
     { month: 'Dec', views: 14200, downloads: 10300, engagement: 8.2 },
-    { month: 'Jan', views: 15900, downloads: 11500, engagement: 8.4 }
+    { month: 'Jan', views: 15900, downloads: 11500, engagement: 8.4 },
   ];
 
   const platformDistribution = [
@@ -108,23 +146,35 @@ const ContentCreationStudio = () => {
     { name: 'Spotify', value: 28, color: '#1DB954' },
     { name: 'YouTube', value: 20, color: '#FF0000' },
     { name: 'LinkedIn', value: 12, color: '#0077B5' },
-    { name: 'Website', value: 5, color: '#3B82F6' }
+    { name: 'Website', value: 5, color: '#3B82F6' },
   ];
 
-  const MetricCard = ({ title, value, change, icon: Icon, color = "blue", format = "number" }) => {
-    const formattedValue = format === "currency" ? `£${value.toLocaleString()}` : 
-                          format === "percentage" ? `${value}%` : 
-                          value.toLocaleString();
+  const MetricCard = ({ title, value, change, icon: Icon, color = 'blue', format = 'number' }) => {
+    const formattedValue =
+      format === 'currency'
+        ? `£${value.toLocaleString()}`
+        : format === 'percentage'
+          ? `${value}%`
+          : value.toLocaleString();
 
     return (
-      <div className="bg-white rounded-lg shadow-lg p-6 border-l-4" style={{ borderLeftColor: color }}>
+      <div
+        className="bg-white rounded-lg shadow-lg p-6 border-l-4"
+        style={{ borderLeftColor: color }}
+      >
         <div className="flex items-center justify-between">
           <div>
             <p className="text-sm font-medium text-gray-600">{title}</p>
             <p className="text-2xl font-bold text-gray-900">{formattedValue}</p>
             {change !== undefined && (
-              <div className={`flex items-center mt-2 text-sm ${change >= 0 ? 'text-green-600' : 'text-red-600'}`}>
-                {change >= 0 ? <TrendingUp className="w-4 h-4 mr-1" /> : <TrendingUp className="w-4 h-4 mr-1 rotate-180" />}
+              <div
+                className={`flex items-center mt-2 text-sm ${change >= 0 ? 'text-green-600' : 'text-red-600'}`}
+              >
+                {change >= 0 ? (
+                  <TrendingUp className="w-4 h-4 mr-1" />
+                ) : (
+                  <TrendingUp className="w-4 h-4 mr-1 rotate-180" />
+                )}
                 <span>{Math.abs(change)}% vs last month</span>
               </div>
             )}
@@ -141,9 +191,7 @@ const ContentCreationStudio = () => {
     <button
       onClick={() => onClick(id)}
       className={`px-4 py-2 rounded-lg font-medium transition-colors ${
-        isActive 
-          ? 'bg-blue-600 text-white' 
-          : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+        isActive ? 'bg-blue-600 text-white' : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
       }`}
     >
       {label}
@@ -170,7 +218,7 @@ const ContentCreationStudio = () => {
         {/* Recording Controls */}
         <div className="space-y-4">
           <h3 className="font-semibold text-gray-900">Recording Settings</h3>
-          
+
           <div className="space-y-3">
             <div className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
               <div className="flex items-center">
@@ -229,7 +277,7 @@ const ContentCreationStudio = () => {
               <p className="text-sm opacity-75">Camera preview will appear here</p>
             </div>
           </div>
-          
+
           <div className="grid grid-cols-3 gap-2">
             <button className="bg-gray-100 p-2 rounded text-center hover:bg-gray-200">
               <Monitor className="w-5 h-5 mx-auto mb-1" />
@@ -263,7 +311,10 @@ const ContentCreationStudio = () => {
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {contentSeries.map((series) => (
-            <div key={series.id} className="border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow">
+            <div
+              key={series.id}
+              className="border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow"
+            >
               <div className="flex items-center justify-between mb-3">
                 <div className="flex items-center">
                   {series.type === 'podcast' ? (
@@ -273,13 +324,17 @@ const ContentCreationStudio = () => {
                   )}
                   <h3 className="font-semibold text-gray-900">{series.name}</h3>
                 </div>
-                <span className={`px-2 py-1 rounded-full text-xs ${
-                  series.status === 'active' ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800'
-                }`}>
+                <span
+                  className={`px-2 py-1 rounded-full text-xs ${
+                    series.status === 'active'
+                      ? 'bg-green-100 text-green-800'
+                      : 'bg-gray-100 text-gray-800'
+                  }`}
+                >
                   {series.status}
                 </span>
               </div>
-              
+
               <div className="space-y-2 text-sm text-gray-600">
                 <div className="flex justify-between">
                   <span>Episodes:</span>
@@ -327,20 +382,31 @@ const ContentCreationStudio = () => {
 
         <div className="space-y-4">
           {recentEpisodes.map((episode) => (
-            <div key={episode.id} className="flex items-center justify-between p-4 border border-gray-200 rounded-lg hover:bg-gray-50">
+            <div
+              key={episode.id}
+              className="flex items-center justify-between p-4 border border-gray-200 rounded-lg hover:bg-gray-50"
+            >
               <div className="flex items-center space-x-4">
-                <div className={`p-2 rounded-full ${
-                  episode.type === 'podcast' ? 'bg-purple-100' : 'bg-red-100'
-                }`}>
+                <div
+                  className={`p-2 rounded-full ${
+                    episode.type === 'podcast' ? 'bg-purple-100' : 'bg-red-100'
+                  }`}
+                >
                   {episode.type === 'podcast' ? (
-                    <Radio className={`w-5 h-5 ${episode.type === 'podcast' ? 'text-purple-600' : 'text-red-600'}`} />
+                    <Radio
+                      className={`w-5 h-5 ${episode.type === 'podcast' ? 'text-purple-600' : 'text-red-600'}`}
+                    />
                   ) : (
-                    <Video className={`w-5 h-5 ${episode.type === 'podcast' ? 'text-purple-600' : 'text-red-600'}`} />
+                    <Video
+                      className={`w-5 h-5 ${episode.type === 'podcast' ? 'text-purple-600' : 'text-red-600'}`}
+                    />
                   )}
                 </div>
                 <div>
                   <h3 className="font-semibold text-gray-900">{episode.title}</h3>
-                  <p className="text-sm text-gray-600">{episode.series} • {episode.duration}</p>
+                  <p className="text-sm text-gray-600">
+                    {episode.series} • {episode.duration}
+                  </p>
                 </div>
               </div>
 
@@ -351,12 +417,16 @@ const ContentCreationStudio = () => {
                     {episode.views.toLocaleString()}
                   </div>
                 </div>
-                
-                <span className={`px-3 py-1 rounded-full text-xs ${
-                  episode.status === 'published' ? 'bg-green-100 text-green-800' :
-                  episode.status === 'in_production' ? 'bg-yellow-100 text-yellow-800' :
-                  'bg-gray-100 text-gray-800'
-                }`}>
+
+                <span
+                  className={`px-3 py-1 rounded-full text-xs ${
+                    episode.status === 'published'
+                      ? 'bg-green-100 text-green-800'
+                      : episode.status === 'in_production'
+                        ? 'bg-yellow-100 text-yellow-800'
+                        : 'bg-gray-100 text-gray-800'
+                  }`}
+                >
                   {episode.status.replace('_', ' ')}
                 </span>
 
@@ -381,7 +451,7 @@ const ContentCreationStudio = () => {
       {/* Platform Distribution */}
       <div className="bg-white rounded-lg shadow-lg p-6">
         <h2 className="text-xl font-bold text-gray-900 mb-6">Multi-Platform Distribution</h2>
-        
+
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           <div>
             <h3 className="font-semibold text-gray-900 mb-4">Distribution Channels</h3>
@@ -392,24 +462,33 @@ const ContentCreationStudio = () => {
                 { name: 'YouTube', icon: Youtube, connected: true, color: 'text-red-600' },
                 { name: 'LinkedIn', icon: Linkedin, connected: true, color: 'text-blue-600' },
                 { name: 'Twitter', icon: Twitter, connected: false, color: 'text-blue-400' },
-                { name: 'Facebook', icon: Facebook, connected: false, color: 'text-blue-800' }
+                { name: 'Facebook', icon: Facebook, connected: false, color: 'text-blue-800' },
               ].map((platform, index) => (
-                <div key={index} className="flex items-center justify-between p-3 border border-gray-200 rounded-lg">
+                <div
+                  key={index}
+                  className="flex items-center justify-between p-3 border border-gray-200 rounded-lg"
+                >
                   <div className="flex items-center">
                     <platform.icon className={`w-5 h-5 ${platform.color} mr-3`} />
                     <span className="font-medium">{platform.name}</span>
                   </div>
                   <div className="flex items-center space-x-2">
-                    <span className={`px-2 py-1 rounded-full text-xs ${
-                      platform.connected ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800'
-                    }`}>
+                    <span
+                      className={`px-2 py-1 rounded-full text-xs ${
+                        platform.connected
+                          ? 'bg-green-100 text-green-800'
+                          : 'bg-gray-100 text-gray-800'
+                      }`}
+                    >
                       {platform.connected ? 'Connected' : 'Not Connected'}
                     </span>
-                    <button className={`px-3 py-1 rounded text-sm ${
-                      platform.connected 
-                        ? 'bg-gray-100 text-gray-700 hover:bg-gray-200' 
-                        : 'bg-blue-600 text-white hover:bg-blue-700'
-                    }`}>
+                    <button
+                      className={`px-3 py-1 rounded text-sm ${
+                        platform.connected
+                          ? 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                          : 'bg-blue-600 text-white hover:bg-blue-700'
+                      }`}
+                    >
                       {platform.connected ? 'Manage' : 'Connect'}
                     </button>
                   </div>
@@ -446,7 +525,7 @@ const ContentCreationStudio = () => {
       {/* Auto-Publishing Settings */}
       <div className="bg-white rounded-lg shadow-lg p-6">
         <h2 className="text-xl font-bold text-gray-900 mb-6">Auto-Publishing Settings</h2>
-        
+
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div className="space-y-4">
             <h3 className="font-semibold text-gray-900">Publishing Schedule</h3>
@@ -458,7 +537,7 @@ const ContentCreationStudio = () => {
                   <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
                 </label>
               </div>
-              
+
               <div className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
                 <span className="font-medium">Generate social media posts</span>
                 <label className="relative inline-flex items-center cursor-pointer">
@@ -543,11 +622,36 @@ const ContentCreationStudio = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Navigation Tabs */}
         <div className="flex space-x-2 mb-8">
-          <TabButton id="overview" label="Overview" isActive={activeTab === 'overview'} onClick={setActiveTab} />
-          <TabButton id="studio" label="Recording Studio" isActive={activeTab === 'studio'} onClick={setActiveTab} />
-          <TabButton id="library" label="Content Library" isActive={activeTab === 'library'} onClick={setActiveTab} />
-          <TabButton id="distribution" label="Distribution" isActive={activeTab === 'distribution'} onClick={setActiveTab} />
-          <TabButton id="analytics" label="Analytics" isActive={activeTab === 'analytics'} onClick={setActiveTab} />
+          <TabButton
+            id="overview"
+            label="Overview"
+            isActive={activeTab === 'overview'}
+            onClick={setActiveTab}
+          />
+          <TabButton
+            id="studio"
+            label="Recording Studio"
+            isActive={activeTab === 'studio'}
+            onClick={setActiveTab}
+          />
+          <TabButton
+            id="library"
+            label="Content Library"
+            isActive={activeTab === 'library'}
+            onClick={setActiveTab}
+          />
+          <TabButton
+            id="distribution"
+            label="Distribution"
+            isActive={activeTab === 'distribution'}
+            onClick={setActiveTab}
+          />
+          <TabButton
+            id="analytics"
+            label="Analytics"
+            isActive={activeTab === 'analytics'}
+            onClick={setActiveTab}
+          />
         </div>
 
         {/* Overview Tab */}
@@ -555,49 +659,49 @@ const ContentCreationStudio = () => {
           <>
             {/* Content Metrics */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
-              <MetricCard 
-                title="Total Views" 
-                value={contentMetrics.totalViews} 
+              <MetricCard
+                title="Total Views"
+                value={contentMetrics.totalViews}
                 change={15.2}
-                icon={Eye} 
+                icon={Eye}
                 color="#3B82F6"
               />
-              <MetricCard 
-                title="Total Downloads" 
-                value={contentMetrics.totalDownloads} 
+              <MetricCard
+                title="Total Downloads"
+                value={contentMetrics.totalDownloads}
                 change={12.8}
-                icon={Download} 
+                icon={Download}
                 color="#10B981"
               />
-              <MetricCard 
-                title="Total Episodes" 
-                value={contentMetrics.totalEpisodes} 
+              <MetricCard
+                title="Total Episodes"
+                value={contentMetrics.totalEpisodes}
                 change={8.5}
-                icon={PlayCircle} 
+                icon={PlayCircle}
                 color="#8B5CF6"
               />
-              <MetricCard 
-                title="Avg Engagement" 
-                value={contentMetrics.averageEngagement} 
+              <MetricCard
+                title="Avg Engagement"
+                value={contentMetrics.averageEngagement}
                 change={5.3}
-                icon={ThumbsUp} 
-                color="#F59E0B" 
+                icon={ThumbsUp}
+                color="#F59E0B"
                 format="percentage"
               />
-              <MetricCard 
-                title="Monthly Growth" 
-                value={contentMetrics.monthlyGrowth} 
+              <MetricCard
+                title="Monthly Growth"
+                value={contentMetrics.monthlyGrowth}
                 change={18.7}
-                icon={TrendingUp} 
-                color="#EF4444" 
+                icon={TrendingUp}
+                color="#EF4444"
                 format="percentage"
               />
-              <MetricCard 
-                title="Revenue Generated" 
-                value={contentMetrics.revenueGenerated} 
+              <MetricCard
+                title="Revenue Generated"
+                value={contentMetrics.revenueGenerated}
                 change={25.4}
-                icon={Award} 
-                color="#06B6D4" 
+                icon={Award}
+                color="#06B6D4"
                 format="currency"
               />
             </div>
@@ -680,7 +784,7 @@ const ContentCreationStudio = () => {
                   </PieChart>
                 </ResponsiveContainer>
               </div>
-              
+
               <div>
                 <h3 className="font-semibold text-gray-900 mb-4">Growth Metrics</h3>
                 <ResponsiveContainer width="100%" height={250}>

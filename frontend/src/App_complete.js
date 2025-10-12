@@ -1,10 +1,27 @@
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import { ClerkProvider, SignedIn, SignedOut, RedirectToSignIn, useUser } from '@clerk/clerk-react';
-import { 
-  LayoutDashboard, Users, Building2, CreditCard, Video, Calendar, 
-  Target, BarChart3, Settings, Menu, X, Bell, Search, User,
-  ChevronDown, LogOut, Shield, Zap, Globe, Database
+import {
+  LayoutDashboard,
+  Users,
+  Building2,
+  CreditCard,
+  Video,
+  Calendar,
+  Target,
+  BarChart3,
+  Settings,
+  Menu,
+  X,
+  Bell,
+  Search,
+  User,
+  ChevronDown,
+  LogOut,
+  Shield,
+  Zap,
+  Globe,
+  Database,
 } from 'lucide-react';
 
 // Import all Master Admin Portal components
@@ -24,7 +41,7 @@ import SettingsPage from './pages/Settings';
 const CLERK_PUBLISHABLE_KEY = process.env.REACT_APP_CLERK_PUBLISHABLE_KEY;
 
 if (!CLERK_PUBLISHABLE_KEY) {
-  throw new Error("Missing Publishable Key");
+  throw new Error('Missing Publishable Key');
 }
 
 // Navigation configuration for Master Admin Portal
@@ -33,62 +50,62 @@ const navigationItems = [
     name: 'Master Admin Portal',
     href: '/admin',
     icon: Shield,
-    description: 'Business management dashboard'
+    description: 'Business management dashboard',
   },
   {
     name: 'Dashboard',
     href: '/dashboard',
     icon: LayoutDashboard,
-    description: 'Platform overview'
+    description: 'Platform overview',
   },
   {
     name: 'Subscription Management',
     href: '/subscriptions',
     icon: CreditCard,
-    description: 'Billing and subscriptions'
+    description: 'Billing and subscriptions',
   },
   {
     name: 'Content Creation',
     href: '/content',
     icon: Video,
-    description: 'Podcast and video production'
+    description: 'Podcast and video production',
   },
   {
     name: 'Event Management',
     href: '/events',
     icon: Calendar,
-    description: 'Events and EventBrite integration'
+    description: 'Events and EventBrite integration',
   },
   {
     name: 'Lead Generation',
     href: '/leads',
     icon: Target,
-    description: 'Marketing automation'
+    description: 'Marketing automation',
   },
   {
     name: 'Tenant Management',
     href: '/tenants',
     icon: Building2,
-    description: 'Multi-tenant administration'
+    description: 'Multi-tenant administration',
   },
   {
     name: 'User Management',
     href: '/users',
     icon: Users,
-    description: 'User accounts and permissions'
+    description: 'User accounts and permissions',
   },
   {
     name: 'Analytics',
     href: '/analytics',
     icon: BarChart3,
-    description: 'Platform analytics'
+    description: 'Platform analytics',
   },
   {
     name: 'Settings',
     href: '/settings',
     icon: Settings,
-    description: 'System configuration'
-  }
+    description: 'System configuration',
+  },
 ];
 
 // Sidebar Component
@@ -97,26 +114,24 @@ const Sidebar = ({ isOpen, onClose }) => {
   const { user } = useUser();
 
   const isActive = (path) => {
-    return location.pathname === path || 
-           (path === '/admin' && location.pathname === '/');
+    return location.pathname === path || (path === '/admin' && location.pathname === '/');
   };
 
   return (
     <>
       {/* Mobile overlay */}
       {isOpen && (
-        <div 
-          className="fixed inset-0 z-40 bg-black bg-opacity-50 lg:hidden" 
-          onClick={onClose}
-        />
+        <div className="fixed inset-0 z-40 bg-black bg-opacity-50 lg:hidden" onClick={onClose} />
       )}
-      
+
       {/* Sidebar */}
-      <div className={`
+      <div
+        className={`
         fixed inset-y-0 left-0 z-50 w-64 bg-white shadow-lg transform transition-transform duration-300 ease-in-out
         lg:translate-x-0 lg:static lg:inset-0
         ${isOpen ? 'translate-x-0' : '-translate-x-full'}
-      `}>
+      `}
+      >
         {/* Header */}
         <div className="flex items-center justify-between h-16 px-6 border-b border-gray-200">
           <div className="flex items-center space-x-2">
@@ -128,7 +143,7 @@ const Sidebar = ({ isOpen, onClose }) => {
               <p className="text-xs text-gray-500">Master Admin</p>
             </div>
           </div>
-          <button 
+          <button
             onClick={onClose}
             className="lg:hidden p-1 rounded-md text-gray-400 hover:text-gray-600"
           >
@@ -163,17 +178,20 @@ const Sidebar = ({ isOpen, onClose }) => {
                 href={item.href}
                 className={`
                   group flex items-center px-3 py-2 text-sm font-medium rounded-lg transition-colors
-                  ${isActive(item.href)
-                    ? 'bg-blue-50 text-blue-700 border-r-2 border-blue-700'
-                    : 'text-gray-700 hover:bg-gray-50 hover:text-gray-900'
+                  ${
+                    isActive(item.href)
+                      ? 'bg-blue-50 text-blue-700 border-r-2 border-blue-700'
+                      : 'text-gray-700 hover:bg-gray-50 hover:text-gray-900'
                   }
                 `}
                 title={item.description}
               >
-                <Icon className={`
+                <Icon
+                  className={`
                   mr-3 h-5 w-5 flex-shrink-0
                   ${isActive(item.href) ? 'text-blue-700' : 'text-gray-400 group-hover:text-gray-500'}
-                `} />
+                `}
+                />
                 <span className="truncate">{item.name}</span>
                 {isActive(item.href) && (
                   <div className="ml-auto">
@@ -216,7 +234,7 @@ const Header = ({ onMenuClick }) => {
           >
             <Menu className="w-5 h-5" />
           </button>
-          
+
           <div className="hidden sm:block">
             <h1 className="text-xl font-semibold text-gray-900">Master Admin Portal</h1>
           </div>
@@ -271,11 +289,14 @@ const Header = ({ onMenuClick }) => {
                       {user?.primaryEmailAddress?.emailAddress}
                     </p>
                   </div>
-                  <a href="/settings" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                  <a
+                    href="/settings"
+                    className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                  >
                     <Settings className="w-4 h-4 inline mr-2" />
                     Settings
                   </a>
-                  <button 
+                  <button
                     onClick={() => window.Clerk?.signOut()}
                     className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                   >
@@ -299,13 +320,11 @@ const Layout = ({ children }) => {
   return (
     <div className="flex h-screen bg-gray-50">
       <Sidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
-      
+
       <div className="flex-1 flex flex-col overflow-hidden">
         <Header onMenuClick={() => setSidebarOpen(true)} />
-        
-        <main className="flex-1 overflow-auto">
-          {children}
-        </main>
+
+        <main className="flex-1 overflow-auto">{children}</main>
       </div>
     </div>
   );
@@ -315,9 +334,7 @@ const Layout = ({ children }) => {
 const ProtectedRoute = ({ children }) => {
   return (
     <SignedIn>
-      <Layout>
-        {children}
-      </Layout>
+      <Layout>{children}</Layout>
     </SignedIn>
   );
 };
@@ -353,8 +370,10 @@ class ErrorBoundary extends React.Component {
         <div className="min-h-screen flex items-center justify-center bg-gray-50">
           <div className="text-center">
             <h1 className="text-2xl font-bold text-gray-900 mb-4">Something went wrong</h1>
-            <p className="text-gray-600 mb-4">We're sorry, but there was an error loading the application.</p>
-            <button 
+            <p className="text-gray-600 mb-4">
+              We're sorry, but there was an error loading the application.
+            </p>
+            <button
               onClick={() => window.location.reload()}
               className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700"
             >
@@ -393,123 +412,123 @@ function App() {
           <div className="App">
             <Routes>
               {/* Public routes */}
-              <Route 
-                path="/sign-in" 
+              <Route
+                path="/sign-in"
                 element={
                   <SignedOut>
                     <RedirectToSignIn />
                   </SignedOut>
-                } 
+                }
               />
-              
+
               {/* Protected routes */}
-              <Route 
-                path="/" 
+              <Route
+                path="/"
                 element={
                   <ProtectedRoute>
                     <MasterAdminPortal />
                   </ProtectedRoute>
-                } 
+                }
               />
-              
-              <Route 
-                path="/admin" 
+
+              <Route
+                path="/admin"
                 element={
                   <ProtectedRoute>
                     <MasterAdminPortal />
                   </ProtectedRoute>
-                } 
+                }
               />
-              
-              <Route 
-                path="/dashboard" 
+
+              <Route
+                path="/dashboard"
                 element={
                   <ProtectedRoute>
                     <Dashboard />
                   </ProtectedRoute>
-                } 
+                }
               />
-              
-              <Route 
-                path="/subscriptions" 
+
+              <Route
+                path="/subscriptions"
                 element={
                   <ProtectedRoute>
                     <SubscriptionManagementHub />
                   </ProtectedRoute>
-                } 
+                }
               />
-              
-              <Route 
-                path="/content" 
+
+              <Route
+                path="/content"
                 element={
                   <ProtectedRoute>
                     <ContentCreationStudio />
                   </ProtectedRoute>
-                } 
+                }
               />
-              
-              <Route 
-                path="/events" 
+
+              <Route
+                path="/events"
                 element={
                   <ProtectedRoute>
                     <EventManagementHub />
                   </ProtectedRoute>
-                } 
+                }
               />
-              
-              <Route 
-                path="/leads" 
+
+              <Route
+                path="/leads"
                 element={
                   <ProtectedRoute>
                     <LeadGenerationHub />
                   </ProtectedRoute>
-                } 
+                }
               />
-              
-              <Route 
-                path="/tenants" 
+
+              <Route
+                path="/tenants"
                 element={
                   <ProtectedRoute>
                     <TenantManagement />
                   </ProtectedRoute>
-                } 
+                }
               />
-              
-              <Route 
-                path="/users" 
+
+              <Route
+                path="/users"
                 element={
                   <ProtectedRoute>
                     <UserManagement />
                   </ProtectedRoute>
-                } 
+                }
               />
-              
-              <Route 
-                path="/analytics" 
+
+              <Route
+                path="/analytics"
                 element={
                   <ProtectedRoute>
                     <Analytics />
                   </ProtectedRoute>
-                } 
+                }
               />
-              
-              <Route 
-                path="/settings" 
+
+              <Route
+                path="/settings"
                 element={
                   <ProtectedRoute>
                     <SettingsPage />
                   </ProtectedRoute>
-                } 
+                }
               />
 
               {/* Catch all route */}
-              <Route 
-                path="*" 
+              <Route
+                path="*"
                 element={
                   <ProtectedRoute>
                     <Navigate to="/admin" replace />
                   </ProtectedRoute>
-                } 
+                }
               />
             </Routes>
 

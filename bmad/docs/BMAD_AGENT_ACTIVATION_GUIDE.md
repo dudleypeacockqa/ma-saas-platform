@@ -42,17 +42,19 @@ Load configuration from bmad/core/config.yaml and show available workflows for P
 ### **1. Product Brief Workflow**
 
 **Cursor Command:**
+
 ```bash
 @bmad/core/agents/bmad-master.md
 ```
 
 **Activation Prompt:**
+
 ```
 Execute product-brief workflow for M&A SaaS platform Phase 2.
 
 Context: Phase 1 infrastructure complete. Need to define core business features:
 - Deal pipeline management and tracking
-- Document management and collaboration  
+- Document management and collaboration
 - Team workspace and permissions
 - Analytics and reporting dashboard
 - Integration capabilities
@@ -64,11 +66,13 @@ User: Dudley | Goal: £200M wealth-building
 ### **2. Product Requirements Document (PRD)**
 
 **Cursor Command:**
+
 ```bash
 @bmad/core/agents/bmad-master.md
 ```
 
 **Activation Prompt:**
+
 ```
 Execute PRD workflow for M&A SaaS platform core business features.
 
@@ -86,11 +90,13 @@ User: Dudley | Communication: English
 ### **3. UX/UI Specification**
 
 **Cursor Command:**
+
 ```bash
 @bmad/core/agents/bmad-master.md
 ```
 
 **Activation Prompt:**
+
 ```
 Execute ux-spec workflow for M&A SaaS platform user experience design.
 
@@ -107,11 +113,13 @@ User: Dudley | Communication: English
 ### **4. Solution Architecture**
 
 **Cursor Command:**
+
 ```bash
 @bmad/core/agents/bmad-master.md
 ```
 
 **Activation Prompt:**
+
 ```
 Execute solution-architecture workflow for Phase 2 business features.
 
@@ -128,11 +136,13 @@ User: Dudley | Communication: English
 ### **5. Technical Specifications**
 
 **Cursor Command:**
+
 ```bash
 @bmad/core/agents/bmad-master.md
 ```
 
 **Activation Prompt:**
+
 ```
 Execute tech-spec workflow for Phase 2 core features implementation.
 
@@ -150,11 +160,13 @@ Codebase: ma-saas-platform/ | User: Dudley | Communication: English
 ### **6. Story Creation**
 
 **Cursor Command:**
+
 ```bash
 @bmad/core/agents/bmad-master.md
 ```
 
 **Activation Prompt:**
+
 ```
 Execute create-story workflow for Phase 2 feature development.
 
@@ -172,11 +184,13 @@ User: Dudley | Communication: English
 ### **7. Development Execution**
 
 **Cursor Command:**
+
 ```bash
 @bmad/core/agents/bmad-master.md
 ```
 
 **Activation Prompt:**
+
 ```
 Execute dev-story workflow for [STORY_NAME].
 
@@ -198,11 +212,13 @@ User: Dudley | Communication: English
 ### **List Available Workflows**
 
 **Cursor Command:**
+
 ```bash
 @bmad/core/agents/bmad-master.md
 ```
 
 **Prompt:**
+
 ```
 *list-workflows
 
@@ -212,11 +228,13 @@ Show all available BMAD workflows for Phase 2 development.
 ### **List Available Tasks**
 
 **Cursor Command:**
+
 ```bash
 @bmad/core/agents/bmad-master.md
 ```
 
 **Prompt:**
+
 ```
 *list-tasks
 
@@ -226,11 +244,13 @@ Show all available BMAD tasks for M&A SaaS platform development.
 ### **Help Menu**
 
 **Cursor Command:**
+
 ```bash
 @bmad/core/agents/bmad-master.md
 ```
 
 **Prompt:**
+
 ```
 *help
 
@@ -244,17 +264,19 @@ Show BMAD Master agent menu and available commands.
 ### **Immediate Phase 2 Start**
 
 **Single Command Activation:**
+
 ```bash
 cd ma-saas-platform && @bmad/core/agents/bmad-master.md
 ```
 
 **Complete Activation Prompt:**
+
 ```
 Activate BMAD Master agent and execute product-brief workflow for M&A SaaS platform Phase 2.
 
 Phase 1 Status: ✅ Complete and operational
 - Frontend: https://100daysandbeyond.com
-- Backend: https://ma-saas-backend.onrender.com  
+- Backend: https://ma-saas-backend.onrender.com
 - Database: PostgreSQL (125 tables, 1,196 indexes)
 - Authentication: Clerk multi-tenant system
 
@@ -278,7 +300,7 @@ Load bmad/core/config.yaml and begin product-brief workflow.
 ### **Recommended Execution Order**
 
 1. **Product Brief** → Define what to build
-2. **PRD** → Detail requirements and specifications  
+2. **PRD** → Detail requirements and specifications
 3. **UX Spec** → Design user experience
 4. **Solution Architecture** → Plan technical implementation
 5. **Tech Spec** → Create detailed technical specifications
@@ -288,7 +310,7 @@ Load bmad/core/config.yaml and begin product-brief workflow.
 ### **Time Allocation**
 
 - **Week 1**: Product Brief + PRD (workflows 1-2)
-- **Week 2**: UX Spec + Solution Architecture (workflows 3-4)  
+- **Week 2**: UX Spec + Solution Architecture (workflows 3-4)
 - **Week 3**: Tech Spec + Story Creation (workflows 5-6)
 - **Week 4-8**: Development Execution (workflow 7, multiple iterations)
 
@@ -299,7 +321,8 @@ Load bmad/core/config.yaml and begin product-brief workflow.
 ### **Agent Not Loading**
 
 **Issue**: BMAD Master agent doesn't activate
-**Solution**: 
+**Solution**:
+
 ```bash
 # Ensure you're in the correct directory
 cd ma-saas-platform
@@ -315,6 +338,7 @@ ls bmad/core/agents/bmad-master.md
 
 **Issue**: "Config file not found" error
 **Solution**:
+
 ```bash
 # Verify config file exists
 ls bmad/core/config.yaml
@@ -326,6 +350,7 @@ ls bmad/core/config.yaml
 
 **Issue**: Workflow path not recognized
 **Solution**:
+
 ```bash
 # List available workflows first
 *list-workflows
@@ -340,6 +365,7 @@ ls bmad/core/config.yaml
 ### **Before Starting Phase 2**
 
 **Verify Configuration:**
+
 ```bash
 # Check BMAD structure
 ls -la bmad/
@@ -354,6 +380,7 @@ cat bmad/_cfg/task-manifest.csv
 ```
 
 **Expected Output:**
+
 - ✅ bmad-master.md agent file
 - ✅ config.yaml with user settings
 - ✅ workflow-manifest.csv with available workflows
@@ -387,8 +414,9 @@ Each workflow should:
 ## 🚀 Ready for Phase 2
 
 **Your platform is ready when:**
+
 - ✅ BMAD Master agent activates successfully
-- ✅ Configuration loads without errors  
+- ✅ Configuration loads without errors
 - ✅ Workflows execute and generate outputs
 - ✅ Development stories are created and prioritized
 - ✅ Implementation begins with clear specifications
@@ -397,4 +425,4 @@ Each workflow should:
 
 ---
 
-*Last updated: October 11, 2025 | BMAD Methodology v6*
+_Last updated: October 11, 2025 | BMAD Methodology v6_

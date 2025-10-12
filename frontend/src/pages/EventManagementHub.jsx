@@ -1,16 +1,59 @@
 import React, { useState, useEffect } from 'react';
-import { 
-  BarChart, Bar, LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, 
-  ResponsiveContainer, PieChart, Pie, Cell, AreaChart, Area
+import {
+  BarChart,
+  Bar,
+  LineChart,
+  Line,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  Legend,
+  ResponsiveContainer,
+  PieChart,
+  Pie,
+  Cell,
+  AreaChart,
+  Area,
 } from 'recharts';
-import { 
-  Calendar, Users, MapPin, Clock, DollarSign, TrendingUp, 
-  Plus, Edit3, Settings, Share2, Download, Upload,
-  Video, Mic, Globe, CheckCircle, XCircle, AlertCircle,
-  UserPlus, Mail, Phone, Building, Award, Target,
-  BarChart3, PieChart as PieChartIcon, Activity, Zap,
-  ExternalLink, Sync, PlayCircle, StopCircle, Eye,
-  Filter, Search, Calendar as CalendarIcon, Clock3
+import {
+  Calendar,
+  Users,
+  MapPin,
+  Clock,
+  DollarSign,
+  TrendingUp,
+  Plus,
+  Edit3,
+  Settings,
+  Share2,
+  Download,
+  Upload,
+  Video,
+  Mic,
+  Globe,
+  CheckCircle,
+  XCircle,
+  AlertCircle,
+  UserPlus,
+  Mail,
+  Phone,
+  Building,
+  Award,
+  Target,
+  BarChart3,
+  PieChart as PieChartIcon,
+  Activity,
+  Zap,
+  ExternalLink,
+  Sync,
+  PlayCircle,
+  StopCircle,
+  Eye,
+  Filter,
+  Search,
+  Calendar as CalendarIcon,
+  Clock3,
 } from 'lucide-react';
 
 const EventManagementHub = () => {
@@ -28,97 +71,97 @@ const EventManagementHub = () => {
     averageAttendance: 84.5,
     totalRevenue: 125750,
     leadsGenerated: 1250,
-    conversionRate: 12.8
+    conversionRate: 12.8,
   };
 
   const upcomingEvents = [
     {
       id: 1,
-      title: "M&A Valuation Masterclass",
-      type: "masterclass",
-      format: "virtual",
-      date: "2025-01-15",
-      time: "14:00",
+      title: 'M&A Valuation Masterclass',
+      type: 'masterclass',
+      format: 'virtual',
+      date: '2025-01-15',
+      time: '14:00',
       duration: 120,
       registrations: 145,
       capacity: 200,
       price: 299,
-      status: "scheduled",
-      platform: "Zoom",
-      eventbriteSync: true
+      status: 'scheduled',
+      platform: 'Zoom',
+      eventbriteSync: true,
     },
     {
       id: 2,
-      title: "Private Equity Networking Summit",
-      type: "networking",
-      format: "hybrid",
-      date: "2025-01-22",
-      time: "18:00",
+      title: 'Private Equity Networking Summit',
+      type: 'networking',
+      format: 'hybrid',
+      date: '2025-01-22',
+      time: '18:00',
       duration: 180,
       registrations: 89,
       capacity: 150,
       price: 0,
-      status: "scheduled",
-      venue: "London Business Centre",
-      eventbriteSync: true
+      status: 'scheduled',
+      venue: 'London Business Centre',
+      eventbriteSync: true,
     },
     {
       id: 3,
-      title: "Due Diligence Workshop",
-      type: "workshop",
-      format: "virtual",
-      date: "2025-01-28",
-      time: "10:00",
+      title: 'Due Diligence Workshop',
+      type: 'workshop',
+      format: 'virtual',
+      date: '2025-01-28',
+      time: '10:00',
       duration: 240,
       registrations: 67,
       capacity: 100,
       price: 199,
-      status: "scheduled",
-      platform: "Teams",
-      eventbriteSync: false
-    }
+      status: 'scheduled',
+      platform: 'Teams',
+      eventbriteSync: false,
+    },
   ];
 
   const recentEvents = [
     {
       id: 4,
-      title: "Deal Structuring Webinar",
-      type: "webinar",
-      date: "2025-01-08",
+      title: 'Deal Structuring Webinar',
+      type: 'webinar',
+      date: '2025-01-08',
       registrations: 234,
       attendees: 198,
       attendanceRate: 84.6,
       revenue: 0,
       leads: 45,
       rating: 4.7,
-      status: "completed"
+      status: 'completed',
     },
     {
       id: 5,
-      title: "Investment Banking Panel",
-      type: "panel_discussion",
-      date: "2025-01-05",
+      title: 'Investment Banking Panel',
+      type: 'panel_discussion',
+      date: '2025-01-05',
       registrations: 156,
       attendees: 142,
       attendanceRate: 91.0,
       revenue: 4680,
       leads: 38,
       rating: 4.9,
-      status: "completed"
+      status: 'completed',
     },
     {
       id: 6,
-      title: "M&A Market Outlook 2025",
-      type: "conference",
-      date: "2024-12-20",
+      title: 'M&A Market Outlook 2025',
+      type: 'conference',
+      date: '2024-12-20',
       registrations: 342,
       attendees: 289,
       attendanceRate: 84.5,
       revenue: 17100,
       leads: 89,
       rating: 4.5,
-      status: "completed"
-    }
+      status: 'completed',
+    },
   ];
 
   const analyticsData = [
@@ -127,7 +170,7 @@ const EventManagementHub = () => {
     { month: 'Oct', events: 5, registrations: 720, attendees: 612, revenue: 24600 },
     { month: 'Nov', events: 4, registrations: 650, attendees: 553, revenue: 21800 },
     { month: 'Dec', events: 6, registrations: 890, attendees: 756, revenue: 32400 },
-    { month: 'Jan', events: 2, registrations: 160, attendees: 121, revenue: 6250 }
+    { month: 'Jan', events: 2, registrations: 160, attendees: 121, revenue: 6250 },
   ];
 
   const eventTypeDistribution = [
@@ -135,29 +178,41 @@ const EventManagementHub = () => {
     { name: 'Workshops', value: 25, color: '#10B981' },
     { name: 'Masterclasses', value: 20, color: '#F59E0B' },
     { name: 'Networking', value: 12, color: '#8B5CF6' },
-    { name: 'Conferences', value: 8, color: '#EF4444' }
+    { name: 'Conferences', value: 8, color: '#EF4444' },
   ];
 
   const leadQualityData = [
     { name: 'Hot Leads', value: 28, color: '#EF4444' },
     { name: 'Warm Leads', value: 42, color: '#F59E0B' },
-    { name: 'Cold Leads', value: 30, color: '#6B7280' }
+    { name: 'Cold Leads', value: 30, color: '#6B7280' },
   ];
 
-  const MetricCard = ({ title, value, change, icon: Icon, color = "blue", format = "number" }) => {
-    const formattedValue = format === "currency" ? `£${value.toLocaleString()}` : 
-                          format === "percentage" ? `${value}%` : 
-                          value.toLocaleString();
+  const MetricCard = ({ title, value, change, icon: Icon, color = 'blue', format = 'number' }) => {
+    const formattedValue =
+      format === 'currency'
+        ? `£${value.toLocaleString()}`
+        : format === 'percentage'
+          ? `${value}%`
+          : value.toLocaleString();
 
     return (
-      <div className="bg-white rounded-lg shadow-lg p-6 border-l-4" style={{ borderLeftColor: color }}>
+      <div
+        className="bg-white rounded-lg shadow-lg p-6 border-l-4"
+        style={{ borderLeftColor: color }}
+      >
         <div className="flex items-center justify-between">
           <div>
             <p className="text-sm font-medium text-gray-600">{title}</p>
             <p className="text-2xl font-bold text-gray-900">{formattedValue}</p>
             {change !== undefined && (
-              <div className={`flex items-center mt-2 text-sm ${change >= 0 ? 'text-green-600' : 'text-red-600'}`}>
-                {change >= 0 ? <TrendingUp className="w-4 h-4 mr-1" /> : <TrendingUp className="w-4 h-4 mr-1 rotate-180" />}
+              <div
+                className={`flex items-center mt-2 text-sm ${change >= 0 ? 'text-green-600' : 'text-red-600'}`}
+              >
+                {change >= 0 ? (
+                  <TrendingUp className="w-4 h-4 mr-1" />
+                ) : (
+                  <TrendingUp className="w-4 h-4 mr-1 rotate-180" />
+                )}
                 <span>{Math.abs(change)}% vs last month</span>
               </div>
             )}
@@ -174,9 +229,7 @@ const EventManagementHub = () => {
     <button
       onClick={() => onClick(id)}
       className={`px-4 py-2 rounded-lg font-medium transition-colors ${
-        isActive 
-          ? 'bg-blue-600 text-white' 
-          : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+        isActive ? 'bg-blue-600 text-white' : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
       }`}
     >
       {label}
@@ -212,12 +265,17 @@ const EventManagementHub = () => {
               EventBrite
             </div>
           )}
-          <span className={`px-2 py-1 rounded-full text-xs ${
-            event.status === 'scheduled' ? 'bg-blue-100 text-blue-800' :
-            event.status === 'live' ? 'bg-green-100 text-green-800' :
-            event.status === 'completed' ? 'bg-gray-100 text-gray-800' :
-            'bg-yellow-100 text-yellow-800'
-          }`}>
+          <span
+            className={`px-2 py-1 rounded-full text-xs ${
+              event.status === 'scheduled'
+                ? 'bg-blue-100 text-blue-800'
+                : event.status === 'live'
+                  ? 'bg-green-100 text-green-800'
+                  : event.status === 'completed'
+                    ? 'bg-gray-100 text-gray-800'
+                    : 'bg-yellow-100 text-yellow-800'
+            }`}
+          >
             {event.status}
           </span>
         </div>
@@ -274,12 +332,11 @@ const EventManagementHub = () => {
           {event.price > 0 && (
             <>
               <span className="mx-2">•</span>
-              <DollarSign className="w-4 h-4 mr-1" />
-              £{event.price}
+              <DollarSign className="w-4 h-4 mr-1" />£{event.price}
             </>
           )}
         </div>
-        
+
         <div className="flex space-x-2">
           <button className="p-2 text-gray-400 hover:text-blue-600">
             <Edit3 className="w-4 h-4" />
@@ -331,7 +388,7 @@ const EventManagementHub = () => {
 
       <div className="space-y-4">
         <h3 className="font-semibold text-gray-900">Sync Settings</h3>
-        
+
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
             <span className="font-medium">Auto-sync new events</span>
@@ -387,36 +444,36 @@ const EventManagementHub = () => {
       {/* Lead Generation Overview */}
       <div className="bg-white rounded-lg shadow-lg p-6">
         <h2 className="text-xl font-bold text-gray-900 mb-6">Lead Generation Performance</h2>
-        
+
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-6">
-          <MetricCard 
-            title="Total Leads" 
-            value={eventMetrics.leadsGenerated} 
+          <MetricCard
+            title="Total Leads"
+            value={eventMetrics.leadsGenerated}
             change={18.5}
-            icon={UserPlus} 
+            icon={UserPlus}
             color="#3B82F6"
           />
-          <MetricCard 
-            title="Qualified Leads" 
-            value={Math.round(eventMetrics.leadsGenerated * 0.35)} 
+          <MetricCard
+            title="Qualified Leads"
+            value={Math.round(eventMetrics.leadsGenerated * 0.35)}
             change={22.3}
-            icon={Target} 
+            icon={Target}
             color="#10B981"
           />
-          <MetricCard 
-            title="Conversion Rate" 
-            value={eventMetrics.conversionRate} 
+          <MetricCard
+            title="Conversion Rate"
+            value={eventMetrics.conversionRate}
             change={5.7}
-            icon={TrendingUp} 
-            color="#F59E0B" 
+            icon={TrendingUp}
+            color="#F59E0B"
             format="percentage"
           />
-          <MetricCard 
-            title="Lead Value" 
-            value={Math.round(eventMetrics.totalRevenue / eventMetrics.leadsGenerated)} 
+          <MetricCard
+            title="Lead Value"
+            value={Math.round(eventMetrics.totalRevenue / eventMetrics.leadsGenerated)}
             change={12.1}
-            icon={DollarSign} 
-            color="#8B5CF6" 
+            icon={DollarSign}
+            color="#8B5CF6"
             format="currency"
           />
         </div>
@@ -449,21 +506,48 @@ const EventManagementHub = () => {
             <h3 className="font-semibold text-gray-900 mb-4">Recent High-Quality Leads</h3>
             <div className="space-y-3">
               {[
-                { name: "Sarah Johnson", company: "TechCorp Ltd", event: "M&A Valuation Masterclass", quality: "hot" },
-                { name: "Michael Chen", company: "Growth Partners", event: "PE Networking Summit", quality: "warm" },
-                { name: "Emma Wilson", company: "Strategic Advisors", event: "Due Diligence Workshop", quality: "hot" },
-                { name: "David Brown", company: "Capital Ventures", event: "Deal Structuring Webinar", quality: "warm" }
+                {
+                  name: 'Sarah Johnson',
+                  company: 'TechCorp Ltd',
+                  event: 'M&A Valuation Masterclass',
+                  quality: 'hot',
+                },
+                {
+                  name: 'Michael Chen',
+                  company: 'Growth Partners',
+                  event: 'PE Networking Summit',
+                  quality: 'warm',
+                },
+                {
+                  name: 'Emma Wilson',
+                  company: 'Strategic Advisors',
+                  event: 'Due Diligence Workshop',
+                  quality: 'hot',
+                },
+                {
+                  name: 'David Brown',
+                  company: 'Capital Ventures',
+                  event: 'Deal Structuring Webinar',
+                  quality: 'warm',
+                },
               ].map((lead, index) => (
-                <div key={index} className="flex items-center justify-between p-3 border border-gray-200 rounded-lg">
+                <div
+                  key={index}
+                  className="flex items-center justify-between p-3 border border-gray-200 rounded-lg"
+                >
                   <div>
                     <div className="font-medium text-gray-900">{lead.name}</div>
                     <div className="text-sm text-gray-600">{lead.company}</div>
                     <div className="text-xs text-gray-500">{lead.event}</div>
                   </div>
                   <div className="flex items-center space-x-2">
-                    <span className={`px-2 py-1 rounded-full text-xs ${
-                      lead.quality === 'hot' ? 'bg-red-100 text-red-800' : 'bg-yellow-100 text-yellow-800'
-                    }`}>
+                    <span
+                      className={`px-2 py-1 rounded-full text-xs ${
+                        lead.quality === 'hot'
+                          ? 'bg-red-100 text-red-800'
+                          : 'bg-yellow-100 text-yellow-800'
+                      }`}
+                    >
                       {lead.quality}
                     </span>
                     <button className="p-1 text-gray-400 hover:text-blue-600">
@@ -487,7 +571,9 @@ const EventManagementHub = () => {
           <div className="flex justify-between items-center py-6">
             <div>
               <h1 className="text-3xl font-bold text-gray-900">Event Management Hub</h1>
-              <p className="text-gray-600">Professional event management with EventBrite integration</p>
+              <p className="text-gray-600">
+                Professional event management with EventBrite integration
+              </p>
             </div>
             <div className="flex items-center space-x-4">
               <button className="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 flex items-center">
@@ -506,12 +592,42 @@ const EventManagementHub = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Navigation Tabs */}
         <div className="flex space-x-2 mb-8">
-          <TabButton id="overview" label="Overview" isActive={activeTab === 'overview'} onClick={setActiveTab} />
-          <TabButton id="upcoming" label="Upcoming Events" isActive={activeTab === 'upcoming'} onClick={setActiveTab} />
-          <TabButton id="completed" label="Completed Events" isActive={activeTab === 'completed'} onClick={setActiveTab} />
-          <TabButton id="leads" label="Lead Management" isActive={activeTab === 'leads'} onClick={setActiveTab} />
-          <TabButton id="eventbrite" label="EventBrite" isActive={activeTab === 'eventbrite'} onClick={setActiveTab} />
-          <TabButton id="analytics" label="Analytics" isActive={activeTab === 'analytics'} onClick={setActiveTab} />
+          <TabButton
+            id="overview"
+            label="Overview"
+            isActive={activeTab === 'overview'}
+            onClick={setActiveTab}
+          />
+          <TabButton
+            id="upcoming"
+            label="Upcoming Events"
+            isActive={activeTab === 'upcoming'}
+            onClick={setActiveTab}
+          />
+          <TabButton
+            id="completed"
+            label="Completed Events"
+            isActive={activeTab === 'completed'}
+            onClick={setActiveTab}
+          />
+          <TabButton
+            id="leads"
+            label="Lead Management"
+            isActive={activeTab === 'leads'}
+            onClick={setActiveTab}
+          />
+          <TabButton
+            id="eventbrite"
+            label="EventBrite"
+            isActive={activeTab === 'eventbrite'}
+            onClick={setActiveTab}
+          />
+          <TabButton
+            id="analytics"
+            label="Analytics"
+            isActive={activeTab === 'analytics'}
+            onClick={setActiveTab}
+          />
         </div>
 
         {/* Overview Tab */}
@@ -519,34 +635,34 @@ const EventManagementHub = () => {
           <>
             {/* Event Metrics */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-              <MetricCard 
-                title="Total Events" 
-                value={eventMetrics.totalEvents} 
+              <MetricCard
+                title="Total Events"
+                value={eventMetrics.totalEvents}
                 change={12.5}
-                icon={Calendar} 
+                icon={Calendar}
                 color="#3B82F6"
               />
-              <MetricCard 
-                title="Total Registrations" 
-                value={eventMetrics.totalRegistrations} 
+              <MetricCard
+                title="Total Registrations"
+                value={eventMetrics.totalRegistrations}
                 change={18.7}
-                icon={Users} 
+                icon={Users}
                 color="#10B981"
               />
-              <MetricCard 
-                title="Average Attendance" 
-                value={eventMetrics.averageAttendance} 
+              <MetricCard
+                title="Average Attendance"
+                value={eventMetrics.averageAttendance}
                 change={5.2}
-                icon={CheckCircle} 
-                color="#F59E0B" 
+                icon={CheckCircle}
+                color="#F59E0B"
                 format="percentage"
               />
-              <MetricCard 
-                title="Total Revenue" 
-                value={eventMetrics.totalRevenue} 
+              <MetricCard
+                title="Total Revenue"
+                value={eventMetrics.totalRevenue}
                 change={23.8}
-                icon={DollarSign} 
-                color="#8B5CF6" 
+                icon={DollarSign}
+                color="#8B5CF6"
                 format="currency"
               />
             </div>
@@ -561,8 +677,22 @@ const EventManagementHub = () => {
                   <YAxis />
                   <Tooltip />
                   <Legend />
-                  <Area type="monotone" dataKey="registrations" stackId="1" stroke="#3B82F6" fill="#3B82F6" fillOpacity={0.6} />
-                  <Area type="monotone" dataKey="attendees" stackId="2" stroke="#10B981" fill="#10B981" fillOpacity={0.6} />
+                  <Area
+                    type="monotone"
+                    dataKey="registrations"
+                    stackId="1"
+                    stroke="#3B82F6"
+                    fill="#3B82F6"
+                    fillOpacity={0.6}
+                  />
+                  <Area
+                    type="monotone"
+                    dataKey="attendees"
+                    stackId="2"
+                    stroke="#10B981"
+                    fill="#10B981"
+                    fillOpacity={0.6}
+                  />
                 </AreaChart>
               </ResponsiveContainer>
             </div>
@@ -633,9 +763,9 @@ const EventManagementHub = () => {
                 </button>
               </div>
             </div>
-            
+
             <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6">
-              {upcomingEvents.map(event => (
+              {upcomingEvents.map((event) => (
                 <EventCard key={event.id} event={event} isUpcoming={true} />
               ))}
             </div>
@@ -654,9 +784,9 @@ const EventManagementHub = () => {
                 </button>
               </div>
             </div>
-            
+
             <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6">
-              {recentEvents.map(event => (
+              {recentEvents.map((event) => (
                 <EventCard key={event.id} event={event} isUpcoming={false} />
               ))}
             </div>
@@ -674,7 +804,7 @@ const EventManagementHub = () => {
           <div className="space-y-6">
             <div className="bg-white rounded-lg shadow-lg p-6">
               <h2 className="text-xl font-bold text-gray-900 mb-6">Detailed Event Analytics</h2>
-              
+
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                 <div>
                   <h3 className="font-semibold text-gray-900 mb-4">Registration vs Attendance</h3>
@@ -690,7 +820,7 @@ const EventManagementHub = () => {
                     </BarChart>
                   </ResponsiveContainer>
                 </div>
-                
+
                 <div>
                   <h3 className="font-semibold text-gray-900 mb-4">Revenue Trends</h3>
                   <ResponsiveContainer width="100%" height={300}>

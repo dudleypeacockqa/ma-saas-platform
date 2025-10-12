@@ -1,13 +1,42 @@
 import React, { useState, useEffect } from 'react';
-import { 
-  BarChart, Bar, LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, 
-  ResponsiveContainer, PieChart, Pie, Cell, AreaChart, Area 
+import {
+  BarChart,
+  Bar,
+  LineChart,
+  Line,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  Legend,
+  ResponsiveContainer,
+  PieChart,
+  Pie,
+  Cell,
+  AreaChart,
+  Area,
 } from 'recharts';
-import { 
-  DollarSign, Users, TrendingUp, TrendingDown, Calendar, 
-  PlayCircle, FileText, Mail, Settings, Plus, Download,
-  Eye, MousePointer, UserCheck, CreditCard, AlertCircle,
-  Target, Zap, Award, Globe
+import {
+  DollarSign,
+  Users,
+  TrendingUp,
+  TrendingDown,
+  Calendar,
+  PlayCircle,
+  FileText,
+  Mail,
+  Settings,
+  Plus,
+  Download,
+  Eye,
+  MousePointer,
+  UserCheck,
+  CreditCard,
+  AlertCircle,
+  Target,
+  Zap,
+  Award,
+  Globe,
 } from 'lucide-react';
 
 const MasterAdminPortal = () => {
@@ -26,7 +55,7 @@ const MasterAdminPortal = () => {
       ltv: 12500,
       cac: 185,
       trial_conversion_rate: 28.5,
-      revenue_growth: 15.7
+      revenue_growth: 15.7,
     },
     subscription_metrics: {
       total_subscriptions: 189,
@@ -37,10 +66,10 @@ const MasterAdminPortal = () => {
       downgrade_rate: 2.1,
       payment_failures: 3,
       revenue_by_plan: {
-        "Starter": 14850,
-        "Professional": 23700,
-        "Enterprise": 8950
-      }
+        Starter: 14850,
+        Professional: 23700,
+        Enterprise: 8950,
+      },
     },
     content_metrics: {
       podcast_downloads: 15420,
@@ -49,10 +78,10 @@ const MasterAdminPortal = () => {
       content_engagement_rate: 7.8,
       lead_generation_from_content: 245,
       top_performing_content: [
-        { title: "M&A Valuation Masterclass", type: "video", views: 2100 },
-        { title: "Due Diligence Checklist", type: "blog", views: 1850 },
-        { title: "Private Equity Trends 2025", type: "podcast", downloads: 3200 }
-      ]
+        { title: 'M&A Valuation Masterclass', type: 'video', views: 2100 },
+        { title: 'Due Diligence Checklist', type: 'blog', views: 1850 },
+        { title: 'Private Equity Trends 2025', type: 'podcast', downloads: 3200 },
+      ],
     },
     lead_metrics: {
       total_leads: 1247,
@@ -60,15 +89,15 @@ const MasterAdminPortal = () => {
       conversion_rate: 25.0,
       lead_sources: { website: 45, podcast: 23, linkedin: 18, referral: 14 },
       pipeline_value: 125000,
-      average_deal_size: 2500
+      average_deal_size: 2500,
     },
     event_metrics: {
       upcoming_events: 4,
       total_attendees: 156,
       attendance_rate: 78.5,
       revenue_from_events: 12500,
-      member_engagement_score: 8.2
-    }
+      member_engagement_score: 8.2,
+    },
   };
 
   useEffect(() => {
@@ -84,7 +113,7 @@ const MasterAdminPortal = () => {
       style: 'currency',
       currency: 'GBP',
       minimumFractionDigits: 0,
-      maximumFractionDigits: 0
+      maximumFractionDigits: 0,
     }).format(amount);
   };
 
@@ -92,20 +121,32 @@ const MasterAdminPortal = () => {
     return new Intl.NumberFormat('en-GB').format(num);
   };
 
-  const MetricCard = ({ title, value, change, icon: Icon, color = "blue", format = "number" }) => {
-    const formattedValue = format === "currency" ? formatCurrency(value) : 
-                          format === "percentage" ? `${value}%` : 
-                          formatNumber(value);
+  const MetricCard = ({ title, value, change, icon: Icon, color = 'blue', format = 'number' }) => {
+    const formattedValue =
+      format === 'currency'
+        ? formatCurrency(value)
+        : format === 'percentage'
+          ? `${value}%`
+          : formatNumber(value);
 
     return (
-      <div className="bg-white rounded-lg shadow-lg p-6 border-l-4" style={{ borderLeftColor: color }}>
+      <div
+        className="bg-white rounded-lg shadow-lg p-6 border-l-4"
+        style={{ borderLeftColor: color }}
+      >
         <div className="flex items-center justify-between">
           <div>
             <p className="text-sm font-medium text-gray-600">{title}</p>
             <p className="text-2xl font-bold text-gray-900">{formattedValue}</p>
             {change !== undefined && (
-              <div className={`flex items-center mt-2 text-sm ${change >= 0 ? 'text-green-600' : 'text-red-600'}`}>
-                {change >= 0 ? <TrendingUp className="w-4 h-4 mr-1" /> : <TrendingDown className="w-4 h-4 mr-1" />}
+              <div
+                className={`flex items-center mt-2 text-sm ${change >= 0 ? 'text-green-600' : 'text-red-600'}`}
+              >
+                {change >= 0 ? (
+                  <TrendingUp className="w-4 h-4 mr-1" />
+                ) : (
+                  <TrendingDown className="w-4 h-4 mr-1" />
+                )}
                 <span>{Math.abs(change)}% vs last month</span>
               </div>
             )}
@@ -122,9 +163,7 @@ const MasterAdminPortal = () => {
     <button
       onClick={() => onClick(id)}
       className={`px-4 py-2 rounded-lg font-medium transition-colors ${
-        isActive 
-          ? 'bg-blue-600 text-white' 
-          : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+        isActive ? 'bg-blue-600 text-white' : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
       }`}
     >
       {label}
@@ -147,13 +186,15 @@ const MasterAdminPortal = () => {
     { month: 'Feb', revenue: 38500, subscribers: 128 },
     { month: 'Mar', revenue: 42000, subscribers: 142 },
     { month: 'Apr', revenue: 45200, subscribers: 151 },
-    { month: 'May', revenue: 47500, subscribers: 156 }
+    { month: 'May', revenue: 47500, subscribers: 156 },
   ];
 
-  const leadSourceData = Object.entries(dashboardData.lead_metrics.lead_sources).map(([source, count]) => ({
-    name: source.charAt(0).toUpperCase() + source.slice(1),
-    value: count
-  }));
+  const leadSourceData = Object.entries(dashboardData.lead_metrics.lead_sources).map(
+    ([source, count]) => ({
+      name: source.charAt(0).toUpperCase() + source.slice(1),
+      value: count,
+    }),
+  );
 
   const COLORS = ['#3B82F6', '#10B981', '#F59E0B', '#EF4444', '#8B5CF6'];
 
@@ -168,7 +209,7 @@ const MasterAdminPortal = () => {
               <p className="text-gray-600">Complete business management for your M&A SaaS empire</p>
             </div>
             <div className="flex items-center space-x-4">
-              <select 
+              <select
                 value={selectedTimeRange}
                 onChange={(e) => setSelectedTimeRange(e.target.value)}
                 className="border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
@@ -190,11 +231,36 @@ const MasterAdminPortal = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Navigation Tabs */}
         <div className="flex space-x-2 mb-8">
-          <TabButton id="overview" label="Overview" isActive={activeTab === 'overview'} onClick={setActiveTab} />
-          <TabButton id="subscriptions" label="Subscriptions" isActive={activeTab === 'subscriptions'} onClick={setActiveTab} />
-          <TabButton id="content" label="Content" isActive={activeTab === 'content'} onClick={setActiveTab} />
-          <TabButton id="marketing" label="Marketing" isActive={activeTab === 'marketing'} onClick={setActiveTab} />
-          <TabButton id="events" label="Events" isActive={activeTab === 'events'} onClick={setActiveTab} />
+          <TabButton
+            id="overview"
+            label="Overview"
+            isActive={activeTab === 'overview'}
+            onClick={setActiveTab}
+          />
+          <TabButton
+            id="subscriptions"
+            label="Subscriptions"
+            isActive={activeTab === 'subscriptions'}
+            onClick={setActiveTab}
+          />
+          <TabButton
+            id="content"
+            label="Content"
+            isActive={activeTab === 'content'}
+            onClick={setActiveTab}
+          />
+          <TabButton
+            id="marketing"
+            label="Marketing"
+            isActive={activeTab === 'marketing'}
+            onClick={setActiveTab}
+          />
+          <TabButton
+            id="events"
+            label="Events"
+            isActive={activeTab === 'events'}
+            onClick={setActiveTab}
+          />
         </div>
 
         {/* Overview Tab */}
@@ -202,35 +268,35 @@ const MasterAdminPortal = () => {
           <>
             {/* Key Metrics */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-              <MetricCard 
-                title="Monthly Recurring Revenue" 
-                value={dashboardData.dashboard_metrics.mrr} 
+              <MetricCard
+                title="Monthly Recurring Revenue"
+                value={dashboardData.dashboard_metrics.mrr}
                 change={dashboardData.dashboard_metrics.revenue_growth}
-                icon={DollarSign} 
-                color="#10B981" 
+                icon={DollarSign}
+                color="#10B981"
                 format="currency"
               />
-              <MetricCard 
-                title="Active Subscribers" 
-                value={dashboardData.dashboard_metrics.active_subscribers} 
+              <MetricCard
+                title="Active Subscribers"
+                value={dashboardData.dashboard_metrics.active_subscribers}
                 change={8.2}
-                icon={Users} 
+                icon={Users}
                 color="#3B82F6"
               />
-              <MetricCard 
-                title="Churn Rate" 
-                value={dashboardData.dashboard_metrics.churn_rate} 
+              <MetricCard
+                title="Churn Rate"
+                value={dashboardData.dashboard_metrics.churn_rate}
                 change={-1.1}
-                icon={TrendingDown} 
-                color="#EF4444" 
+                icon={TrendingDown}
+                color="#EF4444"
                 format="percentage"
               />
-              <MetricCard 
-                title="Customer LTV" 
-                value={dashboardData.dashboard_metrics.ltv} 
+              <MetricCard
+                title="Customer LTV"
+                value={dashboardData.dashboard_metrics.ltv}
                 change={12.5}
-                icon={Target} 
-                color="#8B5CF6" 
+                icon={Target}
+                color="#8B5CF6"
                 format="currency"
               />
             </div>
@@ -256,27 +322,27 @@ const MasterAdminPortal = () => {
 
             {/* Secondary Metrics */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-              <MetricCard 
-                title="Trial Conversion Rate" 
-                value={dashboardData.dashboard_metrics.trial_conversion_rate} 
+              <MetricCard
+                title="Trial Conversion Rate"
+                value={dashboardData.dashboard_metrics.trial_conversion_rate}
                 change={3.2}
-                icon={UserCheck} 
-                color="#F59E0B" 
+                icon={UserCheck}
+                color="#F59E0B"
                 format="percentage"
               />
-              <MetricCard 
-                title="Customer Acquisition Cost" 
-                value={dashboardData.dashboard_metrics.cac} 
+              <MetricCard
+                title="Customer Acquisition Cost"
+                value={dashboardData.dashboard_metrics.cac}
                 change={-8.5}
-                icon={CreditCard} 
-                color="#10B981" 
+                icon={CreditCard}
+                color="#10B981"
                 format="currency"
               />
-              <MetricCard 
-                title="Lead Generation" 
-                value={dashboardData.content_metrics.lead_generation_from_content} 
+              <MetricCard
+                title="Lead Generation"
+                value={dashboardData.content_metrics.lead_generation_from_content}
                 change={18.7}
-                icon={Zap} 
+                icon={Zap}
                 color="#8B5CF6"
               />
             </div>
@@ -308,7 +374,7 @@ const MasterAdminPortal = () => {
                   {leadSourceData.map((source, index) => (
                     <div key={source.name} className="flex items-center justify-between">
                       <div className="flex items-center">
-                        <div 
+                        <div
                           className="w-4 h-4 rounded-full mr-3"
                           style={{ backgroundColor: COLORS[index % COLORS.length] }}
                         ></div>
@@ -328,28 +394,28 @@ const MasterAdminPortal = () => {
           <div className="space-y-6">
             {/* Subscription Overview */}
             <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-              <MetricCard 
-                title="Total Subscriptions" 
-                value={dashboardData.subscription_metrics.total_subscriptions} 
-                icon={Users} 
+              <MetricCard
+                title="Total Subscriptions"
+                value={dashboardData.subscription_metrics.total_subscriptions}
+                icon={Users}
                 color="#3B82F6"
               />
-              <MetricCard 
-                title="Active Subscriptions" 
-                value={dashboardData.subscription_metrics.active_subscriptions} 
-                icon={UserCheck} 
+              <MetricCard
+                title="Active Subscriptions"
+                value={dashboardData.subscription_metrics.active_subscriptions}
+                icon={UserCheck}
                 color="#10B981"
               />
-              <MetricCard 
-                title="Trial Subscriptions" 
-                value={dashboardData.subscription_metrics.trial_subscriptions} 
-                icon={Eye} 
+              <MetricCard
+                title="Trial Subscriptions"
+                value={dashboardData.subscription_metrics.trial_subscriptions}
+                icon={Eye}
                 color="#F59E0B"
               />
-              <MetricCard 
-                title="Payment Failures" 
-                value={dashboardData.subscription_metrics.payment_failures} 
-                icon={AlertCircle} 
+              <MetricCard
+                title="Payment Failures"
+                value={dashboardData.subscription_metrics.payment_failures}
+                icon={AlertCircle}
                 color="#EF4444"
               />
             </div>
@@ -364,13 +430,15 @@ const MasterAdminPortal = () => {
                 </button>
               </div>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                {Object.entries(dashboardData.subscription_metrics.revenue_by_plan).map(([plan, revenue]) => (
-                  <div key={plan} className="bg-gray-50 rounded-lg p-4">
-                    <h3 className="font-semibold text-gray-900">{plan}</h3>
-                    <p className="text-2xl font-bold text-blue-600">{formatCurrency(revenue)}</p>
-                    <p className="text-sm text-gray-600">Monthly revenue</p>
-                  </div>
-                ))}
+                {Object.entries(dashboardData.subscription_metrics.revenue_by_plan).map(
+                  ([plan, revenue]) => (
+                    <div key={plan} className="bg-gray-50 rounded-lg p-4">
+                      <h3 className="font-semibold text-gray-900">{plan}</h3>
+                      <p className="text-2xl font-bold text-blue-600">{formatCurrency(revenue)}</p>
+                      <p className="text-sm text-gray-600">Monthly revenue</p>
+                    </div>
+                  ),
+                )}
               </div>
             </div>
 
@@ -404,29 +472,29 @@ const MasterAdminPortal = () => {
           <div className="space-y-6">
             {/* Content Metrics */}
             <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-              <MetricCard 
-                title="Podcast Downloads" 
-                value={dashboardData.content_metrics.podcast_downloads} 
-                icon={PlayCircle} 
+              <MetricCard
+                title="Podcast Downloads"
+                value={dashboardData.content_metrics.podcast_downloads}
+                icon={PlayCircle}
                 color="#8B5CF6"
               />
-              <MetricCard 
-                title="Video Views" 
-                value={dashboardData.content_metrics.video_views} 
-                icon={Eye} 
+              <MetricCard
+                title="Video Views"
+                value={dashboardData.content_metrics.video_views}
+                icon={Eye}
                 color="#3B82F6"
               />
-              <MetricCard 
-                title="Blog Post Views" 
-                value={dashboardData.content_metrics.blog_post_views} 
-                icon={FileText} 
+              <MetricCard
+                title="Blog Post Views"
+                value={dashboardData.content_metrics.blog_post_views}
+                icon={FileText}
                 color="#10B981"
               />
-              <MetricCard 
-                title="Engagement Rate" 
-                value={dashboardData.content_metrics.content_engagement_rate} 
-                icon={MousePointer} 
-                color="#F59E0B" 
+              <MetricCard
+                title="Engagement Rate"
+                value={dashboardData.content_metrics.content_engagement_rate}
+                icon={MousePointer}
+                color="#F59E0B"
                 format="percentage"
               />
             </div>
@@ -450,20 +518,32 @@ const MasterAdminPortal = () => {
                   </button>
                 </div>
               </div>
-              
+
               {/* Top Performing Content */}
               <div className="space-y-4">
                 <h3 className="font-semibold text-gray-900">Top Performing Content</h3>
                 {dashboardData.content_metrics.top_performing_content.map((content, index) => (
-                  <div key={index} className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
+                  <div
+                    key={index}
+                    className="flex items-center justify-between p-4 bg-gray-50 rounded-lg"
+                  >
                     <div className="flex items-center">
-                      <div className={`p-2 rounded-full mr-4 ${
-                        content.type === 'video' ? 'bg-blue-100' :
-                        content.type === 'blog' ? 'bg-green-100' : 'bg-purple-100'
-                      }`}>
-                        {content.type === 'video' ? <Eye className="w-5 h-5 text-blue-600" /> :
-                         content.type === 'blog' ? <FileText className="w-5 h-5 text-green-600" /> :
-                         <PlayCircle className="w-5 h-5 text-purple-600" />}
+                      <div
+                        className={`p-2 rounded-full mr-4 ${
+                          content.type === 'video'
+                            ? 'bg-blue-100'
+                            : content.type === 'blog'
+                              ? 'bg-green-100'
+                              : 'bg-purple-100'
+                        }`}
+                      >
+                        {content.type === 'video' ? (
+                          <Eye className="w-5 h-5 text-blue-600" />
+                        ) : content.type === 'blog' ? (
+                          <FileText className="w-5 h-5 text-green-600" />
+                        ) : (
+                          <PlayCircle className="w-5 h-5 text-purple-600" />
+                        )}
                       </div>
                       <div>
                         <h4 className="font-medium text-gray-900">{content.title}</h4>
@@ -490,30 +570,30 @@ const MasterAdminPortal = () => {
           <div className="space-y-6">
             {/* Marketing Metrics */}
             <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-              <MetricCard 
-                title="Total Leads" 
-                value={dashboardData.lead_metrics.total_leads} 
-                icon={Users} 
+              <MetricCard
+                title="Total Leads"
+                value={dashboardData.lead_metrics.total_leads}
+                icon={Users}
                 color="#3B82F6"
               />
-              <MetricCard 
-                title="Qualified Leads" 
-                value={dashboardData.lead_metrics.qualified_leads} 
-                icon={UserCheck} 
+              <MetricCard
+                title="Qualified Leads"
+                value={dashboardData.lead_metrics.qualified_leads}
+                icon={UserCheck}
                 color="#10B981"
               />
-              <MetricCard 
-                title="Conversion Rate" 
-                value={dashboardData.lead_metrics.conversion_rate} 
-                icon={Target} 
-                color="#F59E0B" 
+              <MetricCard
+                title="Conversion Rate"
+                value={dashboardData.lead_metrics.conversion_rate}
+                icon={Target}
+                color="#F59E0B"
                 format="percentage"
               />
-              <MetricCard 
-                title="Pipeline Value" 
-                value={dashboardData.lead_metrics.pipeline_value} 
-                icon={DollarSign} 
-                color="#8B5CF6" 
+              <MetricCard
+                title="Pipeline Value"
+                value={dashboardData.lead_metrics.pipeline_value}
+                icon={DollarSign}
+                color="#8B5CF6"
                 format="currency"
               />
             </div>
@@ -559,30 +639,30 @@ const MasterAdminPortal = () => {
           <div className="space-y-6">
             {/* Event Metrics */}
             <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-              <MetricCard 
-                title="Upcoming Events" 
-                value={dashboardData.event_metrics.upcoming_events} 
-                icon={Calendar} 
+              <MetricCard
+                title="Upcoming Events"
+                value={dashboardData.event_metrics.upcoming_events}
+                icon={Calendar}
                 color="#3B82F6"
               />
-              <MetricCard 
-                title="Total Attendees" 
-                value={dashboardData.event_metrics.total_attendees} 
-                icon={Users} 
+              <MetricCard
+                title="Total Attendees"
+                value={dashboardData.event_metrics.total_attendees}
+                icon={Users}
                 color="#10B981"
               />
-              <MetricCard 
-                title="Attendance Rate" 
-                value={dashboardData.event_metrics.attendance_rate} 
-                icon={UserCheck} 
-                color="#F59E0B" 
+              <MetricCard
+                title="Attendance Rate"
+                value={dashboardData.event_metrics.attendance_rate}
+                icon={UserCheck}
+                color="#F59E0B"
                 format="percentage"
               />
-              <MetricCard 
-                title="Event Revenue" 
-                value={dashboardData.event_metrics.revenue_from_events} 
-                icon={DollarSign} 
-                color="#8B5CF6" 
+              <MetricCard
+                title="Event Revenue"
+                value={dashboardData.event_metrics.revenue_from_events}
+                icon={DollarSign}
+                color="#8B5CF6"
                 format="currency"
               />
             </div>

@@ -1,17 +1,75 @@
 import React, { useState, useEffect } from 'react';
-import { 
-  BarChart, Bar, LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, 
-  ResponsiveContainer, PieChart, Pie, Cell, AreaChart, Area, FunnelChart, Funnel, LabelList
+import {
+  BarChart,
+  Bar,
+  LineChart,
+  Line,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  Legend,
+  ResponsiveContainer,
+  PieChart,
+  Pie,
+  Cell,
+  AreaChart,
+  Area,
+  FunnelChart,
+  Funnel,
+  LabelList,
 } from 'recharts';
-import { 
-  Users, UserPlus, Target, TrendingUp, Mail, MessageSquare, 
-  Plus, Edit3, Settings, Share2, Download, Upload, Play, Pause,
-  Filter, Search, Calendar, Clock, DollarSign, Award, Zap,
-  Eye, BarChart3, PieChart as PieChartIcon, Activity, Send,
-  UserCheck, UserX, Star, AlertCircle, CheckCircle, XCircle,
-  Phone, Building, MapPin, Globe, Smartphone, Monitor,
-  ArrowUp, ArrowDown, ArrowRight, RefreshCw, Bot, Workflow,
-  MousePointer, FileText, Video, Image, ShoppingCart, Heart
+import {
+  Users,
+  UserPlus,
+  Target,
+  TrendingUp,
+  Mail,
+  MessageSquare,
+  Plus,
+  Edit3,
+  Settings,
+  Share2,
+  Download,
+  Upload,
+  Play,
+  Pause,
+  Filter,
+  Search,
+  Calendar,
+  Clock,
+  DollarSign,
+  Award,
+  Zap,
+  Eye,
+  BarChart3,
+  PieChart as PieChartIcon,
+  Activity,
+  Send,
+  UserCheck,
+  UserX,
+  Star,
+  AlertCircle,
+  CheckCircle,
+  XCircle,
+  Phone,
+  Building,
+  MapPin,
+  Globe,
+  Smartphone,
+  Monitor,
+  ArrowUp,
+  ArrowDown,
+  ArrowRight,
+  RefreshCw,
+  Bot,
+  Workflow,
+  MousePointer,
+  FileText,
+  Video,
+  Image,
+  ShoppingCart,
+  Heart,
 } from 'lucide-react';
 
 const LeadGenerationHub = () => {
@@ -33,9 +91,9 @@ const LeadGenerationHub = () => {
     emailsSent: 28450,
     emailOpenRate: 24.5,
     emailClickRate: 3.8,
-    costPerLead: 45.50,
+    costPerLead: 45.5,
     leadValue: 1250,
-    roi: 275
+    roi: 275,
   };
 
   const leadSources = [
@@ -44,14 +102,14 @@ const LeadGenerationHub = () => {
     { name: 'Webinars', value: 18, count: 765, color: '#F59E0B' },
     { name: 'Social Media', value: 12, count: 510, color: '#8B5CF6' },
     { name: 'Paid Ads', value: 8, count: 340, color: '#EF4444' },
-    { name: 'Referrals', value: 5, count: 213, color: '#06B6D4' }
+    { name: 'Referrals', value: 5, count: 213, color: '#06B6D4' },
   ];
 
   const leadQuality = [
     { name: 'Hot Leads', value: 15, count: 638, color: '#EF4444' },
     { name: 'Warm Leads', value: 35, count: 1488, color: '#F59E0B' },
     { name: 'Cold Leads', value: 40, count: 1700, color: '#6B7280' },
-    { name: 'Qualified', value: 10, count: 424, color: '#10B981' }
+    { name: 'Qualified', value: 10, count: 424, color: '#10B981' },
   ];
 
   const campaignPerformance = [
@@ -60,7 +118,7 @@ const LeadGenerationHub = () => {
     { month: 'Oct', leads: 398, qualified: 156, converted: 34, cost: 18100, revenue: 42500 },
     { month: 'Nov', leads: 367, qualified: 142, converted: 31, cost: 16700, revenue: 38750 },
     { month: 'Dec', leads: 445, qualified: 178, converted: 42, cost: 20250, revenue: 52500 },
-    { month: 'Jan', leads: 189, qualified: 67, converted: 15, cost: 8600, revenue: 18750 }
+    { month: 'Jan', leads: 189, qualified: 67, converted: 15, cost: 8600, revenue: 18750 },
   ];
 
   const funnelData = [
@@ -68,156 +126,174 @@ const LeadGenerationHub = () => {
     { name: 'Leads', value: 4250, fill: '#10B981' },
     { name: 'Qualified', value: 1487, fill: '#F59E0B' },
     { name: 'Opportunities', value: 425, fill: '#8B5CF6' },
-    { name: 'Customers', value: 289, fill: '#EF4444' }
+    { name: 'Customers', value: 289, fill: '#EF4444' },
   ];
 
   const recentLeads = [
     {
       id: 1,
-      name: "Sarah Johnson",
-      email: "sarah.johnson@techcorp.com",
-      company: "TechCorp Ltd",
-      title: "CFO",
+      name: 'Sarah Johnson',
+      email: 'sarah.johnson@techcorp.com',
+      company: 'TechCorp Ltd',
+      title: 'CFO',
       score: 85,
-      quality: "hot",
-      source: "webinar",
-      created: "2025-01-12",
-      lastActivity: "2025-01-12",
-      status: "new"
+      quality: 'hot',
+      source: 'webinar',
+      created: '2025-01-12',
+      lastActivity: '2025-01-12',
+      status: 'new',
     },
     {
       id: 2,
-      name: "Michael Chen",
-      email: "m.chen@growthpartners.co.uk",
-      company: "Growth Partners",
-      title: "Investment Director",
+      name: 'Michael Chen',
+      email: 'm.chen@growthpartners.co.uk',
+      company: 'Growth Partners',
+      title: 'Investment Director',
       score: 72,
-      quality: "warm",
-      source: "content_download",
-      created: "2025-01-11",
-      lastActivity: "2025-01-12",
-      status: "contacted"
+      quality: 'warm',
+      source: 'content_download',
+      created: '2025-01-11',
+      lastActivity: '2025-01-12',
+      status: 'contacted',
     },
     {
       id: 3,
-      name: "Emma Wilson",
-      email: "emma.wilson@strategic.com",
-      company: "Strategic Advisors",
-      title: "Managing Partner",
+      name: 'Emma Wilson',
+      email: 'emma.wilson@strategic.com',
+      company: 'Strategic Advisors',
+      title: 'Managing Partner',
       score: 91,
-      quality: "hot",
-      source: "referral",
-      created: "2025-01-11",
-      lastActivity: "2025-01-11",
-      status: "qualified"
+      quality: 'hot',
+      source: 'referral',
+      created: '2025-01-11',
+      lastActivity: '2025-01-11',
+      status: 'qualified',
     },
     {
       id: 4,
-      name: "David Brown",
-      email: "david@capitalventures.com",
-      company: "Capital Ventures",
-      title: "Principal",
+      name: 'David Brown',
+      email: 'david@capitalventures.com',
+      company: 'Capital Ventures',
+      title: 'Principal',
       score: 58,
-      quality: "warm",
-      source: "paid_ads",
-      created: "2025-01-10",
-      lastActivity: "2025-01-11",
-      status: "nurturing"
-    }
+      quality: 'warm',
+      source: 'paid_ads',
+      created: '2025-01-10',
+      lastActivity: '2025-01-11',
+      status: 'nurturing',
+    },
   ];
 
   const activeCampaigns = [
     {
       id: 1,
-      name: "M&A Valuation Guide Campaign",
-      type: "content_marketing",
-      status: "active",
-      startDate: "2025-01-08",
+      name: 'M&A Valuation Guide Campaign',
+      type: 'content_marketing',
+      status: 'active',
+      startDate: '2025-01-08',
       leads: 89,
       qualified: 23,
       budget: 5000,
       spent: 3200,
       cpl: 35.96,
-      conversionRate: 25.8
+      conversionRate: 25.8,
     },
     {
       id: 2,
-      name: "Private Equity Email Series",
-      type: "email",
-      status: "active",
-      startDate: "2025-01-05",
+      name: 'Private Equity Email Series',
+      type: 'email',
+      status: 'active',
+      startDate: '2025-01-05',
       leads: 156,
       qualified: 42,
       budget: 2500,
       spent: 1800,
       cpl: 11.54,
-      conversionRate: 26.9
+      conversionRate: 26.9,
     },
     {
       id: 3,
-      name: "LinkedIn Due Diligence Ads",
-      type: "paid_ads",
-      status: "active",
-      startDate: "2025-01-10",
+      name: 'LinkedIn Due Diligence Ads',
+      type: 'paid_ads',
+      status: 'active',
+      startDate: '2025-01-10',
       leads: 67,
       qualified: 18,
       budget: 8000,
       spent: 4500,
       cpl: 67.16,
-      conversionRate: 26.9
-    }
+      conversionRate: 26.9,
+    },
   ];
 
   const automationWorkflows = [
     {
       id: 1,
-      name: "Welcome Series - New Subscribers",
-      trigger: "form_submission",
-      status: "active",
+      name: 'Welcome Series - New Subscribers',
+      trigger: 'form_submission',
+      status: 'active',
       enrolled: 234,
       completed: 89,
       conversionRate: 38.0,
-      steps: 5
+      steps: 5,
     },
     {
       id: 2,
-      name: "Webinar Follow-up Sequence",
-      trigger: "event_registration",
-      status: "active",
+      name: 'Webinar Follow-up Sequence',
+      trigger: 'event_registration',
+      status: 'active',
       enrolled: 156,
       completed: 67,
       conversionRate: 43.0,
-      steps: 4
+      steps: 4,
     },
     {
       id: 3,
-      name: "High-Score Lead Nurturing",
-      trigger: "scoring_threshold",
-      status: "active",
+      name: 'High-Score Lead Nurturing',
+      trigger: 'scoring_threshold',
+      status: 'active',
       enrolled: 89,
       completed: 34,
       conversionRate: 38.2,
-      steps: 7
-    }
+      steps: 7,
+    },
   ];
 
-  const MetricCard = ({ title, value, change, icon: Icon, color = "blue", format = "number", subtitle }) => {
-    const formattedValue = format === "currency" ? `£${value.toLocaleString()}` : 
-                          format === "percentage" ? `${value}%` : 
-                          value.toLocaleString();
+  const MetricCard = ({
+    title,
+    value,
+    change,
+    icon: Icon,
+    color = 'blue',
+    format = 'number',
+    subtitle,
+  }) => {
+    const formattedValue =
+      format === 'currency'
+        ? `£${value.toLocaleString()}`
+        : format === 'percentage'
+          ? `${value}%`
+          : value.toLocaleString();
 
     return (
-      <div className="bg-white rounded-lg shadow-lg p-6 border-l-4" style={{ borderLeftColor: color }}>
+      <div
+        className="bg-white rounded-lg shadow-lg p-6 border-l-4"
+        style={{ borderLeftColor: color }}
+      >
         <div className="flex items-center justify-between">
           <div>
             <p className="text-sm font-medium text-gray-600">{title}</p>
             <p className="text-2xl font-bold text-gray-900">{formattedValue}</p>
-            {subtitle && (
-              <p className="text-sm text-gray-500 mt-1">{subtitle}</p>
-            )}
+            {subtitle && <p className="text-sm text-gray-500 mt-1">{subtitle}</p>}
             {change !== undefined && (
-              <div className={`flex items-center mt-2 text-sm ${change >= 0 ? 'text-green-600' : 'text-red-600'}`}>
-                {change >= 0 ? <ArrowUp className="w-4 h-4 mr-1" /> : <ArrowDown className="w-4 h-4 mr-1" />}
+              <div
+                className={`flex items-center mt-2 text-sm ${change >= 0 ? 'text-green-600' : 'text-red-600'}`}
+              >
+                {change >= 0 ? (
+                  <ArrowUp className="w-4 h-4 mr-1" />
+                ) : (
+                  <ArrowDown className="w-4 h-4 mr-1" />
+                )}
                 <span>{Math.abs(change)}% vs last month</span>
               </div>
             )}
@@ -234,9 +310,7 @@ const LeadGenerationHub = () => {
     <button
       onClick={() => onClick(id)}
       className={`px-4 py-2 rounded-lg font-medium transition-colors ${
-        isActive 
-          ? 'bg-blue-600 text-white' 
-          : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+        isActive ? 'bg-blue-600 text-white' : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
       }`}
     >
       {label}
@@ -248,24 +322,36 @@ const LeadGenerationHub = () => {
       <div className="flex justify-between items-start mb-4">
         <div>
           <h3 className="text-lg font-semibold text-gray-900">{lead.name}</h3>
-          <p className="text-sm text-gray-600">{lead.title} at {lead.company}</p>
+          <p className="text-sm text-gray-600">
+            {lead.title} at {lead.company}
+          </p>
           <p className="text-sm text-gray-500">{lead.email}</p>
         </div>
         <div className="flex items-center space-x-2">
-          <span className={`px-2 py-1 rounded-full text-xs ${
-            lead.quality === 'hot' ? 'bg-red-100 text-red-800' :
-            lead.quality === 'warm' ? 'bg-yellow-100 text-yellow-800' :
-            lead.quality === 'qualified' ? 'bg-green-100 text-green-800' :
-            'bg-gray-100 text-gray-800'
-          }`}>
+          <span
+            className={`px-2 py-1 rounded-full text-xs ${
+              lead.quality === 'hot'
+                ? 'bg-red-100 text-red-800'
+                : lead.quality === 'warm'
+                  ? 'bg-yellow-100 text-yellow-800'
+                  : lead.quality === 'qualified'
+                    ? 'bg-green-100 text-green-800'
+                    : 'bg-gray-100 text-gray-800'
+            }`}
+          >
             {lead.quality}
           </span>
-          <span className={`px-2 py-1 rounded-full text-xs ${
-            lead.status === 'new' ? 'bg-blue-100 text-blue-800' :
-            lead.status === 'contacted' ? 'bg-purple-100 text-purple-800' :
-            lead.status === 'qualified' ? 'bg-green-100 text-green-800' :
-            'bg-orange-100 text-orange-800'
-          }`}>
+          <span
+            className={`px-2 py-1 rounded-full text-xs ${
+              lead.status === 'new'
+                ? 'bg-blue-100 text-blue-800'
+                : lead.status === 'contacted'
+                  ? 'bg-purple-100 text-purple-800'
+                  : lead.status === 'qualified'
+                    ? 'bg-green-100 text-green-800'
+                    : 'bg-orange-100 text-orange-800'
+            }`}
+          >
             {lead.status}
           </span>
         </div>
@@ -277,7 +363,9 @@ const LeadGenerationHub = () => {
           <div className="text-sm text-blue-700">Score</div>
         </div>
         <div className="text-center p-3 bg-green-50 rounded-lg">
-          <div className="text-sm font-medium text-green-600 capitalize">{lead.source.replace('_', ' ')}</div>
+          <div className="text-sm font-medium text-green-600 capitalize">
+            {lead.source.replace('_', ' ')}
+          </div>
           <div className="text-sm text-green-700">Source</div>
         </div>
         <div className="text-center p-3 bg-purple-50 rounded-lg">
@@ -287,9 +375,7 @@ const LeadGenerationHub = () => {
       </div>
 
       <div className="flex items-center justify-between">
-        <div className="text-sm text-gray-600">
-          Last activity: {lead.lastActivity}
-        </div>
+        <div className="text-sm text-gray-600">Last activity: {lead.lastActivity}</div>
         <div className="flex space-x-2">
           <button className="p-2 text-gray-400 hover:text-blue-600">
             <Mail className="w-4 h-4" />
@@ -323,11 +409,15 @@ const LeadGenerationHub = () => {
             </div>
           </div>
         </div>
-        <span className={`px-2 py-1 rounded-full text-xs ${
-          campaign.status === 'active' ? 'bg-green-100 text-green-800' :
-          campaign.status === 'paused' ? 'bg-yellow-100 text-yellow-800' :
-          'bg-gray-100 text-gray-800'
-        }`}>
+        <span
+          className={`px-2 py-1 rounded-full text-xs ${
+            campaign.status === 'active'
+              ? 'bg-green-100 text-green-800'
+              : campaign.status === 'paused'
+                ? 'bg-yellow-100 text-yellow-800'
+                : 'bg-gray-100 text-gray-800'
+          }`}
+        >
           {campaign.status}
         </span>
       </div>
@@ -360,8 +450,8 @@ const LeadGenerationHub = () => {
 
       <div className="flex items-center justify-between">
         <div className="w-full bg-gray-200 rounded-full h-2">
-          <div 
-            className="bg-blue-600 h-2 rounded-full" 
+          <div
+            className="bg-blue-600 h-2 rounded-full"
             style={{ width: `${(campaign.spent / campaign.budget) * 100}%` }}
           ></div>
         </div>
@@ -384,10 +474,13 @@ const LeadGenerationHub = () => {
             <span>{automation.steps} steps</span>
           </div>
         </div>
-        <span className={`px-2 py-1 rounded-full text-xs ${
-          automation.status === 'active' ? 'bg-green-100 text-green-800' :
-          'bg-gray-100 text-gray-800'
-        }`}>
+        <span
+          className={`px-2 py-1 rounded-full text-xs ${
+            automation.status === 'active'
+              ? 'bg-green-100 text-green-800'
+              : 'bg-gray-100 text-gray-800'
+          }`}
+        >
           {automation.status}
         </span>
       </div>
@@ -434,7 +527,9 @@ const LeadGenerationHub = () => {
           <div className="flex justify-between items-center py-6">
             <div>
               <h1 className="text-3xl font-bold text-gray-900">Lead Generation & Marketing Hub</h1>
-              <p className="text-gray-600">Advanced lead scoring, multi-channel campaigns, and automated nurture sequences</p>
+              <p className="text-gray-600">
+                Advanced lead scoring, multi-channel campaigns, and automated nurture sequences
+              </p>
             </div>
             <div className="flex items-center space-x-4">
               <button className="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 flex items-center">
@@ -453,12 +548,42 @@ const LeadGenerationHub = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Navigation Tabs */}
         <div className="flex space-x-2 mb-8">
-          <TabButton id="overview" label="Overview" isActive={activeTab === 'overview'} onClick={setActiveTab} />
-          <TabButton id="leads" label="Lead Management" isActive={activeTab === 'leads'} onClick={setActiveTab} />
-          <TabButton id="campaigns" label="Campaigns" isActive={activeTab === 'campaigns'} onClick={setActiveTab} />
-          <TabButton id="automation" label="Automation" isActive={activeTab === 'automation'} onClick={setActiveTab} />
-          <TabButton id="scoring" label="Lead Scoring" isActive={activeTab === 'scoring'} onClick={setActiveTab} />
-          <TabButton id="analytics" label="Analytics" isActive={activeTab === 'analytics'} onClick={setActiveTab} />
+          <TabButton
+            id="overview"
+            label="Overview"
+            isActive={activeTab === 'overview'}
+            onClick={setActiveTab}
+          />
+          <TabButton
+            id="leads"
+            label="Lead Management"
+            isActive={activeTab === 'leads'}
+            onClick={setActiveTab}
+          />
+          <TabButton
+            id="campaigns"
+            label="Campaigns"
+            isActive={activeTab === 'campaigns'}
+            onClick={setActiveTab}
+          />
+          <TabButton
+            id="automation"
+            label="Automation"
+            isActive={activeTab === 'automation'}
+            onClick={setActiveTab}
+          />
+          <TabButton
+            id="scoring"
+            label="Lead Scoring"
+            isActive={activeTab === 'scoring'}
+            onClick={setActiveTab}
+          />
+          <TabButton
+            id="analytics"
+            label="Analytics"
+            isActive={activeTab === 'analytics'}
+            onClick={setActiveTab}
+          />
         </div>
 
         {/* Overview Tab */}
@@ -466,34 +591,34 @@ const LeadGenerationHub = () => {
           <>
             {/* Key Metrics */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-              <MetricCard 
-                title="Total Leads" 
-                value={leadMetrics.totalLeads} 
+              <MetricCard
+                title="Total Leads"
+                value={leadMetrics.totalLeads}
                 change={15.3}
-                icon={Users} 
+                icon={Users}
                 color="#3B82F6"
               />
-              <MetricCard 
-                title="Qualified Leads" 
-                value={leadMetrics.qualifiedLeads} 
+              <MetricCard
+                title="Qualified Leads"
+                value={leadMetrics.qualifiedLeads}
                 change={22.7}
-                icon={UserCheck} 
+                icon={UserCheck}
                 color="#10B981"
               />
-              <MetricCard 
-                title="Conversion Rate" 
-                value={leadMetrics.conversionRate} 
+              <MetricCard
+                title="Conversion Rate"
+                value={leadMetrics.conversionRate}
                 change={8.4}
-                icon={Target} 
-                color="#F59E0B" 
+                icon={Target}
+                color="#F59E0B"
                 format="percentage"
               />
-              <MetricCard 
-                title="Cost Per Lead" 
-                value={leadMetrics.costPerLead} 
+              <MetricCard
+                title="Cost Per Lead"
+                value={leadMetrics.costPerLead}
                 change={-12.1}
-                icon={DollarSign} 
-                color="#8B5CF6" 
+                icon={DollarSign}
+                color="#8B5CF6"
                 format="currency"
               />
             </div>
@@ -505,11 +630,7 @@ const LeadGenerationHub = () => {
                 <ResponsiveContainer width="100%" height={300}>
                   <FunnelChart>
                     <Tooltip />
-                    <Funnel
-                      dataKey="value"
-                      data={funnelData}
-                      isAnimationActive
-                    >
+                    <Funnel dataKey="value" data={funnelData} isAnimationActive>
                       <LabelList position="center" fill="#fff" stroke="none" />
                     </Funnel>
                   </FunnelChart>
@@ -525,8 +646,22 @@ const LeadGenerationHub = () => {
                     <YAxis />
                     <Tooltip />
                     <Legend />
-                    <Area type="monotone" dataKey="leads" stackId="1" stroke="#3B82F6" fill="#3B82F6" fillOpacity={0.6} />
-                    <Area type="monotone" dataKey="qualified" stackId="2" stroke="#10B981" fill="#10B981" fillOpacity={0.6} />
+                    <Area
+                      type="monotone"
+                      dataKey="leads"
+                      stackId="1"
+                      stroke="#3B82F6"
+                      fill="#3B82F6"
+                      fillOpacity={0.6}
+                    />
+                    <Area
+                      type="monotone"
+                      dataKey="qualified"
+                      stackId="2"
+                      stroke="#10B981"
+                      fill="#10B981"
+                      fillOpacity={0.6}
+                    />
                   </AreaChart>
                 </ResponsiveContainer>
               </div>
@@ -622,9 +757,9 @@ const LeadGenerationHub = () => {
                 </button>
               </div>
             </div>
-            
+
             <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6">
-              {recentLeads.map(lead => (
+              {recentLeads.map((lead) => (
                 <LeadCard key={lead.id} lead={lead} />
               ))}
             </div>
@@ -643,9 +778,9 @@ const LeadGenerationHub = () => {
                 </button>
               </div>
             </div>
-            
+
             <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6">
-              {activeCampaigns.map(campaign => (
+              {activeCampaigns.map((campaign) => (
                 <CampaignCard key={campaign.id} campaign={campaign} />
               ))}
             </div>
@@ -664,9 +799,9 @@ const LeadGenerationHub = () => {
                 </button>
               </div>
             </div>
-            
+
             <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6">
-              {automationWorkflows.map(automation => (
+              {automationWorkflows.map((automation) => (
                 <AutomationCard key={automation.id} automation={automation} />
               ))}
             </div>
@@ -678,28 +813,28 @@ const LeadGenerationHub = () => {
           <div className="space-y-6">
             <div className="bg-white rounded-lg shadow-lg p-6">
               <h2 className="text-xl font-bold text-gray-900 mb-6">Lead Scoring Configuration</h2>
-              
+
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
-                <MetricCard 
-                  title="Average Score" 
-                  value={leadMetrics.averageLeadScore} 
+                <MetricCard
+                  title="Average Score"
+                  value={leadMetrics.averageLeadScore}
                   change={5.2}
-                  icon={Award} 
+                  icon={Award}
                   color="#3B82F6"
                 />
-                <MetricCard 
-                  title="High Score Leads" 
-                  value={Math.round(leadMetrics.totalLeads * 0.15)} 
+                <MetricCard
+                  title="High Score Leads"
+                  value={Math.round(leadMetrics.totalLeads * 0.15)}
                   change={18.7}
-                  icon={Star} 
+                  icon={Star}
                   color="#F59E0B"
                   subtitle="Score > 80"
                 />
-                <MetricCard 
-                  title="Scoring Rules" 
-                  value={12} 
+                <MetricCard
+                  title="Scoring Rules"
+                  value={12}
                   change={0}
-                  icon={Settings} 
+                  icon={Settings}
                   color="#8B5CF6"
                   subtitle="Active rules"
                 />
@@ -707,16 +842,39 @@ const LeadGenerationHub = () => {
 
               <div className="space-y-4">
                 <h3 className="font-semibold text-gray-900">Scoring Rules</h3>
-                
+
                 <div className="space-y-3">
                   {[
-                    { category: "Demographic", rule: "Company Size: Enterprise", points: 25, active: true },
-                    { category: "Behavioral", rule: "Downloaded 3+ Resources", points: 20, active: true },
-                    { category: "Engagement", rule: "Attended Webinar", points: 30, active: true },
-                    { category: "Demographic", rule: "Job Title: C-Level", points: 35, active: true },
-                    { category: "Behavioral", rule: "Visited Pricing Page", points: 15, active: false }
+                    {
+                      category: 'Demographic',
+                      rule: 'Company Size: Enterprise',
+                      points: 25,
+                      active: true,
+                    },
+                    {
+                      category: 'Behavioral',
+                      rule: 'Downloaded 3+ Resources',
+                      points: 20,
+                      active: true,
+                    },
+                    { category: 'Engagement', rule: 'Attended Webinar', points: 30, active: true },
+                    {
+                      category: 'Demographic',
+                      rule: 'Job Title: C-Level',
+                      points: 35,
+                      active: true,
+                    },
+                    {
+                      category: 'Behavioral',
+                      rule: 'Visited Pricing Page',
+                      points: 15,
+                      active: false,
+                    },
                   ].map((rule, index) => (
-                    <div key={index} className="flex items-center justify-between p-4 border border-gray-200 rounded-lg">
+                    <div
+                      key={index}
+                      className="flex items-center justify-between p-4 border border-gray-200 rounded-lg"
+                    >
                       <div>
                         <div className="font-medium text-gray-900">{rule.rule}</div>
                         <div className="text-sm text-gray-600">{rule.category}</div>
@@ -724,7 +882,11 @@ const LeadGenerationHub = () => {
                       <div className="flex items-center space-x-4">
                         <span className="font-semibold text-blue-600">+{rule.points} pts</span>
                         <label className="relative inline-flex items-center cursor-pointer">
-                          <input type="checkbox" className="sr-only peer" defaultChecked={rule.active} />
+                          <input
+                            type="checkbox"
+                            className="sr-only peer"
+                            defaultChecked={rule.active}
+                          />
                           <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
                         </label>
                       </div>
@@ -746,7 +908,7 @@ const LeadGenerationHub = () => {
           <div className="space-y-6">
             <div className="bg-white rounded-lg shadow-lg p-6">
               <h2 className="text-xl font-bold text-gray-900 mb-6">Lead Generation Analytics</h2>
-              
+
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                 <div>
                   <h3 className="font-semibold text-gray-900 mb-4">Lead Generation Trends</h3>
@@ -763,7 +925,7 @@ const LeadGenerationHub = () => {
                     </LineChart>
                   </ResponsiveContainer>
                 </div>
-                
+
                 <div>
                   <h3 className="font-semibold text-gray-900 mb-4">ROI Analysis</h3>
                   <ResponsiveContainer width="100%" height={300}>

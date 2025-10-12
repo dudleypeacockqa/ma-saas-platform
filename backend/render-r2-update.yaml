@@ -11,7 +11,7 @@ services:
         fromDatabase:
           name: ma-saas-db
           property: connectionString
-      
+
       # Application Security
       - key: SECRET_KEY
         generateValue: true
@@ -21,13 +21,13 @@ services:
         value: 30
       - key: ALLOWED_ORIGINS
         value: https://100daysandbeyond.com,https://www.100daysandbeyond.com,http://localhost:3000,http://localhost:5173
-      
+
       # AI Integration
       - key: ANTHROPIC_API_KEY
         sync: false # Set manually in Render dashboard
       - key: OPENAI_API_KEY
         sync: false # Set manually in Render dashboard
-      
+
       # Cloudflare R2 Storage Configuration
       - key: STORAGE_PROVIDER
         value: r2
@@ -41,7 +41,7 @@ services:
         value: ma-platform-documents
       - key: CLOUDFLARE_R2_ENDPOINT
         value: https://8424f73b33106452fa180d53b6cc128b.r2.cloudflarestorage.com
-      
+
       # R2 Configuration
       - key: R2_REGION
         value: auto

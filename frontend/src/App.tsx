@@ -1,182 +1,225 @@
-/**
- * Main Application Component
- * Sets up routing, providers, and global configuration
- */
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { ClerkProvider, SignedIn, SignedOut } from '@clerk/clerk-react';
+import { Toaster } from '@/components/ui/sonner';
+import { ThemeProvider } from '@/components/theme-provider';
+import './App.css';
 
-import React, { Suspense, lazy, useEffect } from 'react';
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
-import { Provider } from 'react-redux';
-import { ThemeProvider, CssBaseline, CircularProgress, Box } from '@mui/material';
-import { LocalizationProvider } from '@mui/x-date-pickers';
-import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
-import { ClerkProvider, SignedIn, SignedOut, RedirectToSignIn, useUser, useAuth } from '@clerk/clerk-react';
+// Public pages (Marketing website)
+import HomePage from '@/pages/public/HomePage';
+import AboutPage from '@/pages/AboutPage';
+import PricingPage from '@/pages/PricingPage';
+import BlogPage from '@/pages/BlogPage';
+import SignInPage from '@/pages/auth/SignInPage';
+import SignUpPage from '@/pages/auth/SignUpPage';
 
-import { store } from '@/app/store';
-import { setUser } from '@/app/slices/authSlice';
-import { MainLayout } from '@/components/layout/MainLayout';
-import { theme } from '@/styles/theme';
+// M&A Service Pages (Public)
+import FinancialIntelligencePage from '@/pages/services/FinancialIntelligencePage';
+import TemplateEnginePage from '@/pages/services/TemplateEnginePage';
+import OfferStackGeneratorPage from '@/pages/services/OfferStackGeneratorPage';
+import DealMatchingPage from '@/pages/services/DealMatchingPage';
+import ValuationEnginePage from '@/pages/services/ValuationEnginePage';
+import PlatformOverviewPage from '@/pages/PlatformOverviewPage';
 
-// Lazy load pages for code splitting
-const Dashboard = lazy(() => import('@/pages/Dashboard'));
-const DealList = lazy(() => import('@/features/deals/components/DealList').then(m => ({ default: m.DealList })));
-const DealForm = lazy(() => import('@/features/deals/components/DealForm').then(m => ({ default: m.DealForm })));
-const DealDetail = lazy(() => import('@/features/deals/components/DealDetail').then(m => ({ default: m.DealDetail })));
-const PipelineView = lazy(() => import('@/pages/deals/PipelineView'));
-const Documents = lazy(() => import('@/pages/Documents'));
-const Team = lazy(() => import('@/pages/Team'));
-const Analytics = lazy(() => import('@/pages/Analytics'));
-const Settings = lazy(() => import('@/pages/Settings'));
-const Profile = lazy(() => import('@/pages/Profile'));
-const NotFound = lazy(() => import('@/pages/NotFound'));
+// Platform pages (Authenticated M&A application)
+import DealsPipeline from '@/pages/platform/DealsPipeline';
+import DealDetail from '@/pages/platform/DealDetail';
+import DocumentLibrary from '@/pages/platform/DocumentLibrary';
+import DocumentReview from '@/pages/platform/DocumentReview';
+import TeamOverview from '@/pages/platform/TeamOverview';
+import TeamMembers from '@/pages/platform/TeamMembers';
+import ExecutiveDashboard from '@/pages/platform/ExecutiveDashboard';
+import PipelineAnalytics from '@/pages/platform/PipelineAnalytics';
+import PerformanceMetrics from '@/pages/platform/PerformanceMetrics';
+import FinancialAnalysis from '@/pages/platform/FinancialAnalysis';
+import UserSettings from '@/pages/SettingsPage';
 
-// Get Clerk publishable key from environment
-const clerkPubKey = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY;
+// Layout components
+import PublicLayout from '@/components/layouts/PublicLayout';
+import PlatformLayout from '@/components/layouts/PlatformLayout';
+import Navbar from '@/components/layout/Navbar';
+import Footer from '@/components/layout/Footer';
 
-if (!clerkPubKey) {
-  throw new Error('Missing Clerk Publishable Key');
-}
-
-// Loading component
-const LoadingFallback = () => (
-  <Box
-    sx={{
-      display: 'flex',
-      justifyContent: 'center',
-      alignItems: 'center',
-      height: '100vh',
-    }}
-  >
-    <CircularProgress />
-  </Box>
-);
-
-// Auth sync component
-const AuthSync: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const clerkUser = useUser();
-  const { getToken } = useAuth();
-
-  useEffect(() => {
-    const syncAuth = async () => {
-      if (clerkUser.isLoaded && clerkUser.user) {
-        const token = await getToken();
-
-        const user = {
-          id: clerkUser.user.id,
-          email: clerkUser.user.primaryEmailAddress?.emailAddress || '',
-          firstName: clerkUser.user.firstName || undefined,
-          lastName: clerkUser.user.lastName || undefined,
-          organizationId: clerkUser.user.publicMetadata.organizationId as string || '',
-          organizationName: clerkUser.user.publicMetadata.organizationName as string || undefined,
-          role: (clerkUser.user.publicMetadata.role as 'admin' | 'member' | 'viewer') || 'member',
-          imageUrl: clerkUser.user.imageUrl || undefined,
-        };
-
-        store.dispatch(setUser({ user, token: token || '' }));
-      }
-    };
-
-    syncAuth();
-  }, [clerkUser.isLoaded, clerkUser.user, getToken]);
-
-  return <>{children}</>;
-};
-
-// Protected routes wrapper
-const ProtectedRoutes = () => (
-  <SignedIn>
-    <AuthSync>
-      <Routes>
-        <Route path="/" element={<MainLayout />}>
-          <Route index element={
-            <Suspense fallback={<LoadingFallback />}>
-              <Dashboard />
-            </Suspense>
-          } />
-
-          {/* Deals routes */}
-          <Route path="deals">
-            <Route index element={
-              <Suspense fallback={<LoadingFallback />}>
-                <DealList />
-              </Suspense>
-            } />
-            <Route path="new" element={
-              <Suspense fallback={<LoadingFallback />}>
-                <DealForm />
-              </Suspense>
-            } />
-            <Route path="pipeline" element={
-              <Suspense fallback={<LoadingFallback />}>
-                <PipelineView />
-              </Suspense>
-            } />
-            <Route path=":id" element={
-              <Suspense fallback={<LoadingFallback />}>
-                <DealDetail />
-              </Suspense>
-            } />
-            <Route path=":id/edit" element={
-              <Suspense fallback={<LoadingFallback />}>
-                <DealForm />
-              </Suspense>
-            } />
-          </Route>
-
-          {/* Other routes */}
-          <Route path="documents" element={
-            <Suspense fallback={<LoadingFallback />}>
-              <Documents />
-            </Suspense>
-          } />
-          <Route path="team" element={
-            <Suspense fallback={<LoadingFallback />}>
-              <Team />
-            </Suspense>
-          } />
-          <Route path="analytics" element={
-            <Suspense fallback={<LoadingFallback />}>
-              <Analytics />
-            </Suspense>
-          } />
-          <Route path="settings" element={
-            <Suspense fallback={<LoadingFallback />}>
-              <Settings />
-            </Suspense>
-          } />
-          <Route path="profile" element={
-            <Suspense fallback={<LoadingFallback />}>
-              <Profile />
-            </Suspense>
-          } />
-          <Route path="*" element={
-            <Suspense fallback={<LoadingFallback />}>
-              <NotFound />
-            </Suspense>
-          } />
-        </Route>
-      </Routes>
-    </AuthSync>
-  </SignedIn>
-);
+// Clerk configuration
+const clerkPubKey = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY || 'pk_live_Y2xlcmsuMTAwZGF5c2FuZGJleW9uZC5jb20k';
 
 function App() {
   return (
     <ClerkProvider publishableKey={clerkPubKey}>
-      <Provider store={store}>
-        <ThemeProvider theme={theme}>
-          <LocalizationProvider dateAdapter={AdapterDateFns}>
-            <CssBaseline />
-            <BrowserRouter>
+      <ThemeProvider defaultTheme="light" storageKey="ma-platform-theme">
+        <Router>
+          <div className="min-h-screen bg-background">
+
+            {/* Public Routes - Professional M&A Marketing Website */}
+            <SignedOut>
               <Routes>
-                <Route path="/*" element={<ProtectedRoutes />} />
+                {/* Homepage - Professional M&A Platform */}
+                <Route
+                  path="/"
+                  element={
+                    <>
+                      <Navbar />
+                      <HomePage />
+                      <Footer />
+                    </>
+                  }
+                />
+
+                {/* Core Marketing Pages */}
+                <Route
+                  path="/about"
+                  element={
+                    <>
+                      <Navbar />
+                      <AboutPage />
+                      <Footer />
+                    </>
+                  }
+                />
+                <Route
+                  path="/platform"
+                  element={
+                    <>
+                      <Navbar />
+                      <PlatformOverviewPage />
+                      <Footer />
+                    </>
+                  }
+                />
+                <Route
+                  path="/pricing"
+                  element={
+                    <>
+                      <Navbar />
+                      <PricingPage />
+                      <Footer />
+                    </>
+                  }
+                />
+                <Route
+                  path="/blog"
+                  element={
+                    <>
+                      <Navbar />
+                      <BlogPage />
+                      <Footer />
+                    </>
+                  }
+                />
+
+                {/* M&A Service Detail Pages */}
+                <Route
+                  path="/services/financial-intelligence"
+                  element={
+                    <>
+                      <Navbar />
+                      <FinancialIntelligencePage />
+                      <Footer />
+                    </>
+                  }
+                />
+                <Route
+                  path="/services/template-engine"
+                  element={
+                    <>
+                      <Navbar />
+                      <TemplateEnginePage />
+                      <Footer />
+                    </>
+                  }
+                />
+                <Route
+                  path="/services/offer-generator"
+                  element={
+                    <>
+                      <Navbar />
+                      <OfferStackGeneratorPage />
+                      <Footer />
+                    </>
+                  }
+                />
+                <Route
+                  path="/services/deal-matching"
+                  element={
+                    <>
+                      <Navbar />
+                      <DealMatchingPage />
+                      <Footer />
+                    </>
+                  }
+                />
+                <Route
+                  path="/services/valuation-engine"
+                  element={
+                    <>
+                      <Navbar />
+                      <ValuationEnginePage />
+                      <Footer />
+                    </>
+                  }
+                />
+
+                {/* Authentication pages */}
+                <Route path="/sign-in" element={<SignInPage />} />
+                <Route path="/sign-up" element={<SignUpPage />} />
               </Routes>
-              <SignedOut>
-                <RedirectToSignIn />
-              </SignedOut>
-            </BrowserRouter>
-          </LocalizationProvider>
-        </ThemeProvider>
-      </Provider>
+            </SignedOut>
+
+            {/* Authenticated Platform Routes - M&A Professional Application */}
+            <SignedIn>
+              <Routes>
+                <Route path="/" element={<PlatformLayout />}>
+                  {/* Default route - Deal Pipeline (Primary landing) */}
+                  <Route index element={<DealsPipeline />} />
+
+                  {/* DEALS MANAGEMENT - Based on UX Spec Navigation */}
+                  <Route path="deals" element={<DealsPipeline />} />
+                  <Route path="deals/pipeline" element={<DealsPipeline />} />
+                  <Route path="deals/list" element={<DealsPipeline />} />
+                  <Route path="deals/calendar" element={<DealsPipeline />} />
+                  <Route path="deals/my" element={<DealsPipeline />} />
+                  <Route path="deals/archived" element={<DealsPipeline />} />
+                  <Route path="deals/:dealId" element={<DealDetail />} />
+
+                  {/* DOCUMENTS MANAGEMENT - Based on UX Spec Navigation */}
+                  <Route path="documents" element={<DocumentLibrary />} />
+                  <Route path="documents/templates" element={<DocumentLibrary />} />
+                  <Route path="documents/recent" element={<DocumentLibrary />} />
+                  <Route path="documents/shared" element={<DocumentLibrary />} />
+                  <Route path="documents/trash" element={<DocumentLibrary />} />
+                  <Route path="documents/:docId" element={<DocumentReview />} />
+
+                  {/* TEAMS MANAGEMENT - Based on UX Spec Navigation */}
+                  <Route path="teams" element={<TeamOverview />} />
+                  <Route path="teams/members" element={<TeamMembers />} />
+                  <Route path="teams/workload" element={<TeamOverview />} />
+                  <Route path="teams/activity" element={<TeamOverview />} />
+                  <Route path="teams/settings" element={<TeamOverview />} />
+
+                  {/* ANALYTICS & INSIGHTS - Based on UX Spec Navigation */}
+                  <Route path="analytics" element={<ExecutiveDashboard />} />
+                  <Route path="analytics/executive" element={<ExecutiveDashboard />} />
+                  <Route path="analytics/pipeline" element={<PipelineAnalytics />} />
+                  <Route path="analytics/performance" element={<PerformanceMetrics />} />
+                  <Route path="analytics/financial" element={<FinancialAnalysis />} />
+                  <Route path="analytics/reports" element={<ExecutiveDashboard />} />
+
+                  {/* USER SETTINGS */}
+                  <Route path="settings" element={<UserSettings />} />
+
+                  {/* Legacy routes for existing service pages (authenticated access) */}
+                  <Route path="services/financial-intelligence" element={<FinancialIntelligencePage />} />
+                  <Route path="services/template-engine" element={<TemplateEnginePage />} />
+                  <Route path="services/offer-generator" element={<OfferStackGeneratorPage />} />
+                  <Route path="services/deal-matching" element={<DealMatchingPage />} />
+                  <Route path="services/valuation-engine" element={<ValuationEnginePage />} />
+                </Route>
+              </Routes>
+            </SignedIn>
+
+            <Toaster />
+          </div>
+        </Router>
+      </ThemeProvider>
     </ClerkProvider>
   );
 }

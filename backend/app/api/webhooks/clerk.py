@@ -132,29 +132,32 @@ async def handle_subscription_webhook(
     request: Request,
     db: Session = Depends(get_db)
 ):
-    """Handle subscription-related webhook events from Clerk"""
+    """Handle subscription-related webhook events from Clerk Billing"""
     payload = await get_webhook_payload(request)
     event_type = payload.get('type')
     data = payload.get('data', {})
-    
+
     logger.info(f"Received subscription webhook: {event_type}")
-    
+
     try:
+        # Clerk Billing webhook event types
         if event_type == 'subscription.created':
             await handle_subscription_created(data, db)
         elif event_type == 'subscription.updated':
             await handle_subscription_updated(data, db)
-        elif event_type == 'subscription.deleted':
+        elif event_type == 'subscription.deleted' or event_type == 'subscription.cancelled':
             await handle_subscription_deleted(data, db)
-        elif event_type == 'invoice.payment_succeeded':
+        elif event_type == 'subscription.trial_will_end':
+            await handle_trial_will_end(data, db)
+        elif event_type == 'invoice.payment_succeeded' or event_type == 'payment.succeeded':
             await handle_payment_succeeded(data, db)
-        elif event_type == 'invoice.payment_failed':
+        elif event_type == 'invoice.payment_failed' or event_type == 'payment.failed':
             await handle_payment_failed(data, db)
         else:
             logger.warning(f"Unhandled subscription event type: {event_type}")
-            
+
         return {"status": "success"}
-        
+
     except Exception as e:
         logger.error(f"Error handling subscription webhook {event_type}: {e}")
         raise HTTPException(status_code=500, detail="Error processing webhook")
@@ -332,41 +335,48 @@ async def handle_membership_deleted(data: Dict[str, Any], db: Session):
 
 # Subscription event handlers
 async def handle_subscription_created(data: Dict[str, Any], db: Session):
-    """Handle subscription creation from Clerk"""
+    """Handle subscription creation from Clerk Billing"""
     clerk_subscription_id = data.get('id')
-    clerk_customer_id = data.get('customer')
-    
-    # Find organization by customer ID or other identifier
-    # This depends on how you link Clerk customers to organizations
-    org = db.query(Organization).filter(Organization.clerk_id == clerk_customer_id).first()
+    organization_id = data.get('organization_id')  # Clerk Billing links to org directly
+
+    # Find organization by Clerk organization ID
+    org = db.query(Organization).filter(Organization.clerk_id == organization_id).first()
     if not org:
-        logger.error(f"Organization not found for customer {clerk_customer_id}")
+        logger.error(f"Organization not found for Clerk org ID {organization_id}")
         return
-    
-    # Extract subscription details
-    plan_id = data.get('items', [{}])[0].get('price', {}).get('id', '')
-    amount = data.get('items', [{}])[0].get('price', {}).get('unit_amount', 0) / 100  # Convert from cents
+
+    # Extract subscription details from Clerk Billing format
+    plan_tier = data.get('plan', {}).get('name', 'solo').lower()  # solo, growth, enterprise
+    billing_interval = data.get('interval', 'month')  # month or year
+    amount = data.get('amount', 0)  # Already in dollars for Clerk Billing
     currency = data.get('currency', 'USD').upper()
-    status = data.get('status', 'incomplete')
-    
-    # Map plan ID to our plan names
+    status = data.get('status', 'incomplete')  # active, trialing, past_due, canceled, etc.
+
+    # Map plan tier to our internal plan names
     plan_mapping = {
-        'price_solo_monthly': SubscriptionPlan.SOLO.value,
-        'price_growth_monthly': SubscriptionPlan.GROWTH.value,
-        'price_enterprise_monthly': SubscriptionPlan.ENTERPRISE.value,
+        'solo': SubscriptionPlan.SOLO.value,
+        'growth': SubscriptionPlan.GROWTH.value,
+        'enterprise': SubscriptionPlan.ENTERPRISE.value,
+        'solo_dealmaker': SubscriptionPlan.SOLO.value,
+        'growth_firm': SubscriptionPlan.GROWTH.value,
     }
-    
-    plan = plan_mapping.get(plan_id, SubscriptionPlan.SOLO.value)
+
+    plan = plan_mapping.get(plan_tier, SubscriptionPlan.SOLO.value)
     plan_config = Subscription.get_plan_config(plan)
-    
+
+    # Extract trial information
+    trial_start = data.get('trial_start')
+    trial_end = data.get('trial_end')
+    is_trialing = status == 'trialing'
+
     # Create subscription
     subscription = Subscription(
         organization_id=org.id,
         clerk_subscription_id=clerk_subscription_id,
-        clerk_customer_id=clerk_customer_id,
+        clerk_customer_id=organization_id,  # Use org ID as customer ID
         plan=plan,
         plan_name=plan_config.get('name', plan.title()),
-        billing_interval='month',
+        billing_interval=billing_interval,
         amount=amount,
         currency=currency,
         status=status,
@@ -374,47 +384,99 @@ async def handle_subscription_created(data: Dict[str, Any], db: Session):
         max_deals=plan_config.get('max_deals'),
         storage_quota_gb=plan_config.get('storage_quota_gb', 10),
         api_requests_per_month=plan_config.get('api_requests_per_month'),
-        features=plan_config.get('features', {})
+        features=plan_config.get('features', {}),
+        trial_start=datetime.fromtimestamp(trial_start) if trial_start else None,
+        trial_end=datetime.fromtimestamp(trial_end) if trial_end else None,
     )
-    
+
     db.add(subscription)
-    
+
     # Update organization subscription tier
     org.subscription_tier = plan
     org.max_users = subscription.max_users
     org.max_deals = subscription.max_deals
     org.storage_quota_gb = subscription.storage_quota_gb
-    
+
     db.commit()
-    logger.info(f"Created subscription {clerk_subscription_id} for organization {org.id}")
+    logger.info(f"Created subscription {clerk_subscription_id} for organization {org.id} (plan: {plan}, interval: {billing_interval}, trial: {is_trialing})")
 
 
 async def handle_subscription_updated(data: Dict[str, Any], db: Session):
-    """Handle subscription updates from Clerk"""
+    """Handle subscription updates from Clerk Billing"""
     clerk_subscription_id = data.get('id')
-    
+
     subscription = db.query(Subscription).filter(
         Subscription.clerk_subscription_id == clerk_subscription_id
     ).first()
-    
+
     if not subscription:
         logger.warning(f"Subscription {clerk_subscription_id} not found for update")
         return
-    
+
     # Update subscription status and other fields
+    old_status = subscription.status
     subscription.status = data.get('status', subscription.status)
-    
+
+    # Handle plan changes (upgrades/downgrades)
+    plan_tier = data.get('plan', {}).get('name', '').lower()
+    if plan_tier:
+        plan_mapping = {
+            'solo': SubscriptionPlan.SOLO.value,
+            'growth': SubscriptionPlan.GROWTH.value,
+            'enterprise': SubscriptionPlan.ENTERPRISE.value,
+            'solo_dealmaker': SubscriptionPlan.SOLO.value,
+            'growth_firm': SubscriptionPlan.GROWTH.value,
+        }
+        new_plan = plan_mapping.get(plan_tier)
+        if new_plan and new_plan != subscription.plan:
+            old_plan = subscription.plan
+            subscription.plan = new_plan
+            plan_config = Subscription.get_plan_config(new_plan)
+            subscription.plan_name = plan_config.get('name', new_plan.title())
+            subscription.max_users = plan_config.get('max_users', 5)
+            subscription.max_deals = plan_config.get('max_deals')
+            subscription.storage_quota_gb = plan_config.get('storage_quota_gb', 10)
+            subscription.features = plan_config.get('features', {})
+
+            # Update organization
+            org = subscription.organization
+            org.subscription_tier = new_plan
+            org.max_users = subscription.max_users
+            org.max_deals = subscription.max_deals
+            org.storage_quota_gb = subscription.storage_quota_gb
+
+            logger.info(f"Subscription {clerk_subscription_id} plan changed from {old_plan} to {new_plan}")
+
+    # Update billing interval if changed
+    billing_interval = data.get('interval')
+    if billing_interval:
+        subscription.billing_interval = billing_interval
+
+    # Update amount if changed
+    amount = data.get('amount')
+    if amount is not None:
+        subscription.amount = amount
+
     # Update period dates if available
     current_period_start = data.get('current_period_start')
     if current_period_start:
         subscription.current_period_start = datetime.fromtimestamp(current_period_start)
-    
+
     current_period_end = data.get('current_period_end')
     if current_period_end:
         subscription.current_period_end = datetime.fromtimestamp(current_period_end)
-    
+
+    # Update trial dates if available
+    trial_start = data.get('trial_start')
+    if trial_start:
+        subscription.trial_start = datetime.fromtimestamp(trial_start)
+
+    trial_end = data.get('trial_end')
+    if trial_end:
+        subscription.trial_end = datetime.fromtimestamp(trial_end)
+
     db.commit()
-    logger.info(f"Updated subscription {clerk_subscription_id}")
+    logger.info(f"Updated subscription {clerk_subscription_id} (status: {old_status} -> {subscription.status})")
 
 
 async def handle_subscription_deleted(data: Dict[str, Any], db: Session):
@@ -466,17 +528,44 @@ async def handle_payment_succeeded(data: Dict[str, Any], db: Session):
 async def handle_payment_failed(data: Dict[str, Any], db: Session):
     """Handle failed payment from Clerk"""
     subscription_id = data.get('subscription')
-    
+
     subscription = db.query(Subscription).filter(
         Subscription.clerk_subscription_id == subscription_id
     ).first()
-    
+
     if not subscription:
         logger.warning(f"Subscription {subscription_id} not found for payment failure")
         return
-    
+
     # Update subscription status
     subscription.status = SubscriptionStatus.PAST_DUE.value
-    
+
     db.commit()
     logger.info(f"Payment failed for subscription {subscription_id}")
+
+
+async def handle_trial_will_end(data: Dict[str, Any], db: Session):
+    """Handle trial ending soon notification from Clerk Billing"""
+    clerk_subscription_id = data.get('id')
+
+    subscription = db.query(Subscription).filter(
+        Subscription.clerk_subscription_id == clerk_subscription_id
+    ).first()
+
+    if not subscription:
+        logger.warning(f"Subscription {clerk_subscription_id} not found for trial ending")
+        return
+
+    # Log trial ending (can be used to send notification emails)
+    trial_end_date = subscription.trial_end
+    logger.info(f"Trial ending soon for subscription {clerk_subscription_id} (ends: {trial_end_date})")
+
+    # You can add email notification logic here
+    # For example:
+    # - Send email to organization admin
+    # - Show in-app notification
+    # - Update UI to show trial expiration warning
+
+    # Optional: Update a field to track that we've sent the notification
+    # subscription.trial_ending_notified = True
+    # db.commit()

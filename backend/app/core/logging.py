@@ -13,7 +13,7 @@ def setup_logging() -> None:
     """Configure structured logging for the application"""
 
     # Set log level based on environment
-    log_level = logging.DEBUG if settings.DEBUG else logging.INFO
+    log_level = logging.DEBUG if settings.debug else logging.INFO
 
     # Configure stdlib logging
     logging.basicConfig(
@@ -33,7 +33,7 @@ def setup_logging() -> None:
     ]
 
     # Add development processors
-    if settings.DEBUG:
+    if settings.debug:
         processors.append(structlog.dev.ConsoleRenderer())
     else:
         # Production processors
@@ -79,7 +79,7 @@ class RequestLogger:
             environment=settings.ENVIRONMENT
         )
 
-        if settings.DEBUG and body:
+        if settings.debug and body:
             self.logger.debug(
                 "Request body",
                 body=body[:1000].decode("utf-8", errors="ignore")

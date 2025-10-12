@@ -12,7 +12,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
 # Import settings and Base
 from app.core.config import settings
-from app.core.database import Base
+from app.models.base import Base
 
 # Import all models to ensure they are registered with Base
 from app.models import user, organization, deal

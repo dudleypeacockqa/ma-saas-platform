@@ -1,4 +1,5 @@
 # Master Admin & Business Portal BMAD Prompts
+
 ## Complete Business Empire Implementation Guide
 
 **Project:** 100 Days and Beyond - M&A Ecosystem Platform  
@@ -11,11 +12,13 @@
 ## 🎯 BMAD PROMPT 1: MASTER STRATEGIC ARCHITECTURE
 
 ### **Cursor IDE Command:**
+
 ```bash
 cd ma-saas-platform && @bmad/core/agents/bmad-master.md
 ```
 
 ### **Complete Prompt:**
+
 ```
 I need to architect a complete Master Admin & Business Portal for my M&A SaaS platform that transforms me from developer to business empire owner. This is NOT just admin functionality - it's a complete business management system.
 
@@ -55,11 +58,13 @@ Generate comprehensive solution architecture that makes this the most powerful b
 ## 🎯 BMAD PROMPT 2: IRRESISTIBLE WEBSITE ARCHITECTURE
 
 ### **Cursor IDE Command:**
+
 ```bash
 cd ma-saas-platform && @bmad/bmm/workflows/3-solutioning/ux-spec.md
 ```
 
 ### **Complete Prompt:**
+
 ```
 I need to redesign my M&A SaaS website to be absolutely irresistible and high-converting, based on analysis of the 37 best B2B SaaS websites in 2025.
 
@@ -105,11 +110,13 @@ Generate website architecture and design system that makes it impossible for M&A
 ## 🎯 BMAD PROMPT 3: CONTENT CREATION EMPIRE
 
 ### **Cursor IDE Command:**
+
 ```bash
 cd ma-saas-platform && @bmad/bmm/workflows/4-implementation/create-story.md
 ```
 
 ### **Complete Prompt:**
+
 ```
 I need to build a world-class content creation platform that rivals StreamYard but is integrated into my M&A SaaS business for lead generation and thought leadership.
 
@@ -157,11 +164,13 @@ Generate complete content creation platform that establishes me as the leading M
 ## 🎯 BMAD PROMPT 4: SUBSCRIPTION BUSINESS ENGINE
 
 ### **Cursor IDE Command:**
+
 ```bash
 cd ma-saas-platform && @bmad/bmm/workflows/4-implementation/create-story.md
 ```
 
 ### **Complete Prompt:**
+
 ```
 I need to build an advanced subscription management system that maximizes revenue, minimizes churn, and supports my £200M wealth-building goal.
 
@@ -208,11 +217,13 @@ Generate subscription management system that operates like a well-oiled machine,
 ## 🎯 BMAD PROMPT 5: EVENT MANAGEMENT & COMMUNITY
 
 ### **Cursor IDE Command:**
+
 ```bash
 cd ma-saas-platform && @bmad/bmm/workflows/4-implementation/create-story.md
 ```
 
 ### **Complete Prompt:**
+
 ```
 I need to build a comprehensive event management and community platform that creates exclusive membership value like Jonathan Jay's events but integrated with my M&A SaaS business.
 
@@ -266,11 +277,13 @@ Generate event management platform that creates irresistible community value whi
 ## 🎯 BMAD PROMPT 6: LEAD GENERATION MACHINE
 
 ### **Cursor IDE Command:**
+
 ```bash
 cd ma-saas-platform && @bmad/bmm/workflows/4-implementation/create-story.md
 ```
 
 ### **Complete Prompt:**
+
 ```
 I need to build a comprehensive lead generation system that automatically attracts, qualifies, and converts M&A professionals into paying subscribers.
 
@@ -324,11 +337,13 @@ Generate lead generation system that operates like a well-oiled machine, consist
 ## 🎯 BMAD PROMPT 7: BUSINESS INTELLIGENCE SUITE
 
 ### **Cursor IDE Command:**
+
 ```bash
 cd ma-saas-platform && @bmad/bmm/workflows/4-implementation/create-story.md
 ```
 
 ### **Complete Prompt:**
+
 ```
 I need to build a comprehensive business intelligence platform that provides real-time insights, predictive analytics, and strategic guidance for building a £200M business empire.
 
@@ -382,11 +397,13 @@ Generate business intelligence platform that provides the insights and strategic
 ## 🎯 BMAD PROMPT 8: INTEGRATION ECOSYSTEM
 
 ### **Cursor IDE Command:**
+
 ```bash
 cd ma-saas-platform && @bmad/bmm/workflows/4-implementation/create-story.md
 ```
 
 ### **Complete Prompt:**
+
 ```
 I need to build a comprehensive integration ecosystem that connects all business systems and replaces expensive third-party subscriptions while maintaining enterprise-grade functionality.
 
@@ -440,11 +457,13 @@ Generate integration ecosystem that creates a unified business platform while re
 ## 🎯 BMAD PROMPT 9: MOBILE BUSINESS COMMAND CENTER
 
 ### **Cursor IDE Command:**
+
 ```bash
 cd ma-saas-platform && @bmad/bmm/workflows/4-implementation/create-story.md
 ```
 
 ### **Complete Prompt:**
+
 ```
 I need to build a mobile business command center that allows me to run my entire M&A SaaS empire from anywhere in the world using just my smartphone or tablet.
 
@@ -498,11 +517,13 @@ Generate mobile business platform that ensures I can effectively run my £200M b
 ## 🎯 BMAD PROMPT 10: EXIT STRATEGY PREPARATION
 
 ### **Cursor IDE Command:**
+
 ```bash
 cd ma-saas-platform && @bmad/bmm/workflows/3-solutioning/solution-architecture.md
 ```
 
 ### **Complete Prompt:**
+
 ```
 I need to architect my M&A SaaS platform with a clear exit strategy that maximizes business valuation and creates a sellable asset worth £200M+ by age 65.
 
@@ -556,6 +577,7 @@ Generate business architecture and strategic plan that positions the company for
 ## 🚀 QUICK EXECUTION GUIDE
 
 ### **Week 1: Foundation Setup**
+
 ```bash
 # Day 1: Master Strategic Architecture
 cd ma-saas-platform && @bmad/core/agents/bmad-master.md
@@ -571,6 +593,7 @@ cd ma-saas-platform && @bmad/bmm/workflows/4-implementation/create-story.md
 ```
 
 ### **Week 2: Website & Lead Generation**
+
 ```bash
 # Day 1-2: Irresistible Website Design
 cd ma-saas-platform && @bmad/bmm/workflows/3-solutioning/ux-spec.md
@@ -582,6 +605,7 @@ cd ma-saas-platform && @bmad/bmm/workflows/4-implementation/create-story.md
 ```
 
 ### **Week 3: Content & Subscription Engine**
+
 ```bash
 # Day 1-3: Content Creation Platform
 cd ma-saas-platform && @bmad/bmm/workflows/4-implementation/create-story.md
@@ -593,6 +617,7 @@ cd ma-saas-platform && @bmad/bmm/workflows/4-implementation/create-story.md
 ```
 
 ### **Week 4: Events & Analytics**
+
 ```bash
 # Day 1-3: Event Management System
 cd ma-saas-platform && @bmad/bmm/workflows/4-implementation/create-story.md
@@ -604,6 +629,7 @@ cd ma-saas-platform && @bmad/bmm/workflows/4-implementation/create-story.md
 ```
 
 ### **Success Criteria Checklist:**
+
 - [ ] Master admin dashboard operational with real-time KPIs
 - [ ] Subscription management system handling billing and churn
 - [ ] High-converting website with target audience segmentation

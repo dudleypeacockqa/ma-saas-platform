@@ -1,8 +1,8 @@
-_# Render Environment Setup Guide for M&A SaaS Platform
+\_# Render Environment Setup Guide for M&A SaaS Platform
 
 **Date**: October 11, 2025  
 **Platform**: "100 Days and Beyond" M&A Ecosystem  
-**Issue**: Backend API 502 Bad Gateway Error Resolution  
+**Issue**: Backend API 502 Bad Gateway Error Resolution
 
 ## 1. Overview
 
@@ -14,23 +14,23 @@ The following environment variables must be set in the Render dashboard for the 
 
 ### 2.1. Clerk Authentication
 
-*   `CLERK_SECRET_KEY`: Your Clerk secret key.
-*   `CLERK_PUBLISHABLE_KEY`: Your Clerk publishable key.
-*   `CLERK_WEBHOOK_SECRET`: Your Clerk webhook secret.
+- `CLERK_SECRET_KEY`: Your Clerk secret key.
+- `CLERK_PUBLISHABLE_KEY`: Your Clerk publishable key.
+- `CLERK_WEBHOOK_SECRET`: Your Clerk webhook secret.
 
 ### 2.2. Stripe Payments
 
-*   `STRIPE_SECRET_KEY`: Your Stripe secret key.
-*   `STRIPE_PUBLISHABLE_KEY`: Your Stripe publishable key.
-*   `STRIPE_WEBHOOK_SECRET`: Your Stripe webhook secret for handling events.
+- `STRIPE_SECRET_KEY`: Your Stripe secret key.
+- `STRIPE_PUBLISHABLE_KEY`: Your Stripe publishable key.
+- `STRIPE_WEBHOOK_SECRET`: Your Stripe webhook secret for handling events.
 
 ### 2.3. Anthropic (Claude) API
 
-*   `ANTHROPIC_API_KEY`: Your Anthropic API key for Claude integration.
+- `ANTHROPIC_API_KEY`: Your Anthropic API key for Claude integration.
 
 ### 2.4. Database
 
-*   `DATABASE_URL`: This is automatically provisioned by Render and linked from the PostgreSQL database service (`ma-saas-db`). You should not need to set this manually if the `render.yaml` file is correctly configured.
+- `DATABASE_URL`: This is automatically provisioned by Render and linked from the PostgreSQL database service (`ma-saas-db`). You should not need to set this manually if the `render.yaml` file is correctly configured.
 
 ## 3. How to Set Environment Variables in Render
 
@@ -46,4 +46,4 @@ The following environment variables must be set in the Render dashboard for the 
 Once the environment variables are set and the service is redeployed, you can check the application logs for any startup errors. A successful startup should show log entries indicating that the application is listening on the configured port.
 
 If the 502 error persists after correctly setting all the environment variables, the next step is to investigate the application logs for more specific error messages.
-_
+\_

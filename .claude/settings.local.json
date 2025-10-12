@@ -29,7 +29,9 @@
       "Bash(tree:*)",
       "Bash(find:*)",
       "Read(//c/Users/User/OneDrive - Q&A ERP Solutions (Pty) Ltd (1)/189 - ERP Reseller SaaS PM Software/**)",
-      "Bash(rm:*)"
+      "Bash(rm:*)",
+      "Bash(git checkout:*)",
+      "Bash(git branch:*)"
     ],
     "deny": [],
     "ask": []

@@ -21,6 +21,7 @@ Your current service is configured as a Node.js web service, but it should be a 
 6. **Publish Directory**: `dist`
 
 ### Step 2: Environment Variables for Frontend
+
 ```
 VITE_API_URL=https://api.100daysandbeyond.com
 NODE_ENV=production
@@ -29,6 +30,7 @@ NODE_ENV=production
 ## 2. Create Backend API Service
 
 ### Step 1: Create Web Service for Backend
+
 1. **Go to Render Dashboard** → New → Web Service
 2. **Connect Repository**: dudleypeacockqa/ma-saas-platform
 3. **Service Name**: ma-saas-backend
@@ -38,6 +40,7 @@ NODE_ENV=production
 7. **Start Command**: `uvicorn app.main:app --host 0.0.0.0 --port $PORT`
 
 ### Step 2: Environment Variables for Backend
+
 ```
 DATABASE_URL=<from_postgresql_service>
 SECRET_KEY=<generate_secure_random_key>
@@ -60,10 +63,12 @@ ALLOWED_ORIGINS=https://100daysandbeyond.com,https://www.100daysandbeyond.com
 ### Step 1: Configure Custom Domains
 
 **Frontend (Static Site)**:
+
 - Primary Domain: `100daysandbeyond.com`
 - WWW Domain: `www.100daysandbeyond.com`
 
 **Backend (Web Service)**:
+
 - API Domain: `api.100daysandbeyond.com`
 
 ### Step 2: DNS Configuration
@@ -78,6 +83,7 @@ CNAME   api     ma-saas-backend.onrender.com
 ```
 
 **Alternative CNAME Setup**:
+
 ```
 Type    Name    Value
 CNAME   @       ma-saas-frontend.onrender.com
@@ -90,6 +96,7 @@ CNAME   api     ma-saas-backend.onrender.com
 Since you already have a service running, you can either:
 
 **Option A: Convert Current Service**
+
 1. Go to your current service settings
 2. Change **Root Directory** to `frontend`
 3. Change **Build Command** to `pnpm install && pnpm run build`
@@ -97,6 +104,7 @@ Since you already have a service running, you can either:
 5. Add custom domain: `100daysandbeyond.com`
 
 **Option B: Delete and Recreate** (Recommended)
+
 1. Delete current service
 2. Create new Static Site for frontend
 3. Create new Web Service for backend
@@ -104,11 +112,13 @@ Since you already have a service running, you can either:
 ## 6. Environment Variables Setup
 
 ### Frontend (.env for local development)
+
 ```bash
 VITE_API_URL=http://localhost:8000
 ```
 
 ### Backend (.env for local development)
+
 ```bash
 DATABASE_URL=postgresql://username:password@localhost:5432/ma_saas_db
 SECRET_KEY=your-super-secret-key-change-in-production
@@ -121,6 +131,7 @@ ALLOWED_ORIGINS=http://localhost:3000,http://localhost:5173
 ## 7. Deployment Commands
 
 ### Manual Deploy via Git
+
 ```bash
 cd /path/to/ma-saas-platform
 git add .
@@ -129,6 +140,7 @@ git push origin master
 ```
 
 ### Using Deploy Hook
+
 ```bash
 curl -X POST "https://api.render.com/deploy/srv-d3ihptbipnbc73e72ne0?key=2wugxge0amo"
 ```
@@ -136,12 +148,15 @@ curl -X POST "https://api.render.com/deploy/srv-d3ihptbipnbc73e72ne0?key=2wugxge
 ## 8. Health Check Configuration
 
 ### Frontend Health Check
+
 - **Path**: `/` (default for static sites)
 
 ### Backend Health Check
+
 - **Path**: `/health`
 
 Make sure your FastAPI backend has a health endpoint:
+
 ```python
 @app.get("/health")
 async def health_check():
@@ -159,11 +174,13 @@ Render automatically provides SSL certificates for custom domains. Once DNS is c
 ## 10. Monitoring and Logs
 
 ### Access Logs
+
 - Frontend: Render Dashboard → Static Site → Logs
 - Backend: Render Dashboard → Web Service → Logs
 - Database: Render Dashboard → PostgreSQL → Logs
 
 ### Monitoring URLs
+
 - Frontend: https://100daysandbeyond.com
 - Backend API: https://api.100daysandbeyond.com/health
 - Database: Monitor via backend logs
@@ -173,21 +190,25 @@ Render automatically provides SSL certificates for custom domains. Once DNS is c
 ### Common Issues
 
 **Build Failures**:
+
 - Check Node.js version compatibility
 - Verify pnpm is available (Render supports it)
 - Check build logs for specific errors
 
 **Domain Not Working**:
+
 - Verify DNS records are correct
 - Wait for DNS propagation (24-48 hours)
 - Check SSL certificate status
 
 **API Connection Issues**:
+
 - Verify CORS settings in backend
 - Check VITE_API_URL in frontend
 - Ensure backend health endpoint responds
 
 ### Support Resources
+
 - Render Status: https://status.render.com
 - Render Docs: https://render.com/docs
 - Community: https://community.render.com
@@ -195,12 +216,14 @@ Render automatically provides SSL certificates for custom domains. Once DNS is c
 ## 12. Cost Breakdown
 
 ### Current Setup Cost (Monthly)
+
 - Static Site (Frontend): **Free**
 - Web Service Starter (Backend): **$7**
 - PostgreSQL Starter: **$7**
 - **Total**: ~$14/month
 
 ### Production Scaling
+
 - Web Service Standard: $25/month
 - PostgreSQL Standard: $20/month
 - **Total**: ~$45/month

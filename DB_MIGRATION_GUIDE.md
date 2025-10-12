@@ -1,8 +1,8 @@
-_# Database Migration Guide for M&A SaaS Platform
+\_# Database Migration Guide for M&A SaaS Platform
 
 **Date**: October 11, 2025  
 **Platform**: "100 Days and Beyond" M&A Ecosystem  
-**Issue**: Database Migration Failure  
+**Issue**: Database Migration Failure
 
 ## 1. Overview
 
@@ -26,4 +26,4 @@ This guide provides instructions for running the database migrations for the M&A
 ## 3. Verification
 
 After running the command, you should see output from Alembic indicating that the migrations have been successfully applied. If you encounter any errors, please copy and paste the output so I can assist you further.
-_
+\_

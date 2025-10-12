@@ -6,7 +6,7 @@
 
 user_name: Dudley
 communication_language: English
-output_folder: '{project-root}/docs'
+output_folder: "{project-root}/docs"
 project_name: M&A SaaS Platform - 100 Days and Beyond
 project_phase: Phase 1 Complete - Infrastructure Operational
 business_goal: £200M wealth-building through M&A platform
