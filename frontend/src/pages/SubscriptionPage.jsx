@@ -1,16 +1,13 @@
 import { useNavigate } from 'react-router-dom';
-import { useUser } from '@clerk/clerk-react';
+import { useUser, UserProfile } from '@clerk/clerk-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { SubscriptionManager } from '@/components/billing/SubscriptionManager';
 import { ArrowLeft, Sparkles } from 'lucide-react';
-import { useSubscription } from '@/hooks/useSubscription';
 import { useEffect } from 'react';
 
 const SubscriptionPage = () => {
   const navigate = useNavigate();
-  const { isSignedIn, isLoaded } = useUser();
-  const { hasActiveSubscription } = useSubscription();
+  const { isSignedIn, isLoaded, user } = useUser();
 
   // Redirect to sign-in if not authenticated
   useEffect(() => {
@@ -46,11 +43,38 @@ const SubscriptionPage = () => {
           </div>
         </div>
 
-        {/* Main Content */}
-        <SubscriptionManager />
+        {/* Clerk UserProfile with Subscription Management */}
+        <div className="flex justify-center">
+          <UserProfile
+            appearance={{
+              elements: {
+                rootBox: 'w-full max-w-4xl',
+                card: 'shadow-lg rounded-lg border border-gray-200 dark:border-gray-700',
+                navbar: 'bg-white dark:bg-gray-800 rounded-t-lg',
+                navbarButton:
+                  'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700',
+                navbarButtonActive: 'bg-blue-50 dark:bg-blue-950 text-blue-600 dark:text-blue-400',
+                pageScrollBox: 'bg-white dark:bg-gray-800 rounded-b-lg',
+                page: 'p-6',
+                profileSection: 'border-gray-200 dark:border-gray-700',
+                profileSectionTitle: 'text-lg font-semibold text-gray-900 dark:text-white',
+                profileSectionContent: 'text-gray-700 dark:text-gray-300',
+                badge: 'bg-blue-100 dark:bg-blue-900 text-blue-700 dark:text-blue-300',
+                formButtonPrimary: 'bg-blue-600 hover:bg-blue-700 text-white',
+              },
+              variables: {
+                colorPrimary: '#3b82f6',
+                colorSuccess: '#10b981',
+                colorDanger: '#ef4444',
+                colorWarning: '#f59e0b',
+                fontFamily: 'Inter, system-ui, sans-serif',
+              },
+            }}
+          />
+        </div>
 
         {/* Upgrade CTA */}
-        {hasActiveSubscription && (
+        {user && (
           <Card className="bg-gradient-to-r from-blue-50 to-purple-50 dark:from-blue-950 dark:to-purple-950 border-blue-200">
             <CardHeader>
               <div className="flex items-center space-x-2">
