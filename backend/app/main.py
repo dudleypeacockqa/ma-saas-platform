@@ -114,8 +114,8 @@ from app.middleware.auth_middleware import AuthenticationMiddleware
 app.add_middleware(AuthenticationMiddleware)
 
 # Add rate limiting middleware
-from app.middleware.rate_limiter import RateLimitMiddleware
-app.add_middleware(RateLimitMiddleware)
+# from app.middleware.rate_limiter import RateLimitMiddleware  # Temporarily disabled - redis not installed
+# app.add_middleware(RateLimitMiddleware)
 
 # Add security headers and HTTPS enforcement
 from app.middleware.security_middleware import SecurityHeadersMiddleware
