@@ -4,6 +4,7 @@ Tracks email campaigns, templates, and subscriber management
 """
 
 from sqlalchemy import Column, Integer, String, Text, Boolean, DateTime, ForeignKey, JSON, Enum
+from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.orm import relationship
 from sqlalchemy.sql import func
 from app.models.base import Base
@@ -63,8 +64,8 @@ class EmailCampaign(Base):
     unsubscribed_count = Column(Integer, default=0)
     
     # Metadata
-    created_by = Column(Integer, ForeignKey("users.id"))
-    organization_id = Column(Integer, ForeignKey("organizations.id"))
+    created_by = Column(UUID(as_uuid=False), ForeignKey("users.id"))
+    organization_id = Column(UUID(as_uuid=False), ForeignKey("organizations.id"))
     created_at = Column(DateTime, default=func.now())
     updated_at = Column(DateTime, default=func.now(), onupdate=func.now())
     
@@ -96,8 +97,8 @@ class EmailTemplate(Base):
     is_default = Column(Boolean, default=False)
     
     # Metadata
-    created_by = Column(Integer, ForeignKey("users.id"))
-    organization_id = Column(Integer, ForeignKey("organizations.id"))
+    created_by = Column(UUID(as_uuid=False), ForeignKey("users.id"))
+    organization_id = Column(UUID(as_uuid=False), ForeignKey("organizations.id"))
     created_at = Column(DateTime, default=func.now())
     updated_at = Column(DateTime, default=func.now(), onupdate=func.now())
     
@@ -123,7 +124,7 @@ class EmailSubscriber(Base):
     # Segmentation
     segments = Column(JSON)  # List of segments this subscriber belongs to
     subscription_tier = Column(String(50))  # trial, premium, enterprise
-    organization_id = Column(Integer, ForeignKey("organizations.id"))
+    organization_id = Column(UUID(as_uuid=False), ForeignKey("organizations.id"))
     
     # Status
     is_active = Column(Boolean, default=True)
@@ -204,8 +205,8 @@ class EmailAutomation(Base):
     completed_count = Column(Integer, default=0)
     
     # Metadata
-    created_by = Column(Integer, ForeignKey("users.id"))
-    organization_id = Column(Integer, ForeignKey("organizations.id"))
+    created_by = Column(UUID(as_uuid=False), ForeignKey("users.id"))
+    organization_id = Column(UUID(as_uuid=False), ForeignKey("organizations.id"))
     created_at = Column(DateTime, default=func.now())
     updated_at = Column(DateTime, default=func.now(), onupdate=func.now())
     

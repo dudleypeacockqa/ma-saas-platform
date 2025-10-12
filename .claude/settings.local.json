@@ -31,7 +31,17 @@
       "Read(//c/Users/User/OneDrive - Q&A ERP Solutions (Pty) Ltd (1)/189 - ERP Reseller SaaS PM Software/**)",
       "Bash(rm:*)",
       "Bash(git checkout:*)",
-      "Bash(git branch:*)"
+      "Bash(git branch:*)",
+      "WebFetch(domain:localhost)",
+      "mcp__render__list_logs",
+      "WebFetch(domain:100daysandbeyond.com)",
+      "mcp__render__list_workspaces",
+      "mcp__render__select_workspace",
+      "mcp__render__list_services",
+      "WebFetch(domain:ma-saas-platform.onrender.com)",
+      "Bash(nslookup:*)",
+      "Bash(ping:*)",
+      "mcp__render__get_service"
     ],
     "deny": [],
     "ask": []

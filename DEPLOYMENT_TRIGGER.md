@@ -2,9 +2,9 @@
 
 This file is used to trigger production deployments.
 
-Last deployment trigger: 2025-10-12 17:45 UTC
-Deployment fix: pnpm lockfile synchronization
-Status: Triggering fresh deployment with updated lockfile
+Last deployment trigger: 2025-10-12 18:00 UTC
+Deployment fix: Database foreign key constraint error resolution
+Status: Triggering backend deployment with fixed email campaigns schema
 
 ## Changes in this deployment:
 
@@ -12,3 +12,4 @@ Status: Triggering fresh deployment with updated lockfile
 - ✅ Added all missing platform pages and auth components
 - ✅ Complete professional M&A platform ready for production
 - ✅ All build errors resolved
+- ✅ Fixed database foreign key constraint error in email_campaigns table
