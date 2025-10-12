@@ -18,9 +18,10 @@ from ..core.integration_manager import (
 )
 from ...core.database import get_db
 from ...models.deal import Deal
-from ...models.deal_room import DealRoom
-from ...models.message import Message
-from ...models.notification import Notification
+# TODO: Create these models - currently not implemented
+# from ...models.deal_room import DealRoom
+# from ...models.message import Message
+# from ...models.notification import Notification
 
 logger = logging.getLogger(__name__)
 
@@ -231,7 +232,7 @@ class TeamsIntegration(BaseIntegration):
         session: aiohttp.ClientSession,
         headers: Dict[str, str],
         team_id: str,
-        deal_room: Optional[DealRoom]
+        deal_room
     ) -> Dict[str, Any]:
         """Sync channels for a specific team"""
         result = {"processed": 0, "created": 0, "updated": 0, "failed": 0, "errors": []}
@@ -347,16 +348,17 @@ class TeamsIntegration(BaseIntegration):
                                     result["created"] += 1
                                     logger.info(f"Created Teams team for deal {deal.title}")
 
-                                    # Create deal room record
-                                    deal_room = DealRoom(
-                                        deal_id=deal.id,
-                                        platform="teams",
-                                        external_id=team_info.get("id"),
-                                        name=team_data["displayName"],
-                                        description=team_data["description"],
-                                        created_at=datetime.now()
-                                    )
-                                    db.add(deal_room)
+                                    # Create deal room record - TODO: Implement when DealRoom model exists
+                                    # deal_room = DealRoom(
+                                    #     deal_id=deal.id,
+                                    #     platform="teams",
+                                    #     external_id=team_info.get("id"),
+                                    #     name=team_data["displayName"],
+                                    #     description=team_data["description"],
+                                    #     created_at=datetime.now()
+                                    # )
+                                    # db.add(deal_room)
+                                    logger.info(f"Skipping deal_room creation - model not implemented")
 
                                 else:
                                     result["failed"] += 1
@@ -375,66 +377,12 @@ class TeamsIntegration(BaseIntegration):
         return result
 
     async def _send_teams_notifications(self) -> Dict[str, Any]:
-        """Send notifications to Teams channels"""
+        """Send notifications to Teams channels - DISABLED until Notification model exists"""
         result = {"processed": 0, "created": 0, "updated": 0, "failed": 0, "errors": []}
-
-        try:
-            async with get_db() as db:
-                # Get pending notifications for Teams
-                notifications_query = select(Notification).where(
-                    Notification.channel == "teams",
-                    Notification.status == "pending"
-                )
-                result_notifications = await db.execute(notifications_query)
-                notifications = result_notifications.scalars().all()
-
-                headers = {
-                    "Authorization": f"Bearer {self.access_token}",
-                    "Content-Type": "application/json"
-                }
-
-                async with aiohttp.ClientSession() as session:
-                    for notification in notifications:
-                        try:
-                            result["processed"] += 1
-
-                            # Send message to Teams channel
-                            message_data = {
-                                "body": {
-                                    "contentType": "html",
-                                    "content": self._format_teams_message(notification)
-                                }
-                            }
-
-                            # Get team and channel info from notification metadata
-                            team_id = notification.metadata.get("team_id")
-                            channel_id = notification.metadata.get("channel_id", "general")
-
-                            if team_id:
-                                async with session.post(
-                                    f"{self.graph_api_base}/teams/{team_id}/channels/{channel_id}/messages",
-                                    headers=headers,
-                                    json=message_data
-                                ) as response:
-                                    if response.status == 201:
-                                        notification.status = "sent"
-                                        notification.sent_at = datetime.now()
-                                        result["created"] += 1
-                                    else:
-                                        result["failed"] += 1
-                                        result["errors"].append(f"Failed to send notification {notification.id}: {response.status}")
-
-                        except Exception as e:
-                            result["failed"] += 1
-                            result["errors"].append(f"Failed to send notification {notification.id}: {str(e)}")
-
-                await db.commit()
-
-        except Exception as e:
-            result["errors"].append(f"Teams notifications error: {str(e)}")
-            result["failed"] += 1
-
+        logger.warning("Teams notifications not implemented - Notification model does not exist")
         return result
+
+        # TODO: Re-enable when Notification model is created
 
     async def handle_webhook(self, event: WebhookEvent) -> bool:
         """Handle Teams webhook events"""
@@ -596,47 +544,28 @@ class TeamsIntegration(BaseIntegration):
             if not self.access_token:
                 return False
 
-            # Get deal room information
-            async with get_db() as db:
-                deal_room_query = select(DealRoom).where(
-                    DealRoom.deal_id == deal_id,
-                    DealRoom.platform == "teams"
-                )
-                result = await db.execute(deal_room_query)
-                deal_room = result.scalar_one_or_none()
+            # Get deal room information - TODO: Implement when DealRoom model exists
+            # async with get_db() as db:
+            #     deal_room_query = select(DealRoom).where(
+            #         DealRoom.deal_id == deal_id,
+            #         DealRoom.platform == "teams"
+            #     )
+            #     result = await db.execute(deal_room_query)
+            #     deal_room = result.scalar_one_or_none()
 
-                if not deal_room:
-                    return False
+            #     if not deal_room:
+            #         return False
 
-                team_id = deal_room.external_id
-
-                headers = {
-                    "Authorization": f"Bearer {self.access_token}",
-                    "Content-Type": "application/json"
-                }
-
-                message_data = {
-                    "body": {
-                        "contentType": "html",
-                        "content": f"<div><strong>Deal Update:</strong><br/>{message}</div>"
-                    }
-                }
-
-                async with aiohttp.ClientSession() as session:
-                    # Get channel ID by name
-                    channel_id = await self._get_channel_id_by_name(
-                        session, headers, team_id, channel_name
-                    )
-
-                    if channel_id:
-                        async with session.post(
-                            f"{self.graph_api_base}/teams/{team_id}/channels/{channel_id}/messages",
-                            headers=headers,
-                            json=message_data
-                        ) as response:
-                            return response.status == 201
-
+            #     team_id = deal_room.external_id
+            logger.warning("Deal notification not implemented - DealRoom model does not exist")
             return False
+
+            # TODO: Re-enable when DealRoom model is created
+            # headers = {
+            #     "Authorization": f"Bearer {self.access_token}",
+            #     "Content-Type": "application/json"
+            # }
+            # ... (rest of implementation)
 
         except Exception as e:
             logger.error(f"Failed to send deal notification: {str(e)}")
@@ -670,37 +599,10 @@ class TeamsIntegration(BaseIntegration):
 
     # Helper methods
 
-    async def _find_or_create_deal_room(self, db, team: Dict[str, Any]) -> Optional[DealRoom]:
-        """Find or create a deal room for a Teams team"""
-        try:
-            team_id = team["id"]
-
-            # Check if deal room already exists
-            existing_room_query = select(DealRoom).where(
-                DealRoom.external_id == team_id,
-                DealRoom.platform == "teams"
-            )
-            result = await db.execute(existing_room_query)
-            existing_room = result.scalar_one_or_none()
-
-            if existing_room:
-                return existing_room
-
-            # Create new deal room if this is a deal-related team
-            if self._is_deal_team(team):
-                deal_room = DealRoom(
-                    platform="teams",
-                    external_id=team_id,
-                    name=team.get("displayName", ""),
-                    description=team.get("description", ""),
-                    created_at=datetime.now()
-                )
-                db.add(deal_room)
-                return deal_room
-
-        except Exception as e:
-            logger.error(f"Failed to find/create deal room: {str(e)}")
-
+    async def _find_or_create_deal_room(self, db, team: Dict[str, Any]):
+        """Find or create a deal room for a Teams team - DISABLED until DealRoom model exists"""
+        # TODO: Re-enable when DealRoom model is created
+        logger.warning("Deal room creation not implemented - DealRoom model does not exist")
         return None
 
     def _is_deal_team(self, team: Dict[str, Any]) -> bool:
@@ -709,12 +611,7 @@ class TeamsIntegration(BaseIntegration):
         keywords = ["deal", "acquisition", "merger", "m&a", "transaction"]
         return any(keyword in team_name for keyword in keywords)
 
-    def _format_teams_message(self, notification: Notification) -> str:
-        """Format notification for Teams message"""
-        return f"""
-        <div>
-            <h3>{notification.title}</h3>
-            <p>{notification.content}</p>
-            <small>Sent at {notification.created_at.strftime('%Y-%m-%d %H:%M:%S')}</small>
-        </div>
-        """
+    def _format_teams_message(self, notification) -> str:
+        """Format notification for Teams message - DISABLED until Notification model exists"""
+        # TODO: Re-enable when Notification model is created
+        return ""
