@@ -52,7 +52,8 @@ from app.models import (
 # Legacy code should be migrated to use the new models.
 
 # NOW import APIs (after all models are registered)
-from app.api import auth, tenants, users, content, marketing, integrations, emails
+from app.api import auth, tenants, users, content, marketing, integrations
+# from app.api import emails  # Temporarily disabled - needs ClerkUser migration
 # from app.api import payments  # Temporarily disabled - needs StripeCustomer/Payment/WebhookEvent models
 from app.api import opportunities, valuations, negotiations, term_sheets, teams
 # from app.api import arbitrage  # Temporarily disabled - requires pandas dependency
@@ -155,7 +156,7 @@ app.include_router(negotiations.router)  # Deal negotiation and structuring
 app.include_router(term_sheets.router)  # Term sheet management with collaboration
 app.include_router(v1_documents.router, prefix="/api/v1/documents")  # Document management with versioning and approvals
 app.include_router(teams.router, prefix="/api")  # Team management and workflow orchestration
-app.include_router(emails.router)  # Email campaign management
+# app.include_router(emails.router)  # Email campaign management - Temporarily disabled - needs ClerkUser migration
 
 # WebSocket status endpoint
 @app.get("/api/websocket/status")
