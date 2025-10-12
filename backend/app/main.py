@@ -57,7 +57,7 @@ from app.api import auth, tenants, users, content, marketing, integrations, emai
 from app.api import opportunities, valuations, negotiations, term_sheets, teams
 # from app.api import arbitrage  # Temporarily disabled - requires pandas dependency
 # from app.api import ai  # Temporarily disabled - needs Deal model update
-from app.routers import due_diligence, deals
+from app.routers import due_diligence, deals, ai_intelligence
 from app.api.v1 import pipeline, analytics as pipeline_analytics, documents as v1_documents, analytics_advanced, reports, predictive_analytics, realtime_collaboration
 
 # Import Clerk authentication components
@@ -65,14 +65,23 @@ from app.auth.webhooks import router as webhook_router
 from app.routers.users import router as users_router
 from app.routers.organizations import router as organizations_router
 
+# Import WebSocket manager
+from app.websockets.websocket_manager import websocket_manager
+import socketio
+
 # Import auth dependencies (needed for route handlers below)
 from app.auth.clerk_auth import ClerkUser, get_current_user, require_admin
 from app.auth.tenant_isolation import TenantAwareQuery, get_tenant_query
 from datetime import datetime
 
-# Configure logging
-logging.basicConfig(level=logging.INFO)
-logger = logging.getLogger(__name__)
+# Configure structured logging
+from app.core.logging import setup_logging, get_logger
+setup_logging()
+logger = get_logger(__name__)
+
+# Initialize Sentry for error tracking
+from app.core.sentry import init_sentry
+init_sentry()
 
 # Load environment variables
 load_dotenv()
@@ -95,9 +104,24 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+# Mount Socket.IO app for real-time communication
+socket_app = socketio.ASGIApp(websocket_manager.sio, app)
+app.mount("/socket.io", socket_app)
+
 # Add authentication middleware
 from app.middleware.auth_middleware import AuthenticationMiddleware
 app.add_middleware(AuthenticationMiddleware)
+
+# Add rate limiting middleware
+from app.middleware.rate_limiter import RateLimitMiddleware
+app.add_middleware(RateLimitMiddleware)
+
+# Add security headers and HTTPS enforcement
+from app.middleware.security_middleware import SecurityHeadersMiddleware
+app.add_middleware(
+    SecurityHeadersMiddleware,
+    enforce_https=True  # HTTPS enforcement for production
+)
 
 # Security
 security = HTTPBearer()
@@ -112,7 +136,7 @@ app.include_router(auth.router, prefix="/api/auth", tags=["authentication"])
 app.include_router(tenants.router, prefix="/api/tenants", tags=["tenants"])
 app.include_router(deals.router)  # Deal management (prefix already defined in router)
 app.include_router(users.router, prefix="/api/users", tags=["users"])
-# app.include_router(ai.router, prefix="/api/ai", tags=["ai-analysis"])  # Temporarily disabled
+app.include_router(ai_intelligence.router)  # AI intelligence and analytics
 app.include_router(pipeline.router, prefix="/api/v1/pipeline", tags=["pipeline"])  # Pipeline board management
 app.include_router(pipeline_analytics.router, prefix="/api/v1/analytics", tags=["analytics"])  # Pipeline analytics
 app.include_router(analytics_advanced.router, prefix="/api/v1/analytics-advanced", tags=["analytics-advanced"])  # Sprint 5: Advanced Analytics
@@ -133,10 +157,29 @@ app.include_router(v1_documents.router, prefix="/api/v1/documents")  # Document 
 app.include_router(teams.router, prefix="/api")  # Team management and workflow orchestration
 app.include_router(emails.router)  # Email campaign management
 
+# WebSocket status endpoint
+@app.get("/api/websocket/status")
+async def websocket_status():
+    """Get WebSocket connection statistics"""
+    return websocket_manager.get_connection_stats()
+
+@app.get("/api/websocket/activity/{organization_id}")
+async def websocket_activity(organization_id: str):
+    """Get user activity for an organization"""
+    return websocket_manager.get_user_activity(organization_id)
+
 @app.on_event("startup")
-def startup_event():
+async def startup_event():
     """Initialize application on startup"""
     logger.info("M&A SaaS Platform API starting up...")
+
+    # Initialize cache service
+    try:
+        from app.core.cache import cache_service
+        await cache_service.initialize()
+        logger.info("Cache service initialized")
+    except Exception as e:
+        logger.warning(f"Cache initialization failed: {e}. Continuing without cache.")
 
     # Check required environment variables
     required_vars = [
