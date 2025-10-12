@@ -11,35 +11,58 @@ from .core.integration_manager import (
     get_integration_manager
 )
 
-from .crm.salesforce import SalesforceIntegration
-from .crm.hubspot import HubSpotIntegration
-from .crm.pipedrive import PipedriveIntegration
-from .crm.dynamics import DynamicsIntegration
+# CRM Integrations (only import what exists)
+try:
+    from .crm.salesforce import SalesforceIntegration
+except ImportError:
+    SalesforceIntegration = None
 
-from .communication.teams import TeamsIntegration
-from .communication.slack import SlackIntegration
-from .communication.zoom import ZoomIntegration
-from .communication.email import EmailIntegration
+try:
+    from .crm.hubspot import HubSpotIntegration
+except ImportError:
+    HubSpotIntegration = None
 
-from .financial.banking import BankingAPIIntegration
-from .financial.payment import PaymentProcessingIntegration
-from .financial.fx import FXRateIntegration
-from .financial.escrow import EscrowIntegration
+# from .crm.pipedrive import PipedriveIntegration  # Not implemented yet
+# from .crm.dynamics import DynamicsIntegration  # Not implemented yet
 
-from .legal.docusign import DocuSignIntegration
-from .legal.compliance import ComplianceIntegration
-from .legal.legal_research import LegalResearchIntegration
+# Communication Integrations (only import what exists)
+try:
+    from .communication.teams import TeamsIntegration
+except ImportError:
+    TeamsIntegration = None
 
-from .services.marketplace import ProfessionalServicesMarketplace
-from .services.network import ServiceProviderNetwork
+try:
+    from .communication.slack import SlackIntegration
+except ImportError:
+    SlackIntegration = None
 
-from .automation.zapier import ZapierIntegration
-from .automation.power_automate import PowerAutomateIntegration
-from .automation.workflow_builder import WorkflowBuilder
+# from .communication.zoom import ZoomIntegration  # Not implemented yet
+# from .communication.email import EmailIntegration  # Not implemented yet
 
-from .api.platform import DeveloperPlatform
-from .api.sdk import SDKGenerator
-from .api.marketplace import AppMarketplace
+# Financial Integrations - Not implemented yet
+# from .financial.banking import BankingAPIIntegration
+# from .financial.payment import PaymentProcessingIntegration
+# from .financial.fx import FXRateIntegration
+# from .financial.escrow import EscrowIntegration
+
+# Legal Integrations - Not implemented yet
+# from .legal.docusign import DocuSignIntegration
+# from .legal.compliance import ComplianceIntegration
+# from .legal.legal_research import LegalResearchIntegration
+
+# Services - Not implemented yet
+# from .services.marketplace import ProfessionalServicesMarketplace
+# from .services.network import ServiceProviderNetwork
+
+# Automation - Not implemented yet
+# from .automation.zapier import ZapierIntegration
+# from .automation.power_automate import PowerAutomateIntegration
+# from .automation.workflow_builder import WorkflowBuilder
+
+# API Platform - Not implemented yet
+# from .api.platform import DeveloperPlatform
+# from .api.sdk import SDKGenerator
+# from .api.marketplace import AppMarketplace
 
 __all__ = [
     # Core
@@ -48,41 +71,14 @@ __all__ = [
     "DataSyncManager",
     "WebhookManager",
     "get_integration_manager",
-
-    # CRM & Sales
-    "SalesforceIntegration",
-    "HubSpotIntegration",
-    "PipedriveIntegration",
-    "DynamicsIntegration",
-
-    # Communication
-    "TeamsIntegration",
-    "SlackIntegration",
-    "ZoomIntegration",
-    "EmailIntegration",
-
-    # Financial
-    "BankingAPIIntegration",
-    "PaymentProcessingIntegration",
-    "FXRateIntegration",
-    "EscrowIntegration",
-
-    # Legal
-    "DocuSignIntegration",
-    "ComplianceIntegration",
-    "LegalResearchIntegration",
-
-    # Professional Services
-    "ProfessionalServicesMarketplace",
-    "ServiceProviderNetwork",
-
-    # Automation
-    "ZapierIntegration",
-    "PowerAutomateIntegration",
-    "WorkflowBuilder",
-
-    # API Platform
-    "DeveloperPlatform",
-    "SDKGenerator",
-    "AppMarketplace"
 ]
+
+# Add optional integrations if they loaded successfully
+if SalesforceIntegration:
+    __all__.append("SalesforceIntegration")
+if HubSpotIntegration:
+    __all__.append("HubSpotIntegration")
+if TeamsIntegration:
+    __all__.append("TeamsIntegration")
+if SlackIntegration:
+    __all__.append("SlackIntegration")
