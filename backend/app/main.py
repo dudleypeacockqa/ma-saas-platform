@@ -44,6 +44,7 @@ from app.models import (
     episodes,  # Podcast production
     integrations as integration_models,  # Multi-platform integrations
     integration_planning,  # Integration planning
+    email_campaigns,  # Email campaign management
 )
 
 # NOTE: models.py contains legacy Tenant/User models that conflict with
@@ -51,7 +52,7 @@ from app.models import (
 # Legacy code should be migrated to use the new models.
 
 # NOW import APIs (after all models are registered)
-from app.api import auth, tenants, users, content, marketing, integrations
+from app.api import auth, tenants, users, content, marketing, integrations, emails
 # from app.api import payments  # Temporarily disabled - needs StripeCustomer/Payment/WebhookEvent models
 from app.api import opportunities, valuations, negotiations, term_sheets, documents, teams
 # from app.api import arbitrage  # Temporarily disabled - requires pandas dependency
@@ -122,6 +123,7 @@ app.include_router(negotiations.router)  # Deal negotiation and structuring
 app.include_router(term_sheets.router)  # Term sheet management with collaboration
 app.include_router(documents.router)  # Document management with versioning and approvals
 app.include_router(teams.router, prefix="/api")  # Team management and workflow orchestration
+app.include_router(emails.router)  # Email campaign management
 
 @app.on_event("startup")
 async def startup_event():
