@@ -638,3 +638,30 @@ class IntegrationDocument(BaseModel, SoftDeleteMixin):
     project = relationship("IntegrationProject")
     author = relationship("User", foreign_keys=[author_user_id])
     approved_by = relationship("User", foreign_keys=[approved_by_user_id])
+
+
+# Basic system integration class for external services
+class Integration(BaseModel, SoftDeleteMixin):
+    """Basic integration model for external system connections"""
+    __tablename__ = 'system_integrations'
+
+    name = Column(String(100), nullable=False)
+    integration_type = Column(String(50), nullable=False)  # 'accounting', 'crm', 'file_storage'
+    status = Column(String(20), default='active')
+    configuration = Column(JSON, nullable=False, default=dict)
+    last_sync = Column(DateTime)
+    integration_id = Column(String(100), unique=True, index=True)
+
+    # Connection details (encrypted)
+    connection_details = Column(JSON, default=dict)
+
+    # Status tracking
+    is_active = Column(Boolean, default=True)
+    error_message = Column(Text)
+
+    # Timestamps
+    created_at = Column(DateTime, default=datetime.utcnow, nullable=False)
+    updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
+
+    # Relationships
+    organization = relationship("Organization")
