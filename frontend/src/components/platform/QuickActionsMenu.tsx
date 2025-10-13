@@ -27,11 +27,13 @@ import {
 interface QuickActionsMenuProps {
   isOpen?: boolean;
   onClose?: () => void;
+  className?: string;
 }
 
 const QuickActionsMenu: React.FC<QuickActionsMenuProps> = ({
   isOpen,
   onClose,
+  className = '',
 }) => {
   const quickActions = [
     {
@@ -63,7 +65,7 @@ const QuickActionsMenu: React.FC<QuickActionsMenuProps> = ({
   return (
     <DropdownMenu open={isOpen} onOpenChange={(open) => !open && onClose?.()}>
       <DropdownMenuTrigger asChild>
-        <Button size="sm" className="bg-blue-600 hover:bg-blue-700">
+        <Button size="sm" className={`bg-blue-600 hover:bg-blue-700 ${className}`}>
           <Plus className="h-4 w-4 mr-2" />
           Quick Actions
         </Button>
