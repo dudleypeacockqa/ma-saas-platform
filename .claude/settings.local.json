@@ -66,7 +66,9 @@
       "mcp__render__list_key_value",
       "mcp__render__get_key_value",
       "WebFetch(domain:api.cloudflare.com)",
-      "Bash(node:*)"
+      "Bash(node:*)",
+      "Bash(gh auth login:*)",
+      "Bash(git merge:*)"
     ],
     "deny": [],
     "ask": []
