@@ -3,78 +3,73 @@ import { PricingTable } from '@clerk/clerk-react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { CheckCircle } from 'lucide-react';
+import { FEATURE_DISPLAY_NAMES, FEATURES } from '@/constants/features';
 
 const PricingPage = () => {
   const [billingInterval, setBillingInterval] = useState('monthly'); // 'monthly' or 'yearly'
 
-  // Enhanced 8-tier pricing structure for integrated ecosystem
+  // Correct pricing structure from Clerk subscription plans
   const pricingInfo = {
     monthly: {
-      solo: { price: 279, display: '£279', originalPrice: null },
-      growth: { price: 798, display: '£798', originalPrice: null },
-      enterprise: { price: 1598, display: '£1,598', originalPrice: null },
-      community_leader: { price: 2997, display: '£2,997', originalPrice: null },
+      solo: { price: 279, display: '$279', originalPrice: null },
+      growth: { price: 798, display: '$798', originalPrice: null },
+      enterprise: { price: 1598, display: '$1,598', originalPrice: null },
+      community_leader: { price: 2997, display: '$2,997', originalPrice: null },
     },
     yearly: {
-      solo: { price: 2790, display: '£2,790', savings: '£558', originalPrice: 3348 },
-      growth: { price: 7980, display: '£7,980', savings: '£1,596', originalPrice: 9576 },
-      enterprise: { price: 15980, display: '£15,980', savings: '£3,196', originalPrice: 19176 },
+      solo: { price: 2790, display: '$2,790', savings: '$558', originalPrice: 3348 },
+      growth: { price: 7980, display: '$7,980', savings: '$1,596', originalPrice: 9576 },
+      enterprise: {
+        price: 15980.04,
+        display: '$15,980',
+        savings: '$3,195.96',
+        originalPrice: 19176,
+      },
       community_leader: {
         price: 29970,
-        display: '£29,970',
-        savings: '£5,994',
+        display: '$29,970',
+        savings: '$5,994',
         originalPrice: 35964,
       },
     },
   };
 
+  // Features from CLERK_FEATURE_REGISTRY_MASTER.md
   const features = {
     solo: [
-      'Complete M&A platform access',
-      'AI-powered deal analysis',
-      'Community membership',
-      'Monthly networking events',
-      'Basic podcast studio access',
-      'Deal pipeline management',
-      'Document management',
-      '50GB storage',
-      'Email support',
+      FEATURE_DISPLAY_NAMES[FEATURES.PLATFORM_ACCESS_FULL],
+      FEATURE_DISPLAY_NAMES[FEATURES.COMMUNITY_ESSENTIAL],
+      FEATURE_DISPLAY_NAMES[FEATURES.WEBINARS_MONTHLY],
+      FEATURE_DISPLAY_NAMES[FEATURES.AI_DEAL_ANALYSIS],
+      FEATURE_DISPLAY_NAMES[FEATURES.MASTERCLASS_BASIC],
     ],
     growth: [
       'Everything in Solo Dealmaker',
-      'Advanced AI analysis & matching',
-      'VIP community events',
-      'Deal flow optimization',
-      'Priority support',
-      'Enhanced podcast studio',
-      'Team collaboration tools',
-      'Workflow automation',
-      '200GB storage',
-      'Mastermind session access',
+      FEATURE_DISPLAY_NAMES[FEATURES.TEAM_COLLABORATION],
+      FEATURE_DISPLAY_NAMES[FEATURES.COMMUNITY_PROFESSIONAL],
+      FEATURE_DISPLAY_NAMES[FEATURES.EVENTS_VIP_ALL],
+      FEATURE_DISPLAY_NAMES[FEATURES.AI_INTRODUCTIONS_PRIORITY],
+      FEATURE_DISPLAY_NAMES[FEATURES.DEAL_OPPORTUNITIES_EXCLUSIVE],
+      FEATURE_DISPLAY_NAMES[FEATURES.MASTERMIND_MONTHLY],
     ],
     enterprise: [
       'Everything in Growth Firm',
-      'White-label platform access',
-      'Deal syndication features',
-      'Custom integrations',
-      'Event hosting rights',
-      'Advanced analytics dashboard',
-      'Dedicated success manager',
-      '1TB storage',
-      'SSO integration',
-      'Premium community features',
+      FEATURE_DISPLAY_NAMES[FEATURES.WHITE_LABEL_PLATFORM],
+      FEATURE_DISPLAY_NAMES[FEATURES.COMMUNITY_EXECUTIVE],
+      FEATURE_DISPLAY_NAMES[FEATURES.EVENTS_PRIVATE_HOSTING],
+      FEATURE_DISPLAY_NAMES[FEATURES.CUSTOM_BRANDING_API],
+      FEATURE_DISPLAY_NAMES[FEATURES.DEAL_SYNDICATION_DIRECT],
+      FEATURE_DISPLAY_NAMES[FEATURES.INVESTMENT_COMMITTEE],
+      FEATURE_DISPLAY_NAMES[FEATURES.DEDICATED_SUPPORT],
     ],
     community_leader: [
       'Everything in Enterprise',
-      '20% revenue share on events',
-      'Personal thought leader showcase',
-      'LP introduction services',
-      'Program leadership opportunities',
-      'StreamYard-level studio access',
-      'AI content automation',
-      'Premium deal flow access',
-      'Industry influence platform',
-      'Revenue generation tools',
+      FEATURE_DISPLAY_NAMES[FEATURES.REVENUE_SHARE_EVENTS],
+      FEATURE_DISPLAY_NAMES[FEATURES.PERSONAL_SHOWCASE],
+      FEATURE_DISPLAY_NAMES[FEATURES.MENTOR_LEADERSHIP],
+      FEATURE_DISPLAY_NAMES[FEATURES.LP_INTRODUCTIONS],
+      FEATURE_DISPLAY_NAMES[FEATURES.COMMUNITY_INFLUENCE],
+      FEATURE_DISPLAY_NAMES[FEATURES.STREAMYARD_STUDIO],
     ],
   };
 
