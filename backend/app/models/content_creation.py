@@ -180,7 +180,7 @@ class ContentEpisode(Base):
 
 class RecordingSession(Base):
     """Recording session management"""
-    __tablename__ = "recording_sessions"
+    __tablename__ = "content_recording_sessions"
 
     id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
     episode_id = Column(UUID(as_uuid=True), ForeignKey("content_episodes.id"), nullable=False)
