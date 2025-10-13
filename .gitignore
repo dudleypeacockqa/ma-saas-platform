@@ -38,8 +38,12 @@ logs/
 .env.test.local
 .env.production.local
 .env.production
+.env.production.live
 secure.env
 **/. env.production
+
+# Deployment instructions with secrets
+IMMEDIATE_DEPLOYMENT_INSTRUCTIONS.md
 
 # MCP Configuration (contains API keys)
 .mcp.json
