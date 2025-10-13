@@ -303,6 +303,127 @@ class WebhookHandler:
             logger.error(f"Error handling session.created: {e}")
             db.rollback()
 
+    async def handle_subscription_created(self, data: Dict[str, Any], db: Session):
+        """Handle user.subscription.created event"""
+        try:
+            user_id = data.get("user_id")
+            if not user_id:
+                logger.warning("No user_id in subscription.created event")
+                return
+
+            user = db.query(User).filter(User.clerk_id == user_id).first()
+            if not user:
+                logger.warning(f"User not found for subscription.created: {user_id}")
+                return
+
+            # Extract subscription details
+            subscription_data = {
+                "planId": data.get("plan_id"),
+                "planSlug": data.get("plan_slug"),
+                "status": data.get("status"),
+                "features": data.get("features", []),
+                "trialEndsAt": data.get("trial_end"),
+                "currentPeriodEnd": data.get("current_period_end"),
+                "cancelAtPeriodEnd": data.get("cancel_at_period_end", False),
+            }
+
+            # Update user metadata with subscription info
+            user.metadata = user.metadata or {}
+            user.metadata["subscription"] = subscription_data
+            db.commit()
+
+            logger.info(f"Subscription created for user {user_id}: {subscription_data.get('planSlug')}")
+
+        except Exception as e:
+            logger.error(f"Error handling subscription.created: {e}")
+            db.rollback()
+            raise
+
+    async def handle_subscription_updated(self, data: Dict[str, Any], db: Session):
+        """Handle user.subscription.updated event"""
+        try:
+            user_id = data.get("user_id")
+            if not user_id:
+                logger.warning("No user_id in subscription.updated event")
+                return
+
+            user = db.query(User).filter(User.clerk_id == user_id).first()
+            if not user:
+                logger.warning(f"User not found for subscription.updated: {user_id}")
+                return
+
+            # Extract subscription details
+            subscription_data = {
+                "planId": data.get("plan_id"),
+                "planSlug": data.get("plan_slug"),
+                "status": data.get("status"),
+                "features": data.get("features", []),
+                "trialEndsAt": data.get("trial_end"),
+                "currentPeriodEnd": data.get("current_period_end"),
+                "cancelAtPeriodEnd": data.get("cancel_at_period_end", False),
+            }
+
+            # Update user metadata
+            user.metadata = user.metadata or {}
+            user.metadata["subscription"] = subscription_data
+            db.commit()
+
+            logger.info(f"Subscription updated for user {user_id}: {subscription_data.get('planSlug')} - Status: {subscription_data.get('status')}")
+
+        except Exception as e:
+            logger.error(f"Error handling subscription.updated: {e}")
+            db.rollback()
+            raise
+
+    async def handle_subscription_deleted(self, data: Dict[str, Any], db: Session):
+        """Handle user.subscription.deleted event"""
+        try:
+            user_id = data.get("user_id")
+            if not user_id:
+                logger.warning("No user_id in subscription.deleted event")
+                return
+
+            user = db.query(User).filter(User.clerk_id == user_id).first()
+            if not user:
+                logger.warning(f"User not found for subscription.deleted: {user_id}")
+                return
+
+            # Remove subscription from metadata
+            user.metadata = user.metadata or {}
+            if "subscription" in user.metadata:
+                del user.metadata["subscription"]
+            db.commit()
+
+            logger.info(f"Subscription deleted for user {user_id}")
+
+        except Exception as e:
+            logger.error(f"Error handling subscription.deleted: {e}")
+            db.rollback()
+            raise
+
+    async def handle_subscription_trial_will_end(self, data: Dict[str, Any], db: Session):
+        """Handle user.subscription.trial_will_end event"""
+        try:
+            user_id = data.get("user_id")
+            if not user_id:
+                logger.warning("No user_id in subscription.trial_will_end event")
+                return
+
+            user = db.query(User).filter(User.clerk_id == user_id).first()
+            if not user:
+                logger.warning(f"User not found for subscription.trial_will_end: {user_id}")
+                return
+
+            # Log trial ending (you can add email notification here)
+            logger.info(f"Trial ending soon for user {user_id}")
+
+            # TODO: Send email notification to user about trial ending
+            # await send_trial_ending_email(user.email, data.get("trial_end"))
+
+        except Exception as e:
+            logger.error(f"Error handling subscription.trial_will_end: {e}")
+            db.rollback()
+
 
 # Create webhook handler instance
 webhook_handler = WebhookHandler()
@@ -369,6 +490,14 @@ async def clerk_webhook(
             await webhook_handler.handle_organization_invitation_created(event_data, db)
         elif event_type == "session.created":
             await webhook_handler.handle_session_created(event_data, db)
+        elif event_type == "user.subscription.created":
+            await webhook_handler.handle_subscription_created(event_data, db)
+        elif event_type == "user.subscription.updated":
+            await webhook_handler.handle_subscription_updated(event_data, db)
+        elif event_type == "user.subscription.deleted":
+            await webhook_handler.handle_subscription_deleted(event_data, db)
+        elif event_type == "user.subscription.trial_will_end":
+            await webhook_handler.handle_subscription_trial_will_end(event_data, db)
         else:
             logger.info(f"Unhandled webhook event type: {event_type}")
 
