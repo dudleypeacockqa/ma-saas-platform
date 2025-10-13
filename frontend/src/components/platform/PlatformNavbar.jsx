@@ -4,7 +4,20 @@ import { useUser, UserButton } from '@clerk/clerk-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
-import { Search, Bell, Plus, Menu, Command, HelpCircle, Settings, Zap } from 'lucide-react';
+import {
+  Search,
+  Bell,
+  Plus,
+  Menu,
+  Command,
+  HelpCircle,
+  Settings,
+  Zap,
+  TrendingUp,
+  FileText,
+  Users,
+  BarChart3,
+} from 'lucide-react';
 
 const PlatformNavbar = ({ onMenuClick, onQuickAction }) => {
   const { user } = useUser();

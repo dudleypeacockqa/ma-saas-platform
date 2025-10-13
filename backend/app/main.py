@@ -54,7 +54,7 @@ from app.models import (
 # Legacy code should be migrated to use the new models.
 
 # NOW import APIs (after all models are registered)
-from app.api import auth, tenants, users, content, marketing, integrations, podcast_studio, stripe_events
+from app.api import auth, tenants, users, content, marketing, integrations, podcast_studio, stripe_events, advanced_platform
 # from app.api import waitlist  # Temporarily disabled - requires model fixes
 # from app.api import master_admin  # Temporarily disabled - requires BusinessMetrics, RevenueAnalytics models
 # from app.api import emails  # Temporarily disabled - needs ClerkUser migration
@@ -137,6 +137,7 @@ app.include_router(users_router)    # User management (requires auth)
 app.include_router(organizations_router)  # Organization management (requires auth)
 
 # Include existing API routers
+app.include_router(advanced_platform.router, prefix="/api", tags=["advanced-platform"])
 app.include_router(auth.router, prefix="/api/auth", tags=["authentication"])
 app.include_router(tenants.router, prefix="/api/tenants", tags=["tenants"])
 app.include_router(deals.router)  # Deal management (prefix already defined in router)

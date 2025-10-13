@@ -1,7 +1,11 @@
+import { useEffect, useMemo, useState } from 'react';
 import { useParams } from 'react-router-dom';
+import { useAuth, useUser } from '@clerk/clerk-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
+import { Progress } from '@/components/ui/progress';
+import { trackEvent } from '@/lib/analytics';
 import {
   ArrowLeft,
   Edit,
@@ -11,12 +15,18 @@ import {
   DollarSign,
   Users,
   FileText,
+  Activity,
 } from 'lucide-react';
 
 const DealDetail = () => {
   const { dealId } = useParams();
+  const { getToken } = useAuth();
+  const { user } = useUser();
+  const [insights, setInsights] = useState(null);
+  const [insightsError, setInsightsError] = useState(null);
+  const [loadingInsights, setLoadingInsights] = useState(false);
 
-  // Mock deal data
+  // TODO: Replace mock with API data
   const deal = {
     id: dealId,
     name: 'TechCo Acquisition',
@@ -32,6 +42,54 @@ const DealDetail = () => {
     description:
       'Strategic acquisition of leading technology company to expand our digital capabilities in the financial services sector.',
   };
+
+  useEffect(() => {
+    const fetchInsights = async () => {
+      if (!dealId) return;
+      setLoadingInsights(true);
+      setInsightsError(null);
+
+      try {
+        const token = await getToken();
+        const response = await fetch(`/api/deals/${dealId}/insights`, {
+          headers: {
+            'Content-Type': 'application/json',
+            ...(token ? { Authorization: `Bearer ${token}` } : {}),
+          },
+        });
+
+        if (!response.ok) {
+          if (response.status !== 404) {
+            throw new Error(`Failed to load insights (${response.status})`);
+          }
+          setInsights(null);
+          return;
+        }
+
+        const data = await response.json();
+        setInsights(data);
+        trackEvent('deal_insight_viewed', {
+          deal_id: dealId,
+          win_probability: data.win_probability,
+          confidence: data.confidence,
+        });
+      } catch (error) {
+        console.error('Unable to load deal insights', error);
+        setInsightsError(error instanceof Error ? error.message : 'Unknown error');
+      } finally {
+        setLoadingInsights(false);
+      }
+    };
+
+    fetchInsights();
+  }, [dealId, getToken]);
+
+  const probabilityLabel = useMemo(() => {
+    if (!insights) return 'Pending';
+    if (insights.win_probability >= 70) return 'Strong outlook';
+    if (insights.win_probability >= 40) return 'Moderate outlook';
+    return 'At risk';
+  }, [insights]);
 
   return (
     <div className="p-6">
@@ -135,6 +193,77 @@ const DealDetail = () => {
 
         {/* Sidebar */}
         <div className="space-y-6">
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center justify-between">
+                <span>AI Deal Insights</span>
+                {insights?.confidence && (
+                  <Badge variant="outline">Confidence: {insights.confidence}</Badge>
+                )}
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              {loadingInsights && <p className="text-sm text-muted-foreground">Analyzing latest data...</p>}
+              {insightsError && (
+                <p className="text-sm text-destructive">{insightsError}</p>
+              )}
+              {!loadingInsights && !insights && !insightsError && (
+                <p className="text-sm text-muted-foreground">Insights will appear once deal data is synced.</p>
+              )}
+              {insights && (
+                <div className="space-y-4">
+                  <div>
+                    <div className="flex items-center gap-2 text-sm font-medium text-muted-foreground">
+                      <Activity className="h-4 w-4" />
+                      {probabilityLabel}
+                    </div>
+                    <div className="mt-2 flex items-center justify-between">
+                      <span className="text-2xl font-semibold">{insights.win_probability}%</span>
+                      <Badge variant="secondary">Win probability</Badge>
+                    </div>
+                    <Progress value={insights.win_probability} className="mt-2" />
+                  </div>
+
+                  {insights.risk_factors?.length ? (
+                    <div>
+                      <p className="text-sm font-semibold mb-1">Key Risks</p>
+                      <ul className="space-y-1 text-sm text-muted-foreground">
+                        {insights.risk_factors.map((risk, index) => (
+                          <li key={index}>• {risk}</li>
+                        ))}
+                      </ul>
+                    </div>
+                  ) : (
+                    <p className="text-sm text-muted-foreground">No major risks flagged.</p>
+                  )}
+
+                  {insights.recommended_actions?.length && (
+                    <div>
+                      <p className="text-sm font-semibold mb-1">Recommended Actions</p>
+                      <ul className="space-y-1 text-sm">
+                        {insights.recommended_actions.map((action, index) => (
+                          <li key={index}>• {action}</li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
+
+                  {insights.next_milestone && (
+                    <div className="rounded-lg border p-3 text-sm">
+                      <p className="font-semibold">Next Milestone</p>
+                      <p className="text-muted-foreground">
+                        {insights.next_milestone.date ? new Date(insights.next_milestone.date).toLocaleDateString() : 'Date TBD'}
+                      </p>
+                      {insights.next_milestone.description && (
+                        <p className="mt-1 text-muted-foreground">{insights.next_milestone.description}</p>
+                      )}
+                    </div>
+                  )}
+                </div>
+              )}
+            </CardContent>
+          </Card>
+
           <Card>
             <CardHeader>
               <CardTitle>Deal Team</CardTitle>

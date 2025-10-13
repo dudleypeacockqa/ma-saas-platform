@@ -3,15 +3,21 @@
 
 services:
   # Frontend Service - Sophisticated Multipage Website
-  - type: web
+  - type: static_site
     name: ma-saas-frontend
-    env: static
-    buildCommand: cd frontend && pnpm install && pnpm build
-    staticPublishPath: ./frontend/dist
+    repo: https://github.com/dudleypeacockqa/ma-saas-platform
+    branch: master
+    rootDirectory: frontend
+    buildCommand: corepack enable && pnpm install --frozen-lockfile && pnpm build
+    staticPublishPath: dist
+    pullRequestPreviewsEnabled: false
     domains:
       - 100daysandbeyond.com
       - www.100daysandbeyond.com
     headers:
+      - path: /*
+        name: Strict-Transport-Security
+        value: max-age=63072000; includeSubDomains; preload
       - path: /*
         name: X-Frame-Options
         value: DENY
@@ -19,18 +25,38 @@ services:
         name: X-Content-Type-Options
         value: nosniff
       - path: /*
+        name: X-XSS-Protection
+        value: "1; mode=block"
+      - path: /*
         name: Referrer-Policy
         value: strict-origin-when-cross-origin
       - path: /*
         name: Permissions-Policy
         value: camera=(), microphone=(), geolocation=()
+      - path: /*
+        name: Content-Security-Policy
+        value: >-
+          default-src 'self'; img-src 'self' data:; script-src 'self'
+          https://js.stripe.com https://*.clerk.com; style-src 'self'
+          'unsafe-inline'; connect-src 'self'
+          https://ma-saas-backend.onrender.com https://api.clerk.com
+          https://api.stripe.com https://*.stripe.com;
+          font-src 'self' https://fonts.gstatic.com;
+          frame-src https://js.stripe.com https://connect.stripe.com;
+          frame-ancestors 'none';
+      - path: /assets/*
+        name: Cache-Control
+        value: public, max-age=31536000, immutable
+      - path: /index.html
+        name: Cache-Control
+        value: no-cache, no-store, must-revalidate
     routes:
       - type: rewrite
         source: /*
         destination: /index.html
     envVars:
       - key: VITE_API_URL
-        value: https://api.100daysandbeyond.com
+        value: https://ma-saas-backend.onrender.com
       - key: VITE_CLERK_PUBLISHABLE_KEY
         sync: false # Set manually in dashboard
       - key: VITE_STRIPE_PUBLISHABLE_KEY
@@ -41,6 +67,8 @@ services:
         value: "100 Days & Beyond - M&A SaaS Platform"
       - key: VITE_APP_VERSION
         value: "2.0.0"
+      - key: NODE_VERSION
+        value: "18"
 
   # Backend API Service - FastAPI with Advanced Features
   - type: web
@@ -86,6 +114,8 @@ services:
         sync: false # Set manually in dashboard
       - key: STRIPE_WEBHOOK_SECRET
         sync: false # Set manually in dashboard
+      - key: SENTRY_DSN
+        sync: false
       # Claude MCP Server & AI Integration
       - key: ANTHROPIC_API_KEY
         sync: false # Set manually in dashboard

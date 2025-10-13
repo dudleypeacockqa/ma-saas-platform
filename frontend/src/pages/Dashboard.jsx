@@ -1,4 +1,5 @@
 import { useUser } from "@clerk/clerk-react"
+import OnboardingChecklist from "@/components/onboarding/OnboardingChecklist"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { ArrowRight, Briefcase, DollarSign, Users, FileText } from "lucide-react"
@@ -18,9 +19,11 @@ const Dashboard = () => {
   ]
 
   return (
-    <div className="p-8">
+    <main role="main" className="p-8">
       <h1 className="text-3xl font-bold mb-2">Welcome back, {user?.firstName}!</h1>
       <p className="text-muted-foreground mb-8">Here is a snapshot of your M&A activities.</p>
+
+      <OnboardingChecklist />
 
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4 mb-8">
         <Card>
@@ -133,7 +136,7 @@ const Dashboard = () => {
           </CardContent>
         </Card>
       </div>
-    </div>
+    </main>
   )
 }
 

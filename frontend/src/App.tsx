@@ -2,6 +2,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { ClerkProvider, SignedIn, SignedOut } from '@clerk/clerk-react';
 import { Toaster } from '@/components/ui/sonner';
 import { ThemeProvider } from '@/components/theme-provider';
+import ErrorBoundary from '@/components/ErrorBoundary';
 import './App.css';
 
 // Public pages (Marketing website)
@@ -39,16 +40,19 @@ import PublicLayout from '@/components/layouts/PublicLayout';
 import PlatformLayout from '@/components/layouts/PlatformLayout';
 import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/layout/Footer';
+import AnalyticsListener from '@/components/analytics/AnalyticsListener';
 
 // Clerk configuration
 const clerkPubKey = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY || 'pk_live_Y2xlcmsuMTAwZGF5c2FuZGJleW9uZC5jb20k';
 
 function App() {
   return (
-    <ClerkProvider publishableKey={clerkPubKey}>
-      <ThemeProvider defaultTheme="light" storageKey="ma-platform-theme">
-        <Router>
-          <div className="min-h-screen bg-background">
+    <ErrorBoundary>
+      <ClerkProvider publishableKey={clerkPubKey}>
+        <ThemeProvider defaultTheme="light" storageKey="ma-platform-theme">
+          <Router>
+            <AnalyticsListener />
+            <div className="min-h-screen bg-background">
 
             {/* Public Routes - Professional M&A Marketing Website */}
             <SignedOut>
@@ -232,6 +236,7 @@ function App() {
         </Router>
       </ThemeProvider>
     </ClerkProvider>
+    </ErrorBoundary>
   );
 }
 

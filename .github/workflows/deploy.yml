@@ -1,0 +1,46 @@
+name: Deploy to Render
+
+on:
+  workflow_run:
+    workflows:
+      - CI
+    types:
+      - completed
+
+concurrency:
+  group: deploy-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    name: Deploy Render Services
+    runs-on: ubuntu-latest
+    if: >-
+      ${{ github.event.workflow_run.conclusion == 'success' &&
+          github.event.workflow_run.event == 'push' &&
+          contains(['refs/heads/main','refs/heads/master'], github.event.workflow_run.head_branch) }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Render Deploy Frontend
+        uses: render-examples/cli-deploy-action@v1
+        with:
+          serviceId: ${{ secrets.RENDER_FRONTEND_SERVICE_ID }}
+          apiKey: ${{ secrets.RENDER_API_KEY }}
+          waitForDeploy: true
+
+      - name: Render Deploy Backend
+        uses: render-examples/cli-deploy-action@v1
+        with:
+          serviceId: ${{ secrets.RENDER_BACKEND_SERVICE_ID }}
+          apiKey: ${{ secrets.RENDER_API_KEY }}
+          waitForDeploy: true
+
+      - name: Post-deploy health check (Frontend)
+        run: |
+          curl -f https://100daysandbeyond.com/health || exit 1
+
+      - name: Post-deploy health check (Backend)
+        run: |
+          curl -f https://api.100daysandbeyond.com/health || exit 1
