@@ -414,3 +414,147 @@ class MarketDataSnapshot(BaseModel):
     __table_args__ = (
         Index('ix_market_snapshot_date', 'snapshot_date'),
     )
+
+
+class FinancialStatement(BaseModel, SoftDeleteMixin):
+    """
+    Company financial statements for analysis
+    Stores P&L, Balance Sheet, and Cash Flow data
+    """
+    __tablename__ = "financial_statements"
+
+    organization_id = Column(UUID(as_uuid=False), ForeignKey("organizations.id"), nullable=False, index=True)
+    deal_id = Column(UUID(as_uuid=False), ForeignKey("deals.id"), index=True)
+
+    # Statement Details
+    statement_type = Column(String(50), nullable=False, comment="income_statement, balance_sheet, cash_flow")
+    period_type = Column(String(20), nullable=False, comment="annual, quarterly, monthly")
+    period_end_date = Column(DateTime, nullable=False, index=True)
+    fiscal_year = Column(Integer, nullable=False)
+
+    # Financial Data (stored as JSON for flexibility)
+    financial_data = Column(JSON, nullable=False, comment="All financial line items")
+
+    # Source Information
+    data_source = Column(String(100), comment="xero, quickbooks, manual, etc.")
+    currency = Column(String(3), default="GBP", nullable=False)
+
+    # Metadata
+    is_audited = Column(Boolean, default=False)
+    auditor_notes = Column(Text)
+
+    __table_args__ = (
+        Index('ix_financial_statements_period', 'period_end_date', 'statement_type'),
+    )
+
+
+class CashFlowProjection(BaseModel, SoftDeleteMixin):
+    """
+    Future cash flow projections for DCF analysis
+    """
+    __tablename__ = "cash_flow_projections"
+
+    valuation_id = Column(UUID(as_uuid=False), ForeignKey("valuation_models.id"), nullable=False, index=True)
+    organization_id = Column(UUID(as_uuid=False), ForeignKey("organizations.id"), nullable=False, index=True)
+
+    # Projection Details
+    projection_year = Column(Integer, nullable=False)
+    scenario_type = Column(SQLEnum(ScenarioType), default=ScenarioType.BASE, nullable=False)
+
+    # Cash Flow Components (in base currency)
+    revenue = Column(Numeric(15, 2))
+    gross_profit = Column(Numeric(15, 2))
+    ebitda = Column(Numeric(15, 2))
+    ebit = Column(Numeric(15, 2))
+    taxes = Column(Numeric(15, 2))
+    capex = Column(Numeric(15, 2))
+    working_capital_change = Column(Numeric(15, 2))
+    free_cash_flow = Column(Numeric(15, 2), nullable=False)
+
+    # Growth Assumptions
+    revenue_growth_rate = Column(Numeric(10, 4), comment="% growth rate")
+    margin_assumptions = Column(JSON, comment="Detailed margin assumptions")
+
+    __table_args__ = (
+        Index('ix_cashflow_projection_year', 'valuation_id', 'projection_year'),
+    )
+
+
+class FinancialMetric(BaseModel, SoftDeleteMixin):
+    """
+    Calculated financial metrics and ratios
+    """
+    __tablename__ = "financial_metrics"
+
+    organization_id = Column(UUID(as_uuid=False), ForeignKey("organizations.id"), nullable=False, index=True)
+    financial_statement_id = Column(UUID(as_uuid=False), ForeignKey("financial_statements.id"), nullable=False)
+
+    # Metric Details
+    metric_name = Column(String(100), nullable=False)
+    metric_category = Column(String(50), nullable=False, comment="liquidity, profitability, leverage, etc.")
+    metric_value = Column(Numeric(15, 6), nullable=False)
+    calculation_method = Column(Text, comment="How this metric was calculated")
+
+    # Context
+    period_end_date = Column(DateTime, nullable=False)
+    currency = Column(String(3), default="GBP")
+
+    __table_args__ = (
+        Index('ix_financial_metrics_name', 'metric_name', 'period_end_date'),
+    )
+
+
+class RatioAnalysis(BaseModel, SoftDeleteMixin):
+    """
+    Financial ratio analysis results
+    """
+    __tablename__ = "ratio_analyses"
+
+    organization_id = Column(UUID(as_uuid=False), ForeignKey("organizations.id"), nullable=False, index=True)
+    analysis_date = Column(DateTime, default=datetime.utcnow, nullable=False)
+
+    # Ratio Categories
+    liquidity_ratios = Column(JSON, comment="Current ratio, quick ratio, etc.")
+    profitability_ratios = Column(JSON, comment="ROE, ROA, gross margin, etc.")
+    leverage_ratios = Column(JSON, comment="Debt-to-equity, interest coverage, etc.")
+    efficiency_ratios = Column(JSON, comment="Asset turnover, inventory turnover, etc.")
+
+    # Analysis Results
+    overall_score = Column(Numeric(5, 2), comment="Overall financial health score 0-100")
+    key_strengths = Column(ARRAY(String), comment="Key financial strengths")
+    key_weaknesses = Column(ARRAY(String), comment="Key financial weaknesses")
+    recommendations = Column(Text)
+
+    __table_args__ = (
+        Index('ix_ratio_analysis_date', 'analysis_date'),
+    )
+
+
+class BenchmarkData(BaseModel, SoftDeleteMixin):
+    """
+    Industry benchmark data for comparison
+    """
+    __tablename__ = "benchmark_data"
+
+    # Industry Classification
+    industry_code = Column(String(10), nullable=False, comment="SIC or NAICS code")
+    industry_name = Column(String(255), nullable=False)
+    sub_industry = Column(String(255))
+
+    # Geographic Scope
+    geographic_scope = Column(String(50), default="UK", comment="UK, US, EU, Global")
+
+    # Benchmark Metrics
+    metric_name = Column(String(100), nullable=False)
+    median_value = Column(Numeric(15, 6))
+    percentile_25 = Column(Numeric(15, 6))
+    percentile_75 = Column(Numeric(15, 6))
+    sample_size = Column(Integer, comment="Number of companies in benchmark")
+
+    # Data Source and Date
+    data_source = Column(String(100), comment="Source of benchmark data")
+    data_date = Column(DateTime, nullable=False)
+
+    __table_args__ = (
+        Index('ix_benchmark_industry_metric', 'industry_code', 'metric_name'),
+    )

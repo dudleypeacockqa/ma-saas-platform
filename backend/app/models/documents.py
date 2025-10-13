@@ -421,3 +421,54 @@ class DocumentComparison(TenantModel, AuditableMixin):
         Index('ix_document_comparisons_revised', 'revised_document_id'),
         Index('ix_document_comparisons_date', 'comparison_date'),
     )
+
+
+class GeneratedDocument(TenantModel, AuditableMixin):
+    """
+    Generated documents from templates
+    Tracks AI-generated and template-based document creation
+    """
+    __tablename__ = "generated_documents"
+
+    # Source Template
+    template_id = Column(UUID(as_uuid=False), ForeignKey("document_templates.id"), nullable=False)
+    deal_id = Column(UUID(as_uuid=False), ForeignKey("deals.id"), index=True)
+
+    # Generation Details
+    document_title = Column(String(255), nullable=False)
+    document_type = Column(String(100), nullable=False)
+    generation_method = Column(String(50), default="template", comment="template, ai_generated, hybrid")
+
+    # Template Variables Used
+    template_variables = Column(JSON, comment="Variables used for document generation")
+    ai_prompts = Column(JSON, comment="AI prompts used if AI-generated")
+
+    # Generated Content
+    content_url = Column(String(1000), comment="URL to generated document")
+    content_format = Column(String(20), default="pdf", comment="pdf, docx, html")
+    content_size = Column(Integer, comment="File size in bytes")
+
+    # Generation Status
+    generation_status = Column(String(20), default="pending", comment="pending, completed, failed")
+    generation_started_at = Column(DateTime)
+    generation_completed_at = Column(DateTime)
+    error_message = Column(Text, comment="Error details if generation failed")
+
+    # Quality Metrics
+    ai_confidence_score = Column(Numeric(5, 2), comment="AI confidence in generation quality 0-100")
+    review_status = Column(String(20), default="pending", comment="pending, approved, needs_revision")
+    reviewer_notes = Column(Text)
+
+    # Usage Tracking
+    download_count = Column(Integer, default=0)
+    last_accessed = Column(DateTime)
+
+    # Relationships
+    template = relationship("DocumentTemplate", back_populates="generated_documents")
+
+    __table_args__ = (
+        Index('ix_generated_documents_template', 'template_id'),
+        Index('ix_generated_documents_deal', 'deal_id'),
+        Index('ix_generated_documents_status', 'generation_status'),
+        Index('ix_generated_documents_type', 'document_type'),
+    )

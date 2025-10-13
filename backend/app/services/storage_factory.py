@@ -81,8 +81,8 @@ class StorageFactory:
         # PRIMARY: Use Cloudflare R2 (best for Cloudflare ecosystem)
         if provider == 'r2' or os.getenv('R2_ACCESS_KEY_ID'):
             if os.getenv('CLOUDFLARE_ACCOUNT_ID') and os.getenv('R2_ACCESS_KEY_ID'):
-                from app.services.r2_storage_service import r2_storage_service
-                return r2_storage_service
+                from app.services.r2_storage_service import get_r2_storage_service
+                return get_r2_storage_service()
 
         # FALLBACK 1: Use AWS S3 if explicitly configured
         if provider == 's3' and os.getenv('AWS_ACCESS_KEY_ID'):
@@ -189,6 +189,6 @@ def get_storage_info():
         _storage_info = StorageFactory.get_provider_info()
     return _storage_info
 
-# For backward compatibility
-storage_service = get_storage_service()
-storage_info = get_storage_info()
+# For backward compatibility - lazy loading
+storage_service = None  # Will be set by get_storage_service() when first needed
+storage_info = None     # Will be set by get_storage_info() when first needed

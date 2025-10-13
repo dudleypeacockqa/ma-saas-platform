@@ -1,9 +1,9 @@
 """Application services"""
 
-# Only import services that don't have missing dependencies
+# Import factory functions instead of initialized services
 try:
-    from .storage_factory import storage_service, storage_info
-    __all__ = ["storage_service", "storage_info"]
+    from .storage_factory import get_storage_service, get_storage_info
+    __all__ = ["get_storage_service", "get_storage_info"]
 except ImportError:
     __all__ = []
 

@@ -71,14 +71,18 @@ class R2StorageService:
         # Custom domain for public access (if configured)
         self.public_domain = os.getenv('R2_PUBLIC_DOMAIN')  # e.g., 'docs.100daysandbeyond.com'
 
-        # Initialize bucket
-        self._ensure_bucket_exists()
+        # Defer bucket initialization until first use
+        self._bucket_initialized = False
 
     def _ensure_bucket_exists(self):
-        """Create R2 bucket if it doesn't exist"""
+        """Create R2 bucket if it doesn't exist - only called when bucket is actually needed"""
+        if self._bucket_initialized:
+            return
+
         try:
             self.client.head_bucket(Bucket=self.bucket_name)
             print(f"R2 bucket '{self.bucket_name}' exists")
+            self._bucket_initialized = True
         except ClientError as e:
             if e.response['Error']['Code'] == '404':
                 try:
@@ -89,6 +93,7 @@ class R2StorageService:
                     self._configure_bucket()
 
                     print(f"Created R2 bucket '{self.bucket_name}'")
+                    self._bucket_initialized = True
                 except ClientError as create_error:
                     print(f"Failed to create bucket: {create_error}")
                     raise
@@ -183,6 +188,9 @@ class R2StorageService:
         - Automatic CDN distribution
         - DDoS protection included
         """
+        # Ensure bucket exists before upload
+        self._ensure_bucket_exists()
+
         try:
             # Generate R2 key
             r2_key = self._generate_r2_key(organization_id, deal_id, filename)
@@ -312,6 +320,9 @@ class R2StorageService:
         - Faster uploads via Cloudflare edge
         - No bandwidth costs
         """
+        # Ensure bucket exists before generating URLs
+        self._ensure_bucket_exists()
+
         try:
             r2_key = self._generate_r2_key(organization_id, deal_id, filename)
 
@@ -479,5 +490,15 @@ class R2StorageService:
             }
 
 
-# Singleton instance
-r2_storage_service = R2StorageService()
+# Lazy singleton instance - initialized only when needed
+_r2_storage_service = None
+
+def get_r2_storage_service() -> R2StorageService:
+    """Get the R2 storage service singleton instance"""
+    global _r2_storage_service
+    if _r2_storage_service is None:
+        _r2_storage_service = R2StorageService()
+    return _r2_storage_service
+
+# For backward compatibility
+r2_storage_service = None  # Will be set by get_r2_storage_service() when first needed

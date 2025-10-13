@@ -16,7 +16,7 @@ from sklearn.metrics.pairwise import cosine_similarity
 from sqlalchemy.orm import Session
 from sqlalchemy import and_, or_, func
 
-from app.models.opportunities import Opportunity, OpportunityProfile
+from app.models.opportunities import MarketOpportunity as Opportunity
 from app.models.user import User
 from app.models.organization import Organization
 from app.services.claude_service import ClaudeService

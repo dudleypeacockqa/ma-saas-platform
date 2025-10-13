@@ -41,7 +41,14 @@
       "WebFetch(domain:ma-saas-platform.onrender.com)",
       "Bash(nslookup:*)",
       "Bash(ping:*)",
-      "mcp__render__get_service"
+      "mcp__render__get_service",
+      "Bash(xargs:*)",
+      "Bash(for service in offer_stack_generator automated_valuation_engine intelligent_deal_matching)",
+      "Bash(do python -m py_compile app/services/$service.py)",
+      "Bash(for service in financial_intelligence template_engine offer_stack_generator automated_valuation_engine intelligent_deal_matching)",
+      "Bash(do echo \"\")",
+      "Bash(wc:*)",
+      "Bash(head:*)"
     ],
     "deny": [],
     "ask": []

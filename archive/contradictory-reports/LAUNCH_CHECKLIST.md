@@ -52,6 +52,7 @@
   - [ ] Enable pg_trgm extension
 
 - [ ] **Run Migrations**
+
   ```bash
   # On staging first
   cd backend
