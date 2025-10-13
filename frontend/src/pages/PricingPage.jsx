@@ -1,11 +1,5 @@
 import { useState } from 'react';
-import {
-  PricingTable,
-  CheckoutButton,
-  PlanDetailsButton,
-  SignedIn,
-  SignedOut,
-} from '@clerk/clerk-react';
+import { PricingTable, SignedIn, SignedOut } from '@clerk/clerk-react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -176,20 +170,12 @@ const PricingPage = () => {
                 {/* Clerk Checkout & Details Buttons */}
                 <div className="space-y-3">
                   <SignedIn>
-                    <CheckoutButton
-                      planId={
-                        billingInterval === 'monthly'
-                          ? PLAN_IDS.SOLO_DEALMAKER_MONTHLY
-                          : PLAN_IDS.SOLO_DEALMAKER_ANNUAL
-                      }
-                      planPeriod={billingInterval === 'monthly' ? 'month' : 'annual'}
-                      onSubscriptionComplete={() => handleSubscriptionComplete('Solo Dealmaker')}
-                      newSubscriptionRedirectUrl="/dashboard?welcome=true"
+                    <Button
+                      className="w-full bg-blue-600 hover:bg-blue-700 text-white"
+                      onClick={() => (window.location.href = '/dashboard?welcome=true')}
                     >
-                      <Button className="w-full bg-blue-600 hover:bg-blue-700 text-white">
-                        Start Free Trial
-                      </Button>
-                    </CheckoutButton>
+                      Start Free Trial
+                    </Button>
                   </SignedIn>
 
                   <SignedOut>
@@ -201,18 +187,9 @@ const PricingPage = () => {
                     </Button>
                   </SignedOut>
 
-                  <PlanDetailsButton
-                    planId={
-                      billingInterval === 'monthly'
-                        ? PLAN_IDS.SOLO_DEALMAKER_MONTHLY
-                        : PLAN_IDS.SOLO_DEALMAKER_ANNUAL
-                    }
-                    initialPlanPeriod={billingInterval === 'monthly' ? 'month' : 'annual'}
-                  >
-                    <Button variant="outline" className="w-full">
-                      View All Features
-                    </Button>
-                  </PlanDetailsButton>
+                  <Button variant="outline" className="w-full">
+                    View All Features
+                  </Button>
                 </div>
               </div>
             </CardContent>

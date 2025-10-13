@@ -171,6 +171,7 @@ app.use(
           "'unsafe-eval'",
           'https://clerk.100daysandbeyond.com',
           'https://challenges.cloudflare.com',
+          'https://static.cloudflareinsights.com',
         ],
         styleSrc: ["'self'", "'unsafe-inline'", 'https://fonts.googleapis.com'],
         fontSrc: ["'self'", 'data:', 'https://fonts.gstatic.com'],
