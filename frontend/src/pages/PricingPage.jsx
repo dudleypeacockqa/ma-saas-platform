@@ -4,7 +4,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { CheckCircle } from 'lucide-react';
-import { FEATURE_DISPLAY_NAMES, FEATURES, PLAN_IDS } from '@/constants/features';
+import { FEATURE_DISPLAY_NAMES, FEATURES } from '@/constants/features';
 
 const PricingPage = () => {
   const [billingInterval, setBillingInterval] = useState('monthly'); // 'monthly' or 'yearly'
