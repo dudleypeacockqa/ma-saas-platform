@@ -5,6 +5,9 @@ import os
 from dotenv import load_dotenv
 import logging
 
+# Import Base from models
+from app.models.base import Base
+
 load_dotenv()
 logger = logging.getLogger(__name__)
 
