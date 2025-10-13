@@ -73,8 +73,11 @@ scikit-learn==1.3.2
 pandas==2.2.3
 numpy==1.26.4
 
+# Cache and Background Tasks
+redis==5.2.0
+
 # NOTE: Additional heavy dependencies can be added incrementally:
-# - celery, redis (background tasks)
+# - celery (background tasks)
 # - beautifulsoup4, selenium (web scraping)
 # - scikit-learn (advanced ML models)
 # - matplotlib, reportlab, pillow (charts & PDF reports)

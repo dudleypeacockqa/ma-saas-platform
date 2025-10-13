@@ -59,8 +59,8 @@ class RecordingSession(Base):
     description = Column(Text)
 
     # Ownership and organization
-    host_user_id = Column(String, ForeignKey("users.id"), nullable=False)
-    organization_id = Column(String, ForeignKey("organizations.id"), nullable=False, index=True)
+    host_user_id = Column(UUID(as_uuid=True), ForeignKey("users.id"), nullable=False)
+    organization_id = Column(UUID(as_uuid=True), ForeignKey("organizations.id"), nullable=False, index=True)
 
     # Session timing
     start_time = Column(DateTime, nullable=False, default=datetime.utcnow)
@@ -139,7 +139,7 @@ class LiveStream(Base):
     frame_rate = Column(Integer, default=30)  # fps
 
     # Organization
-    organization_id = Column(String, ForeignKey("organizations.id"), nullable=False, index=True)
+    organization_id = Column(UUID(as_uuid=True), ForeignKey("organizations.id"), nullable=False, index=True)
 
     # Metadata
     created_at = Column(DateTime, default=datetime.utcnow, index=True)
@@ -182,7 +182,7 @@ class AIProcessingJob(Base):
     tokens_used = Column(Integer, nullable=True)  # For cost tracking
 
     # Organization
-    organization_id = Column(String, ForeignKey("organizations.id"), nullable=False, index=True)
+    organization_id = Column(UUID(as_uuid=True), ForeignKey("organizations.id"), nullable=False, index=True)
 
     # Metadata
     created_at = Column(DateTime, default=datetime.utcnow, index=True)
@@ -245,8 +245,8 @@ class PodcastEpisode(Base):
     rss_guid = Column(String, nullable=True, unique=True)  # RSS GUID
 
     # Organization and ownership
-    organization_id = Column(String, ForeignKey("organizations.id"), nullable=False, index=True)
-    created_by = Column(String, ForeignKey("users.id"), nullable=False)
+    organization_id = Column(UUID(as_uuid=True), ForeignKey("organizations.id"), nullable=False, index=True)
+    created_by = Column(UUID(as_uuid=True), ForeignKey("users.id"), nullable=False)
 
     # Metadata
     created_at = Column(DateTime, default=datetime.utcnow, index=True)
@@ -298,7 +298,7 @@ class PodcastAnalytics(Base):
     conversion_rate = Column(Float, default=0.0)  # Lead conversion rate
 
     # Organization
-    organization_id = Column(String, ForeignKey("organizations.id"), nullable=False, index=True)
+    organization_id = Column(UUID(as_uuid=True), ForeignKey("organizations.id"), nullable=False, index=True)
 
     # Metadata
     created_at = Column(DateTime, default=datetime.utcnow, index=True)
@@ -315,7 +315,7 @@ class PodcastComment(Base):
     episode_id = Column(String, ForeignKey("podcast_studio_episodes.id"), nullable=False, index=True)
 
     # Comment details
-    user_id = Column(String, ForeignKey("users.id"), nullable=True)  # Registered user
+    user_id = Column(UUID(as_uuid=True), ForeignKey("users.id"), nullable=True)  # Registered user
     guest_name = Column(String(100), nullable=True)  # Non-registered commenter
     guest_email = Column(String(255), nullable=True)  # Non-registered commenter email
 
@@ -334,7 +334,7 @@ class PodcastComment(Base):
     parent_comment_id = Column(String, ForeignKey("podcast_comments.id"), nullable=True)
 
     # Organization
-    organization_id = Column(String, ForeignKey("organizations.id"), nullable=False, index=True)
+    organization_id = Column(UUID(as_uuid=True), ForeignKey("organizations.id"), nullable=False, index=True)
 
     # Metadata
     created_at = Column(DateTime, default=datetime.utcnow, index=True)
@@ -384,8 +384,8 @@ class PodcastShow(Base):
     tracking_code = Column(String, nullable=True)  # Analytics tracking
 
     # Organization and ownership
-    organization_id = Column(String, ForeignKey("organizations.id"), nullable=False, index=True)
-    created_by = Column(String, ForeignKey("users.id"), nullable=False)
+    organization_id = Column(UUID(as_uuid=True), ForeignKey("organizations.id"), nullable=False, index=True)
+    created_by = Column(UUID(as_uuid=True), ForeignKey("users.id"), nullable=False)
 
     # Metadata
     created_at = Column(DateTime, default=datetime.utcnow, index=True)
