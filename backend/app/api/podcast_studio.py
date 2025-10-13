@@ -18,7 +18,7 @@ from app.core.database import get_db
 from app.auth.clerk_auth import ClerkUser, get_current_user, require_admin
 from app.auth.tenant_isolation import TenantAwareQuery, get_tenant_query
 from app.models.podcast_studio import RecordingSession, LiveStream, AIProcessingJob, PodcastEpisode
-from app.models.content import ContentAnalytics, PlatformDistribution
+from app.models.content_creation import ContentAnalytics, ContentDistribution
 from app.models.user import User
 from app.models.organization import Organization
 
