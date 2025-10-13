@@ -9,10 +9,10 @@
 
 ### TIER 1: SOLO DEALMAKER
 
-| Plan                         | Type    | Price                  | Plan ID               | Key                      |
-| ---------------------------- | ------- | ---------------------- | --------------------- | ------------------------ |
-| **Solo Dealmaker (Monthly)** | Monthly | $279.00/mo             | `cplan_340…Nm3k5AOIb` | `solo_dealmaker_monthly` |
-| **Solo Dealmaker (Annual)**  | Annual  | $232.50/mo ($2,790/yr) | `cplan_340…P2yr6bRYq` | `solo_dealmaker_annual`  |
+| Plan                         | Type    | Price                  | Plan ID                             | Key                      |
+| ---------------------------- | ------- | ---------------------- | ----------------------------------- | ------------------------ |
+| **Solo Dealmaker (Monthly)** | Monthly | $279.00/mo             | `cplan_340FS0Pg3VnW8d69QgNm3k5AOIb` | `solo_dealmaker_monthly` |
+| **Solo Dealmaker (Annual)**  | Annual  | $232.50/mo ($2,790/yr) | `cplan_340JQ6Oh8d6LbEOSJRP2yr6bRYq` | `solo_dealmaker_annual`  |
 
 **Features:** 5 features
 
@@ -28,12 +28,12 @@
 
 ### TIER 2: GROWTH FIRM
 
-| Plan                      | Type    | Price                  | Plan ID               | Key                   |
-| ------------------------- | ------- | ---------------------- | --------------------- | --------------------- |
-| **Growth Firm (Monthly)** | Monthly | $798.00/mo             | `cplan_340…GsAT2Ch6t` | `growth_firm_monthly` |
-| **Growth Firm (Annual)**  | Annual  | $665.00/mo ($7,980/yr) | `cplan_340…J0FWGfMvI` | `growth_firm_annual`  |
+| Plan                      | Type    | Price                  | Plan ID                             | Key                   |
+| ------------------------- | ------- | ---------------------- | ----------------------------------- | --------------------- |
+| **Growth Firm (Monthly)** | Monthly | $798.00/mo             | `cplan_340JZGyoC9UPhbzzlpGsAT2Ch6t` | `growth_firm_monthly` |
+| **Growth Firm (Annual)**  | Annual  | $665.00/mo ($7,980/yr) | `cplan_340T7QLnHwXWvTH6RvJ0FWGfMvI` | `growth_firm_annual`  |
 
-**Features:** 12 features (5 from Solo + 7 new)
+**Features:** 11 features (5 from Solo + 6 new)
 
 - All Solo Dealmaker features +
 - Advanced Team Collaboration
@@ -49,12 +49,12 @@
 
 ### TIER 3: ENTERPRISE
 
-| Plan                     | Type    | Price                     | Plan ID               | Key                  |
-| ------------------------ | ------- | ------------------------- | --------------------- | -------------------- |
-| **Enterprise (Monthly)** | Monthly | $1,598.00/mo              | `cplan_340…gLX8XLUMd` | `enterprise_monthly` |
-| **Enterprise (Annual)**  | Annual  | $1,331.67/mo ($15,980/yr) | `cplan_340…Qh256zZRl` | `enterprise_annual`  |
+| Plan                     | Type    | Price                        | Plan ID                             | Key                  |
+| ------------------------ | ------- | ---------------------------- | ----------------------------------- | -------------------- |
+| **Enterprise (Monthly)** | Monthly | $1,598.00/mo                 | `cplan_340TNhs30Zb8LmXJV0gLX8XLUMd` | `enterprise_monthly` |
+| **Enterprise (Annual)**  | Annual  | $1,331.67/mo ($15,980.04/yr) | `cplan_340TtyxUTg743EaRAKQh256zZRl` | `enterprise_annual`  |
 
-**Features:** 19 features (12 from Growth + 7 new)
+**Features:** 18 features (11 from Growth + 7 new)
 
 - All Growth Firm features +
 - White-Label Platform Access
@@ -70,12 +70,12 @@
 
 ### TIER 4: COMMUNITY LEADER (PREMIUM)
 
-| Plan                           | Type    | Price                     | Plan ID               | Key                        |
-| ------------------------------ | ------- | ------------------------- | --------------------- | -------------------------- |
-| **Community Leader (Monthly)** | Monthly | $2,997.00/mo              | `cplan_340…4f88Hi6fU` | `community_leader_monthly` |
-| **Community Leader (Annual)**  | Annual  | $2,497.50/mo ($29,970/yr) | `cplan_340…xSdbE7elf` | `community_leader_annual`  |
+| Plan                           | Type    | Price                     | Plan ID                             | Key                        |
+| ------------------------------ | ------- | ------------------------- | ----------------------------------- | -------------------------- |
+| **Community Leader (Monthly)** | Monthly | $2,997.00/mo              | `cplan_340UJfnihYI46wkzOr4f88Hi6fU` | `community_leader_monthly` |
+| **Community Leader (Annual)**  | Annual  | $2,497.50/mo ($29,970/yr) | `cplan_340Un8FeQFLP8Xqy8IxSdbE7elf` | `community_leader_annual`  |
 
-**Features:** 25 features (19 from Enterprise + 6 new)
+**Features:** 24 features (18 from Enterprise + 6 new)
 
 - All Enterprise features +
 - Revenue Share on Hosted Events (20%)
@@ -300,5 +300,14 @@ Track these metrics:
 
 **Last Updated:** October 13, 2025
 **Total Plans:** 8 (4 tiers × 2 billing cycles)
-**Total Features:** 25 unique features
+**Total Features:** 24 unique features
 **Status:** ✅ Production Ready
+
+---
+
+## 📚 Related Documentation
+
+- **Master Feature Registry:** [CLERK_FEATURE_REGISTRY_MASTER.md](CLERK_FEATURE_REGISTRY_MASTER.md)
+- **Feature Constants:** [frontend/src/constants/features.ts](frontend/src/constants/features.ts)
+- **Subscription Hook:** [frontend/src/hooks/useSubscription.js](frontend/src/hooks/useSubscription.js)
+- **Pricing Page:** [frontend/src/pages/PricingPage.jsx](frontend/src/pages/PricingPage.jsx)

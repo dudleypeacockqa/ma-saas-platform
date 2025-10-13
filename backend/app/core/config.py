@@ -14,6 +14,9 @@ class Settings:
         self.algorithm = "HS256"
         self.access_token_expire_minutes = int(os.getenv("ACCESS_TOKEN_EXPIRE_MINUTES", "30"))
         
+        # Redis Cache
+        self.REDIS_URL = os.getenv("REDIS_URL")
+
         # Claude MCP
         self.anthropic_api_key = os.getenv("ANTHROPIC_API_KEY")
         

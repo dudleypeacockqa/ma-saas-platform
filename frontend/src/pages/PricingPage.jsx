@@ -1,12 +1,31 @@
 import { useState } from 'react';
-import { PricingTable } from '@clerk/clerk-react';
+import {
+  PricingTable,
+  CheckoutButton,
+  PlanDetailsButton,
+  SignedIn,
+  SignedOut,
+} from '@clerk/clerk-react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
 import { CheckCircle } from 'lucide-react';
-import { FEATURE_DISPLAY_NAMES, FEATURES } from '@/constants/features';
+import { FEATURE_DISPLAY_NAMES, FEATURES, PLAN_IDS } from '@/constants/features';
 
 const PricingPage = () => {
   const [billingInterval, setBillingInterval] = useState('monthly'); // 'monthly' or 'yearly'
+
+  // Subscription completion callback for analytics
+  const handleSubscriptionComplete = (planName) => {
+    console.log(`Subscription completed: ${planName}`);
+    // Track conversion in analytics
+    if (typeof window !== 'undefined' && window.gtag) {
+      window.gtag('event', 'subscription_complete', {
+        plan_name: planName,
+        billing_interval: billingInterval,
+      });
+    }
+  };
 
   // Correct pricing structure from Clerk subscription plans
   const pricingInfo = {
@@ -145,7 +164,7 @@ const PricingPage = () => {
                 <p className="text-sm text-gray-600 dark:text-gray-300 mb-6">
                   Individual professionals and boutique advisors
                 </p>
-                <ul className="space-y-2 text-left">
+                <ul className="space-y-2 text-left mb-6">
                   {features.solo.map((feature, i) => (
                     <li key={i} className="flex items-start">
                       <CheckCircle className="h-5 w-5 text-green-500 mr-2 flex-shrink-0 mt-0.5" />
@@ -153,6 +172,48 @@ const PricingPage = () => {
                     </li>
                   ))}
                 </ul>
+
+                {/* Clerk Checkout & Details Buttons */}
+                <div className="space-y-3">
+                  <SignedIn>
+                    <CheckoutButton
+                      planId={
+                        billingInterval === 'monthly'
+                          ? PLAN_IDS.SOLO_DEALMAKER_MONTHLY
+                          : PLAN_IDS.SOLO_DEALMAKER_ANNUAL
+                      }
+                      planPeriod={billingInterval === 'monthly' ? 'month' : 'annual'}
+                      onSubscriptionComplete={() => handleSubscriptionComplete('Solo Dealmaker')}
+                      newSubscriptionRedirectUrl="/dashboard?welcome=true"
+                    >
+                      <Button className="w-full bg-blue-600 hover:bg-blue-700 text-white">
+                        Start Free Trial
+                      </Button>
+                    </CheckoutButton>
+                  </SignedIn>
+
+                  <SignedOut>
+                    <Button
+                      className="w-full bg-blue-600 hover:bg-blue-700 text-white"
+                      onClick={() => (window.location.href = '/sign-up')}
+                    >
+                      Start Free Trial
+                    </Button>
+                  </SignedOut>
+
+                  <PlanDetailsButton
+                    planId={
+                      billingInterval === 'monthly'
+                        ? PLAN_IDS.SOLO_DEALMAKER_MONTHLY
+                        : PLAN_IDS.SOLO_DEALMAKER_ANNUAL
+                    }
+                    initialPlanPeriod={billingInterval === 'monthly' ? 'month' : 'annual'}
+                  >
+                    <Button variant="outline" className="w-full">
+                      View All Features
+                    </Button>
+                  </PlanDetailsButton>
+                </div>
               </div>
             </CardContent>
           </Card>

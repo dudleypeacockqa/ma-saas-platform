@@ -233,12 +233,12 @@ export const PRICING = {
   },
   [TIERS.ENTERPRISE]: {
     monthly: 1598,
-    annual: 1331.67, // $15,980.04/year (note: slight rounding difference)
+    annual: 1331.67, // $15,980.04/year ÷ 12 months
     annualTotal: 15980.04,
   },
   [TIERS.COMMUNITY_LEADER]: {
     monthly: 2997,
-    annual: 2497.50, // $29,970/year
+    annual: 2497.50, // $29,970/year ÷ 12 months
     annualTotal: 29970,
   },
 } as const;

@@ -1,7 +1,9 @@
 import { useUser } from '@clerk/clerk-react';
+import { FEATURES, TIERS, getTierFromPlanId } from '../constants/features';
 
 /**
  * Custom hook to access user subscription information
+ * Uses feature constants from CLERK_FEATURE_REGISTRY_MASTER.md
  * @returns {Object} subscription data and helper functions
  */
 export function useSubscription() {
@@ -21,16 +23,24 @@ export function useSubscription() {
 
   const subscription = user?.publicMetadata?.subscription || null;
 
-  // Determine subscription tier
+  // Determine subscription tier from plan ID or slug
   const getTier = () => {
-    if (!subscription?.planSlug) return null;
+    if (!subscription) return TIERS.FREE;
+
+    // Try to get tier from plan ID first (most reliable)
+    if (subscription.planId) {
+      return getTierFromPlanId(subscription.planId);
+    }
+
+    // Fallback to slug-based detection
+    if (!subscription.planSlug) return TIERS.FREE;
 
     const slug = subscription.planSlug.toLowerCase();
-    if (slug.includes('community_leader')) return 'community_leader';
-    if (slug.includes('enterprise')) return 'enterprise';
-    if (slug.includes('growth_firm')) return 'growth_firm';
-    if (slug.includes('solo_dealmaker')) return 'solo_dealmaker';
-    return 'free';
+    if (slug.includes('community_leader')) return TIERS.COMMUNITY_LEADER;
+    if (slug.includes('enterprise')) return TIERS.ENTERPRISE;
+    if (slug.includes('growth_firm')) return TIERS.GROWTH_FIRM;
+    if (slug.includes('solo_dealmaker')) return TIERS.SOLO_DEALMAKER;
+    return TIERS.FREE;
   };
 
   const tier = getTier();
@@ -57,23 +67,40 @@ export function useSubscription() {
     ? Math.max(0, Math.ceil((subscription.currentPeriodEnd - Date.now()) / (1000 * 60 * 60 * 24)))
     : 0;
 
-  // Tier-specific checks
-  const isSoloDealmaker = tier === 'solo_dealmaker';
-  const isGrowthFirm = tier === 'growth_firm';
-  const isEnterprise = tier === 'enterprise';
-  const isCommunityLeader = tier === 'community_leader';
-  const isFree = tier === 'free' || tier === null;
+  // Tier-specific checks using constants
+  const isSoloDealmaker = tier === TIERS.SOLO_DEALMAKER;
+  const isGrowthFirm = tier === TIERS.GROWTH_FIRM;
+  const isEnterprise = tier === TIERS.ENTERPRISE;
+  const isCommunityLeader = tier === TIERS.COMMUNITY_LEADER;
+  const isFree = tier === TIERS.FREE || tier === null;
 
-  // Feature access helpers
-  const canAccessAI = hasFeature('ai_analysis') || !isFree;
+  // Feature access helpers - using constants from registry
+  const canAccessPlatform = hasFeature(FEATURES.PLATFORM_ACCESS_FULL);
+  const canAccessAI = hasFeature(FEATURES.AI_DEAL_ANALYSIS);
+  const canAccessBasicCommunity = hasFeature(FEATURES.COMMUNITY_ESSENTIAL);
+  const canAccessProCommunity = hasFeature(FEATURES.COMMUNITY_PROFESSIONAL);
+  const canAccessExecutiveCommunity = hasFeature(FEATURES.COMMUNITY_EXECUTIVE);
   const canAccessCommunity =
-    hasFeature('community_essential') ||
-    hasFeature('community_professional') ||
-    hasFeature('community_executive');
-  const canAccessEvents = hasFeature('vip_events_access') || isEnterprise || isCommunityLeader;
-  const canHostEvents = hasFeature('private_events_hosting') || isCommunityLeader;
-  const hasRevenueShare = hasFeature('revenue_sharing_events');
-  const hasWhiteLabel = hasFeature('white_label_platform');
+    canAccessBasicCommunity || canAccessProCommunity || canAccessExecutiveCommunity;
+  const canAccessWebinars = hasFeature(FEATURES.WEBINARS_MONTHLY);
+  const canAccessMasterclass = hasFeature(FEATURES.MASTERCLASS_BASIC);
+  const canAccessTeamCollaboration = hasFeature(FEATURES.TEAM_COLLABORATION);
+  const canAccessVIPEvents = hasFeature(FEATURES.EVENTS_VIP_ALL);
+  const canAccessAIIntros = hasFeature(FEATURES.AI_INTRODUCTIONS_PRIORITY);
+  const canAccessExclusiveDeals = hasFeature(FEATURES.DEAL_OPPORTUNITIES_EXCLUSIVE);
+  const canAccessMasterminds = hasFeature(FEATURES.MASTERMIND_MONTHLY);
+  const hasWhiteLabel = hasFeature(FEATURES.WHITE_LABEL_PLATFORM);
+  const canHostPrivateEvents = hasFeature(FEATURES.EVENTS_PRIVATE_HOSTING);
+  const hasCustomBranding = hasFeature(FEATURES.CUSTOM_BRANDING_API);
+  const canAccessDealSyndication = hasFeature(FEATURES.DEAL_SYNDICATION_DIRECT);
+  const hasInvestmentCommitteeAccess = hasFeature(FEATURES.INVESTMENT_COMMITTEE);
+  const hasDedicatedSupport = hasFeature(FEATURES.DEDICATED_SUPPORT);
+  const hasRevenueShare = hasFeature(FEATURES.REVENUE_SHARE_EVENTS);
+  const hasPersonalShowcase = hasFeature(FEATURES.PERSONAL_SHOWCASE);
+  const canLeadMentorProgram = hasFeature(FEATURES.MENTOR_LEADERSHIP);
+  const hasLPIntroductions = hasFeature(FEATURES.LP_INTRODUCTIONS);
+  const hasCommunityInfluence = hasFeature(FEATURES.COMMUNITY_INFLUENCE);
+  const hasStreamYardAccess = hasFeature(FEATURES.STREAMYARD_STUDIO);
 
   return {
     isLoading: false,
@@ -94,12 +121,37 @@ export function useSubscription() {
     },
     features: {
       hasFeature,
+      // Core platform features
+      canAccessPlatform,
       canAccessAI,
+      // Community access by tier
       canAccessCommunity,
-      canAccessEvents,
-      canHostEvents,
-      hasRevenueShare,
+      canAccessBasicCommunity,
+      canAccessProCommunity,
+      canAccessExecutiveCommunity,
+      // Solo Dealmaker features
+      canAccessWebinars,
+      canAccessMasterclass,
+      // Growth Firm features
+      canAccessTeamCollaboration,
+      canAccessVIPEvents,
+      canAccessAIIntros,
+      canAccessExclusiveDeals,
+      canAccessMasterminds,
+      // Enterprise features
       hasWhiteLabel,
+      canHostPrivateEvents,
+      hasCustomBranding,
+      canAccessDealSyndication,
+      hasInvestmentCommitteeAccess,
+      hasDedicatedSupport,
+      // Community Leader features
+      hasRevenueShare,
+      hasPersonalShowcase,
+      canLeadMentorProgram,
+      hasLPIntroductions,
+      hasCommunityInfluence,
+      hasStreamYardAccess,
     },
     trialDaysRemaining,
     daysUntilEnd,
@@ -113,35 +165,35 @@ export function useSubscriptionTierInfo() {
   const { tier } = useSubscription();
 
   const tierInfo = {
-    free: {
+    [TIERS.FREE]: {
       name: 'Free',
       color: 'gray',
       icon: '🆓',
       maxDeals: 1,
       maxTeamMembers: 1,
     },
-    solo_dealmaker: {
+    [TIERS.SOLO_DEALMAKER]: {
       name: 'Solo Dealmaker',
       color: 'blue',
       icon: '⚡',
       maxDeals: 10,
       maxTeamMembers: 3,
     },
-    growth_firm: {
+    [TIERS.GROWTH_FIRM]: {
       name: 'Growth Firm',
       color: 'green',
       icon: '🏢',
       maxDeals: 50,
       maxTeamMembers: 15,
     },
-    enterprise: {
+    [TIERS.ENTERPRISE]: {
       name: 'Enterprise',
       color: 'purple',
       icon: '👥',
       maxDeals: -1, // unlimited
       maxTeamMembers: -1, // unlimited
     },
-    community_leader: {
+    [TIERS.COMMUNITY_LEADER]: {
       name: 'Community Leader',
       color: 'amber',
       icon: '👑',
@@ -151,5 +203,5 @@ export function useSubscriptionTierInfo() {
     },
   };
 
-  return tierInfo[tier] || tierInfo.free;
+  return tierInfo[tier] || tierInfo[TIERS.FREE];
 }
