@@ -170,7 +170,7 @@ class ContentEpisode(Base):
     # Relationships
     series = relationship("ContentSeries", back_populates="episodes")
     creator = relationship("User")
-    recording_sessions = relationship("RecordingSession", back_populates="episode")
+    recording_sessions = relationship("ContentRecordingSession", back_populates="episode")
     distributions = relationship("ContentDistribution", back_populates="episode")
     analytics = relationship("ContentAnalytics", back_populates="episode")
 
@@ -178,8 +178,8 @@ class ContentEpisode(Base):
 # RECORDING SESSION MODELS
 # ============================================================================
 
-class RecordingSession(Base):
-    """Recording session management"""
+class ContentRecordingSession(Base):
+    """Recording session management for content creation"""
     __tablename__ = "content_recording_sessions"
 
     id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
