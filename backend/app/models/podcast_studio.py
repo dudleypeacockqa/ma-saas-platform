@@ -194,7 +194,7 @@ class AIProcessingJob(Base):
 
 class PodcastEpisode(Base):
     """Published podcast episode with full metadata"""
-    __tablename__ = "podcast_episodes"
+    __tablename__ = "podcast_studio_episodes"
 
     id = Column(String, primary_key=True, default=lambda: str(uuid.uuid4()))
     recording_session_id = Column(String, ForeignKey("recording_sessions.id"), nullable=True)
@@ -264,7 +264,7 @@ class PodcastAnalytics(Base):
     __tablename__ = "podcast_analytics"
 
     id = Column(String, primary_key=True, default=lambda: str(uuid.uuid4()))
-    episode_id = Column(String, ForeignKey("podcast_episodes.id"), nullable=False, index=True)
+    episode_id = Column(String, ForeignKey("podcast_studio_episodes.id"), nullable=False, index=True)
 
     # Time-based metrics
     date = Column(DateTime, nullable=False, index=True)
@@ -312,7 +312,7 @@ class PodcastComment(Base):
     __tablename__ = "podcast_comments"
 
     id = Column(String, primary_key=True, default=lambda: str(uuid.uuid4()))
-    episode_id = Column(String, ForeignKey("podcast_episodes.id"), nullable=False, index=True)
+    episode_id = Column(String, ForeignKey("podcast_studio_episodes.id"), nullable=False, index=True)
 
     # Comment details
     user_id = Column(String, ForeignKey("users.id"), nullable=True)  # Registered user
