@@ -19,7 +19,17 @@ class Settings:
 
         # Claude MCP
         self.anthropic_api_key = os.getenv("ANTHROPIC_API_KEY")
-        
+
+        # Stripe Payment Processing
+        self.STRIPE_SECRET_KEY = os.getenv("STRIPE_SECRET_KEY")
+        self.STRIPE_PUBLISHABLE_KEY = os.getenv("STRIPE_PUBLISHABLE_KEY")
+        self.STRIPE_WEBHOOK_SECRET = os.getenv("STRIPE_WEBHOOK_SECRET")
+
+        # Clerk Authentication
+        self.CLERK_SECRET_KEY = os.getenv("CLERK_SECRET_KEY")
+        self.CLERK_PUBLISHABLE_KEY = os.getenv("CLERK_PUBLISHABLE_KEY")
+        self.CLERK_WEBHOOK_SECRET = os.getenv("CLERK_WEBHOOK_SECRET")
+
         # Application
         self.app_name = "M&A SaaS Platform"
         self.debug = os.getenv("DEBUG", "false").lower() == "true"
