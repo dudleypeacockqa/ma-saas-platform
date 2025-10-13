@@ -1,0 +1,20 @@
+{
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "100 Days and Beyond",
+  "description": "Enterprise M&A deal management platform for private equity firms, investment bankers, and corporate development teams",
+  "url": "https://100daysandbeyond.com",
+  "applicationCategory": "BusinessApplication",
+  "operatingSystem": "Web",
+  "offers": {
+    "@type": "Offer",
+    "price": "99",
+    "priceCurrency": "GBP",
+    "priceValidUntil": "2025-12-31"
+  },
+  "provider": {
+    "@type": "Organization",
+    "name": "100 Days and Beyond",
+    "url": "https://100daysandbeyond.com"
+  }
+}

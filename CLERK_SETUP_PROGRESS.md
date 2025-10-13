@@ -32,36 +32,36 @@
 
 #### 🟢 TIER 2: Growth Firm
 
-- [ ] **Plan 3/8:** Growth Firm (Monthly) - 12 features
+- [ ] **Plan 3/8:** Growth Firm (Monthly) - 11 features
   - Time started: **\_\_**
   - Time completed: **\_\_**
   - Status: ⬜ Not Started | 🔄 In Progress | ✅ Complete
 
-- [ ] **Plan 4/8:** Growth Firm (Annual) - 12 features
+- [ ] **Plan 4/8:** Growth Firm (Annual) - 11 features
   - Time started: **\_\_**
   - Time completed: **\_\_**
   - Status: ⬜ Not Started | 🔄 In Progress | ✅ Complete
 
 #### 🟡 TIER 3: Enterprise
 
-- [ ] **Plan 5/8:** Enterprise (Monthly) - 19 features
+- [ ] **Plan 5/8:** Enterprise (Monthly) - 18 features
   - Time started: **\_\_**
   - Time completed: **\_\_**
   - Status: ⬜ Not Started | 🔄 In Progress | ✅ Complete
 
-- [ ] **Plan 6/8:** Enterprise (Annual) - 19 features
+- [ ] **Plan 6/8:** Enterprise (Annual) - 18 features
   - Time started: **\_\_**
   - Time completed: **\_\_**
   - Status: ⬜ Not Started | 🔄 In Progress | ✅ Complete
 
 #### 🔴 TIER 4: Community Leader
 
-- [ ] **Plan 7/8:** Community Leader (Monthly) - 25 features
+- [ ] **Plan 7/8:** Community Leader (Monthly) - 24 features
   - Time started: **\_\_**
   - Time completed: **\_\_**
   - Status: ⬜ Not Started | 🔄 In Progress | ✅ Complete
 
-- [ ] **Plan 8/8:** Community Leader (Annual) - 25 features
+- [ ] **Plan 8/8:** Community Leader (Annual) - 24 features
   - Time started: **\_\_**
   - Time completed: **\_\_**
   - Status: ⬜ Not Started | 🔄 In Progress | ✅ Complete

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import {
   BarChart,
   Bar,
@@ -44,17 +44,19 @@ import {
   Crown,
   Smartphone,
 } from 'lucide-react';
-import { useUser } from '@clerk/clerk-react';
+import { useUser, useAuth } from '@clerk/clerk-react';
 import { toast } from 'sonner';
 
 const MasterAdminPortal = () => {
   const { user } = useUser();
+  const { getToken } = useAuth();
   const [dashboardData, setDashboardData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [selectedTimeRange, setSelectedTimeRange] = useState('30d');
   const [activeTab, setActiveTab] = useState('overview');
   const [realTimeUpdates, setRealTimeUpdates] = useState(true);
+  const hasConnectedToLiveRef = useRef(false);
 
   // Mock data for demonstration
   const mockDashboardData = {
@@ -118,7 +120,14 @@ const MasterAdminPortal = () => {
       setError(null);
 
       // Get auth token from Clerk
-      const token = await user?.getToken();
+      let token = null;
+
+      if (typeof getToken === 'function') {
+        token = await getToken({ template: 'default' });
+      } else if (typeof user?.getToken === 'function') {
+        token = await user.getToken({ template: 'default' });
+      }
+
       if (!token) {
         throw new Error('Authentication required');
       }
@@ -146,12 +155,17 @@ const MasterAdminPortal = () => {
       }
 
       const data = await response.json();
-      setDashboardData(data);
+      setDashboardData((current) => ({
+        ...(current ?? mockDashboardData),
+        ...data,
+        api_status: 'live',
+        last_updated: new Date().toISOString(),
+      }));
 
-      // Show success toast on successful API connection
-      if (!dashboardData) {
+      if (!hasConnectedToLiveRef.current) {
         toast.success('✅ Connected to live business intelligence!');
       }
+      hasConnectedToLiveRef.current = true;
     } catch (err) {
       console.warn('Dashboard API error, using mock data:', err);
       setError(`Live API unavailable: ${err.message}`);
@@ -162,6 +176,7 @@ const MasterAdminPortal = () => {
         last_updated: new Date().toISOString(),
         api_status: 'mock_fallback',
       });
+      hasConnectedToLiveRef.current = false;
 
       // Show warning toast for API fallback
       toast.warning('📊 Using demo data - API connection failed');
@@ -283,7 +298,14 @@ const MasterAdminPortal = () => {
     { month: 'May', revenue: 47500, subscribers: 156 },
   ];
 
-  const leadSourceData = Object.entries(dashboardData.lead_metrics.lead_sources).map(
+  const viewData = dashboardData ?? {
+    ...mockDashboardData,
+    api_status: 'mock_fallback',
+    last_updated: new Date().toISOString(),
+  };
+  const isMockData = viewData.api_status === 'mock_fallback';
+
+  const leadSourceData = Object.entries(viewData.lead_metrics.lead_sources).map(
     ([source, count]) => ({
       name: source.charAt(0).toUpperCase() + source.slice(1),
       value: count,
@@ -292,38 +314,28 @@ const MasterAdminPortal = () => {
 
   const COLORS = ['#3B82F6', '#10B981', '#F59E0B', '#EF4444', '#8B5CF6'];
 
-  if (loading) {
-    return (
-      <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 flex items-center justify-center">
-        <div className="text-center text-white">
-          <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-yellow-400 mx-auto mb-4"></div>
-          <h2 className="text-xl font-semibold mb-2">Loading Business Command Center</h2>
-          <p className="text-slate-300">Connecting to live business intelligence...</p>
-        </div>
-      </div>
-    );
-  }
-
-  if (error && !dashboardData) {
-    return (
-      <div className="min-h-screen bg-gradient-to-br from-slate-900 via-red-900 to-slate-900 flex items-center justify-center">
-        <div className="text-center text-white">
-          <AlertCircle className="w-16 h-16 text-red-400 mx-auto mb-4" />
-          <h2 className="text-xl font-semibold mb-2">Connection Error</h2>
-          <p className="text-slate-300 mb-4">{error}</p>
-          <button
-            onClick={fetchDashboardData}
-            className="bg-red-600 hover:bg-red-700 text-white px-6 py-3 rounded-lg transition-colors"
-          >
-            Retry Connection
-          </button>
-        </div>
-      </div>
-    );
-  }
-
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-slate-100">
+    <main role="main" className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-slate-100">
+      {loading && (
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-6">
+          <div className="bg-blue-50 border border-blue-200 text-blue-900 px-4 py-3 rounded-lg flex items-center justify-between" role="status" aria-live="polite">
+            <div>
+              <p className="font-semibold">Refreshing live metrics...</p>
+              <p className="text-sm text-blue-700">Pulling the latest command center analytics.</p>
+            </div>
+            <span className="animate-spin rounded-full h-5 w-5 border-b-2 border-blue-500" aria-hidden="true"></span>
+          </div>
+        </div>
+      )}
+
+      {error && (
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-4">
+          <div className="bg-amber-50 border border-amber-200 text-amber-900 px-4 py-3 rounded-lg" role="alert">
+            <p className="font-semibold">Live API unavailable</p>
+            <p className="text-sm">Showing demo metrics while we reconnect. {error}</p>
+          </div>
+        </div>
+      )}
       {/* Premium Executive Header */}
       <div className="bg-gradient-to-r from-slate-900 via-blue-900 to-slate-900 shadow-xl border-b border-yellow-400/20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -338,7 +350,7 @@ const MasterAdminPortal = () => {
                 <div className="flex items-center mt-2 space-x-4 text-sm">
                   <div
                     className={`flex items-center ${
-                      dashboardData?.api_status === 'mock_fallback'
+                      isMockData
                         ? 'text-orange-400'
                         : error
                           ? 'text-red-400'
@@ -347,14 +359,14 @@ const MasterAdminPortal = () => {
                   >
                     <div
                       className={`w-2 h-2 rounded-full mr-2 ${
-                        dashboardData?.api_status === 'mock_fallback'
+                        isMockData
                           ? 'bg-orange-400 animate-pulse'
                           : error
                             ? 'bg-red-400'
                             : 'bg-emerald-400 animate-pulse'
                       }`}
                     ></div>
-                    {dashboardData?.api_status === 'mock_fallback'
+                    {isMockData
                       ? 'Demo Mode Active'
                       : error
                         ? 'Connection Lost'
@@ -368,10 +380,10 @@ const MasterAdminPortal = () => {
                     <Crown className="w-4 h-4 mr-1" />
                     Premium Active
                   </div>
-                  {dashboardData?.last_updated && (
+                  {viewData.last_updated && (
                     <div className="flex items-center text-slate-400">
                       <Calendar className="w-4 h-4 mr-1" />
-                      Updated: {new Date(dashboardData.last_updated).toLocaleTimeString()}
+                      Updated: {new Date(viewData.last_updated).toLocaleTimeString()}
                     </div>
                   )}
                 </div>
@@ -472,8 +484,8 @@ const MasterAdminPortal = () => {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
               <MetricCard
                 title="Monthly Recurring Revenue"
-                value={dashboardData.dashboard_metrics.mrr}
-                change={dashboardData.dashboard_metrics.revenue_growth}
+                value={viewData.dashboard_metrics.mrr}
+                change={viewData.dashboard_metrics.revenue_growth}
                 icon={DollarSign}
                 color="#10B981"
                 format="currency"
@@ -482,7 +494,7 @@ const MasterAdminPortal = () => {
               />
               <MetricCard
                 title="Active Subscribers"
-                value={dashboardData.dashboard_metrics.active_subscribers}
+                value={viewData.dashboard_metrics.active_subscribers}
                 change={8.2}
                 icon={Users}
                 color="#3B82F6"
@@ -491,7 +503,7 @@ const MasterAdminPortal = () => {
               />
               <MetricCard
                 title="Churn Rate"
-                value={dashboardData.dashboard_metrics.churn_rate}
+                value={viewData.dashboard_metrics.churn_rate}
                 change={-1.1}
                 icon={AlertCircle}
                 color="#EF4444"
@@ -501,7 +513,7 @@ const MasterAdminPortal = () => {
               />
               <MetricCard
                 title="Customer LTV"
-                value={dashboardData.dashboard_metrics.ltv}
+                value={viewData.dashboard_metrics.ltv}
                 change={12.5}
                 icon={Target}
                 color="#8B5CF6"
@@ -538,11 +550,11 @@ const MasterAdminPortal = () => {
                 </div>
                 <div className="text-right">
                   <div className="text-4xl font-bold text-yellow-400 mb-1">
-                    {Math.round((dashboardData.dashboard_metrics.arr / 20000000) * 100)}%
+                    {Math.round((viewData.dashboard_metrics.arr / 20000000) * 100)}%
                   </div>
                   <div className="text-sm text-blue-200 mb-2">to £200M target</div>
                   <div className="text-xs text-yellow-300 bg-yellow-400/20 px-3 py-1 rounded-full">
-                    {formatCurrency(20000000 - dashboardData.dashboard_metrics.arr)} remaining
+                    {formatCurrency(20000000 - viewData.dashboard_metrics.arr)} remaining
                   </div>
                 </div>
               </div>
@@ -553,7 +565,7 @@ const MasterAdminPortal = () => {
                     <span className="font-semibold">Revenue Velocity</span>
                   </div>
                   <div className="text-2xl font-bold text-emerald-400">
-                    +{dashboardData.dashboard_metrics.revenue_growth}%
+                    +{viewData.dashboard_metrics.revenue_growth}%
                   </div>
                   <div className="text-sm text-blue-200">Month-over-month growth</div>
                 </div>
@@ -563,7 +575,7 @@ const MasterAdminPortal = () => {
                     <span className="font-semibold">Conversion Engine</span>
                   </div>
                   <div className="text-2xl font-bold text-yellow-400">
-                    {dashboardData.dashboard_metrics.trial_conversion_rate}%
+                    {viewData.dashboard_metrics.trial_conversion_rate}%
                   </div>
                   <div className="text-sm text-blue-200">Trial to paid conversion</div>
                 </div>
@@ -573,7 +585,7 @@ const MasterAdminPortal = () => {
                     <span className="font-semibold">Empire Valuation</span>
                   </div>
                   <div className="text-2xl font-bold text-purple-400">
-                    {formatCurrency(dashboardData.dashboard_metrics.arr * 10)}
+                    {formatCurrency(viewData.dashboard_metrics.arr * 10)}
                   </div>
                   <div className="text-sm text-blue-200">Estimated business value</div>
                 </div>
@@ -642,7 +654,7 @@ const MasterAdminPortal = () => {
               <div className="flex justify-between items-center mb-6">
                 <h2 className="text-xl font-bold text-gray-900">Revenue Growth</h2>
                 <div className="text-sm text-gray-600">
-                  ARR: {formatCurrency(dashboardData.dashboard_metrics.arr)}
+                  ARR: {formatCurrency(viewData.dashboard_metrics.arr)}
                 </div>
               </div>
               <ResponsiveContainer width="100%" height={300}>
@@ -660,7 +672,7 @@ const MasterAdminPortal = () => {
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
               <MetricCard
                 title="Trial Conversion Rate"
-                value={dashboardData.dashboard_metrics.trial_conversion_rate}
+                value={viewData.dashboard_metrics.trial_conversion_rate}
                 change={3.2}
                 icon={UserCheck}
                 color="#F59E0B"
@@ -668,7 +680,7 @@ const MasterAdminPortal = () => {
               />
               <MetricCard
                 title="Customer Acquisition Cost"
-                value={dashboardData.dashboard_metrics.cac}
+                value={viewData.dashboard_metrics.cac}
                 change={-8.5}
                 icon={CreditCard}
                 color="#10B981"
@@ -676,7 +688,7 @@ const MasterAdminPortal = () => {
               />
               <MetricCard
                 title="Lead Generation"
-                value={dashboardData.content_metrics.lead_generation_from_content}
+                value={viewData.content_metrics.lead_generation_from_content}
                 change={18.7}
                 icon={Zap}
                 color="#8B5CF6"
@@ -732,25 +744,25 @@ const MasterAdminPortal = () => {
             <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
               <MetricCard
                 title="Total Subscriptions"
-                value={dashboardData.subscription_metrics.total_subscriptions}
+                value={viewData.subscription_metrics.total_subscriptions}
                 icon={Users}
                 color="#3B82F6"
               />
               <MetricCard
                 title="Active Subscriptions"
-                value={dashboardData.subscription_metrics.active_subscriptions}
+                value={viewData.subscription_metrics.active_subscriptions}
                 icon={UserCheck}
                 color="#10B981"
               />
               <MetricCard
                 title="Trial Subscriptions"
-                value={dashboardData.subscription_metrics.trial_subscriptions}
+                value={viewData.subscription_metrics.trial_subscriptions}
                 icon={Eye}
                 color="#F59E0B"
               />
               <MetricCard
                 title="Payment Failures"
-                value={dashboardData.subscription_metrics.payment_failures}
+                value={viewData.subscription_metrics.payment_failures}
                 icon={AlertCircle}
                 color="#EF4444"
               />
@@ -766,7 +778,7 @@ const MasterAdminPortal = () => {
                 </button>
               </div>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                {Object.entries(dashboardData.subscription_metrics.revenue_by_plan).map(
+                {Object.entries(viewData.subscription_metrics.revenue_by_plan).map(
                   ([plan, revenue]) => (
                     <div key={plan} className="bg-gray-50 rounded-lg p-4">
                       <h3 className="font-semibold text-gray-900">{plan}</h3>
@@ -810,25 +822,25 @@ const MasterAdminPortal = () => {
             <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
               <MetricCard
                 title="Podcast Downloads"
-                value={dashboardData.content_metrics.podcast_downloads}
+                value={viewData.content_metrics.podcast_downloads}
                 icon={PlayCircle}
                 color="#8B5CF6"
               />
               <MetricCard
                 title="Video Views"
-                value={dashboardData.content_metrics.video_views}
+                value={viewData.content_metrics.video_views}
                 icon={Eye}
                 color="#3B82F6"
               />
               <MetricCard
                 title="Blog Post Views"
-                value={dashboardData.content_metrics.blog_post_views}
+                value={viewData.content_metrics.blog_post_views}
                 icon={FileText}
                 color="#10B981"
               />
               <MetricCard
                 title="Engagement Rate"
-                value={dashboardData.content_metrics.content_engagement_rate}
+                value={viewData.content_metrics.content_engagement_rate}
                 icon={MousePointer}
                 color="#F59E0B"
                 format="percentage"
@@ -858,7 +870,7 @@ const MasterAdminPortal = () => {
               {/* Top Performing Content */}
               <div className="space-y-4">
                 <h3 className="font-semibold text-gray-900">Top Performing Content</h3>
-                {dashboardData.content_metrics.top_performing_content.map((content, index) => (
+                {viewData.content_metrics.top_performing_content.map((content, index) => (
                   <div
                     key={index}
                     className="flex items-center justify-between p-4 bg-gray-50 rounded-lg"
@@ -908,26 +920,26 @@ const MasterAdminPortal = () => {
             <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
               <MetricCard
                 title="Total Leads"
-                value={dashboardData.lead_metrics.total_leads}
+                value={viewData.lead_metrics.total_leads}
                 icon={Users}
                 color="#3B82F6"
               />
               <MetricCard
                 title="Qualified Leads"
-                value={dashboardData.lead_metrics.qualified_leads}
+                value={viewData.lead_metrics.qualified_leads}
                 icon={UserCheck}
                 color="#10B981"
               />
               <MetricCard
                 title="Conversion Rate"
-                value={dashboardData.lead_metrics.conversion_rate}
+                value={viewData.lead_metrics.conversion_rate}
                 icon={Target}
                 color="#F59E0B"
                 format="percentage"
               />
               <MetricCard
                 title="Pipeline Value"
-                value={dashboardData.lead_metrics.pipeline_value}
+                value={viewData.lead_metrics.pipeline_value}
                 icon={DollarSign}
                 color="#8B5CF6"
                 format="currency"
@@ -977,21 +989,21 @@ const MasterAdminPortal = () => {
             <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
               <MetricCard
                 title="Upcoming Events"
-                value={dashboardData.event_metrics.upcoming_events}
+                value={viewData.event_metrics.upcoming_events}
                 icon={Calendar}
                 color="#3B82F6"
                 subtitle="Next: M&A Masterclass"
               />
               <MetricCard
                 title="Total Attendees"
-                value={dashboardData.event_metrics.total_attendees}
+                value={viewData.event_metrics.total_attendees}
                 icon={Users}
                 color="#10B981"
                 subtitle="Growing 15% monthly"
               />
               <MetricCard
                 title="Attendance Rate"
-                value={dashboardData.event_metrics.attendance_rate}
+                value={viewData.event_metrics.attendance_rate}
                 icon={UserCheck}
                 color="#F59E0B"
                 format="percentage"
@@ -999,7 +1011,7 @@ const MasterAdminPortal = () => {
               />
               <MetricCard
                 title="Event Revenue"
-                value={dashboardData.event_metrics.revenue_from_events}
+                value={viewData.event_metrics.revenue_from_events}
                 icon={DollarSign}
                 color="#8B5CF6"
                 format="currency"
@@ -1178,7 +1190,7 @@ const MasterAdminPortal = () => {
             <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
               <MetricCard
                 title="Total Downloads"
-                value={dashboardData.content_metrics.podcast_downloads}
+                value={viewData.content_metrics.podcast_downloads}
                 icon={PlayCircle}
                 color="#DC2626"
                 trend="up"
@@ -1186,7 +1198,7 @@ const MasterAdminPortal = () => {
               />
               <MetricCard
                 title="Episode Views"
-                value={dashboardData.content_metrics.video_views}
+                value={viewData.content_metrics.video_views}
                 icon={Eye}
                 color="#7C3AED"
                 trend="up"
@@ -1194,7 +1206,7 @@ const MasterAdminPortal = () => {
               />
               <MetricCard
                 title="Lead Generation"
-                value={dashboardData.content_metrics.lead_generation_from_content}
+                value={viewData.content_metrics.lead_generation_from_content}
                 icon={Target}
                 color="#059669"
                 trend="up"
@@ -1202,7 +1214,7 @@ const MasterAdminPortal = () => {
               />
               <MetricCard
                 title="Engagement Rate"
-                value={dashboardData.content_metrics.content_engagement_rate}
+                value={viewData.content_metrics.content_engagement_rate}
                 icon={MousePointer}
                 color="#D97706"
                 format="percentage"
@@ -1281,7 +1293,7 @@ const MasterAdminPortal = () => {
           </div>
         )}
       </div>
-    </div>
+    </main>
   );
 };
 
@@ -1294,3 +1306,18 @@ const LoadingSpinner = ({ message = 'Loading...' }) => (
 );
 
 export default MasterAdminPortal;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

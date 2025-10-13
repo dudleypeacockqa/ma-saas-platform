@@ -48,11 +48,11 @@ We'll create plans in this order:
 
 1. Solo Dealmaker (Monthly) ← **Start here** (5 features)
 2. Solo Dealmaker (Annual) ← Copy from #1
-3. Growth Firm (Monthly) ← Copy 5 from #1 + add 7 new = 12 total
+3. Growth Firm (Monthly) ← Copy 5 from #1 + add 6 new = 11 total
 4. Growth Firm (Annual) ← Copy from #3
-5. Enterprise (Monthly) ← Copy 12 from #3 + add 7 new = 19 total
+5. Enterprise (Monthly) ← Copy 11 from #3 + add 7 new = 18 total
 6. Enterprise (Annual) ← Copy from #5
-7. Community Leader (Monthly) ← Copy 19 from #5 + add 6 new = 25 total
+7. Community Leader (Monthly) ← Copy 18 from #5 + add 6 new = 24 total
 8. Community Leader (Annual) ← Copy from #7
 
 ---
@@ -203,7 +203,7 @@ Monthly base fee: $ 798.00
 
 ---
 
-### Add 12 Features (5 existing + 7 new)
+### Add 11 Features (5 existing + 6 new)
 
 **First, copy these 5 from Solo Dealmaker:**
 
@@ -213,7 +213,7 @@ Monthly base fee: $ 798.00
 ✅ AI-Powered Deal Analysis
 ✅ Basic Masterclass Library
 
-**Then add these 7 NEW features:**
+**Then add these 6 NEW features:**
 
 **Feature 6:**
 
@@ -250,13 +250,6 @@ Name: Exclusive Deal Opportunities
 Description: Access to member-only investment opportunities
 ```
 
-**Feature 11:**
-
-```
-Name: Monthly Mastermind Sessions
-Description: Small group expert-led strategy sessions
-```
-
 **Click "Create plan"**
 
 ✅ **Plan 3 Complete!** Halfway there! Take a 2-minute break.
@@ -286,7 +279,7 @@ Discounted rate: $ 665.00
 
 **Publicly available:** ☑ CHECK
 
-**Features:** Copy all 12 features from Plan 3
+**Features:** Copy all 11 features from Plan 3
 
 **Click "Create plan"**
 
@@ -313,52 +306,59 @@ Monthly base fee: $ 1598.00
 
 ---
 
-### Add 19 Features (12 existing + 7 new)
+### Add 18 Features (11 existing + 7 new)
 
-**First, copy all 12 features from Growth Firm**
+**First, copy all 11 features from Growth Firm**
 
 **Then add these 7 NEW features:**
 
-**Feature 13:**
+**Feature 12:**
 
 ```
 Name: White-Label Platform Access
 Description: Custom branding and white-label deployment
 ```
 
-**Feature 14:**
+**Feature 13:**
 
 ```
 Name: Executive Community Membership
 Description: C-suite level networking and strategic connections
 ```
 
-**Feature 15:**
+**Feature 14:**
 
 ```
 Name: Private Events + Hosting Rights
 Description: Host exclusive events and access private sessions
 ```
 
-**Feature 16:**
+**Feature 15:**
 
 ```
 Name: Custom Branding & API Access
 Description: Full customization and programmatic access
 ```
 
-**Feature 17:**
+**Feature 16:**
 
 ```
 Name: Direct Deal Syndication
 Description: Lead and participate in exclusive deal syndication
 ```
 
-**Feature 18:**
+**Feature 17:**
 
 ```
 Name: Investment Committee Access
 Description: Direct access to investment committees and LPs
+```
+
+**Feature 18:**
+
+```
+Name: Dedicated Support
+Description: Priority support and account management
 ```
 
 **Click "Create plan"**
@@ -390,7 +390,7 @@ Discounted rate: $ 1331.67
 
 **Publicly available:** ☑ CHECK
 
-**Features:** Copy all 19 features from Plan 5
+**Features:** Copy all 18 features from Plan 5
 
 **Click "Create plan"**
 
@@ -417,45 +417,52 @@ Monthly base fee: $ 2997.00
 
 ---
 
-### Add 25 Features (19 existing + 6 new)
+### Add 24 Features (18 existing + 6 new)
 
-**First, copy all 19 features from Enterprise**
+**First, copy all 18 features from Enterprise**
 
 **Then add these 6 NEW features:**
 
-**Feature 20:**
+**Feature 19:**
 
 ```
 Name: Revenue Share on Hosted Events
 Description: Earn 20% revenue share on events you host
 ```
 
-**Feature 21:**
+**Feature 20:**
 
 ```
 Name: Personal Deal Showcase Platform
 Description: Dedicated platform to showcase your deals and expertise
 ```
 
-**Feature 22:**
+**Feature 21:**
 
 ```
 Name: Mentor Program Leadership
 Description: Lead mentor programs and guide other members
 ```
 
-**Feature 23:**
+**Feature 22:**
 
 ```
 Name: Direct LP and Investor Introductions
 Description: Personal introductions to LPs and institutional investors
 ```
 
-**Feature 24:**
+**Feature 23:**
 
 ```
 Name: Community Influence and Recognition
 Description: Leadership status and community-wide recognition
+```
+
+**Feature 24:**
+
+```
+Name: StreamYard Studio Access
+Description: Professional podcast recording and live streaming capabilities
 ```
 
 **Click "Create plan"**
@@ -487,7 +494,7 @@ Discounted rate: $ 2497.50
 
 **Publicly available:** ☑ CHECK
 
-**Features:** Copy all 25 features from Plan 7
+**Features:** Copy all 24 features from Plan 7
 
 **Click "Create plan"**
 
@@ -521,9 +528,9 @@ You should see 8 plans listed:
 Click into each plan and verify feature counts:
 
 - [ ] Solo Dealmaker: 5 features
-- [ ] Growth Firm: 12 features
-- [ ] Enterprise: 19 features
-- [ ] Community Leader: 25 features
+- [ ] Growth Firm: 11 features
+- [ ] Enterprise: 18 features
+- [ ] Community Leader: 24 features
 
 ---
 
@@ -580,7 +587,7 @@ You've successfully set up all 8 Clerk subscription plans!
 ### What You've Accomplished:
 
 ✅ **8 subscription plans** created and configured
-✅ **25 unique features** distributed across 4 tiers
+✅ **24 unique features** distributed across 4 tiers
 ✅ **14-day free trials** enabled on all plans
 ✅ **17% annual discounts** configured correctly
 ✅ **Stripe integration** verified and working
@@ -593,9 +600,9 @@ You've successfully set up all 8 Clerk subscription plans!
 | Plan             | Monthly | Annual       | Features | Savings     |
 | ---------------- | ------- | ------------ | -------- | ----------- |
 | Solo Dealmaker   | $279    | $232.50/mo   | 5        | $558/year   |
-| Growth Firm      | $798    | $665/mo      | 12       | $1,596/year |
-| Enterprise       | $1,598  | $1,331.67/mo | 19       | $3,196/year |
-| Community Leader | $2,997  | $2,497.50/mo | 25       | $5,994/year |
+| Growth Firm      | $798    | $665/mo      | 11       | $1,596/year |
+| Enterprise       | $1,598  | $1,331.67/mo | 18       | $3,196/year |
+| Community Leader | $2,997  | $2,497.50/mo | 24       | $5,994/year |
 
 ---
 

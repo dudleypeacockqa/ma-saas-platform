@@ -1,0 +1,55 @@
+name: Performance Benchmarks
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 3 * * 1'
+
+jobs:
+  web-performance:
+    name: Lighthouse Audit
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install Lighthouse CI
+        run: npm install -g @lhci/cli
+
+      - name: Run Lighthouse against staging
+        env:
+          LHCI_TOKEN: ${{ secrets.LHCI_TOKEN }}
+        run: |
+          lhci autorun \
+            --collect.url=$STAGING_URL \
+            --collect.numberOfRuns=3 \
+            --upload.target=temporary-public-storage
+
+  api-load-test:
+    name: API Load Test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: |
+          pip install -r backend/requirements.txt
+          pip install locust
+
+      - name: Run k6-compatible load test (Locust)
+        env:
+          TARGET_API_URL: ${{ secrets.STAGING_API_URL }}
+        run: |
+          locust -f backend/tests/locustfile.py --headless -u 100 -r 10 -t 10m
+
