@@ -49,6 +49,7 @@ export default defineConfig({
           'vendor-redux': ['@reduxjs/toolkit', 'react-redux'],
           'vendor-mui': ['@mui/material', '@mui/icons-material', '@mui/lab'],
           'vendor-clerk': ['@clerk/clerk-react'],
+          'vendor-icons': ['lucide-react'],
 
           // Feature-specific chunks for better mobile loading
           'feature-mobile': [
@@ -79,6 +80,7 @@ export default defineConfig({
       '@clerk/clerk-react',
       '@reduxjs/toolkit',
       'react-redux',
+      'lucide-react',
     ],
     exclude: [
       'swiper',
