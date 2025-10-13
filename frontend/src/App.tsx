@@ -6,6 +6,7 @@ import './App.css';
 
 // Public pages (Marketing website)
 import HomePage from '@/pages/public/HomePage';
+import CommunityPage from '@/pages/public/CommunityPage';
 import AboutPage from '@/pages/AboutPage';
 import PricingPage from '@/pages/PricingPage';
 import BlogPage from '@/pages/BlogPage';
@@ -71,6 +72,16 @@ function App() {
                     <>
                       <Navbar />
                       <AboutPage />
+                      <Footer />
+                    </>
+                  }
+                />
+                <Route
+                  path="/community"
+                  element={
+                    <>
+                      <Navbar />
+                      <CommunityPage />
                       <Footer />
                     </>
                   }

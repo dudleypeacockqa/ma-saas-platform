@@ -42,6 +42,7 @@ from app.models import (
     teams as team_models,  # Teams
     # term_sheets,  # Part of negotiations.py
     episodes,  # Podcast production
+    podcast_studio,  # StreamYard-level podcast recording and AI automation
     integrations as integration_models,  # Multi-platform integrations
     integration_planning,  # Integration planning
     email_campaigns,  # Email campaign management
@@ -52,7 +53,7 @@ from app.models import (
 # Legacy code should be migrated to use the new models.
 
 # NOW import APIs (after all models are registered)
-from app.api import auth, tenants, users, content, marketing, integrations
+from app.api import auth, tenants, users, content, marketing, integrations, master_admin, podcast_studio
 # from app.api import emails  # Temporarily disabled - needs ClerkUser migration
 # from app.api import payments  # Temporarily disabled - needs StripeCustomer/Payment/WebhookEvent models
 from app.api import opportunities, valuations, negotiations, term_sheets, teams
@@ -147,6 +148,8 @@ app.include_router(realtime_collaboration.router, prefix="/api/v1/collaboration"
 app.include_router(due_diligence.router)  # Due diligence management
 app.include_router(content.router)  # Content creation and management
 app.include_router(marketing.router)  # Marketing and subscriber acquisition
+app.include_router(master_admin.router)  # Master Admin Portal API
+app.include_router(podcast_studio.router)  # Podcast Studio - StreamYard-level recording API
 # app.include_router(payments.router)  # Temporarily disabled - needs StripeCustomer/Payment/WebhookEvent models
 app.include_router(integrations.router)  # Platform integrations and workflows
 app.include_router(opportunities.router, prefix="/api")  # M&A opportunity management

@@ -7,52 +7,74 @@ import { CheckCircle } from 'lucide-react';
 const PricingPage = () => {
   const [billingInterval, setBillingInterval] = useState('monthly'); // 'monthly' or 'yearly'
 
-  // Pricing information for display
+  // Enhanced 8-tier pricing structure for integrated ecosystem
   const pricingInfo = {
     monthly: {
-      solo: { price: 279, display: '$279' },
-      growth: { price: 798, display: '$798' },
-      enterprise: { price: 1598, display: '$1,598' },
+      solo: { price: 279, display: '£279', originalPrice: null },
+      growth: { price: 798, display: '£798', originalPrice: null },
+      enterprise: { price: 1598, display: '£1,598', originalPrice: null },
+      community_leader: { price: 2997, display: '£2,997', originalPrice: null },
     },
     yearly: {
-      solo: { price: 2790, display: '$2,790', savings: '$558' },
-      growth: { price: 7980, display: '$7,980', savings: '$1,596' },
-      enterprise: { price: 15980, display: '$15,980', savings: '$3,196' },
+      solo: { price: 2790, display: '£2,790', savings: '£558', originalPrice: 3348 },
+      growth: { price: 7980, display: '£7,980', savings: '£1,596', originalPrice: 9576 },
+      enterprise: { price: 15980, display: '£15,980', savings: '£3,196', originalPrice: 19176 },
+      community_leader: {
+        price: 29970,
+        display: '£29,970',
+        savings: '£5,994',
+        originalPrice: 35964,
+      },
     },
   };
 
   const features = {
     solo: [
-      'Up to 3 team members',
-      '10 active deals',
-      '50GB storage',
-      'Basic analytics',
-      'Email support',
+      'Complete M&A platform access',
+      'AI-powered deal analysis',
+      'Community membership',
+      'Monthly networking events',
+      'Basic podcast studio access',
       'Deal pipeline management',
       'Document management',
+      '50GB storage',
+      'Email support',
     ],
     growth: [
-      'Up to 15 team members',
-      '50 active deals',
-      '200GB storage',
-      'Advanced analytics',
+      'Everything in Solo Dealmaker',
+      'Advanced AI analysis & matching',
+      'VIP community events',
+      'Deal flow optimization',
       'Priority support',
-      'AI-powered insights',
+      'Enhanced podcast studio',
       'Team collaboration tools',
       'Workflow automation',
-      'Due diligence management',
+      '200GB storage',
+      'Mastermind session access',
     ],
     enterprise: [
-      'Unlimited team members',
-      'Unlimited deals',
-      '1TB storage',
-      'Custom analytics',
-      'Dedicated support',
-      'White labeling',
-      'SSO integration',
+      'Everything in Growth Firm',
+      'White-label platform access',
+      'Deal syndication features',
       'Custom integrations',
-      'Audit logs',
-      'Advanced security features',
+      'Event hosting rights',
+      'Advanced analytics dashboard',
+      'Dedicated success manager',
+      '1TB storage',
+      'SSO integration',
+      'Premium community features',
+    ],
+    community_leader: [
+      'Everything in Enterprise',
+      '20% revenue share on events',
+      'Personal thought leader showcase',
+      'LP introduction services',
+      'Program leadership opportunities',
+      'StreamYard-level studio access',
+      'AI content automation',
+      'Premium deal flow access',
+      'Industry influence platform',
+      'Revenue generation tools',
     ],
   };
 
@@ -62,10 +84,14 @@ const PricingPage = () => {
         {/* Header */}
         <div className="text-center mb-12">
           <h1 className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-4">
-            Simple, Transparent Pricing
+            Build Your £200M M&A Empire
           </h1>
           <p className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto mb-2">
-            Choose the plan that fits your needs. All plans include a 14-day free trial.
+            The complete integrated ecosystem: SaaS platform + professional community + premium
+            events + podcast empire
+          </p>
+          <p className="text-lg text-blue-600 dark:text-blue-400 font-semibold mb-2">
+            Join 156+ M&A professionals • £47.5k MRR platform • Live & operational
           </p>
           <p className="text-lg text-green-600 dark:text-green-400 font-semibold">
             Save 17% with annual billing (~2 months free)
@@ -102,14 +128,14 @@ const PricingPage = () => {
         </div>
 
         {/* Custom Pricing Preview (Above Clerk's PricingTable) */}
-        <div className="grid md:grid-cols-3 gap-8 mb-12">
+        <div className="grid lg:grid-cols-4 md:grid-cols-2 gap-6 mb-12">
           {/* Solo Dealmaker */}
           <Card className="relative border-gray-200 dark:border-gray-700">
             <CardContent className="pt-6">
               <div className="text-center">
-                <h3 className="text-2xl font-bold mb-2">Solo Dealmaker</h3>
+                <h3 className="text-xl font-bold mb-2">Solo Dealmaker 💼</h3>
                 <div className="text-center mb-4">
-                  <span className="text-4xl font-bold text-gray-900 dark:text-white">
+                  <span className="text-3xl font-bold text-gray-900 dark:text-white">
                     {pricingInfo[billingInterval].solo.display}
                   </span>
                   <span className="text-gray-500 dark:text-gray-400">
@@ -122,7 +148,7 @@ const PricingPage = () => {
                   )}
                 </div>
                 <p className="text-sm text-gray-600 dark:text-gray-300 mb-6">
-                  Perfect for individual professionals starting their M&A journey
+                  Individual professionals and boutique advisors
                 </p>
                 <ul className="space-y-2 text-left">
                   {features.solo.map((feature, i) => (
@@ -143,9 +169,9 @@ const PricingPage = () => {
             </Badge>
             <CardContent className="pt-6">
               <div className="text-center">
-                <h3 className="text-2xl font-bold mb-2">Growth Firm</h3>
+                <h3 className="text-xl font-bold mb-2">Growth Firm 📈</h3>
                 <div className="text-center mb-4">
-                  <span className="text-4xl font-bold text-gray-900 dark:text-white">
+                  <span className="text-3xl font-bold text-gray-900 dark:text-white">
                     {pricingInfo[billingInterval].growth.display}
                   </span>
                   <span className="text-gray-500 dark:text-gray-400">
@@ -158,7 +184,7 @@ const PricingPage = () => {
                   )}
                 </div>
                 <p className="text-sm text-gray-600 dark:text-gray-300 mb-6">
-                  For growing M&A teams and mid-size firms
+                  Mid-market firms and growing practices
                 </p>
                 <ul className="space-y-2 text-left">
                   {features.growth.map((feature, i) => (
@@ -176,9 +202,9 @@ const PricingPage = () => {
           <Card className="relative border-gray-200 dark:border-gray-700">
             <CardContent className="pt-6">
               <div className="text-center">
-                <h3 className="text-2xl font-bold mb-2">Enterprise</h3>
+                <h3 className="text-xl font-bold mb-2">Enterprise 🏢</h3>
                 <div className="text-center mb-4">
-                  <span className="text-4xl font-bold text-gray-900 dark:text-white">
+                  <span className="text-3xl font-bold text-gray-900 dark:text-white">
                     {pricingInfo[billingInterval].enterprise.display}
                   </span>
                   <span className="text-gray-500 dark:text-gray-400">
@@ -191,10 +217,46 @@ const PricingPage = () => {
                   )}
                 </div>
                 <p className="text-sm text-gray-600 dark:text-gray-300 mb-6">
-                  For large firms and investment banks
+                  Large PE firms and investment banks
                 </p>
                 <ul className="space-y-2 text-left">
                   {features.enterprise.map((feature, i) => (
+                    <li key={i} className="flex items-start">
+                      <CheckCircle className="h-5 w-5 text-green-500 mr-2 flex-shrink-0 mt-0.5" />
+                      <span className="text-sm text-gray-600 dark:text-gray-300">{feature}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Community Leader - NEW TIER */}
+          <Card className="relative border-purple-500 shadow-xl">
+            <Badge className="absolute -top-3 left-1/2 transform -translate-x-1/2 bg-purple-500">
+              Premium
+            </Badge>
+            <CardContent className="pt-6">
+              <div className="text-center">
+                <h3 className="text-xl font-bold mb-2">Community Leader ⭐</h3>
+                <div className="text-center mb-4">
+                  <span className="text-3xl font-bold text-gray-900 dark:text-white">
+                    {pricingInfo[billingInterval].community_leader.display}
+                  </span>
+                  <span className="text-gray-500 dark:text-gray-400">
+                    {billingInterval === 'monthly' ? '/month' : '/year'}
+                  </span>
+                  {billingInterval === 'yearly' && (
+                    <div className="text-sm text-green-600 dark:text-green-400 font-semibold mt-1">
+                      Save {pricingInfo.yearly.community_leader.savings}
+                    </div>
+                  )}
+                </div>
+                <p className="text-sm text-gray-600 dark:text-gray-300 mb-6">
+                  Industry leaders and thought leaders
+                </p>
+                <ul className="space-y-2 text-left">
+                  {features.community_leader.map((feature, i) => (
                     <li key={i} className="flex items-start">
                       <CheckCircle className="h-5 w-5 text-green-500 mr-2 flex-shrink-0 mt-0.5" />
                       <span className="text-sm text-gray-600 dark:text-gray-300">{feature}</span>
@@ -230,35 +292,96 @@ const PricingPage = () => {
         </div>
 
         {/* Additional Information */}
-        <div className="mt-16 max-w-4xl mx-auto">
-          <div className="bg-blue-50 dark:bg-blue-950 border border-blue-200 dark:border-blue-800 rounded-lg p-6">
-            <h3 className="text-lg font-semibold mb-4 text-center">
-              What's included in all plans?
+        <div className="mt-16 max-w-6xl mx-auto">
+          <div className="bg-gradient-to-r from-blue-50 to-purple-50 dark:from-blue-950 dark:to-purple-950 border border-blue-200 dark:border-blue-800 rounded-lg p-8">
+            <h3 className="text-2xl font-semibold mb-6 text-center">
+              Complete M&A Empire - What's Included in Every Plan
             </h3>
-            <div className="grid md:grid-cols-2 gap-4">
-              <div className="flex items-center">
-                <CheckCircle className="h-5 w-5 text-green-500 mr-3 flex-shrink-0" />
-                <span className="text-sm">14-day free trial</span>
+            <div className="grid md:grid-cols-3 gap-6">
+              <div className="text-center">
+                <h4 className="font-semibold mb-3 text-blue-600 dark:text-blue-400">
+                  🏢 SaaS Platform
+                </h4>
+                <div className="space-y-2">
+                  <div className="flex items-center justify-center">
+                    <CheckCircle className="h-4 w-4 text-green-500 mr-2" />
+                    <span className="text-sm">Complete M&A workflow</span>
+                  </div>
+                  <div className="flex items-center justify-center">
+                    <CheckCircle className="h-4 w-4 text-green-500 mr-2" />
+                    <span className="text-sm">AI-powered analysis</span>
+                  </div>
+                  <div className="flex items-center justify-center">
+                    <CheckCircle className="h-4 w-4 text-green-500 mr-2" />
+                    <span className="text-sm">14-day free trial</span>
+                  </div>
+                  <div className="flex items-center justify-center">
+                    <CheckCircle className="h-4 w-4 text-green-500 mr-2" />
+                    <span className="text-sm">Real-time analytics</span>
+                  </div>
+                </div>
               </div>
-              <div className="flex items-center">
-                <CheckCircle className="h-5 w-5 text-green-500 mr-3 flex-shrink-0" />
-                <span className="text-sm">Cancel anytime</span>
+              <div className="text-center">
+                <h4 className="font-semibold mb-3 text-purple-600 dark:text-purple-400">
+                  👥 Professional Community
+                </h4>
+                <div className="space-y-2">
+                  <div className="flex items-center justify-center">
+                    <CheckCircle className="h-4 w-4 text-green-500 mr-2" />
+                    <span className="text-sm">156+ M&A professionals</span>
+                  </div>
+                  <div className="flex items-center justify-center">
+                    <CheckCircle className="h-4 w-4 text-green-500 mr-2" />
+                    <span className="text-sm">Monthly networking events</span>
+                  </div>
+                  <div className="flex items-center justify-center">
+                    <CheckCircle className="h-4 w-4 text-green-500 mr-2" />
+                    <span className="text-sm">Deal flow opportunities</span>
+                  </div>
+                  <div className="flex items-center justify-center">
+                    <CheckCircle className="h-4 w-4 text-green-500 mr-2" />
+                    <span className="text-sm">Mastermind sessions</span>
+                  </div>
+                </div>
               </div>
-              <div className="flex items-center">
-                <CheckCircle className="h-5 w-5 text-green-500 mr-3 flex-shrink-0" />
-                <span className="text-sm">Secure payment by Stripe</span>
+              <div className="text-center">
+                <h4 className="font-semibold mb-3 text-green-600 dark:text-green-400">
+                  🎙️ Content Empire
+                </h4>
+                <div className="space-y-2">
+                  <div className="flex items-center justify-center">
+                    <CheckCircle className="h-4 w-4 text-green-500 mr-2" />
+                    <span className="text-sm">StreamYard-level studio</span>
+                  </div>
+                  <div className="flex items-center justify-center">
+                    <CheckCircle className="h-4 w-4 text-green-500 mr-2" />
+                    <span className="text-sm">AI content automation</span>
+                  </div>
+                  <div className="flex items-center justify-center">
+                    <CheckCircle className="h-4 w-4 text-green-500 mr-2" />
+                    <span className="text-sm">Multi-platform streaming</span>
+                  </div>
+                  <div className="flex items-center justify-center">
+                    <CheckCircle className="h-4 w-4 text-green-500 mr-2" />
+                    <span className="text-sm">Thought leadership tools</span>
+                  </div>
+                </div>
               </div>
-              <div className="flex items-center">
-                <CheckCircle className="h-5 w-5 text-green-500 mr-3 flex-shrink-0" />
-                <span className="text-sm">No setup fees</span>
-              </div>
-              <div className="flex items-center">
-                <CheckCircle className="h-5 w-5 text-green-500 mr-3 flex-shrink-0" />
-                <span className="text-sm">Instant access to all features</span>
-              </div>
-              <div className="flex items-center">
-                <CheckCircle className="h-5 w-5 text-green-500 mr-3 flex-shrink-0" />
-                <span className="text-sm">Easy upgrade or downgrade</span>
+            </div>
+            <div className="mt-8 text-center">
+              <div className="inline-flex items-center space-x-6">
+                <div className="flex items-center">
+                  <CheckCircle className="h-5 w-5 text-green-500 mr-2" />
+                  <span className="text-sm font-medium">£47.5k MRR Live Platform</span>
+                </div>
+                <div className="flex items-center">
+                  <CheckCircle className="h-5 w-5 text-green-500 mr-2" />
+                  <span className="text-sm font-medium">Cancel Anytime</span>
+                </div>
+                <div className="flex items-center">
+                  <CheckCircle className="h-5 w-5 text-green-500 mr-2" />
+                  <span className="text-sm font-medium">Secure Stripe Payments</span>
+                </div>
               </div>
             </div>
           </div>
@@ -267,14 +390,19 @@ const PricingPage = () => {
         {/* FAQ or Contact Section */}
         <div className="mt-12 text-center">
           <p className="text-gray-600 dark:text-gray-400 mb-4">
-            Need help choosing a plan or have questions?
+            Ready to build your £200M M&A empire? Questions about our integrated ecosystem?
           </p>
-          <a
-            href="mailto:support@ma-platform.com"
-            className="text-blue-600 dark:text-blue-400 hover:underline font-medium"
-          >
-            Contact our sales team
-          </a>
+          <div className="space-y-2">
+            <a
+              href="mailto:dudley@100daysandbeyond.com"
+              className="text-blue-600 dark:text-blue-400 hover:underline font-medium block"
+            >
+              Contact Dudley Peacock - Platform Founder
+            </a>
+            <p className="text-sm text-gray-500 dark:text-gray-400">
+              Personal consultation for Enterprise and Community Leader tiers available
+            </p>
+          </div>
         </div>
       </div>
     </div>

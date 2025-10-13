@@ -48,7 +48,12 @@
       "Bash(for service in financial_intelligence template_engine offer_stack_generator automated_valuation_engine intelligent_deal_matching)",
       "Bash(do echo \"\")",
       "Bash(wc:*)",
-      "Bash(head:*)"
+      "Bash(head:*)",
+      "mcp__render__update_environment_variables",
+      "mcp__render__get_deploy",
+      "WebFetch(domain:dashboard.clerk.com)",
+      "WebFetch(domain:clerk.com)",
+      "Bash(npm run build:*)"
     ],
     "deny": [],
     "ask": []

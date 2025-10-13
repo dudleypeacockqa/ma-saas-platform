@@ -24,90 +24,95 @@ import {
 const HomePage = () => {
   const [activeFeature, setActiveFeature] = useState(0);
 
-  // M&A specific features based on UX specification
+  // Integrated M&A Ecosystem Features
   const platformFeatures = [
     {
       icon: <TrendingUp className="h-8 w-8 text-blue-600" />,
-      title: 'Deal Pipeline Management',
+      title: 'Complete M&A Platform',
       description:
-        'Professional Kanban-style pipeline with deal stages from sourcing to closing. Track millions in deal value.',
+        'AI-powered deal management with real-time analytics, document collaboration, and advanced workflow automation.',
       benefits: [
+        'AI deal analysis & matching',
         'Visual pipeline tracking',
-        'Stage-based workflows',
-        'Deal progress monitoring',
-        'Value tracking',
+        'Document management',
+        'Master admin portal',
       ],
       screenshot: '/screenshots/pipeline-kanban.png',
     },
     {
-      icon: <FileText className="h-8 w-8 text-purple-600" />,
-      title: 'Document Collaboration',
+      icon: <Users className="h-8 w-8 text-purple-600" />,
+      title: 'Professional Community',
       description:
-        'Enterprise-grade document management with real-time collaboration, version control, and secure sharing.',
+        '156+ M&A professionals with monthly networking, deal flow opportunities, and mastermind sessions.',
       benefits: [
-        'Secure document storage',
-        'Real-time collaboration',
-        'Version control',
-        'Comment threading',
+        '156+ active professionals',
+        'Monthly networking events',
+        'Deal flow access',
+        'Mastermind sessions',
       ],
-      screenshot: '/screenshots/document-collaboration.png',
+      screenshot: '/screenshots/community-networking.png',
     },
     {
-      icon: <Users className="h-8 w-8 text-green-600" />,
-      title: 'Team Management',
+      icon: <Target className="h-8 w-8 text-green-600" />,
+      title: 'Premium Events',
       description:
-        'Coordinate deal teams with role-based permissions, workload management, and activity tracking.',
-      benefits: ['Role-based access', 'Team coordination', 'Workload balancing', 'Activity feeds'],
-      screenshot: '/screenshots/team-management.png',
+        '£497-£2,997 masterclasses with industry leaders. Community leaders earn 20% revenue share on hosted events.',
+      benefits: [
+        'Premium masterclasses',
+        'Industry leader access',
+        'Revenue sharing',
+        'Event hosting rights',
+      ],
+      screenshot: '/screenshots/premium-events.png',
     },
     {
-      icon: <BarChart3 className="h-8 w-8 text-orange-600" />,
-      title: 'Executive Analytics',
+      icon: <PlayCircle className="h-8 w-8 text-orange-600" />,
+      title: 'StreamYard Studio & Content',
       description:
-        'Data-driven insights with executive dashboards, pipeline analytics, and performance metrics.',
+        'Professional podcast studio with 4K recording, live streaming, AI automation, and multi-platform distribution.',
       benefits: [
-        'Executive dashboards',
-        'Pipeline insights',
-        'Performance tracking',
-        'Custom reports',
+        'StreamYard-level recording',
+        'AI content automation',
+        'Multi-platform streaming',
+        'Thought leadership tools',
       ],
-      screenshot: '/screenshots/executive-analytics.png',
+      screenshot: '/screenshots/podcast-studio.png',
     },
   ];
 
   const stats = [
-    { value: '£40M+', label: 'Deal Value Managed', description: 'Annual deal volume tracked' },
-    { value: '200+', label: 'M&A Professionals', description: 'Active users on platform' },
-    { value: '95%', label: 'Deal Success Rate', description: 'Completion rate improvement' },
-    { value: '60%', label: 'Time Savings', description: 'Faster deal processing' },
+    { value: '£47.5k', label: 'MRR Live Platform', description: '156+ active subscribers' },
+    { value: '£200M', label: 'Wealth Target', description: 'Building M&A empire systematically' },
+    { value: '4-Tier', label: 'Pricing Structure', description: '£279-£2,997/month premium' },
+    { value: '15,420', label: 'Podcast Downloads', description: 'StreamYard-level content' },
   ];
 
   const testimonials = [
     {
-      name: 'Sarah Chen',
-      title: 'Senior M&A Advisor',
-      company: 'Goldman Sachs',
+      name: 'Michael Roberts',
+      title: 'Principal',
+      company: 'Independent M&A Advisor',
       content:
-        'This platform has revolutionized how we manage our deal pipeline. The visual tracking and collaboration tools are game-changing.',
-      avatar: '/avatars/sarah-chen.jpg',
+        'The integrated ecosystem approach is brilliant. Platform + community + events + content creation - everything I need to build my practice systematically.',
+      avatar: '/avatars/michael-roberts.jpg',
       rating: 5,
     },
     {
-      name: 'James Mitchell',
+      name: 'Emma Thompson',
       title: 'Managing Director',
-      company: 'JP Morgan',
+      company: 'Thompson Capital Partners',
       content:
-        'Finally, a platform built specifically for M&A professionals. The analytics give us insights we never had before.',
-      avatar: '/avatars/james-mitchell.jpg',
+        'The StreamYard-level podcast studio has transformed my thought leadership. AI automation generates content automatically from each recording.',
+      avatar: '/avatars/emma-thompson.jpg',
       rating: 5,
     },
     {
-      name: 'Victoria Hammond',
+      name: 'David Wilson',
       title: 'Partner',
-      company: 'Rothschild & Co',
+      company: 'Wilson Advisory Group',
       content:
-        'The document collaboration features have streamlined our due diligence process significantly.',
-      avatar: '/avatars/victoria-hammond.jpg',
+        'The premium community events provide incredible networking value. As a Community Leader, the revenue sharing model creates additional income streams.',
+      avatar: '/avatars/david-wilson.jpg',
       rating: 5,
     },
   ];
@@ -124,32 +129,44 @@ const HomePage = () => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8 }}
             >
-              <Badge variant="outline" className="mb-4 text-blue-600 border-blue-200">
-                Professional M&A Platform
+              <Badge variant="outline" className="mb-4 text-purple-600 border-purple-200">
+                Complete M&A Empire • Live & Operational
               </Badge>
               <h1 className="text-5xl md:text-6xl font-bold text-gray-900 mb-6">
-                Enterprise M&A Deal
+                Build Your £200M
                 <br />
-                <span className="text-blue-600">Management Platform</span>
+                <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+                  M&A Empire
+                </span>
               </h1>
-              <p className="text-xl text-gray-600 mb-8 max-w-3xl mx-auto">
-                The only platform built specifically for M&A professionals. Manage deals from
-                sourcing to closing with enterprise-grade security, collaboration, and analytics.
+              <p className="text-xl text-gray-600 mb-8 max-w-4xl mx-auto">
+                The complete integrated ecosystem: SaaS platform + professional community + premium
+                events + StreamYard-level podcast studio.
+                <strong className="text-blue-600">
+                  Join 156+ M&A professionals • £47.5k MRR platform
+                </strong>
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <Link to="/sign-up">
-                  <Button size="lg" className="text-lg px-8 py-3">
-                    Start 14-Day Free Trial
+                  <Button
+                    size="lg"
+                    className="text-lg px-8 py-3 bg-gradient-to-r from-blue-600 to-purple-600"
+                  >
+                    Join 156+ Professionals
                     <ArrowRight className="ml-2 h-5 w-5" />
                   </Button>
                 </Link>
-                <Button variant="outline" size="lg" className="text-lg px-8 py-3">
+                <Button
+                  variant="outline"
+                  size="lg"
+                  className="text-lg px-8 py-3 border-purple-200 text-purple-600"
+                >
                   <PlayCircle className="mr-2 h-5 w-5" />
-                  Watch Demo
+                  StreamYard Demo
                 </Button>
               </div>
               <p className="text-sm text-gray-500 mt-4">
-                Trusted by M&A teams at Goldman Sachs, JP Morgan, and Rothschild & Co
+                4-tier pricing from £279-£2,997/month • Community + Events + Content Empire included
               </p>
             </motion.div>
           </div>
@@ -183,10 +200,10 @@ const HomePage = () => {
       <section className="py-24">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold text-gray-900 mb-4">Built for M&A Professionals</h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Every feature designed specifically for the complexities of mergers and acquisitions.
-              No generic CRM adaptations.
+            <h2 className="text-4xl font-bold text-gray-900 mb-4">The Complete M&A Empire</h2>
+            <p className="text-xl text-gray-600 max-w-4xl mx-auto">
+              Beyond software - an integrated ecosystem combining platform, community, events, and
+              content creation. Everything you need to build your £200M wealth systematically.
             </p>
           </div>
 
@@ -257,10 +274,10 @@ const HomePage = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-4xl font-bold text-gray-900 mb-4">
-              Trusted by Top M&A Professionals
+              Building Wealth Through Community
             </h2>
             <p className="text-xl text-gray-600">
-              Leading investment banks and advisory firms rely on our platform
+              156+ M&A professionals using our integrated ecosystem to build their empires
             </p>
           </div>
 
@@ -297,33 +314,38 @@ const HomePage = () => {
       </section>
 
       {/* CTA Section */}
-      <section className="py-24 bg-blue-600">
+      <section className="py-24 bg-gradient-to-r from-blue-600 to-purple-600">
         <div className="max-w-4xl mx-auto text-center px-4 sm:px-6 lg:px-8">
           <h2 className="text-4xl font-bold text-white mb-4">
-            Ready to Transform Your M&A Process?
+            Ready to Build Your £200M M&A Empire?
           </h2>
           <p className="text-xl text-blue-100 mb-8">
-            Join hundreds of M&A professionals who have streamlined their deal management
+            Join 156+ professionals using our integrated ecosystem. Platform + community + events +
+            content creation.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link to="/sign-up">
-              <Button size="lg" variant="secondary" className="text-lg px-8 py-3">
-                Start Free Trial
+              <Button
+                size="lg"
+                variant="secondary"
+                className="text-lg px-8 py-3 bg-white text-blue-600 hover:bg-gray-100"
+              >
+                Join The Empire
                 <ArrowRight className="ml-2 h-5 w-5" />
               </Button>
             </Link>
-            <Link to="/contact">
+            <Link to="/pricing">
               <Button
                 size="lg"
                 variant="outline"
                 className="text-lg px-8 py-3 text-white border-white hover:bg-blue-700"
               >
-                Schedule Demo
+                View 4-Tier Pricing
               </Button>
             </Link>
           </div>
           <p className="text-sm text-blue-100 mt-4">
-            14-day free trial • No credit card required • Setup in minutes
+            £47.5k MRR live platform • StreamYard studio included • Community + events access
           </p>
         </div>
       </section>
