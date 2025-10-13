@@ -1,15 +1,17 @@
-"""Stripe payment processing service for subscription management"""
+"""Stripe payment processing service for ONE-TIME event payments
+
+IMPORTANT: This service handles ONLY one-time event payments (£497-£2,997).
+Subscription payments are handled by Clerk Native Billing - NOT by this service.
+
+See SUBSCRIPTION_FLOWS.md for complete payment architecture documentation.
+"""
 
 import stripe
-from typing import Dict, Any, Optional, List
-from datetime import datetime, timedelta
+from typing import Dict, Any, Optional
+from datetime import datetime
 import structlog
-from decimal import Decimal
 
 from app.core.config import settings
-from app.core.database import AsyncSessionLocal
-from app.models.subscription import Subscription
-from app.models.organization import Organization
 
 
 logger = structlog.get_logger(__name__)
@@ -20,386 +22,233 @@ stripe.api_key = settings.STRIPE_SECRET_KEY
 
 class StripeService:
     """
-    Service for managing Stripe payments, subscriptions, and billing.
-    Implements three-tier subscription model with comprehensive payment handling.
+    Service for managing Stripe one-time event payments.
+
+    **SUBSCRIPTIONS ARE HANDLED BY CLERK** - This service does NOT manage subscriptions.
+
+    This service provides:
+    - Event ticket payment processing (£497-£2,997)
+    - Checkout session creation for one-time payments
+    - Webhook processing for checkout.session.completed events
     """
 
     def __init__(self):
-        self.tiers = settings.SUBSCRIPTION_TIERS
-        self._setup_price_ids()
-
-    def _setup_price_ids(self):
-        """Set up Stripe price IDs for each subscription tier"""
-        # These would be created via Stripe Dashboard or API
-        # Placeholder IDs for now - will be replaced with actual Stripe price IDs
-        self.price_ids = {
-            "solo_monthly": "price_solo_monthly",
-            "solo_annual": "price_solo_annual",
-            "growth_monthly": "price_growth_monthly",
-            "growth_annual": "price_growth_annual",
-            "enterprise_monthly": "price_enterprise_monthly",
-            "enterprise_annual": "price_enterprise_annual"
+        # Event pricing structure (one-time payments in pence for GBP)
+        self.event_pricing = {
+            "premium_masterclass": {
+                "price": 49700,  # £497.00
+                "currency": "gbp",
+                "display": "£497",
+                "name": "Premium Masterclass",
+                "description": "2-hour intensive session with industry leader"
+            },
+            "executive_workshop": {
+                "price": 129700,  # £1,297.00
+                "currency": "gbp",
+                "display": "£1,297",
+                "name": "Executive Workshop",
+                "description": "Half-day strategic workshop for senior professionals"
+            },
+            "vip_deal_summit": {
+                "price": 299700,  # £2,997.00
+                "currency": "gbp",
+                "display": "£2,997",
+                "name": "VIP Deal Summit",
+                "description": "Full-day exclusive summit with deal-making opportunities"
+            }
         }
 
-    async def create_customer(
+    async def create_event_checkout_session(
         self,
-        organization_id: str,
-        email: str,
-        name: str,
-        metadata: Optional[Dict[str, Any]] = None
-    ) -> str:
-        """
-        Create a Stripe customer for an organization.
-
-        Args:
-            organization_id: Organization ID
-            email: Customer email
-            name: Customer/organization name
-            metadata: Additional metadata
-
-        Returns:
-            Stripe customer ID
-        """
-        try:
-            customer = stripe.Customer.create(
-                email=email,
-                name=name,
-                metadata={
-                    "organization_id": organization_id,
-                    **(metadata or {})
-                }
-            )
-
-            logger.info(
-                "Stripe customer created",
-                customer_id=customer.id,
-                organization_id=organization_id
-            )
-
-            return customer.id
-
-        except stripe.error.StripeError as e:
-            logger.error("Failed to create Stripe customer", error=str(e))
-            raise
-
-    async def create_subscription(
-        self,
-        customer_id: str,
-        tier: str,
-        billing_cycle: str = "monthly",
-        trial_days: int = 14,
-        metadata: Optional[Dict[str, Any]] = None
+        event_type: str,
+        customer_email: str,
+        user_id: Optional[str] = None,
+        success_url: Optional[str] = None,
+        cancel_url: Optional[str] = None
     ) -> Dict[str, Any]:
         """
-        Create a subscription for a customer.
+        Create a Stripe Checkout session for a one-time event payment.
 
         Args:
-            customer_id: Stripe customer ID
-            tier: Subscription tier (solo, growth, enterprise)
-            billing_cycle: monthly or annual
-            trial_days: Trial period in days
-            metadata: Additional metadata
+            event_type: Type of event (premium_masterclass, executive_workshop, vip_deal_summit)
+            customer_email: Customer's email address
+            user_id: Clerk user ID for tracking
+            success_url: Redirect URL on successful payment
+            cancel_url: Redirect URL on cancelled payment
 
         Returns:
-            Subscription details
+            Dict with session_id and checkout URL
+
+        Raises:
+            ValueError: If event_type is invalid
+            stripe.error.StripeError: If Stripe API call fails
         """
         try:
-            # Get the appropriate price ID
-            price_key = f"{tier}_{billing_cycle}"
-            price_id = self.price_ids.get(price_key)
+            # Validate event type
+            event_key = event_type.lower().replace(" ", "_")
+            event_info = self.event_pricing.get(event_key)
 
-            if not price_id:
-                raise ValueError(f"Invalid tier or billing cycle: {tier}/{billing_cycle}")
+            if not event_info:
+                raise ValueError(f"Invalid event type: {event_type}")
 
-            # Create subscription
-            subscription = stripe.Subscription.create(
-                customer=customer_id,
-                items=[{"price": price_id}],
-                trial_period_days=trial_days if trial_days > 0 else None,
-                payment_behavior="default_incomplete",
-                payment_settings={"save_default_payment_method": "on_subscription"},
-                expand=["latest_invoice.payment_intent"],
-                metadata={
-                    "tier": tier,
-                    "billing_cycle": billing_cycle,
-                    **(metadata or {})
-                }
-            )
+            # Default URLs if not provided
+            if not success_url:
+                success_url = f"{settings.FRONTEND_URL}/events/success?session_id={{CHECKOUT_SESSION_ID}}"
+            if not cancel_url:
+                cancel_url = f"{settings.FRONTEND_URL}/events/cancel"
 
-            # Get payment intent for initial setup
-            payment_intent = None
-            if subscription.latest_invoice and subscription.latest_invoice.payment_intent:
-                payment_intent = {
-                    "client_secret": subscription.latest_invoice.payment_intent.client_secret,
-                    "status": subscription.latest_invoice.payment_intent.status
-                }
-
-            result = {
-                "subscription_id": subscription.id,
-                "status": subscription.status,
-                "tier": tier,
-                "billing_cycle": billing_cycle,
-                "current_period_start": datetime.fromtimestamp(subscription.current_period_start),
-                "current_period_end": datetime.fromtimestamp(subscription.current_period_end),
-                "trial_end": datetime.fromtimestamp(subscription.trial_end) if subscription.trial_end else None,
-                "payment_intent": payment_intent
-            }
-
-            logger.info(
-                "Subscription created",
-                subscription_id=subscription.id,
-                customer_id=customer_id,
-                tier=tier
-            )
-
-            return result
-
-        except stripe.error.StripeError as e:
-            logger.error("Failed to create subscription", error=str(e))
-            raise
-
-    async def update_subscription(
-        self,
-        subscription_id: str,
-        new_tier: Optional[str] = None,
-        new_billing_cycle: Optional[str] = None,
-        cancel_at_period_end: Optional[bool] = None
-    ) -> Dict[str, Any]:
-        """
-        Update an existing subscription.
-
-        Args:
-            subscription_id: Stripe subscription ID
-            new_tier: New subscription tier
-            new_billing_cycle: New billing cycle
-            cancel_at_period_end: Whether to cancel at period end
-
-        Returns:
-            Updated subscription details
-        """
-        try:
-            # Get current subscription
-            subscription = stripe.Subscription.retrieve(subscription_id)
-
-            update_params = {}
-
-            # Handle tier/billing cycle change
-            if new_tier or new_billing_cycle:
-                tier = new_tier or subscription.metadata.get("tier")
-                billing_cycle = new_billing_cycle or subscription.metadata.get("billing_cycle")
-                price_key = f"{tier}_{billing_cycle}"
-                price_id = self.price_ids.get(price_key)
-
-                if price_id:
-                    update_params["items"] = [{
-                        "id": subscription["items"]["data"][0].id,
-                        "price": price_id
-                    }]
-                    update_params["metadata"] = {
-                        "tier": tier,
-                        "billing_cycle": billing_cycle
-                    }
-
-            # Handle cancellation
-            if cancel_at_period_end is not None:
-                update_params["cancel_at_period_end"] = cancel_at_period_end
-
-            # Update subscription
-            if update_params:
-                subscription = stripe.Subscription.modify(subscription_id, **update_params)
-
-            result = {
-                "subscription_id": subscription.id,
-                "status": subscription.status,
-                "cancel_at_period_end": subscription.cancel_at_period_end,
-                "current_period_end": datetime.fromtimestamp(subscription.current_period_end)
-            }
-
-            logger.info(
-                "Subscription updated",
-                subscription_id=subscription_id,
-                updates=update_params
-            )
-
-            return result
-
-        except stripe.error.StripeError as e:
-            logger.error("Failed to update subscription", error=str(e))
-            raise
-
-    async def cancel_subscription(
-        self,
-        subscription_id: str,
-        immediate: bool = False
-    ) -> Dict[str, Any]:
-        """
-        Cancel a subscription.
-
-        Args:
-            subscription_id: Stripe subscription ID
-            immediate: Cancel immediately vs at period end
-
-        Returns:
-            Cancellation details
-        """
-        try:
-            if immediate:
-                subscription = stripe.Subscription.delete(subscription_id)
-            else:
-                subscription = stripe.Subscription.modify(
-                    subscription_id,
-                    cancel_at_period_end=True
-                )
-
-            result = {
-                "subscription_id": subscription.id,
-                "status": subscription.status,
-                "canceled_at": datetime.fromtimestamp(subscription.canceled_at) if subscription.canceled_at else None,
-                "cancel_at": datetime.fromtimestamp(subscription.cancel_at) if subscription.cancel_at else None
-            }
-
-            logger.info(
-                "Subscription canceled",
-                subscription_id=subscription_id,
-                immediate=immediate
-            )
-
-            return result
-
-        except stripe.error.StripeError as e:
-            logger.error("Failed to cancel subscription", error=str(e))
-            raise
-
-    async def create_payment_method(
-        self,
-        customer_id: str,
-        payment_method_id: str,
-        set_default: bool = True
-    ) -> bool:
-        """
-        Attach a payment method to a customer.
-
-        Args:
-            customer_id: Stripe customer ID
-            payment_method_id: Payment method ID from frontend
-            set_default: Set as default payment method
-
-        Returns:
-            Success status
-        """
-        try:
-            # Attach payment method to customer
-            stripe.PaymentMethod.attach(payment_method_id, customer=customer_id)
-
-            # Set as default if requested
-            if set_default:
-                stripe.Customer.modify(
-                    customer_id,
-                    invoice_settings={"default_payment_method": payment_method_id}
-                )
-
-            logger.info(
-                "Payment method attached",
-                customer_id=customer_id,
-                payment_method_id=payment_method_id
-            )
-
-            return True
-
-        except stripe.error.StripeError as e:
-            logger.error("Failed to attach payment method", error=str(e))
-            return False
-
-    async def create_checkout_session(
-        self,
-        customer_id: str,
-        tier: str,
-        billing_cycle: str = "monthly",
-        success_url: str = None,
-        cancel_url: str = None
-    ) -> str:
-        """
-        Create a Stripe Checkout session for subscription.
-
-        Args:
-            customer_id: Stripe customer ID
-            tier: Subscription tier
-            billing_cycle: monthly or annual
-            success_url: Redirect URL on success
-            cancel_url: Redirect URL on cancel
-
-        Returns:
-            Checkout session URL
-        """
-        try:
-            price_key = f"{tier}_{billing_cycle}"
-            price_id = self.price_ids.get(price_key)
-
+            # Create Checkout Session
             session = stripe.checkout.Session.create(
-                customer=customer_id,
                 payment_method_types=["card"],
-                line_items=[{"price": price_id, "quantity": 1}],
-                mode="subscription",
-                success_url=success_url or f"{settings.FRONTEND_URL}/subscription/success",
-                cancel_url=cancel_url or f"{settings.FRONTEND_URL}/subscription/cancel",
+                line_items=[{
+                    "price_data": {
+                        "currency": event_info["currency"],
+                        "product_data": {
+                            "name": event_info["name"],
+                            "description": event_info["description"],
+                        },
+                        "unit_amount": event_info["price"],
+                    },
+                    "quantity": 1,
+                }],
+                mode="payment",  # One-time payment, NOT subscription
+                success_url=success_url,
+                cancel_url=cancel_url,
+                customer_email=customer_email,
+                metadata={
+                    "user_id": user_id or "guest",
+                    "event_type": event_type,
+                    "payment_type": "one_time_event",
+                    "environment": settings.ENVIRONMENT
+                },
+                # Enable automatic tax calculation
+                automatic_tax={"enabled": True},
+                # Allow promotion codes
                 allow_promotion_codes=True,
-                billing_address_collection="auto",
-                automatic_tax={"enabled": True}
             )
 
             logger.info(
-                "Checkout session created",
+                "Event checkout session created",
                 session_id=session.id,
-                customer_id=customer_id
+                event_type=event_type,
+                amount=event_info["price"],
+                user_id=user_id
             )
 
-            return session.url
+            return {
+                "session_id": session.id,
+                "url": session.url,
+                "event_type": event_type,
+                "amount": event_info["display"]
+            }
 
+        except ValueError as e:
+            logger.error("Invalid event type", event_type=event_type, error=str(e))
+            raise
         except stripe.error.StripeError as e:
-            logger.error("Failed to create checkout session", error=str(e))
+            logger.error("Failed to create event checkout session", error=str(e))
             raise
 
-    async def create_billing_portal_session(
-        self,
-        customer_id: str,
-        return_url: str = None
-    ) -> str:
+    async def retrieve_checkout_session(self, session_id: str) -> Dict[str, Any]:
         """
-        Create a Stripe Billing Portal session for customer self-service.
+        Retrieve a Checkout Session by ID.
 
         Args:
-            customer_id: Stripe customer ID
-            return_url: Return URL after portal session
+            session_id: Stripe Checkout Session ID
 
         Returns:
-            Portal session URL
+            Session details including payment status
+
+        Raises:
+            stripe.error.StripeError: If retrieval fails
         """
         try:
-            session = stripe.billing_portal.Session.create(
-                customer=customer_id,
-                return_url=return_url or f"{settings.FRONTEND_URL}/subscription"
-            )
+            session = stripe.checkout.Session.retrieve(session_id)
 
-            return session.url
+            return {
+                "session_id": session.id,
+                "payment_status": session.payment_status,
+                "customer_email": session.customer_details.email if session.customer_details else None,
+                "amount_total": session.amount_total,
+                "currency": session.currency,
+                "metadata": session.metadata,
+                "created": datetime.fromtimestamp(session.created)
+            }
 
         except stripe.error.StripeError as e:
-            logger.error("Failed to create billing portal session", error=str(e))
+            logger.error("Failed to retrieve checkout session", session_id=session_id, error=str(e))
+            raise
+
+    async def handle_checkout_completed(self, session: Dict[str, Any]) -> Dict[str, Any]:
+        """
+        Handle checkout.session.completed webhook event.
+
+        This is called when a customer successfully completes payment for an event.
+
+        Args:
+            session: Stripe Session object from webhook
+
+        Returns:
+            Processing result with event access details
+
+        TODO: Implement event access granting logic
+        - Send confirmation email with event details
+        - Grant access to event materials
+        - Add to event attendee list
+        - Track for Community Leader revenue sharing (if applicable)
+        """
+        try:
+            session_id = session.get("id")
+            customer_email = session.get("customer_details", {}).get("email")
+            metadata = session.get("metadata", {})
+
+            user_id = metadata.get("user_id")
+            event_type = metadata.get("event_type")
+            amount_paid = session.get("amount_total", 0)
+
+            logger.info(
+                "Event payment completed",
+                session_id=session_id,
+                user_id=user_id,
+                event_type=event_type,
+                amount_paid=amount_paid,
+                customer_email=customer_email
+            )
+
+            # TODO: Grant event access
+            # - Create event_attendees record in database
+            # - Send email with event details and calendar invite
+            # - If hosted by Community Leader, track for 20% revenue share
+
+            return {
+                "status": "success",
+                "session_id": session_id,
+                "event_type": event_type,
+                "customer_email": customer_email,
+                "access_granted": True  # Set to True after implementing access logic
+            }
+
+        except Exception as e:
+            logger.error("Failed to handle checkout completed", error=str(e), session_id=session.get("id"))
             raise
 
     async def handle_webhook(
         self,
-        payload: str,
+        payload: bytes,
         signature: str
     ) -> Dict[str, Any]:
         """
-        Handle Stripe webhook events.
+        Handle Stripe webhook events for one-time payments.
 
         Args:
-            payload: Webhook payload
-            signature: Stripe signature
+            payload: Raw webhook payload
+            signature: Stripe signature header
 
         Returns:
             Processing result
+
+        Raises:
+            ValueError: If signature verification fails
         """
         try:
             # Verify webhook signature
@@ -409,140 +258,47 @@ class StripeService:
                 settings.STRIPE_WEBHOOK_SECRET
             )
 
-            # Process different event types
-            if event.type == "customer.subscription.created":
-                await self._handle_subscription_created(event.data.object)
-            elif event.type == "customer.subscription.updated":
-                await self._handle_subscription_updated(event.data.object)
-            elif event.type == "customer.subscription.deleted":
-                await self._handle_subscription_deleted(event.data.object)
-            elif event.type == "invoice.payment_succeeded":
-                await self._handle_payment_succeeded(event.data.object)
-            elif event.type == "invoice.payment_failed":
-                await self._handle_payment_failed(event.data.object)
-            elif event.type == "customer.subscription.trial_will_end":
-                await self._handle_trial_ending(event.data.object)
+            event_type = event["type"]
 
-            logger.info("Webhook processed", event_type=event.type, event_id=event.id)
+            logger.info("Processing Stripe webhook", event_type=event_type, event_id=event["id"])
 
-            return {"status": "success", "event_type": event.type}
+            # Handle checkout completion for event payments
+            if event_type == "checkout.session.completed":
+                session = event["data"]["object"]
 
-        except stripe.error.SignatureVerificationError:
-            logger.error("Invalid webhook signature")
+                # Only process if this is an event payment (not subscription)
+                if session.get("metadata", {}).get("payment_type") == "one_time_event":
+                    return await self.handle_checkout_completed(session)
+                else:
+                    logger.info("Ignoring non-event checkout session", session_id=session.get("id"))
+
+            # Ignore subscription-related events (handled by Clerk)
+            elif event_type in [
+                "customer.subscription.created",
+                "customer.subscription.updated",
+                "customer.subscription.deleted",
+                "invoice.payment_succeeded",
+                "invoice.payment_failed"
+            ]:
+                logger.info(
+                    "Ignoring subscription event (handled by Clerk)",
+                    event_type=event_type
+                )
+
+            return {"status": "success", "event_type": event_type}
+
+        except stripe.error.SignatureVerificationError as e:
+            logger.error("Invalid webhook signature", error=str(e))
             raise ValueError("Invalid webhook signature")
         except Exception as e:
-            logger.error("Webhook processing failed", error=str(e))
+            logger.error("Webhook processing failed", error=str(e), event_type=event.get("type"))
             raise
 
-    async def _handle_subscription_created(self, subscription):
-        """Handle subscription creation event"""
-        async with AsyncSessionLocal() as session:
-            # Find organization by customer ID
-            org = await session.execute(
-                "SELECT * FROM organizations WHERE stripe_customer_id = :customer_id",
-                {"customer_id": subscription.customer}
-            )
-            org_record = org.fetchone()
+    def get_event_pricing(self) -> Dict[str, Dict[str, Any]]:
+        """
+        Get pricing information for all event types.
 
-            if org_record:
-                # Create or update subscription record
-                sub = Subscription(
-                    organization_id=org_record.id,
-                    stripe_customer_id=subscription.customer,
-                    stripe_subscription_id=subscription.id,
-                    tier=subscription.metadata.get("tier", "solo"),
-                    status=subscription.status,
-                    billing_cycle=subscription.metadata.get("billing_cycle", "monthly"),
-                    current_period_start=datetime.fromtimestamp(subscription.current_period_start),
-                    current_period_end=datetime.fromtimestamp(subscription.current_period_end),
-                    trial_end=datetime.fromtimestamp(subscription.trial_end) if subscription.trial_end else None
-                )
-                session.add(sub)
-                await session.commit()
-
-    async def _handle_subscription_updated(self, subscription):
-        """Handle subscription update event"""
-        async with AsyncSessionLocal() as session:
-            # Update subscription record
-            await session.execute(
-                """UPDATE subscriptions
-                   SET status = :status,
-                       current_period_end = :period_end,
-                       cancel_at = :cancel_at,
-                       updated_at = :now
-                   WHERE stripe_subscription_id = :sub_id""",
-                {
-                    "status": subscription.status,
-                    "period_end": datetime.fromtimestamp(subscription.current_period_end),
-                    "cancel_at": datetime.fromtimestamp(subscription.cancel_at) if subscription.cancel_at else None,
-                    "now": datetime.utcnow(),
-                    "sub_id": subscription.id
-                }
-            )
-            await session.commit()
-
-    async def _handle_subscription_deleted(self, subscription):
-        """Handle subscription deletion event"""
-        async with AsyncSessionLocal() as session:
-            await session.execute(
-                """UPDATE subscriptions
-                   SET status = 'canceled',
-                       canceled_at = :now,
-                       updated_at = :now
-                   WHERE stripe_subscription_id = :sub_id""",
-                {
-                    "now": datetime.utcnow(),
-                    "sub_id": subscription.id
-                }
-            )
-            await session.commit()
-
-    async def _handle_payment_succeeded(self, invoice):
-        """Handle successful payment event"""
-        logger.info(
-            "Payment succeeded",
-            invoice_id=invoice.id,
-            customer_id=invoice.customer,
-            amount=invoice.amount_paid
-        )
-
-    async def _handle_payment_failed(self, invoice):
-        """Handle failed payment event"""
-        logger.warning(
-            "Payment failed",
-            invoice_id=invoice.id,
-            customer_id=invoice.customer,
-            attempt_count=invoice.attempt_count
-        )
-        # Implement dunning logic here
-
-    async def _handle_trial_ending(self, subscription):
-        """Handle trial ending event"""
-        logger.info(
-            "Trial ending soon",
-            subscription_id=subscription.id,
-            trial_end=datetime.fromtimestamp(subscription.trial_end)
-        )
-        # Send trial ending notification
-
-    def get_tier_features(self, tier: str) -> List[str]:
-        """Get features for a subscription tier"""
-        return self.tiers.get(tier, {}).get("features", [])
-
-    def calculate_proration(
-        self,
-        current_tier: str,
-        new_tier: str,
-        billing_cycle: str,
-        days_remaining: int
-    ) -> Decimal:
-        """Calculate proration amount for tier change"""
-        current_price = self.tiers[current_tier][f"{billing_cycle}_price"]
-        new_price = self.tiers[new_tier][f"{billing_cycle}_price"]
-
-        days_in_period = 30 if billing_cycle == "monthly" else 365
-        daily_current = Decimal(current_price) / days_in_period
-        daily_new = Decimal(new_price) / days_in_period
-
-        proration = (daily_new - daily_current) * days_remaining
-        return round(proration, 2)
+        Returns:
+            Dict of event pricing details
+        """
+        return self.event_pricing

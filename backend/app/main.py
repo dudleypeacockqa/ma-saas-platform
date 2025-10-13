@@ -54,7 +54,7 @@ from app.models import (
 # Legacy code should be migrated to use the new models.
 
 # NOW import APIs (after all models are registered)
-from app.api import auth, tenants, users, content, marketing, integrations, podcast_studio
+from app.api import auth, tenants, users, content, marketing, integrations, podcast_studio, stripe_events
 # from app.api import waitlist  # Temporarily disabled - requires model fixes
 # from app.api import master_admin  # Temporarily disabled - requires BusinessMetrics, RevenueAnalytics models
 # from app.api import emails  # Temporarily disabled - needs ClerkUser migration
@@ -154,6 +154,7 @@ app.include_router(marketing.router)  # Marketing and subscriber acquisition
 # app.include_router(master_admin.router)  # Master Admin Portal API - Temporarily disabled
 app.include_router(podcast_studio.router)  # Podcast Studio - StreamYard-level recording API
 # app.include_router(payments.router)  # Temporarily disabled - needs StripeCustomer/Payment/WebhookEvent models
+app.include_router(stripe_events.router)  # Stripe Event Payments API - One-time event ticket purchases
 app.include_router(integrations.router)  # Platform integrations and workflows
 app.include_router(opportunities.router, prefix="/api")  # M&A opportunity management
 app.include_router(valuations.router, prefix="/api")  # Financial modeling and valuation
