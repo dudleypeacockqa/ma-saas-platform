@@ -390,9 +390,9 @@ class ContentAnalytics(Base):
 # CONTENT TEMPLATES MODELS
 # ============================================================================
 
-class ContentTemplate(Base):
-    """Reusable content templates"""
-    __tablename__ = "content_templates"
+class ContentCreationTemplate(Base):
+    """Reusable content creation templates"""
+    __tablename__ = "content_creation_templates"
 
     id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
     
