@@ -35,14 +35,14 @@ class StreamYardGuest(BaseModel):
     name: str
     email: str
     avatar: Optional[str] = None
-    status: str = Field(..., regex="^(connected|disconnected|invited|waiting)$")
+    status: str = Field(..., pattern="^(connected|disconnected|invited|waiting)$")
     audio_enabled: bool = True
     video_enabled: bool = True
     screen_share_enabled: bool = False
-    quality: str = Field(..., regex="^(HD|4K|SD|Poor)$")
+    quality: str = Field(..., pattern="^(HD|4K|SD|Poor)$")
     bandwidth: int = Field(0, ge=0, le=100)
     location: Optional[str] = None
-    role: str = Field(..., regex="^(host|co-host|guest)$")
+    role: str = Field(..., pattern="^(host|co-host|guest)$")
 
 class LiveStreamPlatform(BaseModel):
     """Live streaming platform configuration"""
@@ -50,14 +50,14 @@ class LiveStreamPlatform(BaseModel):
     name: str
     enabled: bool = False
     viewers: int = 0
-    status: str = Field(..., regex="^(live|offline|starting|error)$")
+    status: str = Field(..., pattern="^(live|offline|starting|error)$")
     rtmp_url: Optional[str] = None
     stream_key: Optional[str] = None
 
 class RecordingSettings(BaseModel):
     """Recording session configuration"""
-    quality: str = Field("HD", regex="^(4K|HD|SD)$")
-    format: str = Field("MP4", regex="^(MP4|WebM|MP3)$")
+    quality: str = Field("HD", pattern="^(4K|HD|SD)$")
+    format: str = Field("MP4", pattern="^(MP4|WebM|MP3)$")
     auto_transcription: bool = True
     auto_highlights: bool = True
     ai_show_notes: bool = True
@@ -101,13 +101,13 @@ class GuestInviteRequest(BaseModel):
     session_id: str
     guest_email: str
     guest_name: Optional[str] = None
-    role: str = Field("guest", regex="^(host|co-host|guest)$")
+    role: str = Field("guest", pattern="^(host|co-host|guest)$")
 
 class AIProcessingRequest(BaseModel):
     """AI content processing request"""
     session_id: str
     processing_types: List[str] = Field(..., description="transcription, show_notes, social_clips, blog_post, newsletter")
-    priority: str = Field("normal", regex="^(low|normal|high)$")
+    priority: str = Field("normal", pattern="^(low|normal|high)$")
 
 class PodcastAnalytics(BaseModel):
     """Podcast analytics response"""
