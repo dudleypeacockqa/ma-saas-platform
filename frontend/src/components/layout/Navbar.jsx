@@ -12,13 +12,15 @@ import {
   Home,
   Users,
   Globe,
+  Calendar,
 } from 'lucide-react';
 
 const Navbar = () => {
   const navLinks = [
     { href: '/platform', label: 'Platform', icon: <Globe className="h-5 w-5" /> },
+    { href: '/community', label: 'Community', icon: <Users className="h-5 w-5" /> },
+    { href: '/events', label: 'Events', icon: <Calendar className="h-5 w-5" /> },
     { href: '/pricing', label: 'Pricing', icon: <DollarSign className="h-5 w-5" /> },
-    { href: '/about', label: 'About', icon: <Users className="h-5 w-5" /> },
     { href: '/blog', label: 'Blog', icon: <Newspaper className="h-5 w-5" /> },
     { href: '/podcast', label: 'Podcast', icon: <Mic className="h-5 w-5" /> },
   ];
