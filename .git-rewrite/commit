@@ -1,0 +1,16 @@
+tree 6833abfc01561c6617a6ab0d14f3fedd4ebd3fa8
+parent d75cf9e0324df38f592c9cfa1a6ee3f2995fc9f1
+author Brian Madison <brianmadison@Brians-MacBook-Pro.local> 1750357286 -0500
+committer Brian Madison <brianmadison@Brians-MacBook-Pro.local> 1750357286 -0500
+
+feat: update web builder to remove IDE-specific properties from agent bundles
+
+- Remove 'root' property from YAML when building web bundles
+- Remove 'IDE-FILE-RESOLUTION' and 'REQUEST-RESOLUTION' properties
+- Filter out IDE-specific activation instructions
+- Keep agent header minimal for web bundles
+- Ensures web bundles are clean of IDE-specific configuration
+
+🤖 Generated with [Claude Code](https://claude.ai/code)
+
+Co-Authored-By: Claude <noreply@anthropic.com>

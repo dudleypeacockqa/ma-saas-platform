@@ -1,0 +1,11 @@
+refactor: simplify file resolution to concise activation instructions
+
+- Added two concise activation instructions to SM agent
+- IDE-FILE-RESOLUTION: One-line explanation of file path mapping
+- REQUEST-RESOLUTION: One-line instruction for flexible request matching
+- Simplified file-resolution-context.md to be a quick reference
+- Removed verbose documentation in favor of clear, actionable instructions
+
+🤖 Generated with [Claude Code](https://claude.ai/code)
+
+Co-Authored-By: Claude <noreply@anthropic.com>
