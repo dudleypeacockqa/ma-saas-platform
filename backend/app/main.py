@@ -46,6 +46,7 @@ from app.models import (
     integrations as integration_models,  # Multi-platform integrations
     integration_planning,  # Integration planning
     email_campaigns,  # Email campaign management
+    waitlist,  # BMad Method: Premium event waitlist management
 )
 
 # NOTE: models.py contains legacy Tenant/User models that conflict with
@@ -53,7 +54,8 @@ from app.models import (
 # Legacy code should be migrated to use the new models.
 
 # NOW import APIs (after all models are registered)
-from app.api import auth, tenants, users, content, marketing, integrations, master_admin, podcast_studio
+from app.api import auth, tenants, users, content, marketing, integrations, podcast_studio, waitlist
+# from app.api import master_admin  # Temporarily disabled - requires BusinessMetrics, RevenueAnalytics models
 # from app.api import emails  # Temporarily disabled - needs ClerkUser migration
 # from app.api import payments  # Temporarily disabled - needs StripeCustomer/Payment/WebhookEvent models
 from app.api import opportunities, valuations, negotiations, term_sheets, teams
@@ -148,7 +150,7 @@ app.include_router(realtime_collaboration.router, prefix="/api/v1/collaboration"
 app.include_router(due_diligence.router)  # Due diligence management
 app.include_router(content.router)  # Content creation and management
 app.include_router(marketing.router)  # Marketing and subscriber acquisition
-app.include_router(master_admin.router)  # Master Admin Portal API
+# app.include_router(master_admin.router)  # Master Admin Portal API - Temporarily disabled
 app.include_router(podcast_studio.router)  # Podcast Studio - StreamYard-level recording API
 # app.include_router(payments.router)  # Temporarily disabled - needs StripeCustomer/Payment/WebhookEvent models
 app.include_router(integrations.router)  # Platform integrations and workflows
@@ -159,6 +161,7 @@ app.include_router(negotiations.router)  # Deal negotiation and structuring
 app.include_router(term_sheets.router)  # Term sheet management with collaboration
 app.include_router(v1_documents.router, prefix="/api/v1/documents")  # Document management with versioning and approvals
 app.include_router(teams.router, prefix="/api")  # Team management and workflow orchestration
+app.include_router(waitlist.router)  # BMad Method: Premium event waitlist management
 # app.include_router(emails.router)  # Email campaign management - Temporarily disabled - needs ClerkUser migration
 
 # WebSocket status endpoint
