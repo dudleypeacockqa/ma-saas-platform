@@ -53,7 +53,20 @@
       "mcp__render__get_deploy",
       "WebFetch(domain:dashboard.clerk.com)",
       "WebFetch(domain:clerk.com)",
-      "Bash(npm run build:*)"
+      "Bash(npm run build:*)",
+      "mcp__render__create_web_service",
+      "mcp__render__create_static_site",
+      "mcp__render__update_static_site",
+      "mcp__render__list_deploys",
+      "WebFetch(domain:ma-saas-platform-39e7.onrender.com)",
+      "WebFetch(domain:ma-saas-backend-3ujd.onrender.com)",
+      "WebFetch(domain:ma-saas-backend.onrender.com)",
+      "Bash(dig:*)",
+      "mcp__render__create_key_value",
+      "mcp__render__list_key_value",
+      "mcp__render__get_key_value",
+      "WebFetch(domain:api.cloudflare.com)",
+      "Bash(node:*)"
     ],
     "deny": [],
     "ask": []
