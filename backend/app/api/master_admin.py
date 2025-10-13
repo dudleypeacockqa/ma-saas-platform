@@ -14,7 +14,8 @@ import logging
 from app.core.database import get_db
 from app.auth.clerk_auth import ClerkUser, get_current_user, require_admin
 from app.auth.tenant_isolation import TenantAwareQuery, get_tenant_query
-from app.models.subscription import Subscription, SubscriptionPlan, PromotionalCode, PaymentMethod
+from app.models.subscription import Subscription, SubscriptionPlan
+# PromotionalCode and PaymentMethod models need to be created
 from app.models.user import User
 from app.models.organization import Organization
 from app.models.analytics import BusinessMetrics, RevenueAnalytics, CustomerAnalytics
@@ -295,44 +296,11 @@ async def create_promotional_code(
     db: Session = Depends(get_db)
 ):
     """Create new promotional code"""
-    try:
-        # Check if code already exists
-        existing_code = db.query(PromotionalCode).filter(
-            PromotionalCode.code == promo_code.code
-        ).first()
-
-        if existing_code:
-            raise HTTPException(
-                status_code=status.HTTP_400_BAD_REQUEST,
-                detail="Promotional code already exists"
-            )
-
-        # Create new promotional code
-        new_code = PromotionalCode(
-            code=promo_code.code,
-            discount_type=promo_code.discount_type,
-            discount_value=promo_code.discount_value,
-            max_uses=promo_code.max_uses,
-            expiry_date=promo_code.expiry_date,
-            applicable_plans=promo_code.applicable_plans,
-            description=promo_code.description,
-            created_by=current_user.user_id,
-            created_at=datetime.utcnow()
-        )
-
-        db.add(new_code)
-        db.commit()
-        db.refresh(new_code)
-
-        return new_code
-
-    except Exception as e:
-        logger.error(f"Error creating promotional code: {e}")
-        db.rollback()
-        raise HTTPException(
-            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail="Failed to create promotional code"
-        )
+    # TODO: PromotionalCode model needs to be created
+    raise HTTPException(
+        status_code=status.HTTP_501_NOT_IMPLEMENTED,
+        detail="Promotional codes feature coming soon - model needs to be created"
+    )
 
 @router.get("/promotional-codes")
 async def get_promotional_codes(
@@ -341,32 +309,11 @@ async def get_promotional_codes(
     db: Session = Depends(get_db)
 ):
     """Get all promotional codes"""
-    try:
-        query = db.query(PromotionalCode)
-
-        if active_only:
-            now = datetime.utcnow()
-            query = query.filter(
-                or_(
-                    PromotionalCode.expiry_date.is_(None),
-                    PromotionalCode.expiry_date > now
-                )
-            ).filter(
-                or_(
-                    PromotionalCode.max_uses.is_(None),
-                    PromotionalCode.uses_count < PromotionalCode.max_uses
-                )
-            )
-
-        codes = query.order_by(desc(PromotionalCode.created_at)).all()
-        return codes
-
-    except Exception as e:
-        logger.error(f"Error fetching promotional codes: {e}")
-        raise HTTPException(
-            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail="Failed to fetch promotional codes"
-        )
+    # TODO: PromotionalCode model needs to be created
+    raise HTTPException(
+        status_code=status.HTTP_501_NOT_IMPLEMENTED,
+        detail="Promotional codes feature coming soon - model needs to be created"
+    )
 
 # ============================================================================
 # CONTENT CREATION & MANAGEMENT ENDPOINTS
