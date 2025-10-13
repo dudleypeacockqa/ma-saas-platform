@@ -46,7 +46,7 @@ from app.models import (
     integrations as integration_models,  # Multi-platform integrations
     integration_planning,  # Integration planning
     email_campaigns,  # Email campaign management
-    waitlist,  # BMad Method: Premium event waitlist management
+    # waitlist,  # BMad Method: Premium event waitlist management - Temporarily disabled
 )
 
 # NOTE: models.py contains legacy Tenant/User models that conflict with
@@ -54,7 +54,8 @@ from app.models import (
 # Legacy code should be migrated to use the new models.
 
 # NOW import APIs (after all models are registered)
-from app.api import auth, tenants, users, content, marketing, integrations, podcast_studio, waitlist
+from app.api import auth, tenants, users, content, marketing, integrations, podcast_studio
+# from app.api import waitlist  # Temporarily disabled - requires model fixes
 # from app.api import master_admin  # Temporarily disabled - requires BusinessMetrics, RevenueAnalytics models
 # from app.api import emails  # Temporarily disabled - needs ClerkUser migration
 # from app.api import payments  # Temporarily disabled - needs StripeCustomer/Payment/WebhookEvent models
@@ -161,7 +162,7 @@ app.include_router(negotiations.router)  # Deal negotiation and structuring
 app.include_router(term_sheets.router)  # Term sheet management with collaboration
 app.include_router(v1_documents.router, prefix="/api/v1/documents")  # Document management with versioning and approvals
 app.include_router(teams.router, prefix="/api")  # Team management and workflow orchestration
-app.include_router(waitlist.router)  # BMad Method: Premium event waitlist management
+# app.include_router(waitlist.router)  # BMad Method: Premium event waitlist management - Temporarily disabled
 # app.include_router(emails.router)  # Email campaign management - Temporarily disabled - needs ClerkUser migration
 
 # WebSocket status endpoint
