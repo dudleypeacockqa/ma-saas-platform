@@ -1,0 +1,34 @@
+{
+  "base_branch": "master",
+  "labels": {
+    "frontend": ["frontend", "ui"],
+    "mobile": ["mobile"],
+    "backend": ["backend", "api"],
+    "docs": ["documentation"],
+    "infra": ["deploy", "infrastructure"],
+    "tests": ["testing"],
+    "tooling": ["devx"],
+    "data": ["data"],
+    "other": ["maintenance"]
+  },
+  "reviewers": {
+    "frontend": ["dudleypeacockqa"],
+    "mobile": ["dudleypeacockqa"],
+    "backend": ["dudleypeacockqa"],
+    "docs": ["dudleypeacockqa"],
+    "infra": ["dudleypeacockqa"],
+    "tests": ["dudleypeacockqa"],
+    "tooling": ["dudleypeacockqa"],
+    "data": ["dudleypeacockqa"]
+  },
+  "branch_prefix_map": {
+    "feature": "feat",
+    "fix": "fix",
+    "hotfix": "fix",
+    "docs": "docs",
+    "deploy": "deploy",
+    "chore": "chore",
+    "refactor": "refactor",
+    "perf": "perf"
+  }
+}
