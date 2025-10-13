@@ -4,6 +4,10 @@ settings:
   autoInstallPeers: true
   excludeLinksFromLockfile: false
 
+overrides:
+  "@hello-pangea/dnd>react": ^19.1.0
+  "@hello-pangea/dnd>react-dom": ^19.1.0
+
 importers:
   .:
     dependencies:
@@ -867,8 +871,8 @@ packages:
         integrity: sha512-vfZ4GydqbtUPXSLfAvKvXQ6xwRzIjUSjVU0Sx+70VOhc2xx6CdmJXJ8YhH70RpbTUGjxctslQTHul9sIOxCfFQ==,
       }
     peerDependencies:
-      react: ^16.8.5 || ^17.0.0 || ^18.0.0
-      react-dom: ^16.8.5 || ^17.0.0 || ^18.0.0
+      react: ^19.1.0
+      react-dom: ^19.1.0
 
   "@hookform/resolvers@5.0.1":
     resolution:
