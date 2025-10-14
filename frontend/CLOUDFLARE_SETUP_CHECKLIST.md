@@ -425,6 +425,6 @@ If issues arise:
 - [ ] Documentation updated
 - [ ] Monitoring in place
 
-**Setup Date**: ******\_\_\_******
-**Completed By**: ******\_\_\_******
-**Verified By**: ******\_\_\_******
+**Setup Date**: **\*\***\_\_\_**\*\***
+**Completed By**: **\*\***\_\_\_**\*\***
+**Verified By**: **\*\***\_\_\_**\*\***

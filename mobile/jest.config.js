@@ -5,7 +5,7 @@
   setupFiles: ['<rootDir>/jest.setup.ts'],
   setupFilesAfterEnv: ['@testing-library/jest-native/extend-expect'],
   transformIgnorePatterns: [
-    'node_modules/(?!(react-native|@react-native|@react-navigation|react-native-gesture-handler|react-native-reanimated|@react-native-firebase|@react-native-async-storage|@react-native-community|react-native-screens|react-native-safe-area-context|react-native-vector-icons|redux-persist)/)'
+    'node_modules/(?!(react-native|@react-native|@react-navigation|react-native-gesture-handler|react-native-reanimated|@react-native-firebase|@react-native-async-storage|@react-native-community|react-native-screens|react-native-safe-area-context|react-native-vector-icons|redux-persist)/)',
   ],
   moduleNameMapper: {
     '^@components/(.*)$': '<rootDir>/src/components/$1',
@@ -15,6 +15,6 @@
     '^@utils/(.*)$': '<rootDir>/src/utils/$1',
     '^@hooks/(.*)$': '<rootDir>/src/hooks/$1',
     '^@assets/(.*)$': '<rootDir>/src/assets/$1',
-    '^@types/(.*)$': '<rootDir>/src/types/$1'
-  }
+    '^@types/(.*)$': '<rootDir>/src/types/$1',
+  },
 };

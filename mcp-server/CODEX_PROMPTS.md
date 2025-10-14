@@ -59,7 +59,7 @@ if response.json().get("result", {}).get("status") == "new_project":
         },
         "project_id": "targetcorp-acquisition"
     }
-    
+
     plan_response = requests.post(f"{mcp_server_url}/api/v1/workflow/execute", headers=headers, data=json.dumps(plan_project_payload))
     print(plan_response.json())
 
@@ -304,4 +304,3 @@ response = requests.post(f"{mcp_server_url}/api/v1/workflow/execute", headers=he
 print(response.json())
 
 ```
-

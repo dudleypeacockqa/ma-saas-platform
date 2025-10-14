@@ -7,6 +7,7 @@ This M&A SaaS platform is optimized for development with Cursor IDE using Claude
 ## Development Workflow
 
 ### 1. BMAD Methodology Integration
+
 The project includes the complete BMAD (Breakthrough Method of Agile AI-Driven Development) framework in the `bmad-core/` directory:
 
 - **Agents**: Pre-configured AI agents for different roles (Analyst, PM, Architect, Dev, QA)
@@ -15,6 +16,7 @@ The project includes the complete BMAD (Breakthrough Method of Agile AI-Driven D
 - **Checklists**: Quality gates and validation criteria
 
 ### 2. Recommended Cursor Extensions
+
 - Claude Code CLI integration
 - OpenAI Codex CLI integration
 - Python extension pack
@@ -24,6 +26,7 @@ The project includes the complete BMAD (Breakthrough Method of Agile AI-Driven D
 ### 3. AI-Assisted Development Commands
 
 #### Using Claude Code CLI
+
 ```bash
 # Start with business analysis
 claude --agent bmad-core/agents/analyst.md
@@ -42,6 +45,7 @@ claude --agent bmad-core/agents/qa.md
 ```
 
 #### Using OpenAI Codex CLI
+
 ```bash
 # Generate boilerplate code
 codex generate --template react-component
@@ -79,12 +83,14 @@ ma-saas-platform/
 ### 5. AI Prompting Best Practices
 
 #### For Claude Code CLI
+
 - Use specific, context-rich prompts
 - Reference the BMAD agents for role-specific guidance
 - Include business context from the M&A domain
 - Leverage the existing templates and checklists
 
 #### For OpenAI Codex CLI
+
 - Focus on code generation and optimization
 - Use for boilerplate creation and refactoring
 - Leverage for testing and documentation generation
@@ -93,21 +99,25 @@ ma-saas-platform/
 ### 6. Development Phases with AI Assistance
 
 #### Phase 1: Foundation (Using BMAD Analyst + PM)
+
 1. Use Analyst agent to refine M&A workflow requirements
 2. Use PM agent to create detailed PRD
 3. Use Architect agent to finalize system design
 
 #### Phase 2: Core Development (Using BMAD SM + Dev)
+
 1. Use SM agent to break down features into stories
 2. Use Dev agent for implementation guidance
 3. Use Codex for rapid code generation
 
 #### Phase 3: AI Integration (Using Claude Code CLI)
+
 1. Integrate Claude MCP server
 2. Implement AI-powered deal analysis
 3. Add intelligent document processing
 
 #### Phase 4: Quality & Deployment (Using BMAD QA)
+
 1. Use QA agent for comprehensive testing
 2. Use Codex for test generation
 3. Deploy to Render with CI/CD
@@ -115,6 +125,7 @@ ma-saas-platform/
 ### 7. Key Files for AI Context
 
 When working with AI assistants, always include these files for context:
+
 - `README.md` - Project overview
 - `bmad-core/data/bmad-kb.md` - BMAD knowledge base
 - `docs/architecture.md` - System architecture
@@ -124,6 +135,7 @@ When working with AI assistants, always include these files for context:
 ### 8. Multi-Tenant Considerations
 
 The AI assistants should be aware of:
+
 - Tenant isolation requirements
 - Data security and privacy
 - Scalability patterns
@@ -132,6 +144,7 @@ The AI assistants should be aware of:
 ### 9. M&A Domain Context
 
 Provide AI assistants with M&A-specific context:
+
 - Deal lifecycle stages
 - Due diligence processes
 - Financial modeling requirements

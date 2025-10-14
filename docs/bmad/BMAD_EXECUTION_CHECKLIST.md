@@ -24,6 +24,7 @@
   - Output: solution-architecture.md with ADRs
 
 - [ ] **Create AI Valuation Engine Stories**
+
   ```bash
   cd ma-saas-platform && @bmad/bmm/workflows/4-implementation/create-story.md
   ```
@@ -45,6 +46,7 @@
   - Include semantic matching algorithms
 
 - [ ] **Create Document Intelligence Stories**
+
   ```bash
   cd ma-saas-platform && @bmad/bmm/workflows/4-implementation/create-story.md
   ```
@@ -66,6 +68,7 @@
   - Target: 8-10 stories
 
 - [ ] **Create Event Management Stories**
+
   ```bash
   cd ma-saas-platform && @bmad/bmm/workflows/4-implementation/create-story.md
   ```
@@ -87,6 +90,7 @@
   - Include performance and security tests
 
 - [ ] **Create Performance Optimization Stories**
+
   ```bash
   cd ma-saas-platform && @bmad/bmm/workflows/4-implementation/create-story.md
   ```

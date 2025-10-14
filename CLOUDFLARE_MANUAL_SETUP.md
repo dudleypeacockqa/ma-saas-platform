@@ -285,6 +285,6 @@ Never share API keys publicly again!
 
 ---
 
-**Setup Date**: ********\_********
-**Completed By**: ********\_********
+**Setup Date**: **\*\*\*\***\_**\*\*\*\***
+**Completed By**: **\*\*\*\***\_**\*\*\*\***
 **Verified Working**: ☐ Yes ☐ No

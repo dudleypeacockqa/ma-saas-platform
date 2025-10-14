@@ -57,7 +57,9 @@ class ActivationBuilder {
     // Build handlers (load only needed handlers)
     const handlers = await this.buildHandlers(profile);
 
-    const processedHandlers = menuHandlers.replace('{DYNAMIC_EXTRACT_LIST}', extractList).replace('{DYNAMIC_HANDLERS}', handlers);
+    const processedHandlers = menuHandlers
+      .replace('{DYNAMIC_EXTRACT_LIST}', extractList)
+      .replace('{DYNAMIC_HANDLERS}', handlers);
 
     activation += '\n' + this.indent(processedHandlers, 2) + '\n';
 
@@ -106,7 +108,9 @@ class ActivationBuilder {
     const stepsTemplate = await this.loadFragment(fragmentName);
 
     // Extract basename from agent ID (e.g., "bmad/bmm/agents/pm.md" → "pm")
-    const agentBasename = metadata.id ? metadata.id.split('/').pop().replace('.md', '') : metadata.name || 'agent';
+    const agentBasename = metadata.id
+      ? metadata.id.split('/').pop().replace('.md', '')
+      : metadata.name || 'agent';
 
     // Build agent-specific steps
     let agentStepsXml = '';

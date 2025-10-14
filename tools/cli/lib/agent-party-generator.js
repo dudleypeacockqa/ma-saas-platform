@@ -40,7 +40,13 @@ const AgentPartyGenerator = {
       if (agents.length === 0) continue;
 
       const moduleTitle =
-        module === 'bmm' ? 'BMM Module' : module === 'cis' ? 'CIS Module' : module === 'core' ? 'Core Module' : 'Custom Module';
+        module === 'bmm'
+          ? 'BMM Module'
+          : module === 'cis'
+            ? 'CIS Module'
+            : module === 'core'
+              ? 'Core Module'
+              : 'Custom Module';
 
       xmlContent += `\n  <!-- ${moduleTitle} Agents -->\n`;
 

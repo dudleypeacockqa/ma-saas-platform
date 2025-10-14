@@ -40,11 +40,16 @@ async function formatYamlContent(content, filename) {
           // If the content contains special YAML characters or looks complex, quote it
           // BUT skip if it looks like a proper YAML key-value pair (like "key: value")
           if (
-            (content.includes(':') || content.includes('-') || content.includes('{') || content.includes('}')) &&
+            (content.includes(':') ||
+              content.includes('-') ||
+              content.includes('{') ||
+              content.includes('}')) &&
             !/^\w+:\s/.test(content)
           ) {
             // Remove any existing quotes first, escape internal quotes, then add proper quotes
-            const cleanContent = content.replaceAll(/^["']|["']$/g, '').replaceAll('"', String.raw`\"`);
+            const cleanContent = content
+              .replaceAll(/^["']|["']$/g, '')
+              .replaceAll('"', String.raw`\"`);
             return `${indent}- "${cleanContent}"`;
           }
           return match;
@@ -226,7 +231,9 @@ async function main() {
   }
 
   if (hasChanges) {
-    console.log(chalk.green(`\n✨ YAML formatting completed! Modified ${filesProcessed.length} files:`));
+    console.log(
+      chalk.green(`\n✨ YAML formatting completed! Modified ${filesProcessed.length} files:`),
+    );
     for (const file of filesProcessed) console.log(chalk.blue(`  📝 ${file}`));
   }
 

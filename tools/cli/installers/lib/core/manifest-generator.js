@@ -34,7 +34,9 @@ class ManifestGenerator {
     this.allInstalledFiles = installedFiles;
 
     if (!Object.prototype.hasOwnProperty.call(options, 'ides')) {
-      throw new Error('ManifestGenerator requires `options.ides` to be provided – installer should supply the selected IDEs array.');
+      throw new Error(
+        'ManifestGenerator requires `options.ides` to be provided – installer should supply the selected IDEs array.',
+      );
     }
 
     const resolvedIdes = options.ides ?? [];
@@ -191,7 +193,11 @@ class ManifestGenerator {
 
     for (const file of files) {
       // Only include .md files, skip .agent.yaml source files and README.md
-      if (file.endsWith('.md') && !file.endsWith('.agent.yaml') && file.toLowerCase() !== 'readme.md') {
+      if (
+        file.endsWith('.md') &&
+        !file.endsWith('.agent.yaml') &&
+        file.toLowerCase() !== 'readme.md'
+      ) {
         const filePath = path.join(dirPath, file);
         const content = await fs.readFile(filePath, 'utf8');
 
@@ -217,7 +223,8 @@ class ManifestGenerator {
         const principlesMatch = content.match(/<principles>([\s\S]*?)<\/principles>/);
 
         // Build relative path for installation
-        const installPath = moduleName === 'core' ? `bmad/core/agents/${file}` : `bmad/${moduleName}/agents/${file}`;
+        const installPath =
+          moduleName === 'core' ? `bmad/core/agents/${file}` : `bmad/${moduleName}/agents/${file}`;
 
         const agentName = file.replace('.md', '');
 
@@ -298,7 +305,8 @@ class ManifestGenerator {
         const objMatch = content.match(/<objective>([^<]+)<\/objective>/);
 
         // Build relative path for installation
-        const installPath = moduleName === 'core' ? `bmad/core/tasks/${file}` : `bmad/${moduleName}/tasks/${file}`;
+        const installPath =
+          moduleName === 'core' ? `bmad/core/tasks/${file}` : `bmad/${moduleName}/tasks/${file}`;
 
         const taskName = file.replace('.md', '');
         tasks.push({
@@ -377,7 +385,8 @@ class ManifestGenerator {
     const csvPath = path.join(cfgDir, 'agent-manifest.csv');
 
     // Create CSV header with persona fields
-    let csv = 'name,displayName,title,icon,role,identity,communicationStyle,principles,module,path\n';
+    let csv =
+      'name,displayName,title,icon,role,identity,communicationStyle,principles,module,path\n';
 
     // Add rows
     for (const agent of this.agents) {

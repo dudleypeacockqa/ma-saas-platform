@@ -7,8 +7,8 @@ on:
     branches: [ main ]
 
 env:
-  PYTHON_VERSION: '3.11'
-  NODE_VERSION: '18'
+  PYTHON_VERSION: "3.11"
+  NODE_VERSION: "18"
 
 jobs:
   test:
@@ -294,9 +294,9 @@ jobs:
     - name: Run OWASP ZAP scan
       uses: zaproxy/action-baseline@v0.7.0
       with:
-        target: 'https://bmad-mcp-staging.onrender.com'
-        rules_file_name: '.zap/rules.tsv'
-        cmd_options: '-a'
+        target: "https://bmad-mcp-staging.onrender.com"
+        rules_file_name: ".zap/rules.tsv"
+        cmd_options: "-a"
 
   notify:
     runs-on: ubuntu-latest
@@ -309,7 +309,7 @@ jobs:
       uses: 8398a7/action-slack@v3
       with:
         status: ${{ job.status }}
-        channel: '#deployments'
+        channel: "#deployments"
         text: |
           BMAD v6 MCP Server deployment ${{ job.status }}!
           Branch: ${{ github.ref }}

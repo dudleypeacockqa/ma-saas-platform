@@ -200,7 +200,9 @@ class XmlHandler {
         sourceFile: path.basename(yamlPath),
         sourceHash: await this.yamlBuilder.calculateFileHash(yamlPath),
         customizeFile: customizePath ? path.basename(customizePath) : null,
-        customizeHash: customizePath ? await this.yamlBuilder.calculateFileHash(customizePath) : null,
+        customizeHash: customizePath
+          ? await this.yamlBuilder.calculateFileHash(customizePath)
+          : null,
         builderVersion: '1.0.0',
         includeMetadata: metadata.includeMetadata !== false,
       };

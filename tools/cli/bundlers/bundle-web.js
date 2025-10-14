@@ -4,7 +4,10 @@ const { program } = require('commander');
 const path = require('node:path');
 const fs = require('fs-extra');
 
-program.name('bundle-web').description('Generate web bundles for BMAD agents and teams').version('1.0.0');
+program
+  .name('bundle-web')
+  .description('Generate web bundles for BMAD agents and teams')
+  .version('1.0.0');
 
 program
   .command('all')
@@ -27,7 +30,9 @@ program
   .action(async (options) => {
     try {
       // Clean output directory first
-      const outputDir = path.isAbsolute(options.output) ? options.output : path.join(process.cwd(), options.output);
+      const outputDir = path.isAbsolute(options.output)
+        ? options.output
+        : path.join(process.cwd(), options.output);
 
       if (await fs.pathExists(outputDir)) {
         console.log(chalk.cyan(`🧹 Cleaning ${options.output}...`));
@@ -55,7 +60,11 @@ program
       if (result.agents.length === 0 && result.teams.length === 0) {
         console.log(chalk.yellow(`No agents or teams found in module: ${moduleName}`));
       } else {
-        console.log(chalk.green(`\n✨ Successfully bundled ${result.agents.length} agents and ${result.teams.length} teams`));
+        console.log(
+          chalk.green(
+            `\n✨ Successfully bundled ${result.agents.length} agents and ${result.teams.length} teams`,
+          ),
+        );
       }
     } catch (error) {
       console.error(chalk.red('Error:'), error.message);

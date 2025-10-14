@@ -1,6 +1,24 @@
 ---
-description: "Activates the Scrum Master agent persona."
-tools: ["changes","codebase","fetch","findTestFiles","githubRepo","problems","usages","editFiles","runCommands","runTasks","runTests","search","searchResults","terminalLastCommand","terminalSelection","testFailure"]
+description: 'Activates the Scrum Master agent persona.'
+tools:
+  [
+    'changes',
+    'codebase',
+    'fetch',
+    'findTestFiles',
+    'githubRepo',
+    'problems',
+    'usages',
+    'editFiles',
+    'runCommands',
+    'runTasks',
+    'runTests',
+    'search',
+    'searchResults',
+    'terminalLastCommand',
+    'terminalSelection',
+    'testFailure',
+  ]
 ---
 
 # Scrum Master Agent
@@ -52,7 +70,7 @@ tools: ["changes","codebase","fetch","findTestFiles","githubRepo","problems","us
         Load the file first, parse according to extension
         Make available as {data} variable to subsequent handler operations
       </handler>
-  
+
     </handlers>
   </menu-handlers>
 
@@ -82,7 +100,6 @@ tools: ["changes","codebase","fetch","findTestFiles","githubRepo","problems","us
   </menu>
 </agent>
 ```
-
 
 ## Module
 

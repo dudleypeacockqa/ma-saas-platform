@@ -112,6 +112,6 @@ This comprehensive podcast strategy provides the framework for establishing "100
 
 ---
 
-*Implementation Timeline: 4 weeks to launch, 12 weeks to establish audience, 24 weeks to achieve target metrics*
-*Budget Requirement: $2,350 monthly for professional production and marketing*
-*Expected ROI: 300%+ based on conservative conversion estimates*
+_Implementation Timeline: 4 weeks to launch, 12 weeks to establish audience, 24 weeks to achieve target metrics_
+_Budget Requirement: $2,350 monthly for professional production and marketing_
+_Expected ROI: 300%+ based on conservative conversion estimates_

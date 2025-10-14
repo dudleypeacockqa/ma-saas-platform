@@ -18,7 +18,9 @@ module.exports = {
       if (config.actionType === 'compile') {
         const result = await installer.compileAgents(config);
         console.log(chalk.green('\n✨ Agent compilation complete!'));
-        console.log(chalk.cyan(`Rebuilt ${result.agentCount} agents and ${result.taskCount} tasks`));
+        console.log(
+          chalk.cyan(`Rebuilt ${result.agentCount} agents and ${result.taskCount} tasks`),
+        );
         process.exit(0);
         return;
       }
@@ -39,8 +41,16 @@ module.exports = {
           chalk.cyan('BMAD Core and Selected Modules have been installed to:'),
           chalk.bold(result.path || path.resolve(config.directory, 'bmad')),
         );
-        console.log(chalk.yellow('\nThank you for helping test the early release version of the new BMad Core and BMad Method!'));
-        console.log(chalk.cyan('Check docs/alpha-release-notes.md in this repository for important information.'));
+        console.log(
+          chalk.yellow(
+            '\nThank you for helping test the early release version of the new BMad Core and BMad Method!',
+          ),
+        );
+        console.log(
+          chalk.cyan(
+            'Check docs/alpha-release-notes.md in this repository for important information.',
+          ),
+        );
         process.exit(0);
       }
     } catch (error) {

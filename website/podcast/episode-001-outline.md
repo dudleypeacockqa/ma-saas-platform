@@ -3,7 +3,7 @@
 **Release Date**: October 14, 2025  
 **Duration**: 45 minutes  
 **Host**: Dudley Peacock  
-**Episode Type**: Solo Deep Dive  
+**Episode Type**: Solo Deep Dive
 
 ## Episode Description
 
@@ -22,30 +22,35 @@ Welcome to the inaugural episode of "100 Days and Beyond," the podcast for M&A p
 ## Episode Outline
 
 ### Introduction (0:00 - 3:00)
+
 - Welcome to 100 Days and Beyond
 - Host introduction and background
 - Podcast mission and value proposition
 - What listeners can expect from the series
 
 ### Market State Analysis (3:00 - 15:00)
+
 - Global M&A volume and value trends in 2025
 - Regional variations and opportunities
 - Interest rate impact on deal structures
 - Private equity market dynamics
 
 ### Technology Revolution in M&A (15:00 - 28:00)
+
 - AI-powered deal sourcing and evaluation
 - Digital due diligence platforms
 - Cloud-based collaboration tools
 - Data security and compliance considerations
 
 ### Strategic Success Frameworks (28:00 - 40:00)
+
 - The 100 Days methodology for deal execution
 - Building competitive advantages through technology
 - Stakeholder management in complex transactions
 - Risk mitigation strategies
 
 ### Looking Ahead (40:00 - 45:00)
+
 - Predictions for H2 2025 and beyond
 - Upcoming episode previews
 - Call to action and resource sharing
@@ -69,10 +74,12 @@ Welcome to the inaugural episode of "100 Days and Beyond," the podcast for M&A p
 - **M&A Market Outlook Whitepaper**: Downloadable resource with detailed market analysis and predictions
 
 ## Guest Information
-*Solo episode - no guests*
+
+_Solo episode - no guests_
 
 ## Sponsor Messages
-*To be determined based on partnership development*
+
+_To be determined based on partnership development_
 
 ## Call to Action
 
@@ -90,7 +97,7 @@ Long-tail: AI-powered M&A platform, private equity deal management, M&A market o
 
 **LinkedIn Post**: "Just launched the first episode of '100 Days and Beyond' - exploring why 2025 is the year of M&A transformation. Key insight: Deal volumes down 9%, but values up 15%. What does this mean for your deal strategy? Listen now: [link] #MandA #PrivateEquity #DealManagement"
 
-**Twitter Thread**: 
+**Twitter Thread**:
 1/ New podcast alert! 🎙️ "100 Days and Beyond" Episode 1 is live
 2/ Deep dive into the M&A paradox: fewer deals, higher values
 3/ Why AI-powered platforms are becoming essential for competitive advantage

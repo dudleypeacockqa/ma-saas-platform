@@ -310,7 +310,11 @@ class Manifest {
       csv.push('## Modules', 'Name,Version,ShortTitle');
       for (const moduleName of data.modules) {
         const config = moduleConfigs[moduleName] || {};
-        csv.push([moduleName, config.version || '', config['short-title'] || ''].map((v) => this.escapeCsv(v)).join(','));
+        csv.push(
+          [moduleName, config.version || '', config['short-title'] || '']
+            .map((v) => this.escapeCsv(v))
+            .join(','),
+        );
       }
       csv.push('');
     }

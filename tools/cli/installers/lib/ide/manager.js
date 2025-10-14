@@ -22,7 +22,12 @@ class IdeManager {
       // Get all JS files in the IDE directory
       const files = fs.readdirSync(ideDir).filter((file) => {
         // Skip base class, manager, utility files (starting with _), and helper modules
-        return file.endsWith('.js') && !file.startsWith('_') && file !== 'manager.js' && file !== 'workflow-command-generator.js';
+        return (
+          file.endsWith('.js') &&
+          !file.startsWith('_') &&
+          file !== 'manager.js' &&
+          file !== 'workflow-command-generator.js'
+        );
       });
 
       // Sort alphabetically for consistent ordering
@@ -36,7 +41,8 @@ class IdeManager {
           const HandlerModule = require(modulePath);
 
           // Get the first exported class (handles various export styles)
-          const HandlerClass = HandlerModule.default || HandlerModule[Object.keys(HandlerModule)[0]];
+          const HandlerClass =
+            HandlerModule.default || HandlerModule[Object.keys(HandlerModule)[0]];
 
           if (HandlerClass) {
             const instance = new HandlerClass();

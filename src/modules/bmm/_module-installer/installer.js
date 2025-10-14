@@ -98,7 +98,9 @@ async function install(options) {
 async function configureForIDE(ide, projectRoot, config, logger) {
   // Validate platform code
   if (!platformCodes.isValidPlatform(ide)) {
-    logger.warn(chalk.yellow(`  Warning: Unknown platform code '${ide}'. Skipping BMM configuration.`));
+    logger.warn(
+      chalk.yellow(`  Warning: Unknown platform code '${ide}'. Skipping BMM configuration.`),
+    );
     return;
   }
 
@@ -124,7 +126,11 @@ async function configureForIDE(ide, projectRoot, config, logger) {
       logger.log(chalk.dim(`  No BMM-specific configuration for ${platformName}`));
     }
   } catch (error) {
-    logger.warn(chalk.yellow(`  Warning: Could not load BMM platform-specific handler for ${platformName}: ${error.message}`));
+    logger.warn(
+      chalk.yellow(
+        `  Warning: Could not load BMM platform-specific handler for ${platformName}: ${error.message}`,
+      ),
+    );
   }
 }
 

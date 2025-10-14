@@ -20,7 +20,10 @@ module.exports = {
       console.log(chalk.cyan('\n📊 BMAD Installation Status\n'));
       console.log(chalk.bold('Location:'), status.path);
       console.log(chalk.bold('Version:'), status.version);
-      console.log(chalk.bold('Core:'), status.hasCore ? chalk.green('✓ Installed') : chalk.red('✗ Not installed'));
+      console.log(
+        chalk.bold('Core:'),
+        status.hasCore ? chalk.green('✓ Installed') : chalk.red('✗ Not installed'),
+      );
 
       if (status.modules.length > 0) {
         console.log(chalk.bold('\nModules:'));

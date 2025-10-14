@@ -1053,7 +1053,7 @@ _Owner: UX Design Team_
 
 **Approval Signatures:**
 
-- UX Lead: ******\_\_\_******
-- Product Manager: ******\_\_\_******
-- Engineering Lead: ******\_\_\_******
-- Business Stakeholder: ******\_\_\_******
+- UX Lead: **\*\***\_\_\_**\*\***
+- Product Manager: **\*\***\_\_\_**\*\***
+- Engineering Lead: **\*\***\_\_\_**\*\***
+- Business Stakeholder: **\*\***\_\_\_**\*\***

@@ -126,7 +126,17 @@ class FileOps {
    * @returns {boolean} True if should be ignored
    */
   shouldIgnore(filePath) {
-    const ignoredPatterns = ['.git', '.DS_Store', 'node_modules', '*.swp', '*.tmp', '.idea', '.vscode', '__pycache__', '*.pyc'];
+    const ignoredPatterns = [
+      '.git',
+      '.DS_Store',
+      'node_modules',
+      '*.swp',
+      '*.tmp',
+      '.idea',
+      '.vscode',
+      '__pycache__',
+      '*.pyc',
+    ];
 
     const basename = path.basename(filePath);
 

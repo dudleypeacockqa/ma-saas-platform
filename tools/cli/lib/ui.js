@@ -142,7 +142,10 @@ class UI {
       }
     }
 
-    CLIUtils.displaySection('Tool Integration', 'Select AI coding assistants and IDEs to configure');
+    CLIUtils.displaySection(
+      'Tool Integration',
+      'Select AI coding assistants and IDEs to configure',
+    );
 
     const answers = await inquirer.prompt([
       {
@@ -533,7 +536,9 @@ class UI {
         const separatorIndex = restOfPath.indexOf(path.sep);
         const username = separatorIndex === -1 ? restOfPath : restOfPath.slice(0, separatorIndex);
         if (username) {
-          throw new Error(`Path expansion for ~${username} is not supported. Please use an absolute path or ~${path.sep}`);
+          throw new Error(
+            `Path expansion for ~${username} is not supported. Please use an absolute path or ~${path.sep}`,
+          );
         }
       }
     }

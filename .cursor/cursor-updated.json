@@ -12,7 +12,7 @@
     },
     "aiConfiguration": {
       "primaryAI": "claude",
-      "secondaryAI": "codex", 
+      "secondaryAI": "codex",
       "methodology": "BMAD Method v6.0.0-alpha.0",
       "strategicIntelligence": "manus",
       "deploymentAutomation": "render-mcp",
@@ -166,7 +166,7 @@
     "dualPurpose": "Personal wealth building + SaaS business with AI ecosystem intelligence",
     "subscriptionTiers": {
       "solo": "$279/month - AI-powered individual dealmaker support",
-      "growth": "$798/month - Advanced analytics with team collaboration", 
+      "growth": "$798/month - Advanced analytics with team collaboration",
       "enterprise": "$1598/month - Complete AI intelligence with strategic consultation"
     },
     "additionalRevenue": [

@@ -1,16 +1,14 @@
-import { defineConfig } from 'vite'
-import react from '@vitejs/plugin-react'
-import tailwindcss from '@tailwindcss/vite'
-import { sentryVitePlugin } from '@sentry/vite-plugin'
-import path from 'path'
+import { defineConfig } from 'vite';
+import react from '@vitejs/plugin-react';
+import tailwindcss from '@tailwindcss/vite';
+import { sentryVitePlugin } from '@sentry/vite-plugin';
+import path from 'path';
 
 // https://vite.dev/config/
 export default defineConfig(() => {
   const sentryEnabled = Boolean(
-    process.env.SENTRY_AUTH_TOKEN &&
-      process.env.SENTRY_ORG &&
-      process.env.SENTRY_PROJECT
-  )
+    process.env.SENTRY_AUTH_TOKEN && process.env.SENTRY_ORG && process.env.SENTRY_PROJECT,
+  );
 
   return {
     plugins: [
@@ -57,5 +55,5 @@ export default defineConfig(() => {
       // Define global constants
       __DEV__: JSON.stringify(process.env.NODE_ENV !== 'production'),
     },
-  }
-})
+  };
+});

@@ -4,7 +4,7 @@
 **Primary Purpose**: Personal wealth building through buy-build-exit strategy using platform technology  
 **Secondary Purpose**: SaaS subscriptions and services as lead generation and partnership development  
 **Target**: £200 Million personal wealth + platform valuation  
-**Framework**: BMAD Method v6.0.0-alpha.0 with ecosystem optimization  
+**Framework**: BMAD Method v6.0.0-alpha.0 with ecosystem optimization
 
 ## Executive Summary: The Dual-Purpose Strategy
 

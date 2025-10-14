@@ -184,8 +184,10 @@ class GitHubCopilotSetup extends BaseIdeSetup {
       bmadSettings = {
         'chat.agent.enabled': true,
         'chat.agent.maxRequests': parseInt(manual.maxRequests || 15),
-        'github.copilot.chat.agent.runTasks': manual.runTasks === undefined ? true : manual.runTasks,
-        'chat.mcp.discovery.enabled': manual.mcpDiscovery === undefined ? true : manual.mcpDiscovery,
+        'github.copilot.chat.agent.runTasks':
+          manual.runTasks === undefined ? true : manual.runTasks,
+        'chat.mcp.discovery.enabled':
+          manual.mcpDiscovery === undefined ? true : manual.mcpDiscovery,
         'github.copilot.chat.agent.autoFix': manual.autoFix === undefined ? true : manual.autoFix,
         'chat.tools.autoApprove': manual.autoApprove || false,
       };
@@ -208,7 +210,9 @@ class GitHubCopilotSetup extends BaseIdeSetup {
     const title = titleMatch ? titleMatch[1] : this.formatTitle(agent.name);
 
     const whenToUseMatch = content.match(/whenToUse="([^"]+)"/);
-    const description = whenToUseMatch ? whenToUseMatch[1] : `Activates the ${title} agent persona.`;
+    const description = whenToUseMatch
+      ? whenToUseMatch[1]
+      : `Activates the ${title} agent persona.`;
 
     // Available GitHub Copilot tools
     const tools = [

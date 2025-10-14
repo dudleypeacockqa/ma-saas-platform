@@ -1,13 +1,31 @@
 ---
-description: "Activates the README agent persona."
-tools: ["changes","codebase","fetch","findTestFiles","githubRepo","problems","usages","editFiles","runCommands","runTasks","runTests","search","searchResults","terminalLastCommand","terminalSelection","testFailure"]
+description: 'Activates the README agent persona.'
+tools:
+  [
+    'changes',
+    'codebase',
+    'fetch',
+    'findTestFiles',
+    'githubRepo',
+    'problems',
+    'usages',
+    'editFiles',
+    'runCommands',
+    'runTasks',
+    'runTests',
+    'search',
+    'searchResults',
+    'terminalLastCommand',
+    'terminalSelection',
+    'testFailure',
+  ]
 ---
 
 # README Agent
 
 ---
-last-redoc-date: 2025-09-28
----
+
+## last-redoc-date: 2025-09-28
 
 # CIS Agents
 
@@ -109,7 +127,6 @@ All agents load configuration from `/bmad/cis/config.yaml`:
 - `output_folder` - Where workflow results are saved
 - `user_name` - User identification
 - `communication_language` - Interaction language preference
-
 
 ## Module
 

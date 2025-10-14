@@ -17,9 +17,10 @@ class ResizeObserver {
   observe(target) {
     const entry = {
       target,
-      contentRect: target && typeof target.getBoundingClientRect === 'function'
-        ? target.getBoundingClientRect()
-        : { width: (target?.clientWidth || 0), height: (target?.clientHeight || 0) },
+      contentRect:
+        target && typeof target.getBoundingClientRect === 'function'
+          ? target.getBoundingClientRect()
+          : { width: target?.clientWidth || 0, height: target?.clientHeight || 0 },
     };
     this.callback([entry]);
   }
@@ -33,16 +34,18 @@ if (!global.ResizeObserver) {
 
 Object.defineProperty(window, 'matchMedia', {
   writable: true,
-  value: window.matchMedia || ((query) => ({
-    matches: false,
-    media: query,
-    onchange: null,
-    addListener: () => {},
-    removeListener: () => {},
-    addEventListener: () => {},
-    removeEventListener: () => {},
-    dispatchEvent: () => false,
-  })),
+  value:
+    window.matchMedia ||
+    ((query) => ({
+      matches: false,
+      media: query,
+      onchange: null,
+      addListener: () => {},
+      removeListener: () => {},
+      addEventListener: () => {},
+      removeEventListener: () => {},
+      dispatchEvent: () => false,
+    })),
 });
 
 if (!window.scrollTo) {
@@ -52,4 +55,3 @@ if (!window.scrollTo) {
 if (!global.structuredClone) {
   global.structuredClone = (value) => JSON.parse(JSON.stringify(value));
 }
-

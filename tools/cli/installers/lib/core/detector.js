@@ -132,7 +132,10 @@ class Detector {
         const moduleManifestPath = path.join(modulePath, 'install-manifest.yaml');
 
         // Check if it's likely a BMAD module
-        if ((await fs.pathExists(moduleManifestPath)) || (await fs.pathExists(path.join(modulePath, 'config.yaml')))) {
+        if (
+          (await fs.pathExists(moduleManifestPath)) ||
+          (await fs.pathExists(path.join(modulePath, 'config.yaml')))
+        ) {
           result.hasLegacy = true;
           result.legacyModules.push({
             name: entry.name.slice(1), // Remove leading dot
@@ -200,7 +203,10 @@ class Detector {
           const name = entry.name;
           // Match .bmad*, bmad* (lowercase), or Bmad* (capital B)
           // BUT exclude 'bmad' exactly (that's the new v6 installation directory)
-          if ((name.startsWith('.bmad') || name.startsWith('bmad') || name.startsWith('Bmad')) && name !== 'bmad') {
+          if (
+            (name.startsWith('.bmad') || name.startsWith('bmad') || name.startsWith('Bmad')) &&
+            name !== 'bmad'
+          ) {
             offenders.push(path.join(projectDir, entry.name));
           }
         }
@@ -211,7 +217,15 @@ class Detector {
 
     // Check inside various IDE command folders for legacy bmad folders
     // List of IDE config folders that might have commands directories
-    const ideConfigFolders = ['.claude', '.crush', '.continue', '.cursor', '.windsurf', '.cline', '.roo-cline'];
+    const ideConfigFolders = [
+      '.claude',
+      '.crush',
+      '.continue',
+      '.cursor',
+      '.windsurf',
+      '.cline',
+      '.roo-cline',
+    ];
 
     for (const ideFolder of ideConfigFolders) {
       const commandsPath = path.join(projectDir, ideFolder, 'commands');
@@ -222,7 +236,10 @@ class Detector {
             if (entry.isDirectory()) {
               const name = entry.name;
               // Find bmad-related folders (excluding exact 'bmad' if it exists)
-              if ((name.startsWith('bmad') || name.startsWith('Bmad') || name === 'BMad') && name !== 'bmad') {
+              if (
+                (name.startsWith('bmad') || name.startsWith('Bmad') || name === 'BMad') &&
+                name !== 'bmad'
+              ) {
                 offenders.push(path.join(commandsPath, entry.name));
               }
             }

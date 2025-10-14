@@ -13,7 +13,10 @@ class AuggieSetup extends BaseIdeSetup {
     super('auggie', 'Auggie CLI');
     this.defaultLocations = [
       { name: 'Project Directory (.augment/commands)', value: '.augment/commands', checked: true },
-      { name: 'User Home (~/.augment/commands)', value: path.join(os.homedir(), '.augment', 'commands') },
+      {
+        name: 'User Home (~/.augment/commands)',
+        value: path.join(os.homedir(), '.augment', 'commands'),
+      },
       { name: 'Custom Location', value: 'custom' },
     ];
     this.detectionPaths = ['.augment'];
@@ -76,7 +79,10 @@ class AuggieSetup extends BaseIdeSetup {
 
     // Use pre-collected configuration if available
     const config = options.preCollectedConfig || {};
-    const locations = await this.getInstallLocations(projectDir, { ...options, auggieLocations: config.auggieLocations });
+    const locations = await this.getInstallLocations(projectDir, {
+      ...options,
+      auggieLocations: config.auggieLocations,
+    });
 
     if (locations.length === 0) {
       console.log(chalk.yellow('No locations selected. Skipping Auggie CLI setup.'));
@@ -239,7 +245,10 @@ BMAD ${task.module.toUpperCase()} module
     const fs = require('fs-extra');
 
     // Check common locations
-    const locations = [path.join(os.homedir(), '.augment', 'commands'), path.join(projectDir, '.augment', 'commands')];
+    const locations = [
+      path.join(os.homedir(), '.augment', 'commands'),
+      path.join(projectDir, '.augment', 'commands'),
+    ];
 
     for (const location of locations) {
       const agentsDir = path.join(location, 'agents');

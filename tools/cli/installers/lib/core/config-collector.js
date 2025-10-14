@@ -62,10 +62,13 @@ class ConfigCollector {
     await this.loadExistingConfig(projectDir);
 
     // Check if core was already collected (e.g., in early collection phase)
-    const coreAlreadyCollected = this.collectedConfig.core && Object.keys(this.collectedConfig.core).length > 0;
+    const coreAlreadyCollected =
+      this.collectedConfig.core && Object.keys(this.collectedConfig.core).length > 0;
 
     // If core wasn't already collected, include it
-    const allModules = coreAlreadyCollected ? modules.filter((m) => m !== 'core') : ['core', ...modules.filter((m) => m !== 'core')];
+    const allModules = coreAlreadyCollected
+      ? modules.filter((m) => m !== 'core')
+      : ['core', ...modules.filter((m) => m !== 'core')];
 
     // Store all answers across modules for cross-referencing
     if (!this.allAnswers) {
@@ -93,7 +96,12 @@ class ConfigCollector {
    * @param {boolean} skipLoadExisting - Skip loading existing config (for early core collection)
    * @param {boolean} skipCompletion - Skip showing completion message (for early core collection)
    */
-  async collectModuleConfig(moduleName, projectDir, skipLoadExisting = false, skipCompletion = false) {
+  async collectModuleConfig(
+    moduleName,
+    projectDir,
+    skipLoadExisting = false,
+    skipCompletion = false,
+  ) {
     this.currentProjectDir = projectDir;
     // Load existing config if needed and not already loaded
     if (!skipLoadExisting && !this.existingConfig) {
@@ -105,7 +113,11 @@ class ConfigCollector {
       this.allAnswers = {};
     }
     // Load module's config.yaml (check new location first, then fallback)
-    const installerConfigPath = path.join(getModulePath(moduleName), '_module-installer', 'install-menu-config.yaml');
+    const installerConfigPath = path.join(
+      getModulePath(moduleName),
+      '_module-installer',
+      'install-menu-config.yaml',
+    );
     const legacyConfigPath = path.join(getModulePath(moduleName), 'config.yaml');
 
     let configPath = null;
@@ -127,7 +139,9 @@ class ConfigCollector {
 
     // Display module prompts using better formatting
     if (moduleConfig.prompt) {
-      const prompts = Array.isArray(moduleConfig.prompt) ? moduleConfig.prompt : [moduleConfig.prompt];
+      const prompts = Array.isArray(moduleConfig.prompt)
+        ? moduleConfig.prompt
+        : [moduleConfig.prompt];
       CLIUtils.displayPromptSection(prompts);
     }
 
@@ -223,10 +237,17 @@ class ConfigCollector {
                 // Check in already collected config
                 if (!configValue) {
                   for (const mod of Object.keys(this.collectedConfig)) {
-                    if (mod !== '_meta' && this.collectedConfig[mod] && this.collectedConfig[mod][configKey]) {
+                    if (
+                      mod !== '_meta' &&
+                      this.collectedConfig[mod] &&
+                      this.collectedConfig[mod][configKey]
+                    ) {
                       configValue = this.collectedConfig[mod][configKey];
                       // Extract just the value part if it's a result template
-                      if (typeof configValue === 'string' && configValue.includes('{project-root}/')) {
+                      if (
+                        typeof configValue === 'string' &&
+                        configValue.includes('{project-root}/')
+                      ) {
                         configValue = configValue.replace('{project-root}/', '');
                       }
                       break;
@@ -283,7 +304,11 @@ class ConfigCollector {
     let defaultValue = item.default;
     let choices = null;
 
-    if (typeof defaultValue === 'string' && defaultValue.includes('{directory_name}') && this.currentProjectDir) {
+    if (
+      typeof defaultValue === 'string' &&
+      defaultValue.includes('{directory_name}') &&
+      this.currentProjectDir
+    ) {
       const dirName = path.basename(this.currentProjectDir);
       defaultValue = defaultValue.replaceAll('{directory_name}', dirName);
     }
@@ -334,7 +359,10 @@ class ConfigCollector {
       }
     } else if (item.example && questionType === 'input') {
       // Show example for input fields
-      const exampleText = typeof item.example === 'string' ? item.example.replace('{project-root}/', '') : JSON.stringify(item.example);
+      const exampleText =
+        typeof item.example === 'string'
+          ? item.example.replace('{project-root}/', '')
+          : JSON.stringify(item.example);
       message += chalk.dim(` (e.g., ${exampleText})`);
     }
 

@@ -1,6 +1,7 @@
 # M&A Deal Management System - Implementation Summary
 
 ## Overview
+
 A comprehensive deal management system for M&A transactions has been successfully implemented with full-stack capabilities including backend API, database models, and React frontend components.
 
 ## ✅ What Was Built
@@ -8,6 +9,7 @@ A comprehensive deal management system for M&A transactions has been successfull
 ### Backend Components
 
 #### 1. Database Models ([backend/app/models/deal.py](backend/app/models/deal.py))
+
 - **Deal Model**: Comprehensive M&A deal tracking with:
   - UUID primary keys and tenant isolation
   - Complete financial data (deal value, enterprise value, equity value, multiples)
@@ -26,7 +28,9 @@ A comprehensive deal management system for M&A transactions has been successfull
   - `DealFinancialModel`: Financial projections and models
 
 #### 2. API Endpoints ([backend/app/routers/deals.py](backend/app/routers/deals.py))
+
 Complete REST API with:
+
 - **Deal CRUD**: Create, read, update, delete deals
 - **Stage Management**: Update deal pipeline stages
 - **Team Management**: Add/remove team members
@@ -38,6 +42,7 @@ Complete REST API with:
 - **Comparison**: Side-by-side deal comparison
 
 All endpoints include:
+
 - Tenant isolation
 - Authentication via Clerk
 - Validation
@@ -46,13 +51,16 @@ All endpoints include:
 ### Frontend Components
 
 #### 3. API Service Layer ([frontend/src/services/dealService.ts](frontend/src/services/dealService.ts))
+
 - TypeScript API client with full type safety
 - All CRUD operations
 - Comprehensive interfaces for all data models
 - Error handling and authentication integration
 
 #### 4. React Hooks ([frontend/src/hooks/useDeals.ts](frontend/src/hooks/useDeals.ts))
+
 Custom hooks for all operations:
+
 - `useDeals`: List deals with filters
 - `useDeal`: Single deal data
 - `useDealMutations`: Create, update, delete
@@ -67,6 +75,7 @@ Custom hooks for all operations:
 #### 5. UI Components
 
 **[DealPipeline.tsx](frontend/src/components/deals/DealPipeline.tsx)** - Kanban Board
+
 - Drag-and-drop deal cards between stages
 - Search and filter capabilities
 - Real-time stage updates
@@ -74,6 +83,7 @@ Custom hooks for all operations:
 - Show/hide closed deals
 
 **[DealCard.tsx](frontend/src/components/deals/DealCard.tsx)** - Deal Cards
+
 - Key metrics display
 - Priority and risk indicators
 - Probability progress bar
@@ -81,6 +91,7 @@ Custom hooks for all operations:
 - Drag-and-drop support
 
 **[DealDetail.tsx](frontend/src/components/deals/DealDetail.tsx)** - Detail Page
+
 - Comprehensive deal overview
 - Tabbed interface for different sections
 - Key metrics dashboard
@@ -89,6 +100,7 @@ Custom hooks for all operations:
 - Integration with all sub-components
 
 **[DealTimeline.tsx](frontend/src/components/deals/DealTimeline.tsx)** - Activity Timeline
+
 - Chronological activity log
 - Multiple activity types (meetings, calls, emails, notes)
 - Participant tracking
@@ -96,6 +108,7 @@ Custom hooks for all operations:
 - Visual timeline with icons and colors
 
 **[DealFinancials.tsx](frontend/src/components/deals/DealFinancials.tsx)** - Financial Modeling
+
 - Key financial metrics display
 - Deal structure breakdown (cash/stock/earnout)
 - Valuation history
@@ -103,6 +116,7 @@ Custom hooks for all operations:
 - Enterprise value ranges
 
 **[DealDocuments.tsx](frontend/src/components/deals/DealDocuments.tsx)** - Document Management
+
 - Document upload and categorization
 - Search and filter by category
 - File type icons
@@ -110,6 +124,7 @@ Custom hooks for all operations:
 - Document metadata and tagging
 
 **[DealAnalytics.tsx](frontend/src/components/deals/DealAnalytics.tsx)** - Analytics Dashboard
+
 - Pipeline metrics (total deals, value, win rate)
 - Deals by stage visualization
 - Deals by priority and industry
@@ -117,12 +132,14 @@ Custom hooks for all operations:
 - Monthly deal flow trends
 
 **[DealComparison.tsx](frontend/src/components/deals/DealComparison.tsx)** - Deal Comparison
+
 - Side-by-side comparison of up to 5 deals
 - Comprehensive metric comparison
 - Key insights (highest value, probability, progress)
 - Interactive deal selection
 
 **[DealForm.tsx](frontend/src/components/deals/DealForm.tsx)** - Deal Form (Already Existed)
+
 - Multi-tab form with comprehensive fields
 - Validation using Zod
 - Support for create and edit modes
@@ -210,6 +227,7 @@ frontend/
 ## 🔧 Technology Stack
 
 **Backend:**
+
 - FastAPI with SQLAlchemy
 - UUID-based models
 - PostgreSQL with ARRAY and JSON types
@@ -217,6 +235,7 @@ frontend/
 - Clerk authentication
 
 **Frontend:**
+
 - React with TypeScript
 - Tailwind CSS
 - shadcn/ui components
@@ -228,6 +247,7 @@ frontend/
 To complete the integration:
 
 1. **Add Routing**:
+
    ```tsx
    // Example App.tsx routes
    <Route path="/deals" element={<DealPipeline />} />
@@ -237,6 +257,7 @@ To complete the integration:
    ```
 
 2. **Run Database Migrations**:
+
    ```bash
    # Create migration for new Deal models
    alembic revision --autogenerate -m "Add comprehensive deal models"
@@ -244,6 +265,7 @@ To complete the integration:
    ```
 
 3. **Update Main Router**:
+
    ```python
    # backend/app/main.py
    from app.routers import deals
@@ -251,6 +273,7 @@ To complete the integration:
    ```
 
 4. **Configure Environment**:
+
    ```
    VITE_API_BASE_URL=http://localhost:8000
    ```

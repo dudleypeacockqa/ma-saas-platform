@@ -3,7 +3,7 @@
 **Platform Vision**: Comprehensive M&A business ecosystem for £200 Million wealth building  
 **Technology Stack**: BMAD Method v6 + Claude Code CLI + OpenAI CODEX + Cursor IDE + Manus  
 **Development Approach**: AI-First, Ecosystem-Driven, Dual-Purpose Strategy  
-**Timeline**: 120 Days to GTM Launch  
+**Timeline**: 120 Days to GTM Launch
 
 ## Context Structure for AI Development
 
@@ -12,12 +12,14 @@ This context directory provides comprehensive documentation for AI-powered devel
 ### Strategic Foundation Documents
 
 **Primary Strategy Documents** located in `/docs/strategy/`:
+
 - `STRATEGIC_DUAL_PURPOSE_PLATFORM_PLAN.md` - Master strategic plan for dual-purpose platform
 - `COMPREHENSIVE_GTM_ACTION_PLAN_V6.md` - Complete go-to-market strategy with BMAD v6
 - `DETAILED_ACTION_PLAN_COMPLETE.md` - Comprehensive implementation roadmap
 - `PROJECT_COMPREHENSIVE_ASSESSMENT.md` - Current platform status and gap analysis
 
 **Business Model and Positioning**:
+
 - Dual-purpose platform serving personal wealth building AND SaaS business
 - Primary revenue from personal M&A activities targeting £200M wealth
 - Secondary revenue from subscriptions ($279/$798/$1598), consulting, events
@@ -26,12 +28,14 @@ This context directory provides comprehensive documentation for AI-powered devel
 ### Technical Implementation Context
 
 **BMAD Method v6 Integration** located in `/docs/bmad/`:
+
 - `BMAD_V6_UPGRADE_PLAN.md` - BMAD Method v6.0.0-alpha.0 implementation
 - `BMAD_METHOD_INITIALIZATION_GUIDE.md` - Systematic agent initialization
 - `BMAD_PROJECT_PLAN.md` - BMAD-specific project planning
 - `BMAD_CURSOR_IMPLEMENTATION_GUIDE.md` - Cursor IDE integration guide
 
 **AI Technology Integration** located in `/docs/technical/`:
+
 - `TECHNOLOGY_INTEGRATION_FOUNDATION.md` - Complete AI ecosystem architecture
 - `AI_DEVELOPMENT_IMPLEMENTATION_TIMELINE.md` - 120-day development schedule
 - `architecture.md` - System architecture with multi-tenant design
@@ -40,6 +44,7 @@ This context directory provides comprehensive documentation for AI-powered devel
 ### Platform Architecture Overview
 
 **Multi-Tenant SaaS Platform** with ecosystem intelligence:
+
 - **Backend**: FastAPI with PostgreSQL, multi-tenant architecture
 - **Frontend**: React with modern UI/UX, responsive design
 - **Authentication**: Clerk integration with subscription management
@@ -50,6 +55,7 @@ This context directory provides comprehensive documentation for AI-powered devel
 - **Analytics**: AI-powered ecosystem intelligence and partnership identification
 
 **Master Admin Portal** for complete business management:
+
 - Subscription and member management across all tenants
 - Deal flow tracking and partnership opportunity identification
 - Community engagement and event management
@@ -60,6 +66,7 @@ This context directory provides comprehensive documentation for AI-powered devel
 ### AI Agent Configuration for Development
 
 **BMAD Method v6 Agents** optimized for M&A domain:
+
 - **Analyst Agent**: Market research, competitive analysis, partnership opportunities
 - **Product Manager Agent**: Feature prioritization, user experience, ecosystem optimization
 - **Architect Agent**: System design, scalability, multi-tenant architecture
@@ -68,18 +75,21 @@ This context directory provides comprehensive documentation for AI-powered devel
 - **QA Agent**: Testing, validation, security, performance optimization
 
 **Claude Code CLI Integration**:
+
 - Primary AI development partner with M&A domain expertise
 - Advanced code generation with business logic understanding
 - Architectural guidance with scalability and security optimization
 - Strategic thinking aligned with wealth-building objectives
 
 **OpenAI CODEX Specialization**:
+
 - Complex algorithm development and performance optimization
 - AI/ML integration for ecosystem intelligence
 - Advanced analytics and predictive modeling
 - Specialized technical implementations
 
 **Manus Strategic Intelligence**:
+
 - Market research and competitive analysis
 - GTM strategy development and positioning
 - Content creation and thought leadership
@@ -89,6 +99,7 @@ This context directory provides comprehensive documentation for AI-powered devel
 ### Development Workflow Integration
 
 **AI-Powered Development Process**:
+
 1. **Strategic Foundation**: Manus provides market intelligence and strategic guidance
 2. **BMAD Analysis**: Systematic market research and business model optimization
 3. **Architecture Design**: Claude-designed multi-tenant architecture with ecosystem intelligence
@@ -97,6 +108,7 @@ This context directory provides comprehensive documentation for AI-powered devel
 6. **Optimization**: Continuous improvement with ecosystem intelligence
 
 **Prompt Optimization Framework**:
+
 - BMAD agent prompts enhanced by Manus strategic intelligence
 - Claude Code CLI prompts optimized for M&A business logic
 - CODEX prompts specialized for technical implementations

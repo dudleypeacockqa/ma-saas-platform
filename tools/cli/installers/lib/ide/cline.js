@@ -94,7 +94,9 @@ class ClineSetup extends BaseIdeSetup {
     }
 
     console.log(chalk.green(`✓ ${this.name} configured:`));
-    console.log(chalk.dim(`  - ${ruleCount} rules created in ${path.relative(projectDir, clineRulesDir)}`));
+    console.log(
+      chalk.dim(`  - ${ruleCount} rules created in ${path.relative(projectDir, clineRulesDir)}`),
+    );
     console.log(chalk.dim(`  - Ordering: ${orderingStrategy}`));
 
     // Important message about toggle system

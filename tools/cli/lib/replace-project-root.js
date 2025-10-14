@@ -14,7 +14,12 @@ const path = require('node:path');
  * @param {boolean} removeCompletely - If true, removes placeholders entirely instead of replacing
  * @returns {boolean} - True if replacements were made, false otherwise
  */
-function replacePlaceholdersInFile(filePath, projectRoot, docOut = '/docs', removeCompletely = false) {
+function replacePlaceholdersInFile(
+  filePath,
+  projectRoot,
+  docOut = '/docs',
+  removeCompletely = false,
+) {
   try {
     let content = fs.readFileSync(filePath, 'utf8');
     const originalContent = content;
@@ -30,8 +35,13 @@ function replacePlaceholdersInFile(filePath, projectRoot, docOut = '/docs', remo
         // Remove leading slash from docOut since projectRoot has trailing slash
         // Add trailing slash to docOut
         const docOutNoLeadingSlash = docOut.replace(/^\//, '');
-        const docOutWithTrailingSlash = docOutNoLeadingSlash.endsWith('/') ? docOutNoLeadingSlash : docOutNoLeadingSlash + '/';
-        content = content.replaceAll('{project-root}{output_folder}/', projectRoot + docOutWithTrailingSlash);
+        const docOutWithTrailingSlash = docOutNoLeadingSlash.endsWith('/')
+          ? docOutNoLeadingSlash
+          : docOutNoLeadingSlash + '/';
+        content = content.replaceAll(
+          '{project-root}{output_folder}/',
+          projectRoot + docOutWithTrailingSlash,
+        );
       }
 
       // Then replace remaining individual placeholders
@@ -128,8 +138,19 @@ function replacePlaceholdersInDirectory(
 /**
  * Legacy function for backward compatibility
  */
-function replaceProjectRootInDirectory(dirPath, projectRoot, extensions = ['.md', '.xml'], removeCompletely = false) {
-  return replacePlaceholdersInDirectory(dirPath, projectRoot, '/docs', extensions, removeCompletely);
+function replaceProjectRootInDirectory(
+  dirPath,
+  projectRoot,
+  extensions = ['.md', '.xml'],
+  removeCompletely = false,
+) {
+  return replacePlaceholdersInDirectory(
+    dirPath,
+    projectRoot,
+    '/docs',
+    extensions,
+    removeCompletely,
+  );
 }
 
 /**
@@ -140,7 +161,12 @@ function replaceProjectRootInDirectory(dirPath, projectRoot, extensions = ['.md'
  * @param {boolean} removeCompletely - If true, removes placeholders entirely instead of replacing
  * @returns {Object} - Stats object with counts of files processed and modified
  */
-function replacePlaceholdersInFiles(filePaths, projectRoot, docOut = '/docs', removeCompletely = false) {
+function replacePlaceholdersInFiles(
+  filePaths,
+  projectRoot,
+  docOut = '/docs',
+  removeCompletely = false,
+) {
   const stats = {
     processed: 0,
     modified: 0,
@@ -178,9 +204,16 @@ function replaceProjectRootInFiles(filePaths, projectRoot, removeCompletely = fa
  * @param {boolean} verbose - If true, show detailed output
  * @returns {Object} - Installation stats
  */
-function processInstallation(installPath, targetProjectRoot, docsOutputPath = 'docs', verbose = false) {
+function processInstallation(
+  installPath,
+  targetProjectRoot,
+  docsOutputPath = 'docs',
+  verbose = false,
+) {
   // Ensure project root has trailing slash since usage is like {project-root}/bmad
-  const projectRootWithSlash = targetProjectRoot.endsWith('/') ? targetProjectRoot : targetProjectRoot + '/';
+  const projectRootWithSlash = targetProjectRoot.endsWith('/')
+    ? targetProjectRoot
+    : targetProjectRoot + '/';
 
   // Ensure docs path has leading slash (for internal use) but will add trailing slash during replacement
   const normalizedDocsPath = docsOutputPath.replaceAll(/^\/+|\/+$/g, '');
@@ -192,7 +225,14 @@ function processInstallation(installPath, targetProjectRoot, docsOutputPath = 'd
     console.log(`Processing files in: ${installPath}\n`);
   }
 
-  const stats = replacePlaceholdersInDirectory(installPath, projectRootWithSlash, docOutPath, ['.md', '.xml', '.yaml'], false, verbose);
+  const stats = replacePlaceholdersInDirectory(
+    installPath,
+    projectRootWithSlash,
+    docOutPath,
+    ['.md', '.xml', '.yaml'],
+    false,
+    verbose,
+  );
 
   if (verbose) {
     console.log('\n--- Installation Processing Complete ---');

@@ -61,7 +61,9 @@ async function validateAllBundles() {
 
   console.log(`  Total files checked: ${chalk.bold(files.length)}`);
   console.log(`  Valid XML files:     ${chalk.green(validCount)}`);
-  console.log(`  Invalid XML files:   ${invalidCount > 0 ? chalk.red(invalidCount) : chalk.green(invalidCount)}`);
+  console.log(
+    `  Invalid XML files:   ${invalidCount > 0 ? chalk.red(invalidCount) : chalk.green(invalidCount)}`,
+  );
 
   if (invalidFiles.length > 0) {
     console.log(chalk.red.bold('\n  Invalid Files:'));

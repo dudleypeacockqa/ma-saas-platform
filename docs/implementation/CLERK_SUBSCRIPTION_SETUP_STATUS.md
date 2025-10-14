@@ -81,11 +81,11 @@
 
 ### Original UK Pricing vs Clerk USD Pricing
 
-| Plan | Original (GBP) | Clerk (USD) | Conversion Rate |
-|------|----------------|-------------|-----------------|
-| Solo Dealmaker | £99 | $96.00 | ~0.97 |
-| Growth Firm | £299 | $299.00 | ~1.00 |
-| Enterprise | £999 | $999.00 | ~1.00 |
+| Plan           | Original (GBP) | Clerk (USD) | Conversion Rate |
+| -------------- | -------------- | ----------- | --------------- |
+| Solo Dealmaker | £99            | $96.00      | ~0.97           |
+| Growth Firm    | £299           | $299.00     | ~1.00           |
+| Enterprise     | £999           | $999.00     | ~1.00           |
 
 **Recommendation**: Keep USD pricing for global market appeal and simpler billing.
 
@@ -93,21 +93,21 @@
 
 ### Conservative Estimates (Year 1)
 
-| Plan | Monthly Price | Target Customers | Monthly Revenue | Annual Revenue |
-|------|---------------|------------------|-----------------|----------------|
-| Solo Dealmaker | $96 | 50 | $4,800 | $57,600 |
-| Growth Firm | $299 | 20 | $5,980 | $71,760 |
-| Enterprise | $999 | 5 | $4,995 | $59,940 |
-| **Total** | - | **75** | **$15,775** | **$189,300** |
+| Plan           | Monthly Price | Target Customers | Monthly Revenue | Annual Revenue |
+| -------------- | ------------- | ---------------- | --------------- | -------------- |
+| Solo Dealmaker | $96           | 50               | $4,800          | $57,600        |
+| Growth Firm    | $299          | 20               | $5,980          | $71,760        |
+| Enterprise     | $999          | 5                | $4,995          | $59,940        |
+| **Total**      | -             | **75**           | **$15,775**     | **$189,300**   |
 
 ### Aggressive Growth (Year 2)
 
-| Plan | Monthly Price | Target Customers | Monthly Revenue | Annual Revenue |
-|------|---------------|------------------|-----------------|----------------|
-| Solo Dealmaker | $96 | 200 | $19,200 | $230,400 |
-| Growth Firm | $299 | 100 | $29,900 | $358,800 |
-| Enterprise | $999 | 25 | $24,975 | $299,700 |
-| **Total** | - | **325** | **$74,075** | **$888,900** |
+| Plan           | Monthly Price | Target Customers | Monthly Revenue | Annual Revenue |
+| -------------- | ------------- | ---------------- | --------------- | -------------- |
+| Solo Dealmaker | $96           | 200              | $19,200         | $230,400       |
+| Growth Firm    | $299          | 100              | $29,900         | $358,800       |
+| Enterprise     | $999          | 25               | $24,975         | $299,700       |
+| **Total**      | -             | **325**          | **$74,075**     | **$888,900**   |
 
 ## Marketing Strategy Integration
 
@@ -154,24 +154,28 @@
 ## Technical Implementation Roadmap
 
 ### Week 1: Complete Clerk Setup
+
 - [ ] Finish creating all three subscription plans
 - [ ] Configure plan features and limits
 - [ ] Set up webhook endpoints
 - [ ] Test subscription flows
 
 ### Week 2: Frontend Integration
+
 - [ ] Update pricing page with actual Clerk plans
 - [ ] Implement subscription management UI
 - [ ] Add plan upgrade/downgrade flows
 - [ ] Create billing history components
 
 ### Week 3: Backend Integration
+
 - [ ] Implement subscription status middleware
 - [ ] Add plan-based feature gating
 - [ ] Create usage tracking system
 - [ ] Set up automated billing notifications
 
 ### Week 4: Testing & Launch
+
 - [ ] End-to-end subscription testing
 - [ ] Payment flow validation
 - [ ] Security audit
@@ -230,5 +234,5 @@ The Clerk subscription setup is progressing well with the first plan successfull
 
 ---
 
-*Last Updated: October 7, 2025*
-*Next Review: October 14, 2025*
+_Last Updated: October 7, 2025_
+_Next Review: October 14, 2025_

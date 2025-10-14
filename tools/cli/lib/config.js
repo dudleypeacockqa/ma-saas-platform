@@ -57,7 +57,10 @@ class Config {
 
     for (const [placeholder, value] of Object.entries(allReplacements)) {
       if (typeof placeholder === 'string' && typeof value === 'string') {
-        const regex = new RegExp(placeholder.replaceAll(/[.*+?^${}()|[\]\\]/g, String.raw`\$&`), 'g');
+        const regex = new RegExp(
+          placeholder.replaceAll(/[.*+?^${}()|[\]\\]/g, String.raw`\$&`),
+          'g',
+        );
         content = content.replace(regex, value);
       }
     }

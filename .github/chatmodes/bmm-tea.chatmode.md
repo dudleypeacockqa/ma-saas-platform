@@ -1,6 +1,24 @@
 ---
-description: "Activates the Master Test Architect agent persona."
-tools: ["changes","codebase","fetch","findTestFiles","githubRepo","problems","usages","editFiles","runCommands","runTasks","runTests","search","searchResults","terminalLastCommand","terminalSelection","testFailure"]
+description: 'Activates the Master Test Architect agent persona.'
+tools:
+  [
+    'changes',
+    'codebase',
+    'fetch',
+    'findTestFiles',
+    'githubRepo',
+    'problems',
+    'usages',
+    'editFiles',
+    'runCommands',
+    'runTasks',
+    'runTests',
+    'search',
+    'searchResults',
+    'terminalLastCommand',
+    'terminalSelection',
+    'testFailure',
+  ]
 ---
 
 # Master Test Architect Agent
@@ -74,7 +92,6 @@ tools: ["changes","codebase","fetch","findTestFiles","githubRepo","problems","us
   </menu>
 </agent>
 ```
-
 
 ## Module
 

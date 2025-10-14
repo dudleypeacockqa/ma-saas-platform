@@ -7,6 +7,7 @@ The Content Creation Agent is an AI-powered system that automates content genera
 ## Features
 
 ### 1. Podcast Show Notes Generation
+
 - Automated show notes from podcast transcripts
 - SEO-optimized titles and descriptions
 - Timestamps extraction
@@ -15,12 +16,14 @@ The Content Creation Agent is an AI-powered system that automates content genera
 - Resource links compilation
 
 ### 2. Social Media Content
+
 - **LinkedIn Posts**: Professional thought leadership content (1300 chars)
 - **Twitter/X Threads**: Multi-tweet threads with insights
 - **YouTube Descriptions**: Video descriptions with timestamps
 - **Instagram Captions**: Engaging captions for video clips
 
 ### 3. Blog Articles
+
 - Long-form articles (2000-2500 words)
 - SEO optimization with keyword targeting
 - Professional M&A industry tone
@@ -28,6 +31,7 @@ The Content Creation Agent is an AI-powered system that automates content genera
 - Call-to-action for SaaS signup
 
 ### 4. Email Newsletters
+
 - Weekly newsletter generation
 - Episode summaries
 - Market insights
@@ -35,6 +39,7 @@ The Content Creation Agent is an AI-powered system that automates content genera
 - Subscriber engagement
 
 ### 5. Content Quality Validation
+
 - Quality scoring (0-100)
 - SEO optimization analysis
 - Improvement suggestions
@@ -45,11 +50,13 @@ The Content Creation Agent is an AI-powered system that automates content genera
 ### Backend Components
 
 #### Models (`backend/app/models/content.py`)
+
 - **Content**: Main content storage with status tracking
 - **PodcastEpisode**: Podcast-specific data and transcripts
 - **ContentTemplate**: Reusable content templates
 
 #### Agent (`backend/app/agents/content_agent.py`)
+
 - **ContentCreationAgent**: Core AI agent using Claude API
   - `generate_podcast_show_notes()`
   - `generate_linkedin_post()`
@@ -60,6 +67,7 @@ The Content Creation Agent is an AI-powered system that automates content genera
   - `validate_content_quality()`
 
 #### Service Layer (`backend/app/services/content_service.py`)
+
 - **ContentService**: Business logic and orchestration
   - CRUD operations
   - AI content generation workflows
@@ -67,6 +75,7 @@ The Content Creation Agent is an AI-powered system that automates content genera
   - Multi-tenant isolation
 
 #### API (`backend/app/api/content.py`)
+
 - RESTful endpoints for content management
 - AI generation endpoints
 - Content validation API
@@ -75,6 +84,7 @@ The Content Creation Agent is an AI-powered system that automates content genera
 ### Frontend Components
 
 #### ContentDashboard (`frontend/src/components/ContentDashboard.tsx`)
+
 - Podcast episode management
 - AI content generation interface
 - Content library with filtering
@@ -84,6 +94,7 @@ The Content Creation Agent is an AI-powered system that automates content genera
 ## API Endpoints
 
 ### Content Management
+
 - `POST /api/content/` - Create content
 - `GET /api/content/` - List contents (with filters)
 - `GET /api/content/{id}` - Get content by ID
@@ -91,11 +102,13 @@ The Content Creation Agent is an AI-powered system that automates content genera
 - `DELETE /api/content/{id}` - Delete content
 
 ### Podcast Episodes
+
 - `POST /api/content/podcast-episodes` - Create episode
 - `GET /api/content/podcast-episodes` - List episodes
 - `GET /api/content/podcast-episodes/{id}` - Get episode
 
 ### AI Generation
+
 - `POST /api/content/generate/show-notes` - Generate podcast show notes
 - `POST /api/content/generate/social-media` - Generate social media post
 - `POST /api/content/generate/blog-article` - Generate blog article
@@ -127,6 +140,7 @@ POST /api/content/generate/show-notes
 ```
 
 Response includes:
+
 - SEO-optimized title
 - Summary
 - Timestamps
@@ -192,6 +206,7 @@ CLERK_SECRET_KEY=your-clerk-secret
 ## Brand Voice
 
 The AI agent is configured with:
+
 - **Tone**: Professional, authoritative, practical, results-focused
 - **Audience**: Private equity firms, investment bankers, business buyers/sellers
 - **Platform**: 100 Days and Beyond - M&A deal management SaaS
@@ -199,6 +214,7 @@ The AI agent is configured with:
 ## Database Schema
 
 ### Content Table
+
 - `id` (UUID)
 - `organization_id` (UUID)
 - `user_id` (UUID)
@@ -212,6 +228,7 @@ The AI agent is configured with:
 - `created_at`, `updated_at` (DateTime)
 
 ### Podcast Episode Table
+
 - `id` (UUID)
 - `organization_id` (UUID)
 - `episode_number` (Integer)
@@ -245,6 +262,7 @@ The AI agent is configured with:
 ## Error Handling
 
 The system includes:
+
 - Input validation
 - API rate limiting awareness
 - Graceful fallbacks for AI failures

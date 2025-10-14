@@ -2,79 +2,86 @@
 
 **Project**: 100 Days and Beyond M&A SaaS Platform  
 **Framework**: BMAD Method v4.x  
-**IDE**: Cursor with Claude Integration  
+**IDE**: Cursor with Claude Integration
 
 ## Agent Commands Overview
 
 ### Analyst Agent (`/analyst`)
+
 **Purpose**: Business analysis, market research, competitive intelligence, project briefing
 
-| Command | Description | Usage Example |
-|---------|-------------|---------------|
-| `*help` | Show available commands | `/analyst` → `*help` |
-| `*brainstorm` | Brainstorm ideas and features | `*brainstorm` → Discuss M&A platform enhancements |
-| `*research` | Market research and analysis | `*research` → Analyze M&A software market trends |
-| `*brief` | Create/refine project brief | `*brief` → Update project brief with new requirements |
-| `*competitor` | Competitive analysis | `*competitor` → Analyze DealRoom vs our platform |
+| Command       | Description                   | Usage Example                                         |
+| ------------- | ----------------------------- | ----------------------------------------------------- |
+| `*help`       | Show available commands       | `/analyst` → `*help`                                  |
+| `*brainstorm` | Brainstorm ideas and features | `*brainstorm` → Discuss M&A platform enhancements     |
+| `*research`   | Market research and analysis  | `*research` → Analyze M&A software market trends      |
+| `*brief`      | Create/refine project brief   | `*brief` → Update project brief with new requirements |
+| `*competitor` | Competitive analysis          | `*competitor` → Analyze DealRoom vs our platform      |
 
 ### Product Manager Agent (`/pm`)
+
 **Purpose**: Product requirements, feature definition, user stories, acceptance criteria
 
-| Command | Description | Usage Example |
-|---------|-------------|---------------|
-| `*help` | Show available commands | `/pm` → `*help` |
-| `*prd` | Create/update PRD | `*prd` → Refine PRD based on market feedback |
-| `*features` | Define feature requirements | `*features` → Define AI analytics requirements |
-| `*stories` | Create user stories | `*stories` → Create stories for podcast platform |
-| `*acceptance` | Define acceptance criteria | `*acceptance` → Define criteria for deal pipeline |
+| Command       | Description                 | Usage Example                                     |
+| ------------- | --------------------------- | ------------------------------------------------- |
+| `*help`       | Show available commands     | `/pm` → `*help`                                   |
+| `*prd`        | Create/update PRD           | `*prd` → Refine PRD based on market feedback      |
+| `*features`   | Define feature requirements | `*features` → Define AI analytics requirements    |
+| `*stories`    | Create user stories         | `*stories` → Create stories for podcast platform  |
+| `*acceptance` | Define acceptance criteria  | `*acceptance` → Define criteria for deal pipeline |
 
 ### Architect Agent (`/architect`)
+
 **Purpose**: System architecture, technical design, scalability planning, technology decisions
 
-| Command | Description | Usage Example |
-|---------|-------------|---------------|
-| `*help` | Show available commands | `/architect` → `*help` |
+| Command         | Description                  | Usage Example                                      |
+| --------------- | ---------------------------- | -------------------------------------------------- |
+| `*help`         | Show available commands      | `/architect` → `*help`                             |
 | `*architecture` | Create architecture document | `*architecture` → Design multi-tenant architecture |
-| `*design` | Design system components | `*design` → Design podcast RSS system |
-| `*tech-stack` | Define technology stack | `*tech-stack` → Evaluate FastAPI vs Django |
-| `*scalability` | Plan scalability approach | `*scalability` → Plan for 10,000+ users |
+| `*design`       | Design system components     | `*design` → Design podcast RSS system              |
+| `*tech-stack`   | Define technology stack      | `*tech-stack` → Evaluate FastAPI vs Django         |
+| `*scalability`  | Plan scalability approach    | `*scalability` → Plan for 10,000+ users            |
 
 ### Scrum Master Agent (`/sm`)
+
 **Purpose**: Sprint planning, story creation, project management, workflow coordination
 
-| Command | Description | Usage Example |
-|---------|-------------|---------------|
-| `*help` | Show available commands | `/sm` → `*help` |
-| `*draft` | Draft development story | `*draft 1.1` → Create detailed story for Epic 1, Story 1 |
-| `*plan` | Plan sprint activities | `*plan` → Plan next 2-week sprint |
-| `*review` | Review story completion | `*review` → Review completed user registration story |
-| `*correct` | Correct course for changes | `*correct` → Adjust plan for new requirements |
+| Command    | Description                | Usage Example                                            |
+| ---------- | -------------------------- | -------------------------------------------------------- |
+| `*help`    | Show available commands    | `/sm` → `*help`                                          |
+| `*draft`   | Draft development story    | `*draft 1.1` → Create detailed story for Epic 1, Story 1 |
+| `*plan`    | Plan sprint activities     | `*plan` → Plan next 2-week sprint                        |
+| `*review`  | Review story completion    | `*review` → Review completed user registration story     |
+| `*correct` | Correct course for changes | `*correct` → Adjust plan for new requirements            |
 
 ### Developer Agent (`/dev`)
+
 **Purpose**: Code implementation, feature development, refactoring, optimization
 
-| Command | Description | Usage Example |
-|---------|-------------|---------------|
-| `*help` | Show available commands | `/dev` → `*help` |
-| `*develop` | Develop specific story | `*develop story-1-1.md` → Implement user registration |
-| `*implement` | Implement feature/component | `*implement` → Build podcast RSS generator |
-| `*refactor` | Refactor existing code | `*refactor` → Optimize deal pipeline API |
-| `*optimize` | Optimize performance | `*optimize` → Improve database query performance |
+| Command      | Description                 | Usage Example                                         |
+| ------------ | --------------------------- | ----------------------------------------------------- |
+| `*help`      | Show available commands     | `/dev` → `*help`                                      |
+| `*develop`   | Develop specific story      | `*develop story-1-1.md` → Implement user registration |
+| `*implement` | Implement feature/component | `*implement` → Build podcast RSS generator            |
+| `*refactor`  | Refactor existing code      | `*refactor` → Optimize deal pipeline API              |
+| `*optimize`  | Optimize performance        | `*optimize` → Improve database query performance      |
 
 ### Quality Assurance Agent (`/qa`)
+
 **Purpose**: Testing, code review, quality validation, compliance checking
 
-| Command | Description | Usage Example |
-|---------|-------------|---------------|
-| `*help` | Show available commands | `/qa` → `*help` |
-| `*review` | Review implementation | `*review story-1-1.md` → Review user registration code |
-| `*test` | Create test cases | `*test` → Create tests for deal pipeline |
-| `*audit` | Audit code quality | `*audit` → Audit security practices |
-| `*compliance` | Check compliance | `*compliance` → Verify GDPR compliance |
+| Command       | Description             | Usage Example                                          |
+| ------------- | ----------------------- | ------------------------------------------------------ |
+| `*help`       | Show available commands | `/qa` → `*help`                                        |
+| `*review`     | Review implementation   | `*review story-1-1.md` → Review user registration code |
+| `*test`       | Create test cases       | `*test` → Create tests for deal pipeline               |
+| `*audit`      | Audit code quality      | `*audit` → Audit security practices                    |
+| `*compliance` | Check compliance        | `*compliance` → Verify GDPR compliance                 |
 
 ## Common Workflows
 
 ### 1. New Feature Development
+
 ```
 1. /analyst → *research → Market analysis for feature
 2. /pm → *features → Define feature requirements
@@ -85,6 +92,7 @@
 ```
 
 ### 2. Performance Optimization
+
 ```
 1. /qa → *audit → Identify performance issues
 2. /architect → *scalability → Design optimization approach
@@ -93,6 +101,7 @@
 ```
 
 ### 3. Bug Fix Workflow
+
 ```
 1. /qa → *audit → Analyze bug and root cause
 2. /dev → *refactor → Fix the issue
@@ -100,6 +109,7 @@
 ```
 
 ### 4. Architecture Enhancement
+
 ```
 1. /analyst → *research → Research new technologies/approaches
 2. /architect → *architecture → Design enhanced architecture
@@ -111,6 +121,7 @@
 ## Document Management
 
 ### Sharding Commands
+
 ```bash
 # Shard PRD into epics and stories
 shard docs/prd.md
@@ -123,6 +134,7 @@ shard docs/large-document.md --output docs/sharded/
 ```
 
 ### Document Structure
+
 ```
 docs/
 ├── project-brief.md          # Initial project overview
@@ -145,24 +157,28 @@ docs/
 ## Best Practices
 
 ### Context Management
+
 - **Start fresh chats** for major tasks to avoid context pollution
 - **Reference specific documents** when asking agents to work on features
 - **Keep documents updated** as implementation progresses
 - **Use clear, descriptive filenames** for automatic context loading
 
 ### Agent Interaction Tips
+
 - **Be specific** with commands and requirements
 - **Provide context** about existing code and architecture
 - **Ask for clarification** if agent responses are unclear
 - **Iterate incrementally** rather than requesting large changes
 
 ### Quality Assurance
+
 - **Always use QA agent** to review implementations
 - **Test at multiple levels** (unit, integration, system)
 - **Validate security** and compliance requirements
 - **Monitor performance** impact of changes
 
 ### Development Velocity
+
 - **Follow BMAD workflow** consistently for predictable results
 - **Maintain documentation** to support agent context
 - **Regular retrospectives** to improve process efficiency
@@ -173,23 +189,29 @@ docs/
 ### Common Issues
 
 #### Agent Commands Not Working
+
 **Problem**: BMAD commands don't appear in Cursor
-**Solution**: 
+**Solution**:
+
 - Verify BMAD installation: `ls bmad/`
 - Restart Cursor IDE
 - Check agent configurations in `bmad/agents/`
 
 #### Poor Agent Responses
+
 **Problem**: Agents provide generic or incorrect responses
 **Solution**:
+
 - Provide more specific context and requirements
 - Reference relevant documents and existing code
 - Start fresh chat session to clear context
 - Verify agent has access to necessary documents
 
 #### Context Overload
+
 **Problem**: Agents seem confused or provide inconsistent responses
 **Solution**:
+
 - Shard large documents into smaller, focused files
 - Start new chat sessions between major tasks
 - Remove outdated or irrelevant documents from context
@@ -198,11 +220,13 @@ docs/
 ### Getting Help
 
 #### BMAD Community
+
 - **Discord**: Join BMAD community for support and discussions
 - **GitHub**: Check issues, discussions, and documentation
 - **YouTube**: Watch BMAD tutorial videos and masterclasses
 
 #### Project Support
+
 - **Team Reviews**: Regular code reviews of BMAD-generated code
 - **Documentation**: Maintain project-specific BMAD patterns
 - **Process Improvement**: Regular retrospectives on BMAD usage
@@ -210,6 +234,7 @@ docs/
 ## Environment Variables
 
 ### Required Configuration
+
 ```bash
 # Cursor/Claude Configuration
 ANTHROPIC_API_KEY=your_api_key_here
@@ -223,6 +248,7 @@ BASE_URL=https://your-domain.com
 ```
 
 ### BMAD Configuration
+
 ```bash
 # BMAD Method Configuration
 BMAD_PROJECT_ROOT=/path/to/project
@@ -233,12 +259,14 @@ BMAD_AGENTS_PATH=bmad/agents/
 ## Performance Tips
 
 ### Optimize Agent Performance
+
 - **Use specific commands** instead of general requests
 - **Provide focused context** rather than entire codebase
 - **Shard large documents** for better context management
 - **Start fresh sessions** for complex or unrelated tasks
 
 ### Maintain Development Velocity
+
 - **Follow consistent workflows** for predictable results
 - **Automate repetitive tasks** through agent patterns
 - **Regular quality checks** to prevent technical debt
@@ -247,6 +275,7 @@ BMAD_AGENTS_PATH=bmad/agents/
 ## Quick Command Reference
 
 ### Most Used Commands
+
 ```
 # Start agents
 /analyst
@@ -268,6 +297,7 @@ shard docs/architecture.md
 ```
 
 ### Emergency Commands
+
 ```
 # Quick bug fix
 /qa → *audit → /dev → *refactor → /qa → *review
