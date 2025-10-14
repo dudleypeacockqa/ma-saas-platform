@@ -1,4 +1,4 @@
-const chalk = require('chalk');
+import chalk from 'chalk';
 
 /**
  * BMM Platform-specific installer for Windsurf
@@ -9,7 +9,7 @@ const chalk = require('chalk');
  * @param {Object} options.logger - Logger instance for output
  * @returns {Promise<boolean>} - Success status
  */
-async function install(options) {
+export export async function install(options) {
   const { logger } = options;
   // projectRoot and config available for future use
 
@@ -29,4 +29,4 @@ async function install(options) {
   }
 }
 
-module.exports = { install };
+export default { install };

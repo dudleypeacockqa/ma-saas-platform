@@ -11,7 +11,7 @@ const chalk = require('chalk');
  * @param {Object} options.logger - Logger instance for output
  * @returns {Promise<boolean>} - Success status
  */
-async function install(options) {
+export async function install(options) {
   const { projectRoot, config, installedIDEs, logger } = options;
 
   try {
@@ -65,4 +65,4 @@ async function configureForIDE(ide) {
   }
 }
 
-module.exports = { install };
+export default { install };

@@ -1,4 +1,4 @@
-const chalk = require('chalk');
+import chalk from 'chalk';
 
 /**
  * BMM Platform-specific installer for Claude Code
@@ -10,7 +10,7 @@ const chalk = require('chalk');
  * @param {Object} options.platformInfo - Platform metadata from global config
  * @returns {Promise<boolean>} - Success status
  */
-async function install(options) {
+export async function install(options) {
   const { logger, platformInfo } = options;
   // projectRoot and config available for future use
 
@@ -32,4 +32,4 @@ async function install(options) {
   }
 }
 
-module.exports = { install };
+export default { install };
