@@ -3,8 +3,7 @@
 # Version: 6.0.0-alpha.0
 # Date: 2025-10-10T08:54:28.084Z
 
-
 # Core Configuration Values
 user_name: BMad User
 communication_language: English
-output_folder: '{project-root}/docs'
+output_folder: "{project-root}/docs"
