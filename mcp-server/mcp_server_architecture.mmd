@@ -1,0 +1,52 @@
+graph TD
+    subgraph "User / Client"
+        A[M&A SaaS Platform Frontend]
+        B[Developer IDE]
+    end
+
+    subgraph "MCP Server (FastAPI on Render)"
+        C[API Gateway] --> D{Authentication Middleware}
+        D --> E{Request Router}
+
+        subgraph "BMAD v6 Core Engine"
+            F[Workflow Engine]
+            G[Agent Registry]
+            H[State Manager]
+            I[Config Manager]
+        end
+
+        E --> F
+        E --> G
+        E --> H
+        E --> I
+
+        subgraph "Service Integrations"
+            J[Stripe]
+            K[Clerk]
+            L[SendGrid]
+            M[Hugging Face]
+            N[Anthropic]
+        end
+
+        F --> J
+        F --> K
+        F --> L
+        F --> M
+        F --> N
+
+        subgraph "Data Persistence (PostgreSQL)"
+            O[Workflow State]
+            P[Agent Configurations]
+            Q[API Keys & Secrets]
+            R[Audit Logs]
+        end
+
+        H --> O
+        G --> P
+        I --> Q
+        F --> R
+    end
+
+    A --> C
+    B --> C
+    B --> C

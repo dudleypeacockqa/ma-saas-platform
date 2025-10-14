@@ -1,0 +1,43 @@
+services:
+  - type: web
+    name: bmad-v6-mcp-server
+    env: python
+    region: oregon
+    plan: starter
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn app.main:app --host 0.0.0.0 --port $PORT
+    healthCheckPath: /health
+    envVars:
+      - key: DATABASE_URL
+        fromDatabase:
+          name: ma-saas-db
+          property: connectionString
+      - key: JWT_SECRET
+        generateValue: true
+      - key: MCP_ENCRYPTION_KEY
+        generateValue: true
+      - key: STRIPE_SECRET_KEY
+        sync: false
+      - key: CLERK_SECRET_KEY
+        sync: false
+      - key: SENDGRID_API_KEY
+        sync: false
+      - key: HUGGINGFACE_API_KEY
+        sync: false
+      - key: ANTHROPIC_API_KEY
+        sync: false
+      - key: OPENAI_API_KEY
+        sync: false
+      - key: PYTHON_VERSION
+        value: "3.11"
+      - key: BMAD_VERSION
+        value: "6.0.0"
+      - key: MCP_SERVER_MODE
+        value: "production"
+
+databases:
+  - name: ma-saas-db
+    databaseName: ma_saas_platform
+    user: ma_saas_user
+    region: oregon
+    plan: starter
