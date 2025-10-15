@@ -58,7 +58,18 @@ from app.models import (
 # Legacy code should be migrated to use the new models.
 
 # NOW import APIs (after all models are registered)
-from app.api import auth, tenants, users, content, marketing, integrations, podcast_studio, stripe_events, advanced_platform
+from app.api import auth, tenants, users, content, marketing, integrations, podcast_studio, stripe_events
+
+# Advanced platform APIs pull in optional analytics dependencies that may not
+# be present in lightweight deployments (like static marketing hosting). We
+# import them lazily so the landing page can be served even if the analytics
+# stack is unavailable.
+try:
+    from app.api import advanced_platform  # type: ignore
+except ModuleNotFoundError as advanced_platform_import_error:  # pragma: no cover
+    advanced_platform = None
+else:
+    advanced_platform_import_error = None
 # from app.api import waitlist  # Temporarily disabled - requires model fixes
 # from app.api import master_admin  # Temporarily disabled - requires BusinessMetrics, RevenueAnalytics models
 # from app.api import emails  # Temporarily disabled - needs ClerkUser migration
@@ -87,6 +98,12 @@ from datetime import datetime
 from app.core.logging import setup_logging, get_logger
 setup_logging()
 logger = get_logger(__name__)
+
+if advanced_platform_import_error:
+    logger.warning(
+        "Advanced platform APIs disabled: %s",
+        advanced_platform_import_error,
+    )
 
 # Resolve marketing site paths so the backend can serve the landing page
 # Primary location is alongside the backend code (/app/website in production)
@@ -215,7 +232,8 @@ app.include_router(users_router)    # User management (requires auth)
 app.include_router(organizations_router)  # Organization management (requires auth)
 
 # Include existing API routers
-app.include_router(advanced_platform.router, prefix="/api", tags=["advanced-platform"])
+if advanced_platform:
+    app.include_router(advanced_platform.router, prefix="/api", tags=["advanced-platform"])
 app.include_router(auth.router, prefix="/api/auth", tags=["authentication"])
 app.include_router(tenants.router, prefix="/api/tenants", tags=["tenants"])
 app.include_router(deals.router)  # Deal management (prefix already defined in router)
