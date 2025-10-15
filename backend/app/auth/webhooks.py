@@ -6,8 +6,8 @@ Processes webhook events from Clerk for user and organization management
 import os
 import json
 import logging
-from typing import Dict, Any, Optional
-from datetime import datetime
+from typing import Dict, Any, Optional, Tuple
+from datetime import datetime, timezone
 from fastapi import APIRouter, Request, HTTPException, Depends, Header, status
 from sqlalchemy.orm import Session
 from svix.webhooks import Webhook, WebhookVerificationError
@@ -25,6 +25,42 @@ if not CLERK_WEBHOOK_SECRET:
     logger.warning("CLERK_WEBHOOK_SECRET not set. Webhook verification will fail.")
 
 router = APIRouter(prefix="/api/webhooks", tags=["webhooks"])
+
+
+def parse_clerk_datetime(value: Optional[Any]) -> datetime:
+    """Convert Clerk timestamps (ISO strings or epoch) to timezone-aware datetime."""
+    if isinstance(value, datetime):
+        return value
+
+    if isinstance(value, (int, float)):
+        return datetime.fromtimestamp(value, tz=timezone.utc)
+
+    if isinstance(value, str):
+        cleaned = value.rstrip('Z')
+        try:
+            return datetime.fromisoformat(cleaned).replace(tzinfo=timezone.utc)
+        except ValueError:
+            pass
+
+    return datetime.utcnow().replace(tzinfo=timezone.utc)
+
+
+def extract_primary_email_info(data: Dict[str, Any]) -> Tuple[Optional[str], bool]:
+    """Return the primary email address and verification status from Clerk payload."""
+    primary_id = data.get("primary_email_address_id")
+    email_addresses = data.get("email_addresses", []) or []
+
+    for email_entry in email_addresses:
+        matches_primary = primary_id and email_entry.get("id") == primary_id
+        if not primary_id:
+            matches_primary = email_entry.get("email_address") == data.get("email_address")
+
+        if matches_primary or email_entry.get("primary"):
+            verification = email_entry.get("verification") or {}
+            is_verified = verification.get("status") == "verified"
+            return email_entry.get("email_address"), is_verified
+
+    return None, False
 
 
 class WebhookEvent(BaseModel):
@@ -124,12 +160,12 @@ class WebhookHandler:
     async def handle_user_created(self, data: Dict[str, Any], db: Session):
         """Handle user.created event"""
         try:
-            # Extract primary email
-            primary_email = None
-            for email in data.get("email_addresses", []):
-                if email.get("id") == data.get("primary_email_address_id"):
-                    primary_email = email.get("email_address")
-                    break
+            primary_email, is_verified = extract_primary_email_info(data)
+            if not primary_email:
+                primary_email = data.get("email_address")
+
+            if not primary_email:
+                raise ValueError("Primary email missing from Clerk webhook payload")
 
             # Create or update user in our database
             user = db.query(User).filter(User.clerk_id == data["id"]).first()
@@ -138,22 +174,25 @@ class WebhookHandler:
                 user = User(
                     clerk_id=data["id"],
                     email=primary_email,
-                    first_name=data.get("first_name"),
-                    last_name=data.get("last_name"),
+                    first_name=data.get("first_name") or None,
+                    last_name=data.get("last_name") or None,
                     username=data.get("username"),
-                    image_url=data.get("image_url"),
-                    created_at=datetime.fromisoformat(data["created_at"].rstrip("Z")),
+                    avatar_url=data.get("image_url"),
+                    created_at=parse_clerk_datetime(data.get("created_at")),
                     metadata=data.get("public_metadata", {})
                 )
                 db.add(user)
             else:
                 # Update existing user
                 user.email = primary_email
-                user.first_name = data.get("first_name")
-                user.last_name = data.get("last_name")
+                user.first_name = data.get("first_name") or user.first_name
+                user.last_name = data.get("last_name") or user.last_name
                 user.username = data.get("username")
-                user.image_url = data.get("image_url")
+                user.avatar_url = data.get("image_url")
                 user.metadata = data.get("public_metadata", {})
+
+            user.full_name = " ".join(filter(None, [user.first_name, user.last_name])) or user.full_name
+            user.is_email_verified = is_verified
 
             db.commit()
             logger.info(f"User created/updated: {data['id']}")
