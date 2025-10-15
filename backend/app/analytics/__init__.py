@@ -117,4 +117,4 @@ ADVANCED_ANALYTICS_CONFIG = {
         "executive_summary_length": 500,  # words
         "insight_confidence_threshold": 0.8
     }
-]
+}

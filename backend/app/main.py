@@ -65,11 +65,11 @@ from app.api import auth, tenants, users, content, marketing, integrations, podc
 # import them lazily so the landing page can be served even if the analytics
 # stack is unavailable.
 advanced_platform = None
-advanced_platform_import_error: Optional[ModuleNotFoundError] = None
+advanced_platform_import_error: Optional[Exception] = None
 
 try:
     from app.api import advanced_platform  # type: ignore
-except ModuleNotFoundError as exc:  # pragma: no cover
+except Exception as exc:  # pragma: no cover
     advanced_platform_import_error = exc
 # from app.api import waitlist  # Temporarily disabled - requires model fixes
 # from app.api import master_admin  # Temporarily disabled - requires BusinessMetrics, RevenueAnalytics models
