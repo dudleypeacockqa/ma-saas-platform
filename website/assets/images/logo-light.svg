@@ -1,0 +1,5 @@
+<svg width="200" height="48" viewBox="0 0 200 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="200" height="48" rx="12" fill="#F8FAFC" fill-opacity="0.1" stroke="#38BDF8" stroke-width="2"/>
+  <path d="M24 12L12 24L24 36" stroke="#38BDF8" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+  <text x="40" y="30" fill="#E0F2FE" font-family="'Inter', 'Helvetica Neue', Arial, sans-serif" font-size="18" font-weight="700">100 DAYS &amp; BEYOND</text>
+</svg>

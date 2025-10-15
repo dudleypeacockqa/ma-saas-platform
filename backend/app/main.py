@@ -1,10 +1,14 @@
 from fastapi import FastAPI, Depends, HTTPException, status
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
+from fastapi.staticfiles import StaticFiles
+from fastapi.responses import FileResponse
 from sqlalchemy.orm import Session
 import os
 from dotenv import load_dotenv
 import logging
+from pathlib import Path
+from typing import Optional
 
 from app.core.database import get_db, engine
 from app.core.config import settings
@@ -84,6 +88,25 @@ from app.core.logging import setup_logging, get_logger
 setup_logging()
 logger = get_logger(__name__)
 
+# Resolve marketing site paths so the backend can serve the landing page
+BASE_DIR = Path(__file__).resolve().parents[2]
+WEBSITE_DIR = BASE_DIR / "website"
+WEBSITE_INDEX = WEBSITE_DIR / "index.html"
+
+
+class CacheControlStaticFiles(StaticFiles):
+    """StaticFiles wrapper that applies Cache-Control headers when serving files."""
+
+    def __init__(self, *args, cache_control: Optional[str] = None, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.cache_control = cache_control
+
+    async def get_response(self, path: str, scope):  # type: ignore[override]
+        response = await super().get_response(path, scope)
+        if self.cache_control and response.status_code == 200:
+            response.headers.setdefault("Cache-Control", self.cache_control)
+        return response
+
 # Initialize Sentry for error tracking
 # from app.core.sentry import init_sentry  # Temporarily disabled - sentry_sdk not in requirements
 # init_sentry()
@@ -99,6 +122,53 @@ app = FastAPI(
     docs_url="/api/docs",
     redoc_url="/api/redoc"
 )
+
+
+def mount_marketing_dir(path: str, directory: Path, *, cache_control: Optional[str] = None, html: bool = False) -> None:
+    """Safely mount static directories for the marketing site."""
+
+    if directory.exists():
+        app.mount(
+            path,
+            CacheControlStaticFiles(directory=str(directory), html=html, cache_control=cache_control),
+            name=f"marketing-{path.strip('/') or 'root'}",
+        )
+        logger.info("Mounted marketing directory %s -> %s", path, directory)
+    else:
+        logger.debug("Marketing directory missing %s -> %s", path, directory)
+
+
+if WEBSITE_DIR.exists():
+    mount_marketing_dir(
+        "/assets",
+        WEBSITE_DIR / "assets",
+        cache_control="public, max-age=31536000, immutable",
+    )
+    mount_marketing_dir(
+        "/images",
+        WEBSITE_DIR / "images",
+        cache_control="public, max-age=86400",
+    )
+    mount_marketing_dir(
+        "/blog",
+        WEBSITE_DIR / "blog",
+        cache_control="public, max-age=300",
+        html=True,
+    )
+    mount_marketing_dir(
+        "/podcast",
+        WEBSITE_DIR / "podcast",
+        cache_control="public, max-age=300",
+        html=True,
+    )
+    mount_marketing_dir(
+        "/legal",
+        WEBSITE_DIR / "legal",
+        cache_control="public, max-age=3600",
+        html=True,
+    )
+else:
+    logger.warning("Marketing site directory not found; landing page will fall back to API JSON response")
 
 # Configure CORS
 app.add_middleware(
@@ -241,8 +311,15 @@ async def shutdown_event():
     """Clean up on application shutdown"""
     logger.info("M&A SaaS Platform API shutting down...")
 
-@app.get("/")
+@app.get("/", include_in_schema=False)
 async def root():
+    if WEBSITE_INDEX.exists():
+        response = FileResponse(WEBSITE_INDEX, media_type="text/html")
+        response.headers["Cache-Control"] = "no-cache, no-store, must-revalidate"
+        response.headers.setdefault("X-Robots-Tag", "index,follow")
+        return response
+
+    logger.warning("Marketing index not found; returning API status JSON")
     return {
         "message": "M&A SaaS Platform API",
         "status": "running",
