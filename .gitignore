@@ -229,3 +229,4 @@ traces/
 audit-logs/
 error-logs/
 access-logs/
+!frontend/src/components/analytics/
