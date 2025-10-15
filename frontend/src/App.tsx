@@ -40,7 +40,7 @@ import PublicLayout from '@/components/layouts/PublicLayout';
 import PlatformLayout from '@/components/layouts/PlatformLayout';
 import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/layout/Footer';
-import AnalyticsListener from '@/components/analytics/AnalyticsListener';
+import AnalyticsListener from '@/components/analytics/AnalyticsListener.tsx';
 
 // Clerk configuration
 const clerkPubKey = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY || 'pk_live_Y2xlcmsuMTAwZGF5c2FuZGJleW9uZC5jb20k';

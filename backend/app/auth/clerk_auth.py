@@ -164,6 +164,12 @@ class ClerkAuthMiddleware:
         token = credentials.credentials
         token_data = await self.verify_token(token)
 
+        if token_data.email_verified is False:
+            raise HTTPException(
+                status_code=status.HTTP_403_FORBIDDEN,
+                detail="Email address is not verified",
+            )
+
         # Build user object from token data
         user = ClerkUser(
             user_id=token_data.sub,

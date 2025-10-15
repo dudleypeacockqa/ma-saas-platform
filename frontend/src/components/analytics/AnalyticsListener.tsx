@@ -10,14 +10,9 @@ const AnalyticsListener = () => {
 
   useEffect(() => {
     initAnalytics();
-  }, []);
-
-  useEffect(() => {
-    initAnalytics().then(() => {
-      const title = typeof document !== 'undefined' ? document.title : undefined;
-      trackPageView(location.pathname + location.search, {
-        page_title: title,
-      });
+    const title = typeof document !== 'undefined' ? document.title : undefined;
+    trackPageView(`${location.pathname}${location.search}`, {
+      page_title: title,
     });
   }, [location]);
 

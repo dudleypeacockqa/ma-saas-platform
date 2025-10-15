@@ -7,32 +7,48 @@ import asyncio
 from typing import Generator, AsyncGenerator
 from datetime import datetime, timedelta
 import os
+import warnings
 
 from sqlalchemy import create_engine, event
+from sqlalchemy.exc import MovedIn20Warning
+from pydantic.warnings import PydanticDeprecatedSince20
 from sqlalchemy.orm import Session, sessionmaker
 from sqlalchemy.pool import StaticPool
 from fastapi.testclient import TestClient
 
 # Set test environment before importing app
 os.environ["TESTING"] = "true"
-os.environ["DATABASE_URL"] = "sqlite:///:memory:"
+os.environ["DATABASE_URL"] = os.getenv("DATABASE_URL", "sqlite+aiosqlite:///:memory:")
+os.environ.setdefault("FRONTEND_URL", "http://localhost:5173")
 
-from app.main import app
 from app.core.database import get_db, Base
 from app.models.base import Base as ModelsBase
 from app.core.config import settings
 
-# Import all models to ensure they're registered with SQLAlchemy
-from app.models import (
-    organization,
-    user,
-    deal,
-    documents,
-    opportunities,
-    financial_models,
-    negotiations,
-    teams,
-)
+warnings.filterwarnings("ignore", category=MovedIn20Warning)
+warnings.filterwarnings("ignore", category=PydanticDeprecatedSince20)
+
+SKIP_APP_IMPORT = os.getenv('PYTEST_SKIP_APP_IMPORT') == '1'
+
+if SKIP_APP_IMPORT:
+    from fastapi import FastAPI
+    app = FastAPI()
+    from app.models import (
+        organization,
+        user,
+    )
+else:
+    from app.main import app
+    from app.models import (
+        organization,
+        user,
+        deal,
+        documents,
+        opportunities,
+        financial_models,
+        negotiations,
+        teams,
+    )
 
 
 # ============================================================================
@@ -49,13 +65,20 @@ def engine():
         poolclass=StaticPool,
     )
 
-    # Create all tables
-    ModelsBase.metadata.create_all(bind=engine)
+    tables = []
+    if SKIP_APP_IMPORT:
+        table_names = ['users', 'organizations', 'organization_memberships', 'permissions']
+        tables = [ModelsBase.metadata.tables[name] for name in table_names if name in ModelsBase.metadata.tables]
+        ModelsBase.metadata.create_all(bind=engine, tables=tables)
+    else:
+        ModelsBase.metadata.create_all(bind=engine)
 
     yield engine
 
-    # Cleanup
-    ModelsBase.metadata.drop_all(bind=engine)
+    if SKIP_APP_IMPORT and tables:
+        ModelsBase.metadata.drop_all(bind=engine, tables=tables)
+    else:
+        ModelsBase.metadata.drop_all(bind=engine)
     engine.dispose()
 
 
@@ -95,14 +118,6 @@ def client(db_session: Session) -> Generator[TestClient, None, None]:
 # ============================================================================
 # ASYNC FIXTURES
 # ============================================================================
-
-@pytest.fixture(scope="session")
-def event_loop():
-    """Create an event loop for async tests"""
-    loop = asyncio.get_event_loop_policy().new_event_loop()
-    yield loop
-    loop.close()
-
 
 # ============================================================================
 # AUTHENTICATION FIXTURES

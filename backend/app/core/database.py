@@ -19,22 +19,26 @@ DATABASE_URL = os.getenv(
 
 # Handle different URL formats for sync and async connections
 def get_sync_database_url(url: str) -> str:
-    """Convert database URL for synchronous psycopg connection"""
+    """Convert database URL for synchronous drivers"""
     if url.startswith("postgres://"):
         return url.replace("postgres://", "postgresql+psycopg://", 1)
-    elif url.startswith("postgresql://"):
+    if url.startswith("postgresql://"):
         return url.replace("postgresql://", "postgresql+psycopg://", 1)
-    elif url.startswith("postgresql+asyncpg://"):
+    if url.startswith("postgresql+asyncpg://"):
         return url.replace("postgresql+asyncpg://", "postgresql+psycopg://", 1)
+    if url.startswith("sqlite+aiosqlite://"):
+        return url.replace("sqlite+aiosqlite://", "sqlite://", 1)
     return url
 
 def get_async_database_url(url: str) -> str:
-    """Convert database URL for asynchronous asyncpg connection"""
+    """Convert database URL for asynchronous drivers"""
+    if url.startswith("sqlite://") and not url.startswith("sqlite+aiosqlite://"):
+        return url.replace("sqlite://", "sqlite+aiosqlite://", 1)
     if url.startswith("postgres://"):
         return url.replace("postgres://", "postgresql+asyncpg://", 1)
-    elif url.startswith("postgresql://"):
+    if url.startswith("postgresql://"):
         return url.replace("postgresql://", "postgresql+asyncpg://", 1)
-    elif url.startswith("postgresql+psycopg"):
+    if url.startswith("postgresql+psycopg"):
         return url.replace("postgresql+psycopg://", "postgresql+asyncpg://", 1)
     return url
 
