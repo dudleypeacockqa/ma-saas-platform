@@ -6,6 +6,21 @@
 const ANALYTICS_ENABLED = import.meta.env.PROD;
 const ANALYTICS_ENDPOINT = '/api/analytics';
 
+let analyticsInitialized = false;
+
+/**
+ * Initialise analytics (idempotent so callers can invoke freely)
+ */
+export function initAnalytics() {
+  if (analyticsInitialized) return;
+
+  analyticsInitialized = true;
+
+  if (!ANALYTICS_ENABLED) {
+    console.log('📊 [DEV] Analytics initialised');
+  }
+}
+
 /**
  * Track a custom event
  * @param {string} eventName - Name of the event (e.g., 'page_view', 'button_click')
@@ -40,12 +55,17 @@ export async function trackEvent(eventName, data = {}) {
 
 /**
  * Track page view
- * @param {string} pageName - Name of the page
+ * @param {string} pagePath - Path of the page being viewed
+ * @param {object} metadata - Additional metadata to attach
  */
-export function trackPageView(pageName) {
+export function trackPageView(pagePath, metadata = {}) {
+  const path = typeof pagePath === 'string' ? pagePath : window.location.pathname;
+
   trackEvent('page_view', {
-    page: pageName,
-    path: window.location.pathname,
+    page: path,
+    path,
+    title: typeof document !== 'undefined' ? document.title : undefined,
+    ...metadata,
   });
 }
 
@@ -83,6 +103,31 @@ export function trackPerformance(metric, value) {
   trackEvent('performance', {
     metric,
     value,
+  });
+}
+
+/**
+ * Identify the current user for analytics purposes
+ * @param {import('@clerk/types').UserResource | { id: string; emailAddress?: string; fullName?: string }} user
+ */
+export function identifyUser(user) {
+  if (!user) return;
+
+  const userId = user.id || user.userId;
+  const email =
+    user.primaryEmailAddress?.emailAddress ||
+    user.emailAddress ||
+    user.emailAddresses?.[0]?.emailAddress;
+  const name =
+    user.fullName ||
+    (user.firstName || user.lastName
+      ? `${user.firstName ?? ''} ${user.lastName ?? ''}`.trim()
+      : undefined);
+
+  trackEvent('identify_user', {
+    user_id: userId,
+    email,
+    name,
   });
 }
 
