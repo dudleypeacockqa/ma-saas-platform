@@ -28,9 +28,7 @@ export default [
   // Project-specific tweaks
   {
     rules: {
-      // Allow console for CLI tools in this repo
       'no-console': 'off',
-      // Enforce .yaml file extension for consistency
       'yml/file-extension': [
         'error',
         {
@@ -38,7 +36,6 @@ export default [
           caseSensitive: true,
         },
       ],
-      // Prefer double quotes in YAML wherever quoting is used, but allow the other to avoid escapes
       'yml/quotes': [
         'error',
         {
@@ -46,7 +43,6 @@ export default [
           avoidEscape: true,
         },
       ],
-      // Relax some Unicorn rules that are too opinionated for this codebase
       'unicorn/prevent-abbreviations': 'off',
       'unicorn/no-null': 'off',
     },
@@ -55,17 +51,26 @@ export default [
   // CLI/CommonJS scripts under tools/**
   {
     files: ['tools/**/*.js'],
+    languageOptions: {
+      sourceType: 'script',
+      ecmaVersion: 2022,
+      globals: {
+        require: 'readonly',
+        module: 'writable',
+        exports: 'writable',
+        __dirname: 'readonly',
+        __filename: 'readonly',
+        process: 'readonly',
+      },
+    },
     rules: {
-      // Allow CommonJS patterns for Node CLI scripts
       'unicorn/prefer-module': 'off',
       'unicorn/import-style': 'off',
       'unicorn/no-process-exit': 'off',
       'n/no-process-exit': 'off',
       'unicorn/no-await-expression-member': 'off',
       'unicorn/prefer-top-level-await': 'off',
-      // Avoid failing CI on incidental unused vars in internal scripts
       'no-unused-vars': 'off',
-      // Reduce style-only churn in internal tools
       'unicorn/prefer-ternary': 'off',
       'unicorn/filename-case': 'off',
       'unicorn/no-array-reduce': 'off',
@@ -75,12 +80,88 @@ export default [
       'n/no-extraneous-import': 'off',
       'n/no-unpublished-require': 'off',
       'n/no-unpublished-import': 'off',
-      // Some scripts intentionally use globals provided at runtime
       'no-undef': 'off',
-      // Additional relaxed rules for legacy/internal scripts
       'no-useless-catch': 'off',
       'unicorn/prefer-number-properties': 'off',
       'no-unreachable': 'off',
+    },
+  },
+
+  // Primary installer modules (ESM with createRequire helpers)
+  {
+    files: ['bmad/_module-installer/**/*.js', 'bmad/core/_module-installer/**/*.js'],
+    languageOptions: {
+      sourceType: 'module',
+      ecmaVersion: 2022,
+    },
+    rules: {
+      'unicorn/prefer-module': 'off',
+      'unicorn/prefer-node-protocol': 'off',
+      'n/no-missing-import': 'off',
+    },
+  },
+
+  // Legacy copies under src/ remain CommonJS
+  {
+    files: ['src/modules/**/_module-installer/**/*.js'],
+    languageOptions: {
+      sourceType: 'script',
+      ecmaVersion: 2022,
+    },
+  },
+
+  // React Native config files should stay CommonJS
+  {
+    files: [
+      'mobile/.eslintrc.js',
+      'mobile/babel.config.js',
+      'mobile/jest.config.js',
+      'mobile/metro.config.js',
+    ],
+    languageOptions: {
+      sourceType: 'script',
+      ecmaVersion: 2022,
+      globals: {
+        require: 'readonly',
+        module: 'writable',
+        exports: 'writable',
+        __dirname: 'readonly',
+        __filename: 'readonly',
+        process: 'readonly',
+      },
+    },
+    rules: {
+      'unicorn/prefer-module': 'off',
+      'n/no-missing-require': 'off',
+      'n/no-extraneous-require': 'off',
+      'n/no-unpublished-require': 'off',
+      'unicorn/prefer-node-protocol': 'off',
+    },
+  },
+
+  // React Native app sources use ESM (Metro handles resolution)
+  {
+    files: ['mobile/**/*.js'],
+    languageOptions: {
+      sourceType: 'module',
+      ecmaVersion: 2022,
+    },
+    rules: {
+      'n/no-missing-import': 'off',
+    },
+  },
+
+  // Browser assets
+  {
+    files: ['website/assets/js/**/*.js'],
+    languageOptions: {
+      sourceType: 'module',
+      ecmaVersion: 2022,
+      globals: {
+        document: 'readonly',
+        window: 'readonly',
+        tailwind: 'readonly',
+      },
     },
   },
 

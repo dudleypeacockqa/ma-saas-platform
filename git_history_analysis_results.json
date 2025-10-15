@@ -1,0 +1,3210 @@
+{
+  "summary": {
+    "total_commits": 1007,
+    "features": 112,
+    "implementations": 1,
+    "integrations": 0,
+    "deployments": 18,
+    "fixes": 223,
+    "enhancements": 1,
+    "milestones": 274,
+    "contributors": 76
+  },
+  "story_patterns": {
+    "documentation": [
+      {
+        "hash": "e63b6f0",
+        "date": "2025-10-14",
+        "content": "refresh test_bmad_fix.md",
+        "author": "Dudley Peacock",
+        "full_message": "index on master: f7a324b docs: refresh test_bmad_fix.md"
+      },
+      {
+        "hash": "f14d9c9",
+        "date": "2025-10-14",
+        "content": "refresh test_bmad_fix.md",
+        "author": "Dudley Peacock",
+        "full_message": "untracked files on master: f7a324b docs: refresh test_bmad_fix.md"
+      },
+      {
+        "hash": "f7a324b",
+        "date": "2025-10-14",
+        "content": "refresh test_bmad_fix.md",
+        "author": "Dudley Peacock",
+        "full_message": "docs: refresh test_bmad_fix.md"
+      },
+      {
+        "hash": "083ce69",
+        "date": "2025-10-13",
+        "content": "Add deployment notes for website fixes",
+        "author": "Dudley Peacock",
+        "full_message": "docs: Add deployment notes for website fixes"
+      },
+      {
+        "hash": "41c92b0",
+        "date": "2025-10-12",
+        "content": "Add final deployment report for Clerk billing migration",
+        "author": "Dudley Peacock",
+        "full_message": "docs: Add final deployment report for Clerk billing migration"
+      },
+      {
+        "hash": "a414bed",
+        "date": "2025-10-12",
+        "content": "Add comprehensive deployment status summary for Clerk billing migration",
+        "author": "Dudley Peacock",
+        "full_message": "docs: Add comprehensive deployment status summary for Clerk billing migration"
+      },
+      {
+        "hash": "bfa0e6e",
+        "date": "2025-10-11",
+        "content": "Add comprehensive setup completion guide",
+        "author": "Dudley Peacock",
+        "full_message": "docs: Add comprehensive setup completion guide"
+      },
+      {
+        "hash": "6e04a37",
+        "date": "2025-10-10",
+        "content": "Update README with comprehensive project overview and AI integration details",
+        "author": "dudleypeacockqa",
+        "full_message": "docs: Update README with comprehensive project overview and AI integration details"
+      },
+      {
+        "hash": "24b3a42",
+        "date": "2025-09-29",
+        "content": "improved tea wording",
+        "author": "Murat Ozcan",
+        "full_message": "docs: improved tea wording"
+      },
+      {
+        "hash": "bf24530",
+        "date": "2025-09-29",
+        "content": "spot update test architect",
+        "author": "Murat Ozcan",
+        "full_message": "docs: spot update test architect"
+      },
+      {
+        "hash": "206fc75",
+        "date": "2025-09-29",
+        "content": "update test architect docs",
+        "author": "Murat Ozcan",
+        "full_message": "docs: update test architect docs"
+      },
+      {
+        "hash": "3883949",
+        "date": "2025-09-29",
+        "content": "update tea docs for review by Brian",
+        "author": "Murat Ozcan",
+        "full_message": "docs: update tea docs for review by Brian"
+      },
+      {
+        "hash": "8603415",
+        "date": "2025-09-29",
+        "content": "update tea docs for review by Brian",
+        "author": "Murat Ozcan",
+        "full_message": "docs: update tea docs for review by Brian"
+      },
+      {
+        "hash": "cf0a521",
+        "date": "2025-09-29",
+        "content": "update tea docs for review by Brian",
+        "author": "Murat Ozcan",
+        "full_message": "docs: update tea docs for review by Brian"
+      },
+      {
+        "hash": "384e17f",
+        "date": "2025-08-31",
+        "content": "remove misplaced Codex section from README",
+        "author": "Brian Madison",
+        "full_message": "docs: remove misplaced Codex section from README"
+      },
+      {
+        "hash": "c80a868",
+        "date": "2025-08-17",
+        "content": "add agent initialization guidance and command references to workflow diagrams",
+        "author": "manjaroblack",
+        "full_message": "docs: add agent initialization guidance and command references to workflow diagrams"
+      },
+      {
+        "hash": "3cbaaa5",
+        "date": "2025-08-17",
+        "content": "add agent initialization guidance and command references to workflow diagrams",
+        "author": "manjaroblack",
+        "full_message": "docs: add agent initialization guidance and command references to workflow diagrams"
+      },
+      {
+        "hash": "6e2fbc6",
+        "date": "2025-08-16",
+        "content": "add sync-version.sh script to troubleshooting section",
+        "author": "Brian Madison",
+        "full_message": "docs: add sync-version.sh script to troubleshooting section"
+      },
+      {
+        "hash": "8573852",
+        "date": "2025-08-16",
+        "content": "update versioning and releases documentation",
+        "author": "Brian Madison",
+        "full_message": "docs: update versioning and releases documentation"
+      },
+      {
+        "hash": "8b0b72b",
+        "date": "2025-08-15",
+        "content": "document dual publishing strategy and automated promotion",
+        "author": "Brian Madison",
+        "full_message": "docs: document dual publishing strategy and automated promotion"
+      },
+      {
+        "hash": "8d300da",
+        "date": "2025-08-13",
+        "content": "refined the docs for test architect",
+        "author": "Murat Ozcan",
+        "full_message": "docs: refined the docs for test architect"
+      },
+      {
+        "hash": "e32b477",
+        "date": "2025-07-04",
+        "content": "add vs-code-copilot-guide (#290)",
+        "author": "Serhii",
+        "full_message": "docs: add vs-code-copilot-guide (#290)"
+      },
+      {
+        "hash": "f5fa255",
+        "date": "2025-06-28",
+        "content": "readme fixes",
+        "author": "Brian Madison",
+        "full_message": "doc: readme fixes"
+      },
+      {
+        "hash": "febe7e1",
+        "date": "2025-06-22",
+        "content": "clarified contributions and guiding principles to align ideals for contribution to BMad Method",
+        "author": "Brian Madison",
+        "full_message": "doc: clarified contributions and guiding principles to align ideals for contribution to BMad Method"
+      },
+      {
+        "hash": "9af2463",
+        "date": "2025-06-19",
+        "content": "add update announcement to README",
+        "author": "Brian Madison",
+        "full_message": "docs: add update announcement to README"
+      },
+      {
+        "hash": "180c6a7",
+        "date": "2025-06-15",
+        "content": "add beginner-friendly pull request guide for new contributors",
+        "author": "Brian Madison",
+        "full_message": "docs: add beginner-friendly pull request guide for new contributors"
+      },
+      {
+        "hash": "ae9f528",
+        "date": "2025-06-01",
+        "content": "add headers and improve formatting for BMAD orchestrator agent documentation (#147)",
+        "author": "Kayvan Sylvan",
+        "full_message": "docs: add headers and improve formatting for BMAD orchestrator agent documentation (#147)"
+      },
+      {
+        "hash": "1458402",
+        "date": "2025-05-31",
+        "content": "fix typos and update section headings for clarity (#143)",
+        "author": "Kayvan Sylvan",
+        "full_message": "docs: fix typos and update section headings for clarity (#143)"
+      },
+      {
+        "hash": "ca56866",
+        "date": "2025-05-28",
+        "content": "update README links to renamed orchestrator config files (#115)",
+        "author": "Kayvan Sylvan",
+        "full_message": "docs: update README links to renamed orchestrator config files (#115)"
+      },
+      {
+        "hash": "e17ecfc",
+        "date": "2025-05-18",
+        "content": "functional change: fix agent responsibilities link (#64)",
+        "author": "Kayvan Sylvan",
+        "full_message": "doc: functional change: fix agent responsibilities link (#64)"
+      }
+    ],
+    "feature": [
+      {
+        "hash": "8ac8409",
+        "date": "2025-10-14",
+        "content": "BMAD v6 structural migration",
+        "author": "Dudley Peacock",
+        "full_message": "feat: BMAD v6 structural migration"
+      },
+      {
+        "hash": "3d1edae",
+        "date": "2025-10-14",
+        "content": "Complete BMAD v6 MCP Server implementation",
+        "author": "dudleypeacockqa",
+        "full_message": "feat: Complete BMAD v6 MCP Server implementation"
+      },
+      {
+        "hash": "16352bd",
+        "date": "2025-10-13",
+        "content": "launch production omnichannel platform",
+        "author": "Dudley Peacock",
+        "full_message": "feat: launch production omnichannel platform"
+      },
+      {
+        "hash": "ed387be",
+        "date": "2025-10-13",
+        "content": "Update pricing with correct Clerk subscription values",
+        "author": "Dudley Peacock",
+        "full_message": "feat: Update pricing with correct Clerk subscription values"
+      },
+      {
+        "hash": "bacdc93",
+        "date": "2025-10-12",
+        "content": "Add mobile responsiveness and authentication pages",
+        "author": "Dudley Peacock",
+        "full_message": "feat: Add mobile responsiveness and authentication pages"
+      },
+      {
+        "hash": "3905048",
+        "date": "2025-10-12",
+        "content": "Deploy professional M&A platform with multipage architecture",
+        "author": "Dudley Peacock",
+        "full_message": "feat: Deploy professional M&A platform with multipage architecture"
+      },
+      {
+        "hash": "a9588c6",
+        "date": "2025-10-12",
+        "content": "Implement comprehensive multipage M&A platform",
+        "author": "Dudley Peacock",
+        "full_message": "feat: Implement comprehensive multipage M&A platform"
+      },
+      {
+        "hash": "6cb50d7",
+        "date": "2025-10-12",
+        "content": "Add comprehensive M&A platform features and documentation",
+        "author": "Dudley Peacock",
+        "full_message": "feat: Add comprehensive M&A platform features and documentation"
+      },
+      {
+        "hash": "346ef90",
+        "date": "2025-10-12",
+        "content": "Complete Master Admin & Business Portal implementation",
+        "author": "dudleypeacockqa",
+        "full_message": "feat: Complete Master Admin & Business Portal implementation"
+      },
+      {
+        "hash": "e52377e",
+        "date": "2025-10-12",
+        "content": "Complete migration to Clerk native subscription billing",
+        "author": "Dudley Peacock",
+        "full_message": "feat: Complete migration to Clerk native subscription billing"
+      },
+      {
+        "hash": "ea36d77",
+        "date": "2025-10-12",
+        "content": "Integrate Clerk authentication with Stripe billing system",
+        "author": "Dudley Peacock",
+        "full_message": "feat: Integrate Clerk authentication with Stripe billing system"
+      },
+      {
+        "hash": "ac9872f",
+        "date": "2025-10-12",
+        "content": "Add offline sync service for mobile devices",
+        "author": "Dudley Peacock",
+        "full_message": "feat: Add offline sync service for mobile devices"
+      },
+      {
+        "hash": "2374a7a",
+        "date": "2025-10-12",
+        "content": "Add advanced features including AI, analytics, realtime collaboration, and permissions",
+        "author": "Dudley Peacock",
+        "full_message": "feat: Add advanced features including AI, analytics, realtime collaboration, and permissions"
+      },
+      {
+        "hash": "3497151",
+        "date": "2025-10-11",
+        "content": "Complete Phase 2 setup with credentials and comprehensive guides",
+        "author": "Dudley Peacock",
+        "full_message": "feat: Complete Phase 2 setup with credentials and comprehensive guides"
+      },
+      {
+        "hash": "7b053c4",
+        "date": "2025-10-11",
+        "content": "Add automated Cloudflare setup tools",
+        "author": "Dudley Peacock",
+        "full_message": "feat: Add automated Cloudflare setup tools"
+      },
+      {
+        "hash": "94b5959",
+        "date": "2025-10-11",
+        "content": "Add quick migration script to bypass alembic.ini issues",
+        "author": "Dudley Peacock",
+        "full_message": "feat: Add quick migration script to bypass alembic.ini issues"
+      },
+      {
+        "hash": "1d8f918",
+        "date": "2025-10-11",
+        "content": "Add enterprise-grade monitoring and analytics suite",
+        "author": "Dudley Peacock",
+        "full_message": "feat: Add enterprise-grade monitoring and analytics suite"
+      },
+      {
+        "hash": "ad3e5d9",
+        "date": "2025-10-11",
+        "content": "Add Render-compatible migration scripts",
+        "author": "Dudley Peacock",
+        "full_message": "feat: Add Render-compatible migration scripts"
+      },
+      {
+        "hash": "97de381",
+        "date": "2025-10-11",
+        "content": "Add APM, analytics, rate limiting, and CDN support",
+        "author": "Dudley Peacock",
+        "full_message": "feat: Add APM, analytics, rate limiting, and CDN support"
+      },
+      {
+        "hash": "ff78256",
+        "date": "2025-10-10",
+        "content": "Optimize Express server for production",
+        "author": "Dudley Peacock",
+        "full_message": "feat: Optimize Express server for production"
+      },
+      {
+        "hash": "2b9e4bc",
+        "date": "2025-10-10",
+        "content": "Add Express server for Node.js deployment",
+        "author": "Dudley Peacock",
+        "full_message": "feat: Add Express server for Node.js deployment"
+      },
+      {
+        "hash": "d019add",
+        "date": "2025-10-10",
+        "content": "Convert frontend to Docker deployment with nginx",
+        "author": "Dudley Peacock",
+        "full_message": "feat: Convert frontend to Docker deployment with nginx"
+      },
+      {
+        "hash": "ae89dfa",
+        "date": "2025-10-10",
+        "content": "Add backend deployment configuration and production setup",
+        "author": "Dudley Peacock",
+        "full_message": "feat: Add backend deployment configuration and production setup"
+      },
+      {
+        "hash": "8a3ec0e",
+        "date": "2025-10-10",
+        "content": "Add BMAD Method v6 integration with backend infrastructure and documentation",
+        "author": "Dudley Peacock",
+        "full_message": "feat: Add BMAD Method v6 integration with backend infrastructure and documentation"
+      },
+      {
+        "hash": "e5899df",
+        "date": "2025-10-10",
+        "content": "Complete BMAD Method v6 slash command integration documentation",
+        "author": "dudleypeacockqa",
+        "full_message": "feat: Complete BMAD Method v6 slash command integration documentation"
+      },
+      {
+        "hash": "e22a05e",
+        "date": "2025-10-10",
+        "content": "Complete Manus Phase 1 implementation with production-ready infrastructure",
+        "author": "dudleypeacockqa",
+        "full_message": "feat: Complete Manus Phase 1 implementation with production-ready infrastructure"
+      },
+      {
+        "hash": "8e38a4f",
+        "date": "2025-10-10",
+        "content": "Complete Phase 1 implementation assessment",
+        "author": "dudleypeacockqa",
+        "full_message": "feat: Complete Phase 1 implementation assessment"
+      },
+      {
+        "hash": "68d40e5",
+        "date": "2025-10-10",
+        "content": "Complete comprehensive detailed action plan and BMAD v6 initiation",
+        "author": "dudleypeacockqa",
+        "full_message": "feat: Complete comprehensive detailed action plan and BMAD v6 initiation"
+      },
+      {
+        "hash": "02da49f",
+        "date": "2025-10-10",
+        "content": "Complete M&A ecosystem platform documentation with Clerk/Stripe integration",
+        "author": "dudleypeacockqa",
+        "full_message": "feat: Complete M&A ecosystem platform documentation with Clerk/Stripe integration"
+      },
+      {
+        "hash": "2d6b76a",
+        "date": "2025-10-10",
+        "content": "Enhanced infrastructure with Render hosting and Claude MCP/SDK integration",
+        "author": "dudleypeacockqa",
+        "full_message": "feat: Enhanced infrastructure with Render hosting and Claude MCP/SDK integration"
+      },
+      {
+        "hash": "1167944",
+        "date": "2025-10-10",
+        "content": "Comprehensive AI development context and strategy integration",
+        "author": "dudleypeacockqa",
+        "full_message": "feat: Comprehensive AI development context and strategy integration"
+      },
+      {
+        "hash": "c9ffe20",
+        "date": "2025-10-05",
+        "content": "default project name to directory (#681)",
+        "author": "Alex Verkhovsky",
+        "full_message": "feat(installer): default project name to directory (#681)"
+      },
+      {
+        "hash": "c49f4b2",
+        "date": "2025-10-05",
+        "content": "activate with custom prompts instead of AGENTS.md (#679)",
+        "author": "Alex Verkhovsky",
+        "full_message": "feat(codex): activate with custom prompts instead of AGENTS.md (#679)"
+      },
+      {
+        "hash": "5f0a318",
+        "date": "2025-10-01",
+        "content": "Added detailed epics file generation that was missing (#669)",
+        "author": "PinkyD",
+        "full_message": "feature: Added detailed epics file generation that was missing (#669)"
+      },
+      {
+        "hash": "58d6adb",
+        "date": "2025-10-01",
+        "content": "Added detailed epics file generation that was missing",
+        "author": "pbean",
+        "full_message": "feature: Added detailed epics file generation that was missing"
+      },
+      {
+        "hash": "108e4d8",
+        "date": "2025-09-30",
+        "content": "add web activation instructions to bundled agents",
+        "author": "Brian Madison",
+        "full_message": "feat: add web activation instructions to bundled agents"
+      },
+      {
+        "hash": "0a6a3f3",
+        "date": "2025-09-28",
+        "content": "v6.0.0-alpha.0 - the future is now",
+        "author": "Brian Madison",
+        "full_message": "feat: v6.0.0-alpha.0 - the future is now"
+      },
+      {
+        "hash": "f09e282",
+        "date": "2025-09-12",
+        "content": "add JSON-only integration and compact AGENTS.md generator (#570)",
+        "author": "Javier Gomez",
+        "full_message": "feat(opencode): add JSON-only integration and compact AGENTS.md generator (#570)"
+      },
+      {
+        "hash": "076c104",
+        "date": "2025-09-07",
+        "content": "add iflow cli support to bmad installer.  (#510)",
+        "author": "liyuyun-lyy",
+        "full_message": "feat: add iflow cli support to bmad installer.  (#510)"
+      },
+      {
+        "hash": "94f6700",
+        "date": "2025-09-06",
+        "content": "enhance file exclusion capabilities with .bmad-flattenignore support (#531)",
+        "author": "Daniel Dabrowski",
+        "full_message": "feat: enhance file exclusion capabilities with .bmad-flattenignore support (#531)"
+      },
+      {
+        "hash": "155f959",
+        "date": "2025-09-03",
+        "content": "Add Auggie CLI (Augment Code) Integration (#520)",
+        "author": "Hau Vo",
+        "full_message": "feat: Add Auggie CLI (Augment Code) Integration (#520)"
+      },
+      {
+        "hash": "fb70c20",
+        "date": "2025-08-31",
+        "content": "add PR validation workflow and contribution checks",
+        "author": "Brian Madison",
+        "full_message": "feat: add PR validation workflow and contribution checks"
+      },
+      {
+        "hash": "05736fa",
+        "date": "2025-08-31",
+        "content": "add Codex CLI + Codex Web modes, generate AGENTS.md, inject npm scripts, and docs (#529)",
+        "author": "Jonathan Borgwing",
+        "full_message": "feat(installer): add Codex CLI + Codex Web modes, generate AGENTS.md, inject npm scripts, and docs (#529)"
+      },
+      {
+        "hash": "052e84d",
+        "date": "2025-08-31",
+        "content": "implement fork-friendly CI/CD with opt-in mechanism (#476)",
+        "author": "Bragatte",
+        "full_message": "feat: implement fork-friendly CI/CD with opt-in mechanism (#476)"
+      },
+      {
+        "hash": "ed4db10",
+        "date": "2025-08-19",
+        "content": "enhance status command to support expansion-only installations and add debug mode",
+        "author": "manjaroblack",
+        "full_message": "feat: enhance status command to support expansion-only installations and add debug mode"
+      },
+      {
+        "hash": "49347a8",
+        "date": "2025-08-16",
+        "content": "Part 2 - Agent System Templates (#370)",
+        "author": "Anthony",
+        "full_message": "Feat(Expansion Pack): Part 2 - Agent System Templates (#370)"
+      },
+      {
+        "hash": "ba4fb4d",
+        "date": "2025-08-16",
+        "content": "add convenient npm scripts for command line releases",
+        "author": "Brian Madison",
+        "full_message": "feat: add convenient npm scripts for command line releases"
+      },
+      {
+        "hash": "3eb706c",
+        "date": "2025-08-16",
+        "content": "enhance manual release workflow with automatic release notes",
+        "author": "Brian Madison",
+        "full_message": "feat: enhance manual release workflow with automatic release notes"
+      },
+      {
+        "hash": "3f5abf3",
+        "date": "2025-08-16",
+        "content": "simplify installation to single @stable tag",
+        "author": "Brian Madison",
+        "full_message": "feat: simplify installation to single @stable tag"
+      },
+      {
+        "hash": "fab9d5e",
+        "date": "2025-08-16",
+        "content": "prompt for detailed stats; polish .stats.md with emojis (#422)",
+        "author": "manjaroblack",
+        "full_message": "feat(flattener): prompt for detailed stats; polish .stats.md with emojis (#422)"
+      },
+      {
+        "hash": "93426c2",
+        "date": "2025-08-15",
+        "content": "publish stable release 5.0.0",
+        "author": "Brian Madison",
+        "full_message": "feat: publish stable release 5.0.0"
+      },
+      {
+        "hash": "848e33f",
+        "date": "2025-08-16",
+        "content": "Installer commands for Crush CLI (#429)",
+        "author": "Thiago Freitas",
+        "full_message": "Feature: Installer commands for Crush CLI (#429)"
+      },
+      {
+        "hash": "e1176f3",
+        "date": "2025-08-15",
+        "content": "publish stable release 5.0.0",
+        "author": "Brian Madison",
+        "full_message": "feat: publish stable release 5.0.0"
+      },
+      {
+        "hash": "0b61175",
+        "date": "2025-08-15",
+        "content": "transform QA agent into Test Architect with advanced quality ca\u2026 (#433)",
+        "author": "Murat K Ozcan",
+        "full_message": "feat: transform QA agent into Test Architect with advanced quality ca\u2026 (#433)"
+      },
+      {
+        "hash": "fb02234",
+        "date": "2025-08-15",
+        "content": "add automated promotion workflow for stable releases",
+        "author": "Brian Madison",
+        "full_message": "feat: add automated promotion workflow for stable releases"
+      },
+      {
+        "hash": "75ba8d8",
+        "date": "2025-08-15",
+        "content": "republish beta with corrected dependencies and tags",
+        "author": "Brian Madison",
+        "full_message": "feat: republish beta with corrected dependencies and tags"
+      },
+      {
+        "hash": "f3e429d",
+        "date": "2025-08-15",
+        "content": "trigger new beta release with fixed dependencies",
+        "author": "Brian Madison",
+        "full_message": "feat: trigger new beta release with fixed dependencies"
+      },
+      {
+        "hash": "d92ba83",
+        "date": "2025-08-15",
+        "content": "implement dual NPM publishing strategy",
+        "author": "Brian Madison",
+        "full_message": "feat: implement dual NPM publishing strategy"
+      },
+      {
+        "hash": "e3899b2",
+        "date": "2025-08-10",
+        "content": "add detailed statistics and markdown report generation to flattener tool",
+        "author": "manjaroblack",
+        "full_message": "feat: add detailed statistics and markdown report generation to flattener tool"
+      },
+      {
+        "hash": "d563266",
+        "date": "2025-08-15",
+        "content": "install Cursor rules to subdirectory (#438)",
+        "author": "Stefan Kl\u00fcmpers",
+        "full_message": "feat: install Cursor rules to subdirectory (#438)"
+      },
+      {
+        "hash": "34e75be",
+        "date": "2025-08-12",
+        "content": "transform QA agent into Test Architect with advanced quality capabilities",
+        "author": "Murat Ozcan",
+        "full_message": "feat: transform QA agent into Test Architect with advanced quality capabilities"
+      },
+      {
+        "hash": "b7a34b4",
+        "date": "2025-08-12",
+        "content": "transform QA agent into Test Architect with advanced quality capabilities",
+        "author": "Murat Ozcan",
+        "full_message": "feat: transform QA agent into Test Architect with advanced quality capabilities"
+      },
+      {
+        "hash": "0fdbca7",
+        "date": "2025-08-09",
+        "content": "modularize flattener tool into separate components with improved project root detection (#417)",
+        "author": "manjaroblack",
+        "full_message": "feat: modularize flattener tool into separate components with improved project root detection (#417)"
+      },
+      {
+        "hash": "a72b790",
+        "date": "2025-08-03",
+        "content": "add qwen-code ide support to bmad installer. (#392)",
+        "author": "Houston Zhang",
+        "full_message": "feat: add qwen-code ide support to bmad installer. (#392)"
+      },
+      {
+        "hash": "dcebe91",
+        "date": "2025-08-03",
+        "content": "add KiloCode integration support to BMAD installer (#390)",
+        "author": "Mbosinwa Awunor",
+        "full_message": "feat: add KiloCode integration support to BMAD installer (#390)"
+      },
+      {
+        "hash": "e9dd4e7",
+        "date": "2025-07-27",
+        "content": "version bump",
+        "author": "Brian Madison",
+        "full_message": "feat: version bump"
+      },
+      {
+        "hash": "c7fc5d3",
+        "date": "2025-07-27",
+        "content": "Part 1 - Google Cloud Setup",
+        "author": "antmikinka",
+        "full_message": "Feat(Expansion Pack): Part 1 - Google Cloud Setup"
+      },
+      {
+        "hash": "a7038d4",
+        "date": "2025-07-23",
+        "content": "Overhaul and Enhance 2D Unity Game Dev Expansion Pack (#350)",
+        "author": "PinkyD",
+        "full_message": "feat: Overhaul and Enhance 2D Unity Game Dev Expansion Pack (#350)"
+      },
+      {
+        "hash": "df57d77",
+        "date": "2025-07-19",
+        "content": "Installation includes a getting started user guide with detailed mermaid diagram",
+        "author": "Brian Madison",
+        "full_message": "feat: Installation includes a getting started user guide with detailed mermaid diagram"
+      },
+      {
+        "hash": "e24b6f8",
+        "date": "2025-07-14",
+        "content": "installer is now VERY clear about IDE selection being a multiselect",
+        "author": "Brian Madison",
+        "full_message": "feat: installer is now VERY clear about IDE selection being a multiselect"
+      },
+      {
+        "hash": "e9e541a",
+        "date": "2025-07-12",
+        "content": "Claude Code slash commands for Tasks and Agents!",
+        "author": "Brian Madison",
+        "full_message": "feat: Claude Code slash commands for Tasks and Agents!"
+      },
+      {
+        "hash": "3c13c56",
+        "date": "2025-07-12",
+        "content": "bmad-master can load kb properly",
+        "author": "Brian Madison",
+        "full_message": "feat: bmad-master can load kb properly"
+      },
+      {
+        "hash": "b785371",
+        "date": "2025-07-06",
+        "content": "experimental doc creator v2 and template system",
+        "author": "Brian Madison",
+        "full_message": "feat: experimental doc creator v2 and template system"
+      },
+      {
+        "hash": "c107af0",
+        "date": "2025-07-06",
+        "content": "WIP create-docv2",
+        "author": "Brian Madison",
+        "full_message": "feat: WIP create-docv2"
+      },
+      {
+        "hash": "fae0f5f",
+        "date": "2025-07-05",
+        "content": "add support for trae ide integration (#298)",
+        "author": "manjaroblack",
+        "full_message": "feat(trae): add support for trae ide integration (#298)"
+      },
+      {
+        "hash": "1bc9960",
+        "date": "2025-07-05",
+        "content": "big improvement to advanced elicitation",
+        "author": "Brian Madison",
+        "full_message": "feat: big improvement to advanced elicitation"
+      },
+      {
+        "hash": "9f53caf",
+        "date": "2025-07-04",
+        "content": "Massive improvement to the brainstorming task!",
+        "author": "Brian Madison",
+        "full_message": "feat: Massive improvement to the brainstorming task!"
+      },
+      {
+        "hash": "2874a54",
+        "date": "2025-07-04",
+        "content": "improvements to agent task usage, sm story drafting, dev implementation, qa review process, and addition of a new sm independant review of a draft story",
+        "author": "Brian Madison",
+        "full_message": "feat: improvements to agent task usage, sm story drafting, dev implementation, qa review process, and addition of a new sm independant review of a draft story"
+      },
+      {
+        "hash": "731589a",
+        "date": "2025-07-01",
+        "content": "workflow plans introduced, preliminary feature under review",
+        "author": "Brian Madison",
+        "full_message": "feat: workflow plans introduced, preliminary feature under review"
+      },
+      {
+        "hash": "1a4ca4f",
+        "date": "2025-07-01",
+        "content": "VS Code Copilot integration (#284)",
+        "author": "David Elisma",
+        "full_message": "feat: VS Code Copilot integration (#284)"
+      },
+      {
+        "hash": "a1b30d9",
+        "date": "2025-06-30",
+        "content": "create doc more explicit and readme improvement",
+        "author": "Brian Madison",
+        "full_message": "feat: create doc more explicit and readme improvement"
+      },
+      {
+        "hash": "c151bda",
+        "date": "2025-06-29",
+        "content": "massive installer improvement update",
+        "author": "Brian Madison",
+        "full_message": "feat: massive installer improvement update"
+      },
+      {
+        "hash": "c881dcc",
+        "date": "2025-06-29",
+        "content": "Massive documentation refactor, added explanation of the new expanded role of the QA agent that will make your code quality MUCH better. 2 new diagram clearly explain the role of the pre dev ideation cycle (prd and architecture) and the details of how the dev cycle works.",
+        "author": "Brian Madison",
+        "full_message": "feat: Massive documentation refactor, added explanation of the new expanded role of the QA agent that will make your code quality MUCH better. 2 new diagram clearly explain the role of the pre dev ideation cycle (prd and architecture) and the details of how the dev cycle works."
+      },
+      {
+        "hash": "b82978f",
+        "date": "2025-06-28",
+        "content": "install for ide now sets up rules also for expansion agents!",
+        "author": "Brian Madison",
+        "full_message": "feat: install for ide now sets up rules also for expansion agents!"
+      },
+      {
+        "hash": "c70f1a0",
+        "date": "2025-06-28",
+        "content": "expansion teams can now include core agents and include their assets automatically",
+        "author": "Brian Madison",
+        "full_message": "feat: expansion teams can now include core agents and include their assets automatically"
+      },
+      {
+        "hash": "95e833b",
+        "date": "2025-06-28",
+        "content": "remove hardcoding from installer for agents, improve expansion pack installation to its own locations, common files moved to common folder",
+        "author": "Brian Madison",
+        "full_message": "feat: remove hardcoding from installer for agents, improve expansion pack installation to its own locations, common files moved to common folder"
+      },
+      {
+        "hash": "b557570",
+        "date": "2025-06-28",
+        "content": "add GEMINI.md to agent context files (#272)",
+        "author": "Davor Racic",
+        "full_message": "feat: add GEMINI.md to agent context files (#272)"
+      },
+      {
+        "hash": "ea945bb",
+        "date": "2025-06-25",
+        "content": "repo builds all rules sets for supported ides for easy copy if desired",
+        "author": "Brian Madison",
+        "full_message": "feat: repo builds all rules sets for supported ides for easy copy if desired"
+      },
+      {
+        "hash": "44b9d7b",
+        "date": "2025-06-26",
+        "content": "Add Gemini CLI Integration (#271)",
+        "author": "hieu.sats",
+        "full_message": "feat: Add Gemini CLI Integration (#271)"
+      },
+      {
+        "hash": "3af3d33",
+        "date": "2025-06-24",
+        "content": "enhance QA agent as senior developer with code review capabilities and major brownfield improvements",
+        "author": "Brian Madison",
+        "full_message": "feat: enhance QA agent as senior developer with code review capabilities and major brownfield improvements"
+      },
+      {
+        "hash": "913dbec",
+        "date": "2025-06-24",
+        "content": "add support for Cline IDE and configuration rules (#262)",
+        "author": "Reider Oliv\u00e9r",
+        "full_message": "feat(ide-setup): add support for Cline IDE and configuration rules (#262)"
+      },
+      {
+        "hash": "45110ff",
+        "date": "2025-06-22",
+        "content": "add quality gates to prevent task completion with failing validations (#261)",
+        "author": "gabadi",
+        "full_message": "feat(dev-agent): add quality gates to prevent task completion with failing validations (#261)"
+      },
+      {
+        "hash": "540578b",
+        "date": "2025-06-21",
+        "content": "add markdown-tree integration for document sharding",
+        "author": "Brian Madison",
+        "full_message": "feat: add markdown-tree integration for document sharding"
+      },
+      {
+        "hash": "ff6112d",
+        "date": "2025-06-19",
+        "content": "Core Config and doc sharding is now optional in v4",
+        "author": "Brian Madison",
+        "full_message": "feat: Core Config and doc sharding is now optional in v4"
+      },
+      {
+        "hash": "0e5aaf0",
+        "date": "2025-06-19",
+        "content": "dev can use debug log configured in core-config.yml",
+        "author": "Brian Madison",
+        "full_message": "feat: dev can use debug log configured in core-config.yml"
+      },
+      {
+        "hash": "2f2a1e7",
+        "date": "2025-06-19",
+        "content": "update web builder to remove IDE-specific properties from agent bundles",
+        "author": "Brian Madison",
+        "full_message": "feat: update web builder to remove IDE-specific properties from agent bundles"
+      },
+      {
+        "hash": "74d9bb4",
+        "date": "2025-06-19",
+        "content": "add file resolution context for IDE agents",
+        "author": "Brian Madison",
+        "full_message": "feat: add file resolution context for IDE agents"
+      },
+      {
+        "hash": "29e7bbf",
+        "date": "2025-06-19",
+        "content": "add early v4 detection for improved update flow",
+        "author": "Brian Madison",
+        "full_message": "feat: add early v4 detection for improved update flow"
+      },
+      {
+        "hash": "e663a11",
+        "date": "2025-06-19",
+        "content": "extensive bmad-kb for web orchestrator to be much more helpful",
+        "author": "Brian Madison",
+        "full_message": "feat: extensive bmad-kb for web orchestrator to be much more helpful"
+      },
+      {
+        "hash": "b03aece",
+        "date": "2025-06-17",
+        "content": "removed some templates that are not ready for use",
+        "author": "Brian Madison",
+        "full_message": "feat: removed some templates that are not ready for use"
+      },
+      {
+        "hash": "0c41633",
+        "date": "2025-06-17",
+        "content": "can now select different web bundles from what ide agents are installed",
+        "author": "Brian Madison",
+        "full_message": "feat: can now select different web bundles from what ide agents are installed"
+      },
+      {
+        "hash": "e934769",
+        "date": "2025-06-17",
+        "content": "installer offers option to install web bundles",
+        "author": "Brian Madison",
+        "full_message": "feat: installer offers option to install web bundles"
+      },
+      {
+        "hash": "2d61df4",
+        "date": "2025-06-16",
+        "content": "bmad the creator expansion with some basic tools for modifying bmad method",
+        "author": "Brian Madison",
+        "full_message": "feat: bmad the creator expansion with some basic tools for modifying bmad method"
+      },
+      {
+        "hash": "1fbeed7",
+        "date": "2025-06-16",
+        "content": "robust installer",
+        "author": "Brian Madison",
+        "full_message": "feat: robust installer"
+      },
+      {
+        "hash": "f39b495",
+        "date": "2025-06-15",
+        "content": "web bundles updated",
+        "author": "Brian Madison",
+        "full_message": "feat: web bundles updated"
+      },
+      {
+        "hash": "764e770",
+        "date": "2025-06-15",
+        "content": "improve docs, technical preference usage",
+        "author": "Brian Madison",
+        "full_message": "feat: improve docs, technical preference usage"
+      },
+      {
+        "hash": "b6a2f5b",
+        "date": "2025-06-15",
+        "content": "sync IDE configurations across all platforms",
+        "author": "Brian Madison",
+        "full_message": "feat: sync IDE configurations across all platforms"
+      },
+      {
+        "hash": "38a5024",
+        "date": "2025-06-15",
+        "content": "improve semantic-release automation and disable manual version bumping",
+        "author": "Brian Madison",
+        "full_message": "feat: improve semantic-release automation and disable manual version bumping"
+      },
+      {
+        "hash": "ebfd4c7",
+        "date": "2025-06-15",
+        "content": "enhance installer with multi-IDE support and sync version bumping",
+        "author": "Brian Madison",
+        "full_message": "feat: enhance installer with multi-IDE support and sync version bumping"
+      },
+      {
+        "hash": "8773545",
+        "date": "2025-06-15",
+        "content": "web bundles include a simplified prd with architecture now for simpler project folderes not needing a full plown architecture doc!",
+        "author": "Brian Madison",
+        "full_message": "feat: web bundles include a simplified prd with architecture now for simpler project folderes not needing a full plown architecture doc!"
+      },
+      {
+        "hash": "5a6fe36",
+        "date": "2025-06-14",
+        "content": "update badges to use dynamic NPM version",
+        "author": "Brian Madison",
+        "full_message": "feat: update badges to use dynamic NPM version"
+      },
+      {
+        "hash": "0ea5e50",
+        "date": "2025-06-14",
+        "content": "add versioning and release automation",
+        "author": "Brian Madison",
+        "full_message": "feat: add versioning and release automation"
+      }
+    ],
+    "fix": [
+      {
+        "hash": "cf52cc8",
+        "date": "2025-10-14",
+        "content": "resolve merge conflicts and clean up workflows",
+        "author": "Dudley Peacock",
+        "full_message": "fix: resolve merge conflicts and clean up workflows"
+      },
+      {
+        "hash": "3033bfc",
+        "date": "2025-10-13",
+        "content": "Disable Cloudflare Rocket Loader breaking ES6 modules",
+        "author": "Dudley Peacock",
+        "full_message": "fix: Disable Cloudflare Rocket Loader breaking ES6 modules"
+      },
+      {
+        "hash": "72a7bc9",
+        "date": "2025-10-13",
+        "content": "Update Claude settings for GitHub CLI authentication",
+        "author": "Dudley Peacock",
+        "full_message": "fix: Update Claude settings for GitHub CLI authentication"
+      },
+      {
+        "hash": "f195133",
+        "date": "2025-10-13",
+        "content": "Remove unused PLAN_IDS import from PricingPage",
+        "author": "Dudley Peacock",
+        "full_message": "fix: Remove unused PLAN_IDS import from PricingPage"
+      },
+      {
+        "hash": "0b38d7e",
+        "date": "2025-10-13",
+        "content": "Update CSP to allow Cloudflare scripts and finalize build",
+        "author": "Dudley Peacock",
+        "full_message": "fix: Update CSP to allow Cloudflare scripts and finalize build"
+      },
+      {
+        "hash": "cb47f5b",
+        "date": "2025-10-13",
+        "content": "Resolve blank screen by fixing Clerk imports and CSP violations",
+        "author": "Dudley Peacock",
+        "full_message": "fix: Resolve blank screen by fixing Clerk imports and CSP violations"
+      },
+      {
+        "hash": "4a93be3",
+        "date": "2025-10-13",
+        "content": "Add missing Stripe and Clerk configuration settings",
+        "author": "Dudley Peacock",
+        "full_message": "fix: Add missing Stripe and Clerk configuration settings"
+      },
+      {
+        "hash": "d6898fc",
+        "date": "2025-10-13",
+        "content": "Correct UUID foreign key constraint mismatches in podcast studio models",
+        "author": "Dudley Peacock",
+        "full_message": "fix: Correct UUID foreign key constraint mismatches in podcast studio models"
+      },
+      {
+        "hash": "f5d882d",
+        "date": "2025-10-13",
+        "content": "Critical production issues - database and dependencies",
+        "author": "Dudley Peacock",
+        "full_message": "fix: Critical production issues - database and dependencies"
+      },
+      {
+        "hash": "3aad5f7",
+        "date": "2025-10-13",
+        "content": "Regenerate pnpm-lock.yaml for React 19 compatibility",
+        "author": "Dudley Peacock",
+        "full_message": "fix: Regenerate pnpm-lock.yaml for React 19 compatibility"
+      },
+      {
+        "hash": "a72e793",
+        "date": "2025-10-13",
+        "content": "Add .npmrc with legacy-peer-deps for Render build",
+        "author": "Dudley Peacock",
+        "full_message": "fix: Add .npmrc with legacy-peer-deps for Render build"
+      },
+      {
+        "hash": "62c7837",
+        "date": "2025-10-13",
+        "content": "Add React 19 overrides for @hello-pangea/dnd peer dependency",
+        "author": "Dudley Peacock",
+        "full_message": "fix: Add React 19 overrides for @hello-pangea/dnd peer dependency"
+      },
+      {
+        "hash": "f19fbd1",
+        "date": "2025-10-13",
+        "content": "Update Pydantic field validators from regex to pattern",
+        "author": "Dudley Peacock",
+        "full_message": "fix: Update Pydantic field validators from regex to pattern"
+      },
+      {
+        "hash": "03bcc34",
+        "date": "2025-10-13",
+        "content": "Rename ContentTemplate to ContentCreationTemplate in content_creation models",
+        "author": "Dudley Peacock",
+        "full_message": "fix: Rename ContentTemplate to ContentCreationTemplate in content_creation models"
+      },
+      {
+        "hash": "5cf46ad",
+        "date": "2025-10-13",
+        "content": "Rename RecordingSession to ContentRecordingSession in content_creation models",
+        "author": "Dudley Peacock",
+        "full_message": "fix: Rename RecordingSession to ContentRecordingSession in content_creation models"
+      },
+      {
+        "hash": "756ac02",
+        "date": "2025-10-13",
+        "content": "Rename recording_sessions table to content_recording_sessions",
+        "author": "Dudley Peacock",
+        "full_message": "fix: Rename recording_sessions table to content_recording_sessions"
+      },
+      {
+        "hash": "1d80bdc",
+        "date": "2025-10-13",
+        "content": "Fix ContentAnalytics import in podcast_studio.py",
+        "author": "Dudley Peacock",
+        "full_message": "fix: Fix ContentAnalytics import in podcast_studio.py"
+      },
+      {
+        "hash": "046cdf4",
+        "date": "2025-10-13",
+        "content": "Import PodcastEpisode from correct model file",
+        "author": "Dudley Peacock",
+        "full_message": "fix: Import PodcastEpisode from correct model file"
+      },
+      {
+        "hash": "4d30c05",
+        "date": "2025-10-13",
+        "content": "Correct import paths in podcast_studio API",
+        "author": "Dudley Peacock",
+        "full_message": "fix: Correct import paths in podcast_studio API"
+      },
+      {
+        "hash": "135842d",
+        "date": "2025-10-13",
+        "content": "Temporarily disable waitlist API and model import",
+        "author": "Dudley Peacock",
+        "full_message": "fix: Temporarily disable waitlist API and model import"
+      },
+      {
+        "hash": "3da5e51",
+        "date": "2025-10-13",
+        "content": "Disable master_admin API temporarily",
+        "author": "Dudley Peacock",
+        "full_message": "fix: Disable master_admin API temporarily"
+      },
+      {
+        "hash": "6897792",
+        "date": "2025-10-13",
+        "content": "Comment out PromotionalCode imports and endpoints",
+        "author": "Dudley Peacock",
+        "full_message": "fix: Comment out PromotionalCode imports and endpoints"
+      },
+      {
+        "hash": "88b2db2",
+        "date": "2025-10-13",
+        "content": "Rename podcast_studio_episodes table to avoid conflict",
+        "author": "Dudley Peacock",
+        "full_message": "fix: Rename podcast_studio_episodes table to avoid conflict"
+      },
+      {
+        "hash": "93073ca",
+        "date": "2025-10-13",
+        "content": "Resolve circular import and table redefinition error",
+        "author": "Dudley Peacock",
+        "full_message": "fix: Resolve circular import and table redefinition error"
+      },
+      {
+        "hash": "ced0027",
+        "date": "2025-10-13",
+        "content": "Add missing Base import to database.py",
+        "author": "Dudley Peacock",
+        "full_message": "fix: Add missing Base import to database.py"
+      },
+      {
+        "hash": "500fec3",
+        "date": "2025-10-13",
+        "content": "Frontend deployment errors resolved",
+        "author": "Dudley Peacock",
+        "full_message": "\ud83d\udd27 CRITICAL FIX: Frontend deployment errors resolved"
+      },
+      {
+        "hash": "352ef77",
+        "date": "2025-10-12",
+        "content": "Remove .tsx extension from QuickActionsMenu import",
+        "author": "Dudley Peacock",
+        "full_message": "fix: Remove .tsx extension from QuickActionsMenu import"
+      },
+      {
+        "hash": "8f93042",
+        "date": "2025-10-12",
+        "content": "Comment out rate limiter middleware (redis not installed)",
+        "author": "Dudley Peacock",
+        "full_message": "fix: Comment out rate limiter middleware (redis not installed)"
+      },
+      {
+        "hash": "b855247",
+        "date": "2025-10-12",
+        "content": "Resolve QuickActionsMenu component import and props mismatch",
+        "author": "Dudley Peacock",
+        "full_message": "fix: Resolve QuickActionsMenu component import and props mismatch"
+      },
+      {
+        "hash": "46c5a93",
+        "date": "2025-10-12",
+        "content": "Update QuickActionsMenu to use shadcn/ui components",
+        "author": "Dudley Peacock",
+        "full_message": "fix: Update QuickActionsMenu to use shadcn/ui components"
+      },
+      {
+        "hash": "33c6549",
+        "date": "2025-10-12",
+        "content": "Configure root-level build for Render deployment",
+        "author": "Dudley Peacock",
+        "full_message": "fix: Configure root-level build for Render deployment"
+      },
+      {
+        "hash": "433e0d3",
+        "date": "2025-10-12",
+        "content": "Add .tsx extension to QuickActionsMenu import",
+        "author": "Dudley Peacock",
+        "full_message": "fix: Add .tsx extension to QuickActionsMenu import"
+      },
+      {
+        "hash": "65a69a7",
+        "date": "2025-10-12",
+        "content": "Update pnpm lockfile to resolve deployment build error",
+        "author": "Dudley Peacock",
+        "full_message": "fix: Update pnpm lockfile to resolve deployment build error"
+      },
+      {
+        "hash": "35b59a1",
+        "date": "2025-10-12",
+        "content": "Update App import to use .tsx extension in main.jsx",
+        "author": "Dudley Peacock",
+        "full_message": "fix: Update App import to use .tsx extension in main.jsx"
+      },
+      {
+        "hash": "cb2d218",
+        "date": "2025-10-12",
+        "content": "Add missing platform pages and auth components for production deployment",
+        "author": "Dudley Peacock",
+        "full_message": "fix: Add missing platform pages and auth components for production deployment"
+      },
+      {
+        "hash": "7ddbba2",
+        "date": "2025-10-12",
+        "content": "Comment out Sentry initialization (sentry_sdk not installed)",
+        "author": "Dudley Peacock",
+        "full_message": "fix: Comment out Sentry initialization (sentry_sdk not installed)"
+      },
+      {
+        "hash": "894c807",
+        "date": "2025-10-12",
+        "content": "Correct settings attribute names for production deployment",
+        "author": "Dudley Peacock",
+        "full_message": "fix: Correct settings attribute names for production deployment"
+      },
+      {
+        "hash": "5333d01",
+        "date": "2025-10-12",
+        "content": "Add missing __init__.py to routers package",
+        "author": "Dudley Peacock",
+        "full_message": "fix: Add missing __init__.py to routers package"
+      },
+      {
+        "hash": "fd7093f",
+        "date": "2025-10-12",
+        "content": "Comment out emails router to fix ModuleNotFoundError during deployment",
+        "author": "Dudley Peacock",
+        "full_message": "fix: Comment out emails router to fix ModuleNotFoundError during deployment"
+      },
+      {
+        "hash": "6c9b61b",
+        "date": "2025-10-12",
+        "content": "Correct import path for get_current_user in emails.py",
+        "author": "Dudley Peacock",
+        "full_message": "fix: Correct import path for get_current_user in emails.py"
+      },
+      {
+        "hash": "1b8e8d7",
+        "date": "2025-10-12",
+        "content": "Comment out missing integration imports to prevent ModuleNotFoundError",
+        "author": "Dudley Peacock",
+        "full_message": "fix: Comment out missing integration imports to prevent ModuleNotFoundError"
+      },
+      {
+        "hash": "96a8087",
+        "date": "2025-10-12",
+        "content": "Add missing SQLAlchemy imports in integration files",
+        "author": "Dudley Peacock",
+        "full_message": "fix: Add missing SQLAlchemy imports in integration files"
+      },
+      {
+        "hash": "e677270",
+        "date": "2025-10-12",
+        "content": "Comment out non-existent model imports in teams.py",
+        "author": "Dudley Peacock",
+        "full_message": "fix: Comment out non-existent model imports in teams.py"
+      },
+      {
+        "hash": "04d59d2",
+        "date": "2025-10-12",
+        "content": "Comment out non-existent model imports in integration files",
+        "author": "Dudley Peacock",
+        "full_message": "fix: Comment out non-existent model imports in integration files"
+      },
+      {
+        "hash": "490e44c",
+        "date": "2025-10-12",
+        "content": "Update hubspot-api-client to available version 12.0.0",
+        "author": "Dudley Peacock",
+        "full_message": "fix: Update hubspot-api-client to available version 12.0.0"
+      },
+      {
+        "hash": "82eb814",
+        "date": "2025-10-12",
+        "content": "Add missing integration SDK dependencies",
+        "author": "Dudley Peacock",
+        "full_message": "fix: Add missing integration SDK dependencies"
+      },
+      {
+        "hash": "a787eca",
+        "date": "2025-10-12",
+        "content": "Complete Integration class definition with required fields",
+        "author": "Dudley Peacock",
+        "full_message": "fix: Complete Integration class definition with required fields"
+      },
+      {
+        "hash": "222b88e",
+        "date": "2025-10-12",
+        "content": "Comment out IntegrationLog usage until model is created",
+        "author": "Dudley Peacock",
+        "full_message": "fix: Comment out IntegrationLog usage until model is created"
+      },
+      {
+        "hash": "e9610e0",
+        "date": "2025-10-12",
+        "content": "Correct import path in integration_manager.py",
+        "author": "Dudley Peacock",
+        "full_message": "fix: Correct import path in integration_manager.py"
+      },
+      {
+        "hash": "93df8e7",
+        "date": "2025-10-12",
+        "content": "Rename duplicate tables in integration.py to avoid SQLAlchemy conflicts",
+        "author": "Dudley Peacock",
+        "full_message": "fix: Rename duplicate tables in integration.py to avoid SQLAlchemy conflicts"
+      },
+      {
+        "hash": "e889284",
+        "date": "2025-10-12",
+        "content": "Add missing aiohttp dependency to requirements",
+        "author": "Dudley Peacock",
+        "full_message": "fix: Add missing aiohttp dependency to requirements"
+      },
+      {
+        "hash": "299ceb0",
+        "date": "2025-10-12",
+        "content": "Correct Base import path in email_campaigns and alembic",
+        "author": "Dudley Peacock",
+        "full_message": "fix: Correct Base import path in email_campaigns and alembic"
+      },
+      {
+        "hash": "0900c4c",
+        "date": "2025-10-12",
+        "content": "Add pandas and numpy dependencies for AI/ML features",
+        "author": "Dudley Peacock",
+        "full_message": "fix: Add pandas and numpy dependencies for AI/ML features"
+      },
+      {
+        "hash": "f937e70",
+        "date": "2025-10-11",
+        "content": "Remove exposed API keys from documentation",
+        "author": "dudleypeacockqa",
+        "full_message": "Security fix: Remove exposed API keys from documentation"
+      },
+      {
+        "hash": "46a5ba9",
+        "date": "2025-10-11",
+        "content": "Update all imports from document.py to documents.py",
+        "author": "Dudley Peacock",
+        "full_message": "fix: Update all imports from document.py to documents.py"
+      },
+      {
+        "hash": "b459466",
+        "date": "2025-10-11",
+        "content": "Remove duplicate Document model causing SQLAlchemy table conflict",
+        "author": "Dudley Peacock",
+        "full_message": "fix: Remove duplicate Document model causing SQLAlchemy table conflict"
+      },
+      {
+        "hash": "c6fedad",
+        "date": "2025-10-11",
+        "content": "Rename metadata column to document_metadata to avoid SQLAlchemy reserved name",
+        "author": "Dudley Peacock",
+        "full_message": "fix: Rename metadata column to document_metadata to avoid SQLAlchemy reserved name"
+      },
+      {
+        "hash": "25c5c0e",
+        "date": "2025-10-11",
+        "content": "Complete Clerk CSP configuration per official docs",
+        "author": "Dudley Peacock",
+        "full_message": "fix: Complete Clerk CSP configuration per official docs"
+      },
+      {
+        "hash": "4e81464",
+        "date": "2025-10-11",
+        "content": "Update CSP configuration to allow Clerk authentication",
+        "author": "Dudley Peacock",
+        "full_message": "fix: Update CSP configuration to allow Clerk authentication"
+      },
+      {
+        "hash": "87aeb09",
+        "date": "2025-10-11",
+        "content": "Move migration file to versions subdirectory",
+        "author": "Dudley Peacock",
+        "full_message": "fix: Move migration file to versions subdirectory"
+      },
+      {
+        "hash": "b8cffe3",
+        "date": "2025-10-11",
+        "content": "Configure Alembic to use psycopg (v3) instead of psycopg2",
+        "author": "Dudley Peacock",
+        "full_message": "fix: Configure Alembic to use psycopg (v3) instead of psycopg2"
+      },
+      {
+        "hash": "44a6a84",
+        "date": "2025-10-11",
+        "content": "Correct INI interpolation and settings access",
+        "author": "Dudley Peacock",
+        "full_message": "fix: Correct INI interpolation and settings access"
+      },
+      {
+        "hash": "ee795c8",
+        "date": "2025-10-11",
+        "content": "Remove merge conflict markers from alembic.ini",
+        "author": "Dudley Peacock",
+        "full_message": "fix: Remove merge conflict markers from alembic.ini"
+      },
+      {
+        "hash": "3f9aacd",
+        "date": "2025-10-10",
+        "content": "Add complete Toast UI component for shadcn/ui",
+        "author": "Dudley Peacock",
+        "full_message": "fix: Add complete Toast UI component for shadcn/ui"
+      },
+      {
+        "hash": "245b7a6",
+        "date": "2025-10-10",
+        "content": "Correct App.css import path in LandingPage",
+        "author": "Dudley Peacock",
+        "full_message": "fix: Correct App.css import path in LandingPage"
+      },
+      {
+        "hash": "e125678",
+        "date": "2025-10-10",
+        "content": "Add IF NOT EXISTS for CREATE INDEX to prevent race condition errors",
+        "author": "Dudley Peacock",
+        "full_message": "fix: Add IF NOT EXISTS for CREATE INDEX to prevent race condition errors"
+      },
+      {
+        "hash": "2a34da2",
+        "date": "2025-10-10",
+        "content": "Add missing use-toast hook",
+        "author": "Dudley Peacock",
+        "full_message": "fix: Add missing use-toast hook"
+      },
+      {
+        "hash": "0d4efe0",
+        "date": "2025-10-10",
+        "content": "Improve database initialization to handle race conditions",
+        "author": "Dudley Peacock",
+        "full_message": "fix: Improve database initialization to handle race conditions"
+      },
+      {
+        "hash": "68f9d9d",
+        "date": "2025-10-10",
+        "content": "Add missing Toaster component",
+        "author": "Dudley Peacock",
+        "full_message": "fix: Add missing Toaster component"
+      },
+      {
+        "hash": "b064d32",
+        "date": "2025-10-10",
+        "content": "Remove duplicate export statement in Footer component",
+        "author": "Dudley Peacock",
+        "full_message": "fix: Remove duplicate export statement in Footer component"
+      },
+      {
+        "hash": "77d56d0",
+        "date": "2025-10-10",
+        "content": "Resolve merge conflict in App.jsx and fix variable reference",
+        "author": "Dudley Peacock",
+        "full_message": "fix: Resolve merge conflict in App.jsx and fix variable reference"
+      },
+      {
+        "hash": "ce81c84",
+        "date": "2025-10-10",
+        "content": "Resolve merge conflict in frontend index.html",
+        "author": "Dudley Peacock",
+        "full_message": "fix: Resolve merge conflict in frontend index.html"
+      },
+      {
+        "hash": "81ee355",
+        "date": "2025-10-10",
+        "content": "Handle duplicate database objects gracefully on startup",
+        "author": "Dudley Peacock",
+        "full_message": "fix: Handle duplicate database objects gracefully on startup"
+      },
+      {
+        "hash": "ce6826b",
+        "date": "2025-10-10",
+        "content": "Comment out disabled router includes for payments and arbitrage",
+        "author": "Dudley Peacock",
+        "full_message": "fix: Comment out disabled router includes for payments and arbitrage"
+      },
+      {
+        "hash": "579e8e0",
+        "date": "2025-10-10",
+        "content": "Export OrganizationMembership from models package",
+        "author": "Dudley Peacock",
+        "full_message": "fix: Export OrganizationMembership from models package"
+      },
+      {
+        "hash": "eaea624",
+        "date": "2025-10-10",
+        "content": "Temporarily disable arbitrage API requiring pandas",
+        "author": "Dudley Peacock",
+        "full_message": "fix: Temporarily disable arbitrage API requiring pandas"
+      },
+      {
+        "hash": "8c775ee",
+        "date": "2025-10-10",
+        "content": "Correct auth imports in valuations API",
+        "author": "Dudley Peacock",
+        "full_message": "fix: Correct auth imports in valuations API"
+      },
+      {
+        "hash": "c88b39c",
+        "date": "2025-10-10",
+        "content": "Correct database import path in valuations API",
+        "author": "Dudley Peacock",
+        "full_message": "fix: Correct database import path in valuations API"
+      },
+      {
+        "hash": "2a029d7",
+        "date": "2025-10-10",
+        "content": "Temporarily disable payments API to resolve import errors",
+        "author": "Dudley Peacock",
+        "full_message": "fix: Temporarily disable payments API to resolve import errors"
+      },
+      {
+        "hash": "e365247",
+        "date": "2025-10-10",
+        "content": "Add missing jinja2 template engine dependency",
+        "author": "Dudley Peacock",
+        "full_message": "fix: Add missing jinja2 template engine dependency"
+      },
+      {
+        "hash": "10e305e",
+        "date": "2025-10-10",
+        "content": "Add AsyncSessionLocal for async database operations",
+        "author": "Dudley Peacock",
+        "full_message": "fix: Add AsyncSessionLocal for async database operations"
+      },
+      {
+        "hash": "ab6411e",
+        "date": "2025-10-10",
+        "content": "Add missing AI dependencies (openai, tiktoken)",
+        "author": "Dudley Peacock",
+        "full_message": "fix: Add missing AI dependencies (openai, tiktoken)"
+      },
+      {
+        "hash": "cb8002d",
+        "date": "2025-10-10",
+        "content": "Add missing structlog dependency",
+        "author": "Dudley Peacock",
+        "full_message": "fix: Add missing structlog dependency"
+      },
+      {
+        "hash": "f55d1b7",
+        "date": "2025-10-10",
+        "content": "Rename reserved 'metadata' column to 'doc_metadata'",
+        "author": "Dudley Peacock",
+        "full_message": "fix: Rename reserved 'metadata' column to 'doc_metadata'"
+      },
+      {
+        "hash": "6377f82",
+        "date": "2025-10-10",
+        "content": "Add Base declarative_base to database module",
+        "author": "Dudley Peacock",
+        "full_message": "fix: Add Base declarative_base to database module"
+      },
+      {
+        "hash": "8fc1b9b",
+        "date": "2025-10-10",
+        "content": "Add missing pgvector and asyncpg dependencies",
+        "author": "Dudley Peacock",
+        "full_message": "fix: Add missing pgvector and asyncpg dependencies"
+      },
+      {
+        "hash": "4297d73",
+        "date": "2025-10-10",
+        "content": "Remove non-existent partnership module import",
+        "author": "Dudley Peacock",
+        "full_message": "fix: Remove non-existent partnership module import"
+      },
+      {
+        "hash": "03dc285",
+        "date": "2025-10-10",
+        "content": "Complete SQLAlchemy import fixes across all models",
+        "author": "Dudley Peacock",
+        "full_message": "fix: Complete SQLAlchemy import fixes across all models"
+      },
+      {
+        "hash": "06d2d3a",
+        "date": "2025-10-10",
+        "content": "Add missing Integer import in User model",
+        "author": "Dudley Peacock",
+        "full_message": "fix: Add missing Integer import in User model"
+      },
+      {
+        "hash": "1d44aa7",
+        "date": "2025-10-10",
+        "content": "Resolve anthropic version conflict with langchain-anthropic",
+        "author": "Dudley Peacock",
+        "full_message": "fix: Resolve anthropic version conflict with langchain-anthropic"
+      },
+      {
+        "hash": "d771272",
+        "date": "2025-10-10",
+        "content": "Add missing Dockerfile for backend service deployment",
+        "author": "Dudley Peacock",
+        "full_message": "fix: Add missing Dockerfile for backend service deployment"
+      },
+      {
+        "hash": "5977227",
+        "date": "2025-10-10",
+        "content": "Correct path to instructions in bmad-init workflow (#663)",
+        "author": "MeetNexus",
+        "full_message": "fix: Correct path to instructions in bmad-init workflow (#663)"
+      },
+      {
+        "hash": "9657c35",
+        "date": "2025-10-09",
+        "content": "Switch backend to Docker deployment in render.yaml",
+        "author": "Dudley Peacock",
+        "full_message": "Fix: Switch backend to Docker deployment in render.yaml"
+      },
+      {
+        "hash": "ab2215a",
+        "date": "2025-10-09",
+        "content": "Remove legacy Flask src/ directory causing deployment failures",
+        "author": "Dudley Peacock",
+        "full_message": "CRITICAL FIX: Remove legacy Flask src/ directory causing deployment failures"
+      },
+      {
+        "hash": "42f81bd",
+        "date": "2025-10-09",
+        "content": "Lazy webhook initialization to prevent import-time crashes",
+        "author": "Dudley Peacock",
+        "full_message": "CRITICAL FIX: Lazy webhook initialization to prevent import-time crashes"
+      },
+      {
+        "hash": "f9ef3ec",
+        "date": "2025-10-09",
+        "content": "Resolve deployment failures with SQLAlchemy Base unification",
+        "author": "Dudley Peacock",
+        "full_message": "CRITICAL FIX: Resolve deployment failures with SQLAlchemy Base unification"
+      },
+      {
+        "hash": "709fb72",
+        "date": "2025-10-07",
+        "content": "install auggie commands to augment directory (#683)",
+        "author": "Dylan Buchi",
+        "full_message": "fix: install auggie commands to augment directory (#683)"
+      },
+      {
+        "hash": "619d191",
+        "date": "2025-10-07",
+        "content": "Docker + SQLAlchemy metadata conflicts",
+        "author": "Dudley Peacock",
+        "full_message": "COMPREHENSIVE DEPLOYMENT FIX: Docker + SQLAlchemy metadata conflicts"
+      },
+      {
+        "hash": "4139184",
+        "date": "2025-10-07",
+        "content": "Force Python 3.12.0 to avoid Python 3.13 pandas issue",
+        "author": "Dudley Peacock",
+        "full_message": "FINAL FIX: Force Python 3.12.0 to avoid Python 3.13 pandas issue"
+      },
+      {
+        "hash": "d444ca3",
+        "date": "2025-10-06",
+        "content": "enforce manifest ide selection (#684)",
+        "author": "Alex Verkhovsky",
+        "full_message": "fix(installer): enforce manifest ide selection (#684)"
+      },
+      {
+        "hash": "6717ddb",
+        "date": "2025-10-06",
+        "content": "enforce manifest ide selection",
+        "author": "Alex Verkhovsky",
+        "full_message": "fix(installer): enforce manifest ide selection"
+      },
+      {
+        "hash": "1a92e68",
+        "date": "2025-10-04",
+        "content": "ensure IDE configurations are collected during full reinstall",
+        "author": "Brian Madison",
+        "full_message": "fix: ensure IDE configurations are collected during full reinstall"
+      },
+      {
+        "hash": "6181a0b",
+        "date": "2025-10-04",
+        "content": "installer IDE selection and cancellation handling",
+        "author": "Brian Madison",
+        "full_message": "fix: installer IDE selection and cancellation handling"
+      },
+      {
+        "hash": "52f6889",
+        "date": "2025-09-20",
+        "content": "BMAD Brownfield Document Naming Inconsistency Bug (#627)",
+        "author": "lihangmissu",
+        "full_message": "fix: BMAD Brownfield Document Naming Inconsistency Bug (#627)"
+      },
+      {
+        "hash": "2b247ea",
+        "date": "2025-09-10",
+        "content": "Changed title to coding standards section of brownfield architecture template (#564)",
+        "author": "Daniel Dabrowski",
+        "full_message": "fix: Changed title to coding standards section of brownfield architecture template (#564)"
+      },
+      {
+        "hash": "a19561a",
+        "date": "2025-09-09",
+        "content": "update workflow file extensions from .md to .yaml in bmad-master.md (#562)",
+        "author": "Daniel Dabrowski",
+        "full_message": "fix: update workflow file extensions from .md to .yaml in bmad-master.md (#562)"
+      },
+      {
+        "hash": "87d68d3",
+        "date": "2025-09-06",
+        "content": "update .gitignore to correct cursor file entry (#485)",
+        "author": "Armel BOBDA",
+        "full_message": "fix: update .gitignore to correct cursor file entry (#485)"
+      },
+      {
+        "hash": "a05b05c",
+        "date": "2025-09-06",
+        "content": "Template file extension in validation next story steps (#523)",
+        "author": "Drilmo",
+        "full_message": "fix: Template file extension in validation next story steps (#523)"
+      },
+      {
+        "hash": "6919049",
+        "date": "2025-09-02",
+        "content": "Codex options missing from the IDE selection menu (#535)",
+        "author": "Mikhail Romanov",
+        "full_message": "fix: Codex options missing from the IDE selection menu (#535)"
+      },
+      {
+        "hash": "f054d68",
+        "date": "2025-08-31",
+        "content": "correct dependency path format in bmad-master agent (#495)",
+        "author": "Piatra Automation",
+        "full_message": "fix: correct dependency path format in bmad-master agent (#495)"
+      },
+      {
+        "hash": "31c4744",
+        "date": "2025-08-18",
+        "content": "remove unnecessary divider lines in creative writing workflow files",
+        "author": "manjaroblack",
+        "full_message": "fix: remove unnecessary divider lines in creative writing workflow files"
+      },
+      {
+        "hash": "17e7d14",
+        "date": "2025-08-18",
+        "content": "honor original working directory when running npx installer and searching for task files",
+        "author": "manjaroblack",
+        "full_message": "fix: honor original working directory when running npx installer and searching for task files"
+      },
+      {
+        "hash": "17f91c9",
+        "date": "2025-08-18",
+        "content": "correct typo in user guide flowchart from 'executiony' to 'execution'",
+        "author": "manjaroblack",
+        "full_message": "fix: correct typo in user guide flowchart from 'executiony' to 'execution'"
+      },
+      {
+        "hash": "aa9777a",
+        "date": "2025-08-18",
+        "content": "correct typo in user guide flowchart from 'executiony' to 'execution'",
+        "author": "manjaroblack",
+        "full_message": "fix: correct typo in user guide flowchart from 'executiony' to 'execution'"
+      },
+      {
+        "hash": "ab70bac",
+        "date": "2025-08-18",
+        "content": "remove incorrect else branch causing flatten command regression (#452)",
+        "author": "circus",
+        "full_message": "fix: remove incorrect else branch causing flatten command regression (#452)"
+      },
+      {
+        "hash": "80d73d9",
+        "date": "2025-08-17",
+        "content": "documentation and trademark updates",
+        "author": "Brian Madison",
+        "full_message": "fix: documentation and trademark updates"
+      },
+      {
+        "hash": "868ae23",
+        "date": "2025-08-17",
+        "content": "previous merge set wrong default install location",
+        "author": "Brian Madison",
+        "full_message": "fix: previous merge set wrong default install location"
+      },
+      {
+        "hash": "9de8737",
+        "date": "2025-08-17",
+        "content": "prettier fixes",
+        "author": "Brian Madison",
+        "full_message": "fix: prettier fixes"
+      },
+      {
+        "hash": "68eb31d",
+        "date": "2025-08-17",
+        "content": "update installer version display to show 4.39.0",
+        "author": "Brian Madison",
+        "full_message": "fix: update installer version display to show 4.39.0"
+      },
+      {
+        "hash": "b6fe44b",
+        "date": "2025-08-17",
+        "content": "alphabetize agent commands and dependencies for improved organization",
+        "author": "Brian Madison",
+        "full_message": "fix: alphabetize agent commands and dependencies for improved organization"
+      },
+      {
+        "hash": "335e1da",
+        "date": "2025-08-17",
+        "content": "add default current directory to installer prompt (#444)",
+        "author": "Brian, with AI",
+        "full_message": "fix: add default current directory to installer prompt (#444)"
+      },
+      {
+        "hash": "cf22fd9",
+        "date": "2025-08-16",
+        "content": "correct version to 5.1.1 after patch release",
+        "author": "Brian Madison",
+        "full_message": "fix: correct version to 5.1.1 after patch release"
+      },
+      {
+        "hash": "f959a07",
+        "date": "2025-08-16",
+        "content": "update installer package.json version to 5.1.0",
+        "author": "Brian Madison",
+        "full_message": "fix: update installer package.json version to 5.1.0"
+      },
+      {
+        "hash": "c089943",
+        "date": "2025-08-16",
+        "content": "simplify npm publishing to use latest tag only",
+        "author": "Brian Madison",
+        "full_message": "fix: simplify npm publishing to use latest tag only"
+      },
+      {
+        "hash": "39437e9",
+        "date": "2025-08-16",
+        "content": "handle protected branch in manual release workflow",
+        "author": "Brian Madison",
+        "full_message": "fix: handle protected branch in manual release workflow"
+      },
+      {
+        "hash": "1772a30",
+        "date": "2025-08-16",
+        "content": "enable version bumping in manual release workflow",
+        "author": "Brian Madison",
+        "full_message": "fix: enable version bumping in manual release workflow"
+      },
+      {
+        "hash": "5cf9946",
+        "date": "2025-08-16",
+        "content": "handle protected branch in promote-to-stable workflow",
+        "author": "Brian Madison",
+        "full_message": "fix: handle protected branch in promote-to-stable workflow"
+      },
+      {
+        "hash": "51284d6",
+        "date": "2025-08-16",
+        "content": "handle existing tags in promote-to-stable workflow",
+        "author": "Brian Madison",
+        "full_message": "fix: handle existing tags in promote-to-stable workflow"
+      },
+      {
+        "hash": "6cba051",
+        "date": "2025-08-16",
+        "content": "stable tag",
+        "author": "Brian Madison",
+        "full_message": "fix: stable tag"
+      },
+      {
+        "hash": "6cb2fa6",
+        "date": "2025-08-15",
+        "content": "update package-lock.json for semver dependency",
+        "author": "Brian Madison",
+        "full_message": "fix: update package-lock.json for semver dependency"
+      },
+      {
+        "hash": "33269c8",
+        "date": "2025-08-15",
+        "content": "resolve CommonJS import compatibility for chalk, inquirer, and ora (#442)",
+        "author": "cecil-the-coder",
+        "full_message": "fix: resolve CommonJS import compatibility for chalk, inquirer, and ora (#442)"
+      },
+      {
+        "hash": "7f016d0",
+        "date": "2025-08-15",
+        "content": "add permissions and authentication for promotion workflow",
+        "author": "Brian Madison",
+        "full_message": "fix: add permissions and authentication for promotion workflow"
+      },
+      {
+        "hash": "faff4e0",
+        "date": "2025-08-15",
+        "content": "update package-lock.json for semver dependency",
+        "author": "Brian Madison",
+        "full_message": "fix: update package-lock.json for semver dependency"
+      },
+      {
+        "hash": "e0dcbcf",
+        "date": "2025-08-15",
+        "content": "update versions for dual publishing beta releases",
+        "author": "Brian Madison",
+        "full_message": "fix: update versions for dual publishing beta releases"
+      },
+      {
+        "hash": "5ceca3a",
+        "date": "2025-08-15",
+        "content": "add semver dependency and correct NPM dist-tag configuration",
+        "author": "Brian Madison",
+        "full_message": "fix: add semver dependency and correct NPM dist-tag configuration"
+      },
+      {
+        "hash": "8e324f6",
+        "date": "2025-08-15",
+        "content": "remove git plugin to resolve branch protection conflicts",
+        "author": "Brian Madison",
+        "full_message": "fix: remove git plugin to resolve branch protection conflicts"
+      },
+      {
+        "hash": "0849cf7",
+        "date": "2025-08-12",
+        "content": "remove redundant error handling for project root detection",
+        "author": "manjaroblack",
+        "full_message": "fix: remove redundant error handling for project root detection"
+      },
+      {
+        "hash": "3efcfd5",
+        "date": "2025-08-15",
+        "content": "fix broken link in GUIDING-PRINCIPLES.md (#428)",
+        "author": "Yongjip Kim",
+        "full_message": "fix(docs): fix broken link in GUIDING-PRINCIPLES.md (#428)"
+      },
+      {
+        "hash": "2a18c33",
+        "date": "2025-08-14",
+        "content": "addressed review comments from manjaroblack, round 1",
+        "author": "Murat Ozcan",
+        "full_message": "fix: addressed review comments from manjaroblack, round 1"
+      },
+      {
+        "hash": "147d444",
+        "date": "2025-08-14",
+        "content": "addressed review comments from manjaroblack, round 1",
+        "author": "Murat Ozcan",
+        "full_message": "fix: addressed review comments from manjaroblack, round 1"
+      },
+      {
+        "hash": "3f6b674",
+        "date": "2025-08-10",
+        "content": "align installer dependencies with root package versions for ESM compatibility (#420)",
+        "author": "circus",
+        "full_message": "fix: align installer dependencies with root package versions for ESM compatibility (#420)"
+      },
+      {
+        "hash": "3f7e19a",
+        "date": "2025-08-09",
+        "content": "update Node.js version to 20 in release workflow and reduce Discord spam",
+        "author": "Brian Madison",
+        "full_message": "fix: update Node.js version to 20 in release workflow and reduce Discord spam"
+      },
+      {
+        "hash": "1676f51",
+        "date": "2025-08-06",
+        "content": "doc location improvement",
+        "author": "Brian Madison",
+        "full_message": "fix: doc location improvement"
+      },
+      {
+        "hash": "f7c2a4f",
+        "date": "2025-08-05",
+        "content": "npx status check",
+        "author": "Brian Madison",
+        "full_message": "fix: npx status check"
+      },
+      {
+        "hash": "2cf322e",
+        "date": "2025-08-05",
+        "content": "npx hanging commands",
+        "author": "Brian Madison",
+        "full_message": "fix: npx hanging commands"
+      },
+      {
+        "hash": "bcb3728",
+        "date": "2025-07-29",
+        "content": "dev agent yaml syntax for develop-story command (#362)",
+        "author": "Duane Cilliers",
+        "full_message": "fix: dev agent yaml syntax for develop-story command (#362)"
+      },
+      {
+        "hash": "62ccccd",
+        "date": "2025-07-26",
+        "content": "GHA fix",
+        "author": "Brian Madison",
+        "full_message": "fix: GHA fix"
+      },
+      {
+        "hash": "cce7a75",
+        "date": "2025-07-26",
+        "content": "Add package-lock.json to fix GitHub Actions dependency resolution",
+        "author": "Brian Madison",
+        "full_message": "fix: Add package-lock.json to fix GitHub Actions dependency resolution"
+      },
+      {
+        "hash": "c445962",
+        "date": "2025-07-19",
+        "content": "enhanced user guide with better diagrams",
+        "author": "Brian Madison",
+        "full_message": "fix: enhanced user guide with better diagrams"
+      },
+      {
+        "hash": "49e4897",
+        "date": "2025-07-19",
+        "content": "lint fix",
+        "author": "Brian Madison",
+        "full_message": "fix: lint fix"
+      },
+      {
+        "hash": "8619006",
+        "date": "2025-07-19",
+        "content": "docs",
+        "author": "Brian Madison",
+        "full_message": "fix: docs"
+      },
+      {
+        "hash": "849e428",
+        "date": "2025-07-18",
+        "content": "improve code in the installer to be more memory efficient",
+        "author": "Brian Madison",
+        "full_message": "fix: improve code in the installer to be more memory efficient"
+      },
+      {
+        "hash": "dcb36a9",
+        "date": "2025-07-16",
+        "content": "remove z2",
+        "author": "Brian Madison",
+        "full_message": "fix: remove z2"
+      },
+      {
+        "hash": "2cea37a",
+        "date": "2025-07-14",
+        "content": "added logo to installer, because why not...",
+        "author": "Brian Madison",
+        "full_message": "fix: added logo to installer, because why not..."
+      },
+      {
+        "hash": "0723eed",
+        "date": "2025-07-14",
+        "content": "bundle build",
+        "author": "Brian Madison",
+        "full_message": "fix: bundle build"
+      },
+      {
+        "hash": "3621c33",
+        "date": "2025-07-14",
+        "content": "improve agent task folowing in agressing cost saving ide model combos",
+        "author": "Brian Madison",
+        "full_message": "fix: improve agent task folowing in agressing cost saving ide model combos"
+      },
+      {
+        "hash": "9f48c1a",
+        "date": "2025-07-13",
+        "content": "windows regex issue",
+        "author": "Brian Madison",
+        "full_message": "fix: windows regex issue"
+      },
+      {
+        "hash": "551e30b",
+        "date": "2025-07-14",
+        "content": "empty .roomodes, support Windows-style newlines in YAML block regex (#311)",
+        "author": "Hossam Ghanam",
+        "full_message": "fix: empty .roomodes, support Windows-style newlines in YAML block regex (#311)"
+      },
+      {
+        "hash": "afea271",
+        "date": "2025-07-13",
+        "content": "annoying YAML lint error",
+        "author": "Brian Madison",
+        "full_message": "fix: annoying YAML lint error"
+      },
+      {
+        "hash": "4ceaced",
+        "date": "2025-07-13",
+        "content": "add readme note about discord joining issues",
+        "author": "Brian Madison",
+        "full_message": "fix: add readme note about discord joining issues"
+      },
+      {
+        "hash": "f62c05a",
+        "date": "2025-07-13",
+        "content": "brianstorming facilitation output",
+        "author": "Brian Madison",
+        "full_message": "fix: brianstorming facilitation output"
+      },
+      {
+        "hash": "db30230",
+        "date": "2025-07-07",
+        "content": "installer improvement",
+        "author": "Brian Madison",
+        "full_message": "fix: installer improvement"
+      },
+      {
+        "hash": "cadf8b6",
+        "date": "2025-07-07",
+        "content": "installer for github copilot asks follow up questions right away now so it does not seem to hang, and some minor doc improvements",
+        "author": "Brian Madison",
+        "full_message": "fix: installer for github copilot asks follow up questions right away now so it does not seem to hang, and some minor doc improvements"
+      },
+      {
+        "hash": "1b86cd4",
+        "date": "2025-07-06",
+        "content": "doc updates",
+        "author": "Brian Madison",
+        "full_message": "fix: doc updates"
+      },
+      {
+        "hash": "908dcd7",
+        "date": "2025-07-06",
+        "content": "remove test zoo folder",
+        "author": "Brian Madison",
+        "full_message": "fix: remove test zoo folder"
+      },
+      {
+        "hash": "a5ffe7b",
+        "date": "2025-07-06",
+        "content": "improve output",
+        "author": "Brian Madison",
+        "full_message": "fix: improve output"
+      },
+      {
+        "hash": "92201ae",
+        "date": "2025-07-06",
+        "content": "build web bundles with new file extension includsion",
+        "author": "Brian Madison",
+        "full_message": "fix: build web bundles with new file extension includsion"
+      },
+      {
+        "hash": "0a61d3d",
+        "date": "2025-07-06",
+        "content": "readme consolidation and version bumps",
+        "author": "Brian Madison",
+        "full_message": "fix: readme consolidation and version bumps"
+      },
+      {
+        "hash": "47b9d9f",
+        "date": "2025-07-05",
+        "content": "spelling errors in documentation. (#297)",
+        "author": "manjaroblack",
+        "full_message": "fix: spelling errors in documentation. (#297)"
+      },
+      {
+        "hash": "42684e6",
+        "date": "2025-07-04",
+        "content": "update web bundles",
+        "author": "Brian Madison",
+        "full_message": "fix: update web bundles"
+      },
+      {
+        "hash": "1c845e5",
+        "date": "2025-07-04",
+        "content": "version bump and web build fix",
+        "author": "Brian Madison",
+        "full_message": "fix: version bump and web build fix"
+      },
+      {
+        "hash": "094f9f3",
+        "date": "2025-07-04",
+        "content": "yaml standardization in files and installer actions",
+        "author": "Brian Madison",
+        "full_message": "fix: yaml standardization in files and installer actions"
+      },
+      {
+        "hash": "2018ad0",
+        "date": "2025-07-04",
+        "content": "documentation updates",
+        "author": "Brian Madison",
+        "full_message": "fix: documentation updates"
+      },
+      {
+        "hash": "03f30ad",
+        "date": "2025-07-04",
+        "content": "update YAML library from 'yaml' to 'js-yaml' in resolveExpansionPackCoreAgents for consistency (#295)",
+        "author": "Davor Racic",
+        "full_message": "fix: update YAML library from 'yaml' to 'js-yaml' in resolveExpansionPackCoreAgents for consistency (#295)"
+      },
+      {
+        "hash": "87c451a",
+        "date": "2025-07-02",
+        "content": "version bump and restore dist folder",
+        "author": "Brian Madison",
+        "full_message": "fix: version bump and restore dist folder"
+      },
+      {
+        "hash": "e2985d6",
+        "date": "2025-07-02",
+        "content": "centralized yamlExtraction function and all now fix character issues for windows",
+        "author": "Brian Madison",
+        "full_message": "fix: centralized yamlExtraction function and all now fix character issues for windows"
+      },
+      {
+        "hash": "405954a",
+        "date": "2025-07-02",
+        "content": "filtering extension stripping logic update",
+        "author": "Brian Madison",
+        "full_message": "fix: filtering extension stripping logic update"
+      },
+      {
+        "hash": "a4c0b18",
+        "date": "2025-07-02",
+        "content": "standardize on file extension .yaml instead of a mix of yml and yaml",
+        "author": "Brian Madison",
+        "full_message": "fix: standardize on file extension .yaml instead of a mix of yml and yaml"
+      },
+      {
+        "hash": "84e394a",
+        "date": "2025-07-01",
+        "content": "corrected cursor agent update instructions",
+        "author": "Brian Madison",
+        "full_message": "fix: corrected cursor agent update instructions"
+      },
+      {
+        "hash": "6905fe7",
+        "date": "2025-06-30",
+        "content": "update expansion versions",
+        "author": "Brian Madison",
+        "full_message": "fix: update expansion versions"
+      },
+      {
+        "hash": "86d5139",
+        "date": "2025-06-30",
+        "content": "improve create-doc task clarity for template execution",
+        "author": "Brian Madison",
+        "full_message": "fix: improve create-doc task clarity for template execution"
+      },
+      {
+        "hash": "9371a57",
+        "date": "2025-06-29",
+        "content": "readme clarifies that the installer handles installs upgrades and expansion installation",
+        "author": "Brian Madison",
+        "full_message": "fix: readme clarifies that the installer handles installs upgrades and expansion installation"
+      },
+      {
+        "hash": "c48f200",
+        "date": "2025-06-29",
+        "content": "remove unneeded files",
+        "author": "Brian Madison",
+        "full_message": "fix: remove unneeded files"
+      },
+      {
+        "hash": "2408068",
+        "date": "2025-06-28",
+        "content": "docs update and correction",
+        "author": "Brian Madison",
+        "full_message": "fix: docs update and correction"
+      },
+      {
+        "hash": "2ea806b",
+        "date": "2025-06-28",
+        "content": "discord link",
+        "author": "Brian Madison",
+        "full_message": "fix: discord link"
+      },
+      {
+        "hash": "50d17ed",
+        "date": "2025-06-28",
+        "content": "expansion install config",
+        "author": "Brian Madison",
+        "full_message": "fix: expansion install config"
+      },
+      {
+        "hash": "b1c2de1",
+        "date": "2025-06-25",
+        "content": "remove accidental folder add",
+        "author": "Brian Madison",
+        "full_message": "fix: remove accidental folder add"
+      },
+      {
+        "hash": "6dabbcb",
+        "date": "2025-06-25",
+        "content": "add updated web builds",
+        "author": "Brian Madison",
+        "full_message": "fix: add updated web builds"
+      },
+      {
+        "hash": "5c8485d",
+        "date": "2025-06-21",
+        "content": "resolve web bundles directory path when using relative paths in NPX installer",
+        "author": "Brian Madison",
+        "full_message": "fix: resolve web bundles directory path when using relative paths in NPX installer"
+      },
+      {
+        "hash": "2cf3ba1",
+        "date": "2025-06-19",
+        "content": "bundle update",
+        "author": "Brian Madison",
+        "full_message": "fix: bundle update"
+      },
+      {
+        "hash": "c78a35f",
+        "date": "2025-06-19",
+        "content": "file formatting",
+        "author": "Brian Madison",
+        "full_message": "fix: file formatting"
+      },
+      {
+        "hash": "1148b32",
+        "date": "2025-06-19",
+        "content": "SM sometimes would skip the rest of the epic stories, fixed",
+        "author": "Brian Madison",
+        "full_message": "fix: SM sometimes would skip the rest of the epic stories, fixed"
+      },
+      {
+        "hash": "09d2ad6",
+        "date": "2025-06-19",
+        "content": "bad brownfield yml",
+        "author": "Brian Madison",
+        "full_message": "fix: bad brownfield yml"
+      },
+      {
+        "hash": "d9a989d",
+        "date": "2025-06-19",
+        "content": "dist bundles updated",
+        "author": "Brian Madison",
+        "full_message": "fix: dist bundles updated"
+      },
+      {
+        "hash": "aea7f3c",
+        "date": "2025-06-19",
+        "content": "installer has fast v4 update option now to keep the bmad method up to date with changes easily without breaking any customizations from the user. The SM and DEV are much more configurable to find epics stories and architectureal information when the prd and architecture are deviant from v4 templates and/or have not been sharded. so a config will give the user the option to configure the SM to use the full large documents or the sharded versions!",
+        "author": "Brian Madison",
+        "full_message": "fix: installer has fast v4 update option now to keep the bmad method up to date with changes easily without breaking any customizations from the user. The SM and DEV are much more configurable to find epics stories and architectureal information when the prd and architecture are deviant from v4 templates and/or have not been sharded. so a config will give the user the option to configure the SM to use the full large documents or the sharded versions!"
+      },
+      {
+        "hash": "af0e767",
+        "date": "2025-06-19",
+        "content": "prevent double installation when updating v4",
+        "author": "Brian Madison",
+        "full_message": "fix: prevent double installation when updating v4"
+      },
+      {
+        "hash": "0185e01",
+        "date": "2025-06-19",
+        "content": "resolve undefined config properties in performUpdate",
+        "author": "Brian Madison",
+        "full_message": "fix: resolve undefined config properties in performUpdate"
+      },
+      {
+        "hash": "724cdd0",
+        "date": "2025-06-19",
+        "content": "update file-manager to properly handle YAML manifest files",
+        "author": "Brian Madison",
+        "full_message": "fix: update file-manager to properly handle YAML manifest files"
+      },
+      {
+        "hash": "61ab116",
+        "date": "2025-06-18",
+        "content": "SM fixed file resolution issue in v4",
+        "author": "Brian Madison",
+        "full_message": "fix: SM fixed file resolution issue in v4"
+      },
+      {
+        "hash": "bd6a558",
+        "date": "2025-06-18",
+        "content": "installer upgrade path fixed",
+        "author": "Brian Madison",
+        "full_message": "fix: installer upgrade path fixed"
+      },
+      {
+        "hash": "9dded00",
+        "date": "2025-06-18",
+        "content": "expansion pack builder now includes proper dependencies from core as needed, and default template file name save added to template llm instructions",
+        "author": "Brian Madison",
+        "full_message": "fix: expansion pack builder now includes proper dependencies from core as needed, and default template file name save added to template llm instructions"
+      },
+      {
+        "hash": "3727cc7",
+        "date": "2025-06-17",
+        "content": "orchestractor yml",
+        "author": "Brian Madison",
+        "full_message": "fix: orchestractor yml"
+      },
+      {
+        "hash": "a954c7e",
+        "date": "2025-06-17",
+        "content": "docs had some ide specific errors",
+        "author": "Brian Madison",
+        "full_message": "fix: docs had some ide specific errors"
+      },
+      {
+        "hash": "296c2fb",
+        "date": "2025-06-17",
+        "content": "temp disable yml linting",
+        "author": "Brian Madison",
+        "full_message": "fix: temp disable yml linting"
+      },
+      {
+        "hash": "8b9bda5",
+        "date": "2025-06-17",
+        "content": "installer relative path issue for npx resolved",
+        "author": "Brian Madison",
+        "full_message": "fix: installer relative path issue for npx resolved"
+      },
+      {
+        "hash": "bd7f030",
+        "date": "2025-06-17",
+        "content": "update documentation and installer to reflect .roomodes file location in project root (#236)",
+        "author": "Reider Oliv\u00e9r",
+        "full_message": "fix: update documentation and installer to reflect .roomodes file location in project root (#236)"
+      },
+      {
+        "hash": "7e9574f",
+        "date": "2025-06-16",
+        "content": "readme updated to indicate move of web-bundles",
+        "author": "Brian Madison",
+        "full_message": "fix: readme updated to indicate move of web-bundles"
+      },
+      {
+        "hash": "18a382b",
+        "date": "2025-06-16",
+        "content": "single agent install and team installation support",
+        "author": "Brian Madison",
+        "full_message": "fix: single agent install and team installation support"
+      },
+      {
+        "hash": "e2e1658",
+        "date": "2025-06-16",
+        "content": "installer no longer suggests the bmad-method directory as defauly",
+        "author": "Brian Madison",
+        "full_message": "fix: installer no longer suggests the bmad-method directory as defauly"
+      },
+      {
+        "hash": "39e6db8",
+        "date": "2025-06-15",
+        "content": "rollback version from 5.0.0 to 4.3.0 and improve lint-staged config",
+        "author": "Brian Madison",
+        "full_message": "fix: rollback version from 5.0.0 to 4.3.0 and improve lint-staged config"
+      },
+      {
+        "hash": "ba1e5ce",
+        "date": "2025-06-15",
+        "content": "update dependency resolver to support both yml and yaml code blocks",
+        "author": "Brian Madison",
+        "full_message": "fix: update dependency resolver to support both yml and yaml code blocks"
+      },
+      {
+        "hash": "b53d954",
+        "date": "2025-06-15",
+        "content": "update yaml-format.js to use dynamic chalk imports",
+        "author": "Brian Madison",
+        "full_message": "fix: update yaml-format.js to use dynamic chalk imports"
+      },
+      {
+        "hash": "927515c",
+        "date": "2025-06-15",
+        "content": "update glob usage to modern async API",
+        "author": "Brian Madison",
+        "full_message": "fix: update glob usage to modern async API"
+      },
+      {
+        "hash": "28b313c",
+        "date": "2025-06-15",
+        "content": "BMAD install creates `.bmad-core/.bmad-core/` directory structure + updates (#223)",
+        "author": "Kayvan Sylvan",
+        "full_message": "fix: BMAD install creates `.bmad-core/.bmad-core/` directory structure + updates (#223)"
+      },
+      {
+        "hash": "48ef875",
+        "date": "2025-06-15",
+        "content": "add docs",
+        "author": "Brian Madison",
+        "full_message": "fix: add docs"
+      },
+      {
+        "hash": "620b09a",
+        "date": "2025-06-14",
+        "content": "resolve NPM token configuration",
+        "author": "Brian Madison",
+        "full_message": "fix: resolve NPM token configuration"
+      },
+      {
+        "hash": "b447a8b",
+        "date": "2025-06-14",
+        "content": "resolve NPM token configuration",
+        "author": "Brian Madison",
+        "full_message": "fix: resolve NPM token configuration"
+      },
+      {
+        "hash": "11260e4",
+        "date": "2025-06-14",
+        "content": "auto semantic versioning fix again",
+        "author": "Brian Madison",
+        "full_message": "fix: auto semantic versioning fix again"
+      },
+      {
+        "hash": "166ed04",
+        "date": "2025-06-14",
+        "content": "auto semantic versioning fix",
+        "author": "Brian Madison",
+        "full_message": "fix: auto semantic versioning fix"
+      },
+      {
+        "hash": "8d788b6",
+        "date": "2025-06-13",
+        "content": "Add glob dependency for installer",
+        "author": "Brian Madison",
+        "full_message": "fix: Add glob dependency for installer"
+      },
+      {
+        "hash": "0a838e9",
+        "date": "2025-06-13",
+        "content": "Add installer dependencies to root package.json",
+        "author": "Brian Madison",
+        "full_message": "fix: Add installer dependencies to root package.json"
+      },
+      {
+        "hash": "cb1836b",
+        "date": "2025-06-13",
+        "content": "Remove problematic install script from package.json",
+        "author": "Brian Madison",
+        "full_message": "fix: Remove problematic install script from package.json"
+      },
+      {
+        "hash": "01cb46e",
+        "date": "2025-06-13",
+        "content": "Add bin field to root package.json for npx execution",
+        "author": "Brian Madison",
+        "full_message": "fix: Add bin field to root package.json for npx execution"
+      }
+    ],
+    "enhancement": [
+      {
+        "hash": "663085b",
+        "date": "2025-10-13",
+        "content": "OpenAI Codex prompts corrected for master branch deployment",
+        "author": "dudleypeacockqa",
+        "full_message": "\ud83d\udcdd UPDATE: OpenAI Codex prompts corrected for master branch deployment"
+      }
+    ],
+    "configuration": [
+      {
+        "hash": "fcad942",
+        "date": "2025-10-12",
+        "content": "Add Stripe integration and quick deployment guide for Render",
+        "author": "dudleypeacockqa",
+        "full_message": "\ud83d\udcb3 COMPLETE PRODUCTION CONFIG: Add Stripe integration and quick deployment guide for Render"
+      }
+    ],
+    "refactor": [
+      {
+        "hash": "cb7dfcd",
+        "date": "2025-10-10",
+        "content": "Convert frontend to Docker deployment in render.yaml",
+        "author": "Dudley Peacock",
+        "full_message": "refactor: Convert frontend to Docker deployment in render.yaml"
+      },
+      {
+        "hash": "b999dd1",
+        "date": "2025-10-05",
+        "content": "delegate detection to handlers (#680)",
+        "author": "Alex Verkhovsky",
+        "full_message": "refactor(ide): delegate detection to handlers (#680)"
+      },
+      {
+        "hash": "ed7291f",
+        "date": "2025-08-18",
+        "content": "update file paths to remove leading dot from bmad-core references",
+        "author": "manjaroblack",
+        "full_message": "refactor: update file paths to remove leading dot from bmad-core references"
+      },
+      {
+        "hash": "db80eda",
+        "date": "2025-08-16",
+        "content": "centralize qa paths in core-config.yaml and update agent activation flows (#451)",
+        "author": "manjaroblack",
+        "full_message": "refactor: centralize qa paths in core-config.yaml and update agent activation flows (#451)"
+      },
+      {
+        "hash": "c58a4f3",
+        "date": "2025-08-16",
+        "content": "centralize qa paths in core-config.yaml and update agent activation flows",
+        "author": "manjaroblack",
+        "full_message": "refactor: centralize qa paths in core-config.yaml and update agent activation flows"
+      },
+      {
+        "hash": "e2b72c0",
+        "date": "2025-08-16",
+        "content": "simplify Windsurf workflow generation with minimal frontmatter format",
+        "author": "manjaroblack",
+        "full_message": "refactor: simplify Windsurf workflow generation with minimal frontmatter format"
+      },
+      {
+        "hash": "97f01f6",
+        "date": "2025-07-12",
+        "content": "nest Claude Code commands under BMad subdirectory (#307)",
+        "author": "Gabriel Lemire",
+        "full_message": "refactor: nest Claude Code commands under BMad subdirectory (#307)"
+      },
+      {
+        "hash": "c42002f",
+        "date": "2025-07-12",
+        "content": "change agent storage from multiple files to single (#308)",
+        "author": "Davor Racic",
+        "full_message": "refactor(gemini-cli): change agent storage from multiple files to single (#308)"
+      },
+      {
+        "hash": "9e6940e",
+        "date": "2025-07-06",
+        "content": "Standardize on 'GitHub Copilot' branding (#296)",
+        "author": "David Elisma",
+        "full_message": "refactor: Standardize on 'GitHub Copilot' branding (#296)"
+      },
+      {
+        "hash": "d75cf9e",
+        "date": "2025-06-19",
+        "content": "simplify file resolution to concise activation instructions",
+        "author": "Brian Madison",
+        "full_message": "refactor: simplify file resolution to concise activation instructions"
+      },
+      {
+        "hash": "009c77f",
+        "date": "2025-06-14",
+        "content": "standardize formatting and improve readability across core documents (#211)",
+        "author": "Kayvan Sylvan",
+        "full_message": "refactor: standardize formatting and improve readability across core documents (#211)"
+      },
+      {
+        "hash": "9172072",
+        "date": "2025-04-20",
+        "content": "update story naming convention and fix typos",
+        "author": "DC",
+        "full_message": "refactor: update story naming convention and fix typos"
+      }
+    ],
+    "deployment": [
+      {
+        "hash": "26f7eb7",
+        "date": "2025-09-29",
+        "content": "bump to v4.44.1",
+        "author": "github-actions[bot]",
+        "full_message": "release: bump to v4.44.1"
+      },
+      {
+        "hash": "4b75a14",
+        "date": "2025-09-09",
+        "content": "bump to v4.43.1",
+        "author": "github-actions[bot]",
+        "full_message": "release: bump to v4.43.1"
+      },
+      {
+        "hash": "aafe415",
+        "date": "2025-09-06",
+        "content": "bump to v4.44.0",
+        "author": "github-actions[bot]",
+        "full_message": "release: bump to v4.44.0"
+      },
+      {
+        "hash": "0ebef6a",
+        "date": "2025-09-02",
+        "content": "bump to v4.43.0",
+        "author": "github-actions[bot]",
+        "full_message": "release: bump to v4.43.0"
+      },
+      {
+        "hash": "d4caf35",
+        "date": "2025-09-01",
+        "content": "bump to v4.42.1",
+        "author": "github-actions[bot]",
+        "full_message": "release: bump to v4.42.1"
+      },
+      {
+        "hash": "349adc1",
+        "date": "2025-08-25",
+        "content": "bump to v4.41.0",
+        "author": "github-actions[bot]",
+        "full_message": "release: bump to v4.41.0"
+      },
+      {
+        "hash": "c6bd3b9",
+        "date": "2025-08-19",
+        "content": "bump to v4.40.0",
+        "author": "github-actions[bot]",
+        "full_message": "release: bump to v4.40.0"
+      },
+      {
+        "hash": "7e2780c",
+        "date": "2025-08-17",
+        "content": "bump to v4.39.2",
+        "author": "github-actions[bot]",
+        "full_message": "release: bump to v4.39.2"
+      },
+      {
+        "hash": "53a511d",
+        "date": "2025-08-17",
+        "content": "bump to v5.1.3",
+        "author": "github-actions[bot]",
+        "full_message": "release: bump to v5.1.3"
+      },
+      {
+        "hash": "d4cf473",
+        "date": "2025-08-17",
+        "content": "bump to v5.1.2",
+        "author": "github-actions[bot]",
+        "full_message": "release: bump to v5.1.2"
+      },
+      {
+        "hash": "38e23b1",
+        "date": "2025-08-17",
+        "content": "bump to v5.0.1",
+        "author": "github-actions[bot]",
+        "full_message": "release: bump to v5.0.1"
+      },
+      {
+        "hash": "cfcda76",
+        "date": "2025-08-16",
+        "content": "promote to stable 5.1.0",
+        "author": "github-actions[bot]",
+        "full_message": "release: promote to stable 5.1.0"
+      },
+      {
+        "hash": "f56d37a",
+        "date": "2025-08-16",
+        "content": "promote to stable 5.0.0",
+        "author": "github-actions[bot]",
+        "full_message": "release: promote to stable 5.0.0"
+      },
+      {
+        "hash": "224cfc0",
+        "date": "2025-08-16",
+        "content": "promote to stable 4.38.0",
+        "author": "github-actions[bot]",
+        "full_message": "release: promote to stable 4.38.0"
+      },
+      {
+        "hash": "d21ac49",
+        "date": "2025-08-15",
+        "content": "create stable 4.37.0 release",
+        "author": "Brian Madison",
+        "full_message": "release: create stable 4.37.0 release"
+      },
+      {
+        "hash": "424cea6",
+        "date": "2025-08-16",
+        "content": "promote to stable 5.0.0",
+        "author": "github-actions[bot]",
+        "full_message": "release: promote to stable 5.0.0"
+      },
+      {
+        "hash": "3c7f922",
+        "date": "2025-08-16",
+        "content": "promote to stable 4.38.0",
+        "author": "github-actions[bot]",
+        "full_message": "release: promote to stable 4.38.0"
+      },
+      {
+        "hash": "5e5c7ed",
+        "date": "2025-08-15",
+        "content": "create stable 4.37.0 release",
+        "author": "Brian Madison",
+        "full_message": "release: create stable 4.37.0 release"
+      }
+    ],
+    "testing": [
+      {
+        "hash": "e2e8d44",
+        "date": "2025-08-31",
+        "content": "trigger PR validation (#533)",
+        "author": "Brian",
+        "full_message": "test: trigger PR validation (#533)"
+      },
+      {
+        "hash": "280db64",
+        "date": "2025-08-31",
+        "content": "trigger PR validation",
+        "author": "Brian Madison",
+        "full_message": "test: trigger PR validation"
+      },
+      {
+        "hash": "1c34203",
+        "date": "2025-08-15",
+        "content": "trigger beta release to test current workflow",
+        "author": "Brian Madison",
+        "full_message": "test: trigger beta release to test current workflow"
+      },
+      {
+        "hash": "8a29f0e",
+        "date": "2025-08-15",
+        "content": "verify dual publishing workflow",
+        "author": "Brian Madison",
+        "full_message": "test: verify dual publishing workflow"
+      }
+    ],
+    "implementation": [
+      {
+        "hash": "45dd7d1",
+        "date": "2025-08-16",
+        "content": "sync-version.sh script for easy version syncing",
+        "author": "Brian Madison",
+        "full_message": "add: sync-version.sh script for easy version syncing"
+      }
+    ]
+  },
+  "author_stats": {
+    "Dudley Peacock": 184,
+    "dudleypeacockqa": 62,
+    "Brian Madison": 457,
+    "Carson": 1,
+    "PinkyD": 6,
+    "pbean": 6,
+    "MeetNexus": 1,
+    "Dylan Buchi": 1,
+    "Alex Verkhovsky": 5,
+    "OverlordBaconPants": 2,
+    "Yoav Gal": 2,
+    "Murat K Ozcan": 6,
+    "Murat Ozcan": 20,
+    "github-actions[bot]": 18,
+    "lihangmissu": 1,
+    "Javier Gomez": 1,
+    "Daniel Dabrowski": 3,
+    "sjennings": 1,
+    "liyuyun-lyy": 1,
+    "Armel BOBDA": 1,
+    "Drilmo": 1,
+    "VansonLeung": 1,
+    "Yuewen Ma": 1,
+    "Hau Vo": 1,
+    "Mikhail Romanov": 1,
+    "Brian": 25,
+    "Jonathan Borgwing": 1,
+    "Bragatte": 1,
+    "Piatra Automation": 1,
+    "Wang-tianhao": 1,
+    "Chris Calo": 1,
+    "Kayvan Sylvan": 13,
+    "manjaroblack": 31,
+    "circus": 2,
+    "DrBalls": 1,
+    "Anthony": 1,
+    "Brian, with AI": 1,
+    "Thiago Freitas": 1,
+    "cecil-the-coder": 1,
+    "Aaron": 1,
+    "Stefan Kl\u00fcmpers": 1,
+    "Yongjip Kim": 1,
+    "Benjamin Wiese": 1,
+    "semantic-release-bot": 91,
+    "Daniel Willitzer": 1,
+    "Lior Assouline": 1,
+    "Yanqing Wang": 1,
+    "Houston Zhang": 1,
+    "Mbosinwa Awunor": 1,
+    "caseyrubin": 1,
+    "yaksh gandhi": 1,
+    "Duane Cilliers": 1,
+    "antmikinka": 1,
+    "A. R.": 1,
+    "Jorge Castillo": 1,
+    "MIPAN": 1,
+    "Zach": 1,
+    "Hossam Ghanam": 1,
+    "Gabriel Lemire": 1,
+    "Davor Racic": 5,
+    "David Elisma": 2,
+    "Serhii": 1,
+    "\u6728\u70ad": 1,
+    "Miguel Tomas": 1,
+    "hieu.sats": 1,
+    "Reider Oliv\u00e9r": 2,
+    "gabadi": 1,
+    "titocr": 1,
+    "Matt": 1,
+    "Sebastian Ickler": 1,
+    "fabb": 8,
+    "Jason": 1,
+    "adrian_cares": 1,
+    "Marius Mirzac": 2,
+    "Smith, Jean-Patrick": 2,
+    "DC": 1
+  },
+  "recent_activity": {
+    "2025-10-14": 11,
+    "2025-10-13": 48,
+    "2025-10-12": 66,
+    "2025-10-11": 21,
+    "2025-10-10": 53,
+    "2025-10-09": 10,
+    "2025-10-08": 3,
+    "2025-10-07": 55,
+    "2025-10-06": 2,
+    "2025-10-05": 4,
+    "2025-10-04": 23,
+    "2025-10-03": 3,
+    "2025-10-02": 2,
+    "2025-10-01": 8,
+    "2025-09-30": 15,
+    "2025-09-29": 19,
+    "2025-09-28": 1,
+    "2025-09-20": 1,
+    "2025-09-12": 1,
+    "2025-09-09": 2,
+    "2025-09-10": 1,
+    "2025-09-08": 1,
+    "2025-09-06": 8,
+    "2025-09-07": 2,
+    "2025-09-02": 2,
+    "2025-09-03": 1,
+    "2025-08-31": 10,
+    "2025-09-01": 1,
+    "2025-08-30": 1,
+    "2025-08-27": 1,
+    "2025-08-25": 1,
+    "2025-08-24": 1,
+    "2025-08-19": 2,
+    "2025-08-18": 8,
+    "2025-08-17": 17,
+    "2025-08-16": 40,
+    "2025-08-15": 26,
+    "2025-08-12": 3,
+    "2025-08-10": 3,
+    "2025-08-14": 4,
+    "2025-08-13": 1,
+    "2025-08-09": 4,
+    "2025-08-08": 3,
+    "2025-08-07": 1,
+    "2025-08-06": 4,
+    "2025-08-05": 3,
+    "2025-08-04": 1,
+    "2025-08-03": 3,
+    "2025-07-30": 1,
+    "2025-07-29": 3,
+    "2025-07-28": 1,
+    "2025-07-27": 4,
+    "2025-07-26": 3,
+    "2025-07-23": 1,
+    "2025-07-22": 1,
+    "2025-07-20": 1,
+    "2025-07-19": 10,
+    "2025-07-18": 4,
+    "2025-07-17": 2,
+    "2025-07-16": 2,
+    "2025-07-15": 2,
+    "2025-07-14": 10,
+    "2025-07-13": 10,
+    "2025-07-12": 6,
+    "2025-07-08": 2,
+    "2025-07-07": 6,
+    "2025-07-06": 22,
+    "2025-07-05": 7,
+    "2025-07-04": 16,
+    "2025-07-03": 2,
+    "2025-07-02": 6,
+    "2025-07-01": 5,
+    "2025-06-30": 8,
+    "2025-06-29": 6,
+    "2025-06-28": 18,
+    "2025-06-27": 3,
+    "2025-06-26": 5,
+    "2025-06-25": 6,
+    "2025-06-24": 3,
+    "2025-06-22": 4,
+    "2025-06-23": 1,
+    "2025-06-21": 3,
+    "2025-06-20": 4,
+    "2025-06-19": 34,
+    "2025-06-18": 7,
+    "2025-06-17": 16,
+    "2025-06-16": 10,
+    "2025-06-15": 38,
+    "2025-06-14": 28,
+    "2025-06-13": 16,
+    "2025-06-12": 5,
+    "2025-06-11": 1,
+    "2025-06-10": 7,
+    "2025-06-09": 4,
+    "2025-06-08": 18,
+    "2025-06-07": 4,
+    "2025-06-06": 2,
+    "2025-06-05": 4,
+    "2025-06-04": 2,
+    "2025-06-03": 1,
+    "2025-06-01": 1,
+    "2025-05-31": 4,
+    "2025-05-30": 1,
+    "2025-05-28": 4,
+    "2025-05-27": 1,
+    "2025-05-26": 1,
+    "2025-05-25": 5,
+    "2025-05-24": 3,
+    "2025-05-21": 5,
+    "2025-05-20": 2,
+    "2025-05-19": 3,
+    "2025-05-18": 2,
+    "2025-05-17": 4,
+    "2025-05-16": 2,
+    "2025-05-14": 2,
+    "2025-05-13": 7,
+    "2025-05-12": 6,
+    "2025-05-11": 20,
+    "2025-05-09": 1,
+    "2025-05-08": 1,
+    "2025-05-07": 1,
+    "2025-05-06": 1,
+    "2025-05-05": 3,
+    "2025-05-04": 20,
+    "2025-05-03": 5,
+    "2025-05-02": 1,
+    "2025-04-27": 1,
+    "2025-04-26": 1,
+    "2025-04-25": 3,
+    "2025-04-24": 1,
+    "2025-04-20": 1,
+    "2025-04-17": 3,
+    "2025-04-16": 2,
+    "2025-04-15": 1,
+    "2025-04-14": 2
+  },
+  "milestones": [
+    {
+      "hash": "b6a2f5b",
+      "date": "2025-06-15",
+      "message": "feat: sync IDE configurations across all platforms",
+      "author": "Brian Madison",
+      "patterns": {
+        "feature": "sync IDE configurations across all platforms"
+      }
+    },
+    {
+      "hash": "38a5024",
+      "date": "2025-06-15",
+      "message": "feat: improve semantic-release automation and disable manual version bumping",
+      "author": "Brian Madison",
+      "patterns": {
+        "feature": "improve semantic-release automation and disable manual version bumping"
+      }
+    },
+    {
+      "hash": "6d70c58",
+      "date": "2025-06-15",
+      "message": "chore: reset version to 4.2.0 for semantic-release sync",
+      "author": "Brian Madison",
+      "patterns": {}
+    },
+    {
+      "hash": "9a10a15",
+      "date": "2025-06-15",
+      "message": "chore(release): 4.2.0 [skip ci]",
+      "author": "semantic-release-bot",
+      "patterns": {}
+    },
+    {
+      "hash": "25c356b",
+      "date": "2025-06-15",
+      "message": "chore(release): 4.2.0 [skip ci]",
+      "author": "semantic-release-bot",
+      "patterns": {}
+    },
+    {
+      "hash": "e753d02",
+      "date": "2025-06-15",
+      "message": "chore(release): 4.2.0 [skip ci]",
+      "author": "semantic-release-bot",
+      "patterns": {}
+    },
+    {
+      "hash": "813c380",
+      "date": "2025-06-15",
+      "message": "chore(release): 4.2.0 [skip ci]",
+      "author": "semantic-release-bot",
+      "patterns": {}
+    },
+    {
+      "hash": "6bdc0a8",
+      "date": "2025-06-15",
+      "message": "chore(release): 4.2.0 [skip ci]",
+      "author": "semantic-release-bot",
+      "patterns": {}
+    },
+    {
+      "hash": "c0ceed9",
+      "date": "2025-06-15",
+      "message": "chore(release): 4.2.0 [skip ci]",
+      "author": "semantic-release-bot",
+      "patterns": {}
+    },
+    {
+      "hash": "00b9168",
+      "date": "2025-06-15",
+      "message": "chore(release): 1.1.0 [skip ci]",
+      "author": "semantic-release-bot",
+      "patterns": {}
+    },
+    {
+      "hash": "9b3d2fa",
+      "date": "2025-06-15",
+      "message": "chore(release): 1.0.1 [skip ci]",
+      "author": "semantic-release-bot",
+      "patterns": {}
+    },
+    {
+      "hash": "d8e906b",
+      "date": "2025-06-15",
+      "message": "chore(release): 1.0.0 [skip ci]",
+      "author": "semantic-release-bot",
+      "patterns": {}
+    },
+    {
+      "hash": "0ea5e50",
+      "date": "2025-06-14",
+      "message": "feat: add versioning and release automation",
+      "author": "Brian Madison",
+      "patterns": {
+        "feature": "add versioning and release automation"
+      }
+    },
+    {
+      "hash": "18281f1",
+      "date": "2025-06-07",
+      "message": "dev agent for ide improvement in progress, need to finish architecture template improvements before finishing dev agent and sm agent finalization for v4",
+      "author": "Brian Madison",
+      "patterns": {}
+    },
+    {
+      "hash": "0f4c4d5",
+      "date": "2025-05-31",
+      "message": "replaced / commands in ide agents with * commands to work with more platforms than cursor",
+      "author": "Brian Madison",
+      "patterns": {}
+    },
+    {
+      "hash": "b2ad4b7",
+      "date": "2025-05-17",
+      "message": "BMad Agent (V3) Final Beta Testing Release (#59)",
+      "author": "Brian",
+      "patterns": {}
+    },
+    {
+      "hash": "4b149f6",
+      "date": "2025-05-08",
+      "message": "improve SM to always include structure from project-structure and let the user know if it deviates from the epic.",
+      "author": "Brian Madison",
+      "patterns": {}
+    },
+    {
+      "hash": "35e8a4e",
+      "date": "2025-05-04",
+      "message": "v2 fully tested and production ready - beta tag removed - full demonstration with all artifacts and agent transcripts for a full project from ideation to dev pickup point",
+      "author": "Brian Madison",
+      "patterns": {}
+    },
+    {
+      "hash": "afa401e",
+      "date": "2025-05-04",
+      "message": "final cleanup of beta release - will remove beta tag after feedback and further extensive testing that lead to these improvements",
+      "author": "Brian Madison",
+      "patterns": {}
+    },
+    {
+      "hash": "a1ef16b",
+      "date": "2025-05-04",
+      "message": "the PM has been improved to ensure it is eliciting proper information for epic 1, and also coaching the user into defining the MVP. instructional description added to the readme also for the PM",
+      "author": "Brian Madison",
+      "patterns": {}
+    }
+  ]
+}

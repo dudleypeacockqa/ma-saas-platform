@@ -10,7 +10,7 @@ import chalk from 'chalk';
  * @param {Object} options.platformInfo - Platform metadata from global config
  * @returns {Promise<boolean>} - Success status
  */
-export export async function install(options) {
+export async function install(options) {
   const { logger, platformInfo } = options;
   // projectRoot and config available for future use
 

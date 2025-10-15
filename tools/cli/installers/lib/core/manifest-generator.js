@@ -1,7 +1,7 @@
 const path = require('node:path');
 const fs = require('fs-extra');
 const yaml = require('js-yaml');
-const crypto = require('node:crypto');
+const nodeCrypto = require('node:crypto');
 const { getSourcePath, getModulePath } = require('../../../lib/project-root');
 
 /**
@@ -427,7 +427,7 @@ class ManifestGenerator {
   async calculateFileHash(filePath) {
     try {
       const content = await fs.readFile(filePath);
-      return crypto.createHash('sha256').update(content).digest('hex');
+      return nodeCrypto.createHash('sha256').update(content).digest('hex');
     } catch {
       return '';
     }

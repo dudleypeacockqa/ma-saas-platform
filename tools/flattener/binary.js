@@ -1,6 +1,6 @@
 const fsp = require('node:fs/promises');
 const path = require('node:path');
-const { Buffer } = require('node:buffer');
+const { Buffer: NodeBuffer } = require('node:buffer');
 
 /**
  * Efficiently determine if a file is binary without reading the whole file.
@@ -62,7 +62,7 @@ async function isBinaryFile(filePath) {
     const sampleSize = Math.min(4096, stats.size);
     const fd = await fsp.open(filePath, 'r');
     try {
-      const buffer = Buffer.allocUnsafe(sampleSize);
+      const buffer = NodeBuffer.allocUnsafe(sampleSize);
       const { bytesRead } = await fd.read(buffer, 0, sampleSize, 0);
       const slice = bytesRead === sampleSize ? buffer : buffer.subarray(0, bytesRead);
       return slice.includes(0);

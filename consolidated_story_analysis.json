@@ -1,0 +1,114 @@
+{
+  "summary": {
+    "total_stories": 19441,
+    "by_source": {
+      "codebase": 6030,
+      "documentation": 13055,
+      "git_history_analysis": 381
+    },
+    "by_category": {
+      "general": 7505,
+      "deal_management": 1465,
+      "documents": 694,
+      "dashboard": 743,
+      "mobile": 63,
+      "integration": 927,
+      "api": 972,
+      "security": 515,
+      "backend": 487,
+      "authentication": 807,
+      "ai_intelligence": 1895,
+      "deployment": 345,
+      "performance": 589,
+      "financial": 1233,
+      "frontend": 674,
+      "events": 230,
+      "community": 297
+    },
+    "by_size": {
+      "M": 14452,
+      "L": 3923,
+      "S": 1066
+    },
+    "by_status": {
+      "implemented": 6284,
+      "planned": 13055,
+      "released": 127
+    },
+    "missing_critical": 8
+  },
+  "missing_stories": [
+    {
+      "journey": "customer_onboarding",
+      "feature": "landing page access",
+      "priority": "high"
+    },
+    {
+      "journey": "customer_onboarding",
+      "feature": "subscription selection",
+      "priority": "high"
+    },
+    {
+      "journey": "customer_onboarding",
+      "feature": "welcome dashboard",
+      "priority": "high"
+    },
+    {
+      "journey": "deal_management",
+      "feature": "deal editing",
+      "priority": "high"
+    },
+    {
+      "journey": "deal_management",
+      "feature": "deal pipeline view",
+      "priority": "high"
+    },
+    {
+      "journey": "deal_management",
+      "feature": "deal status updates",
+      "priority": "high"
+    },
+    {
+      "journey": "community_features",
+      "feature": "networking interface",
+      "priority": "medium"
+    },
+    {
+      "journey": "community_features",
+      "feature": "event calendar",
+      "priority": "medium"
+    }
+  ],
+  "critical_journeys": {
+    "customer_onboarding": [
+      "landing page access",
+      "user registration",
+      "email verification",
+      "subscription selection",
+      "payment processing",
+      "welcome dashboard"
+    ],
+    "deal_management": [
+      "deal creation",
+      "deal editing",
+      "deal pipeline view",
+      "deal status updates",
+      "deal analytics",
+      "deal sharing"
+    ],
+    "ai_features": [
+      "ai deal analysis",
+      "valuation modeling",
+      "risk assessment",
+      "market insights",
+      "recommendation engine"
+    ],
+    "community_features": [
+      "member profiles",
+      "networking interface",
+      "deal sharing",
+      "discussion forums",
+      "event calendar"
+    ]
+  }
+}

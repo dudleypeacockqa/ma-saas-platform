@@ -1,7 +1,7 @@
 const yaml = require('js-yaml');
 const fs = require('fs-extra');
 const path = require('node:path');
-const crypto = require('node:crypto');
+const nodeCrypto = require('node:crypto');
 const { AgentAnalyzer } = require('./agent-analyzer');
 const { ActivationBuilder } = require('./activation-builder');
 
@@ -346,7 +346,7 @@ class YamlXmlBuilder {
     }
 
     const content = await fs.readFile(filePath, 'utf8');
-    return crypto.createHash('md5').update(content).digest('hex').slice(0, 8);
+    return nodeCrypto.createHash('md5').update(content).digest('hex').slice(0, 8);
   }
 
   /**

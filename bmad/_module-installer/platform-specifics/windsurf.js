@@ -9,7 +9,7 @@ import chalk from 'chalk';
  * @param {Object} options.logger - Logger instance for output
  * @returns {Promise<boolean>} - Success status
  */
-export export async function install(options) {
+export async function install(options) {
   const { logger } = options;
   // projectRoot and config available for future use
 

@@ -1,6 +1,6 @@
 const fs = require('fs-extra');
 const path = require('node:path');
-const crypto = require('node:crypto');
+const nodeCrypto = require('node:crypto');
 
 /**
  * File operations utility class
@@ -110,7 +110,7 @@ class FileOps {
    * @returns {string} File hash
    */
   async getFileHash(filePath) {
-    const hash = crypto.createHash('sha256');
+    const hash = nodeCrypto.createHash('sha256');
     const stream = fs.createReadStream(filePath);
 
     return new Promise((resolve, reject) => {

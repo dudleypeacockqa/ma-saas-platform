@@ -1,15 +1,14 @@
 const path = require('node:path');
 const fs = require('fs-extra');
-const crypto = require('node:crypto');
+const nodeCrypto = require('node:crypto');
 
 class Manifest {
   /**
    * Create a new manifest
    * @param {string} bmadDir - Path to bmad directory
    * @param {Object} data - Manifest data
-   * @param {Array} installedFiles - List of installed files (no longer used, files tracked in files-manifest.csv)
    */
-  async create(bmadDir, data, installedFiles = []) {
+  async create(bmadDir, data) {
     const manifestPath = path.join(bmadDir, '_cfg', 'manifest.yaml');
     const yaml = require('js-yaml');
 
@@ -73,9 +72,8 @@ class Manifest {
    * Update existing manifest
    * @param {string} bmadDir - Path to bmad directory
    * @param {Object} updates - Fields to update
-   * @param {Array} installedFiles - Updated list of installed files
    */
-  async update(bmadDir, updates, installedFiles = null) {
+  async update(bmadDir, updates) {
     const yaml = require('js-yaml');
     const manifest = (await this.read(bmadDir)) || {};
 
@@ -177,7 +175,7 @@ class Manifest {
   async calculateFileHash(filePath) {
     try {
       const content = await fs.readFile(filePath);
-      return crypto.createHash('sha256').update(content).digest('hex');
+      return nodeCrypto.createHash('sha256').update(content).digest('hex');
     } catch {
       return null;
     }
