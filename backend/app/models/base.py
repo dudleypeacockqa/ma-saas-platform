@@ -8,7 +8,7 @@ from datetime import datetime
 from typing import Any, Optional
 from sqlalchemy import Column, String, DateTime, Boolean, Index, event, JSON, Text, Integer
 from sqlalchemy.dialects.postgresql import UUID, TSVECTOR
-from sqlalchemy.ext.declarative import declarative_base, declared_attr
+from sqlalchemy.orm import declarative_base, declared_attr
 from sqlalchemy.orm import Session
 
 Base = declarative_base()
