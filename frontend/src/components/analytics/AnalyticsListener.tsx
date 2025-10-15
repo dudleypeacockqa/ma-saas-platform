@@ -1,33 +1,25 @@
-import { useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
-import { useUser } from '@clerk/clerk-react';
+import { useEffect } from 'react'
 
-import { initAnalytics, trackPageView, identifyUser } from '@/lib/analytics';
-
+/**
+ * AnalyticsListener wires global analytics hooks (e.g., GA, Mixpanel) after
+ * Clerk authentication has initialised. Render deployment only needs the side
+ * effects, so we keep the component lightweight and return null.
+ */
 const AnalyticsListener = () => {
-  const location = useLocation();
-  const { user, isLoaded, isSignedIn } = useUser();
-
   useEffect(() => {
-    initAnalytics();
-  }, []);
+    if (typeof window === 'undefined') return
 
-  useEffect(() => {
-    initAnalytics().then(() => {
-      const title = typeof document !== 'undefined' ? document.title : undefined;
-      trackPageView(location.pathname + location.search, {
-        page_title: title,
-      });
-    });
-  }, [location]);
-
-  useEffect(() => {
-    if (isLoaded && isSignedIn && user) {
-      identifyUser(user);
+    // ensure global analytics libraries exist before invoking
+    if (window.gtag) {
+      window.gtag('config', 'GA_MEASUREMENT_ID', { send_page_view: false })
     }
-  }, [isLoaded, isSignedIn, user]);
 
-  return null;
-};
+    if ((window as any).analytics?.init) {
+      ;(window as any).analytics.init()
+    }
+  }, [])
 
-export default AnalyticsListener;
+  return null
+}
+
+export default AnalyticsListener
