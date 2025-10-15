@@ -26,6 +26,9 @@ RUN pip install --no-cache-dir --upgrade pip && \
 # Copy backend application code
 COPY backend/ /app/
 
+# Copy marketing website assets so FastAPI can serve them
+COPY website/ /app/website/
+
 # Create non-root user for security
 RUN useradd --create-home --shell /bin/bash appuser && \
     chown -R appuser:appuser /app

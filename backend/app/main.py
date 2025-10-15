@@ -89,8 +89,16 @@ setup_logging()
 logger = get_logger(__name__)
 
 # Resolve marketing site paths so the backend can serve the landing page
-BASE_DIR = Path(__file__).resolve().parents[2]
+# Primary location is alongside the backend code (/app/website in production)
+# We keep a fallback to project-root/website for local development before Docker build.
+BASE_DIR = Path(__file__).resolve().parents[1]
 WEBSITE_DIR = BASE_DIR / "website"
+
+if not WEBSITE_DIR.exists():
+    ALT_WEBSITE_DIR = Path(__file__).resolve().parents[2] / "website"
+    if ALT_WEBSITE_DIR.exists():
+        WEBSITE_DIR = ALT_WEBSITE_DIR
+
 WEBSITE_INDEX = WEBSITE_DIR / "index.html"
 
 
