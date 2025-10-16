@@ -84,11 +84,75 @@
   },
   "yaml.format.enable": false,
   "editor.codeActionsOnSave": {
-    "source.fixAll.eslint": "explicit"
+    "source.fixAll.eslint": "explicit",
+    "source.fixAll": true,
+    "source.organizeImports": true
   },
-  "editor.rulers": [140],
+  "editor.rulers": [80, 120, 140],
   "[xml]": {
     "editor.defaultFormatter": "redhat.vscode-xml"
   },
-  "xml.format.maxLineWidth": 140
+  "xml.format.maxLineWidth": 140,
+  "git.autofetch": true,
+  "git.autofetchPeriod": 180,
+  "git.autoStash": true,
+  "git.enableSmartCommit": true,
+  "git.postCommitCommand": "push",
+  "git.confirmSync": false,
+  "git.allowForcePush": true,
+  "git.allowNoVerifyCommit": false,
+  "files.autoSave": "afterDelay",
+  "files.autoSaveDelay": 1000,
+  "bmad.autoGit.enabled": true,
+  "bmad.autoGit.interval": 300,
+  "bmad.autoGit.maxFiles": 10,
+  "bmad.autoGit.watchMode": true,
+  "tasks.runOnFolderOpen": ["BMAD Auto-Git (Watch)"],
+  "terminal.integrated.defaultProfile.windows": "Git Bash",
+  "scm.defaultViewMode": "tree",
+  "scm.alwaysShowRepositories": true,
+  "scm.countBadge": "focused",
+  "workbench.editor.enablePreview": false,
+  "explorer.confirmDelete": false,
+  "explorer.confirmDragAndDrop": false,
+  "diffEditor.ignoreTrimWhitespace": false,
+  "merge-conflict.autoNavigateNextConflict.enabled": true,
+  "merge-conflict.decorators.enabled": true,
+  "merge-conflict.diffViewPosition": "Below",
+  "python.defaultInterpreterPath": "python3",
+  "python.formatting.provider": "black",
+  "python.linting.enabled": true,
+  "python.linting.pylintEnabled": true,
+  "typescript.preferences.includePackageJsonAutoImports": "auto",
+  "javascript.preferences.includePackageJsonAutoImports": "auto",
+  "emmet.includeLanguages": {
+    "javascript": "javascriptreact",
+    "typescript": "typescriptreact"
+  },
+  "search.exclude": {
+    "**/node_modules": true,
+    "**/bower_components": true,
+    "**/*.code-search": true,
+    "**/dist": true,
+    "**/build": true,
+    "**/.git": true,
+    "**/bmad-method-clone": true
+  },
+  "files.watcherExclude": {
+    "**/node_modules/**": true,
+    "**/dist/**": true,
+    "**/build/**": true,
+    "**/.git/**": true,
+    "**/bmad-method-clone/**": true
+  },
+  "git.ignoreLimitWarning": true,
+  "git.detectSubmodules": false,
+  "extensions.ignoreRecommendations": false,
+  "workbench.startupEditor": "none",
+  "window.restoreWindows": "preserve",
+  "editor.minimap.enabled": false,
+  "breadcrumbs.enabled": true,
+  "editor.renderWhitespace": "boundary",
+  "editor.wordWrap": "bounded",
+  "editor.wordWrapColumn": 120
 }
