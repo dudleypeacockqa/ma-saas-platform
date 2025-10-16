@@ -45,18 +45,28 @@ async function testWebBundler() {
       const hasPersona = content.includes('<persona>');
       const activationBeforePersona = content.indexOf('<activation') < content.indexOf('<persona>');
       const hasManifests =
-        content.includes('<agent-party id="bmad/_cfg/agent-party.xml">') && content.includes('<manifest id="bmad/web-manifest.xml">');
+        content.includes('<agent-party id="bmad/_cfg/agent-party.xml">') &&
+        content.includes('<manifest id="bmad/web-manifest.xml">');
       const hasDependencies = content.includes('<dependencies>');
 
       console.log(chalk.green('✓ Analyst bundle created successfully'));
       console.log(chalk.gray(`  - Has agent tag: ${hasAgent ? '✓' : '✗'}`));
       console.log(chalk.gray(`  - Has activation: ${hasActivation ? '✓' : '✗'}`));
       console.log(chalk.gray(`  - Has persona: ${hasPersona ? '✓' : '✗'}`));
-      console.log(chalk.gray(`  - Activation before persona: ${activationBeforePersona ? '✓' : '✗'}`));
+      console.log(
+        chalk.gray(`  - Activation before persona: ${activationBeforePersona ? '✓' : '✗'}`),
+      );
       console.log(chalk.gray(`  - Has manifests: ${hasManifests ? '✓' : '✗'}`));
       console.log(chalk.gray(`  - Has dependencies: ${hasDependencies ? '✓' : '✗'}`));
 
-      if (hasAgent && hasActivation && hasPersona && activationBeforePersona && hasManifests && hasDependencies) {
+      if (
+        hasAgent &&
+        hasActivation &&
+        hasPersona &&
+        activationBeforePersona &&
+        hasManifests &&
+        hasDependencies
+      ) {
         passedTests++;
       } else {
         console.error(chalk.red('✗ Bundle structure validation failed'));

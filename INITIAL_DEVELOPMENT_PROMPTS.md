@@ -9,12 +9,15 @@ These prompts are designed for use with Claude Code in Cursor IDE to build your 
 ## 🗄️ **PROMPT 1: PostgreSQL Database Schema & Multi-Tenant Architecture**
 
 ### **Context**
+
 You are building a multi-tenant M&A SaaS platform where each organization (tenant) has isolated data. The platform manages deals, users, documents, and AI analysis for M&A professionals.
 
 ### **Task**
+
 Create a comprehensive PostgreSQL database schema with proper multi-tenant isolation using the tenant-per-schema approach. Include all necessary tables, relationships, indexes, and security policies.
 
 ### **Requirements**
+
 - Multi-tenant architecture with schema-level isolation
 - Support for organizations, users, deals, documents, and AI analysis
 - Proper foreign key relationships and constraints
@@ -24,6 +27,7 @@ Create a comprehensive PostgreSQL database schema with proper multi-tenant isola
 - Seed data for development and testing
 
 ### **Database Entities Needed**
+
 1. **Tenants/Organizations** - Company information, subscription plans, settings
 2. **Users** - User profiles, roles, permissions, Clerk integration
 3. **Deals** - M&A transactions, stages, valuations, timelines
@@ -34,6 +38,7 @@ Create a comprehensive PostgreSQL database schema with proper multi-tenant isola
 8. **Notifications** - System notifications, deal alerts, reminders
 
 ### **Technical Specifications**
+
 - Use PostgreSQL 17 with modern features
 - Implement proper JSONB columns for flexible data
 - Create database functions for common operations
@@ -41,6 +46,7 @@ Create a comprehensive PostgreSQL database schema with proper multi-tenant isola
 - Include performance monitoring queries
 
 ### **Files to Create/Update**
+
 - `backend/app/models/` - SQLAlchemy models for all entities
 - `backend/alembic/versions/` - Migration scripts
 - `backend/app/core/database.py` - Database connection and tenant management
@@ -53,12 +59,15 @@ Create a comprehensive PostgreSQL database schema with proper multi-tenant isola
 ## 🔧 **PROMPT 2: FastAPI Backend with Multi-Tenant API Architecture**
 
 ### **Context**
+
 Build a robust FastAPI backend that serves the multi-tenant M&A SaaS platform. The backend must handle authentication via Clerk, implement proper tenant isolation, and provide comprehensive APIs for deal management.
 
 ### **Task**
+
 Create a complete FastAPI backend with multi-tenant support, Clerk authentication, and comprehensive API endpoints for all M&A platform features.
 
 ### **Requirements**
+
 - FastAPI with async/await for high performance
 - Clerk authentication integration with JWT validation
 - Multi-tenant middleware for automatic tenant resolution
@@ -71,6 +80,7 @@ Create a complete FastAPI backend with multi-tenant support, Clerk authenticatio
 - File upload handling for documents
 
 ### **API Endpoints Needed**
+
 1. **Authentication** - Login, logout, user profile, tenant switching
 2. **Organizations** - CRUD operations, settings, subscription management
 3. **Users** - User management, roles, permissions, invitations
@@ -82,6 +92,7 @@ Create a complete FastAPI backend with multi-tenant support, Clerk authenticatio
 9. **Reports** - Deal reports, portfolio analysis, performance metrics
 
 ### **Technical Specifications**
+
 - Use dependency injection for tenant context
 - Implement proper error handling with custom exceptions
 - Add request/response logging and monitoring
@@ -91,6 +102,7 @@ Create a complete FastAPI backend with multi-tenant support, Clerk authenticatio
 - Include comprehensive test coverage
 
 ### **Files to Create/Update**
+
 - `backend/app/api/` - All API route modules
 - `backend/app/core/auth.py` - Clerk authentication middleware
 - `backend/app/core/tenant.py` - Multi-tenant middleware and utilities
@@ -105,12 +117,15 @@ Create a complete FastAPI backend with multi-tenant support, Clerk authenticatio
 ## ⚛️ **PROMPT 3: React Frontend with Multi-Tenant Dashboard**
 
 ### **Context**
+
 Create a modern React frontend for the M&A SaaS platform with multi-tenant support, Clerk authentication, and a professional dashboard for deal management.
 
 ### **Task**
+
 Build a comprehensive React application with TypeScript, Tailwind CSS, and shadcn/ui components that provides a world-class user experience for M&A professionals.
 
 ### **Requirements**
+
 - React 19 with TypeScript for type safety
 - Clerk authentication with organization switching
 - Multi-tenant context management
@@ -123,6 +138,7 @@ Build a comprehensive React application with TypeScript, Tailwind CSS, and shadc
 - Export functionality for reports and data
 
 ### **Key Features Needed**
+
 1. **Authentication Flow** - Login, signup, organization selection
 2. **Dashboard** - Deal pipeline, KPIs, recent activities, notifications
 3. **Deal Management** - Deal creation, editing, stage progression, timeline
@@ -134,6 +150,7 @@ Build a comprehensive React application with TypeScript, Tailwind CSS, and shadc
 9. **Settings** - Organization settings, user preferences, integrations
 
 ### **Technical Specifications**
+
 - Use React Query for server state management
 - Implement proper error boundaries and loading states
 - Add form validation with React Hook Form and Zod
@@ -144,6 +161,7 @@ Build a comprehensive React application with TypeScript, Tailwind CSS, and shadc
 - Optimize for performance with code splitting
 
 ### **Files to Create/Update**
+
 - `frontend/src/components/` - Reusable UI components
 - `frontend/src/pages/` - Page components for each route
 - `frontend/src/hooks/` - Custom React hooks
@@ -158,12 +176,15 @@ Build a comprehensive React application with TypeScript, Tailwind CSS, and shadc
 ## 🤖 **PROMPT 4: AI Integration with Claude MCP and Analysis Features**
 
 ### **Context**
+
 Integrate Claude AI capabilities into the M&A platform to provide intelligent deal analysis, market research, and valuation assistance using the Claude MCP server and SDK.
 
 ### **Task**
+
 Create comprehensive AI-powered features that leverage Claude's capabilities to assist M&A professionals with deal analysis, due diligence, and decision-making.
 
 ### **Requirements**
+
 - Claude MCP server integration for AI capabilities
 - Hugging Face integration for additional AI models
 - Real-time AI analysis of deals and companies
@@ -174,6 +195,7 @@ Create comprehensive AI-powered features that leverage Claude's capabilities to 
 - AI-powered insights and recommendations
 
 ### **AI Features Needed**
+
 1. **Deal Analysis** - Automated deal scoring, risk assessment, opportunity identification
 2. **Market Research** - Industry analysis, competitive landscape, market trends
 3. **Company Analysis** - Financial analysis, business model evaluation, growth potential
@@ -184,6 +206,7 @@ Create comprehensive AI-powered features that leverage Claude's capabilities to 
 8. **Natural Language Interface** - Chat-based querying of deal data and insights
 
 ### **Technical Specifications**
+
 - Use Claude MCP server for primary AI capabilities
 - Implement proper error handling for AI service failures
 - Add caching for expensive AI operations
@@ -193,6 +216,7 @@ Create comprehensive AI-powered features that leverage Claude's capabilities to 
 - Include fallback mechanisms for AI service outages
 
 ### **Files to Create/Update**
+
 - `backend/app/services/ai/` - AI service modules
 - `backend/app/services/claude_service.py` - Claude MCP integration
 - `backend/app/services/analysis_service.py` - Deal analysis logic
@@ -205,12 +229,15 @@ Create comprehensive AI-powered features that leverage Claude's capabilities to 
 ## 🔐 **PROMPT 5: Clerk Authentication & Multi-Tenant Security Implementation**
 
 ### **Context**
+
 Implement comprehensive authentication and authorization using Clerk with proper multi-tenant security, role-based access control, and organization management.
 
 ### **Task**
+
 Create a secure authentication system that handles user management, organization switching, role-based permissions, and proper tenant isolation throughout the application.
 
 ### **Requirements**
+
 - Clerk authentication with JWT validation
 - Multi-tenant organization management
 - Role-based access control (RBAC)
@@ -221,6 +248,7 @@ Create a secure authentication system that handles user management, organization
 - Session management and security
 
 ### **Security Features Needed**
+
 1. **Authentication Flow** - Login, signup, password reset, MFA support
 2. **Organization Management** - Create, join, switch organizations
 3. **Role Management** - Admin, Manager, Analyst, Viewer roles
@@ -231,6 +259,7 @@ Create a secure authentication system that handles user management, organization
 8. **Compliance** - GDPR, SOC 2, data retention policies
 
 ### **Technical Specifications**
+
 - Implement Clerk webhooks for user lifecycle events
 - Create middleware for automatic tenant resolution
 - Add proper error handling for authentication failures
@@ -240,6 +269,7 @@ Create a secure authentication system that handles user management, organization
 - Include security testing and vulnerability scanning
 
 ### **Files to Create/Update**
+
 - `backend/app/core/auth.py` - Authentication middleware and utilities
 - `backend/app/core/permissions.py` - Permission system and decorators
 - `backend/app/models/auth.py` - User and organization models
@@ -253,12 +283,15 @@ Create a secure authentication system that handles user management, organization
 ## 📊 **PROMPT 6: Dashboard & Analytics Implementation**
 
 ### **Context**
+
 Create a comprehensive dashboard and analytics system that provides M&A professionals with real-time insights, KPIs, and data visualizations for their deal pipeline and portfolio performance.
 
 ### **Task**
+
 Build an advanced dashboard with interactive charts, real-time data, customizable widgets, and comprehensive analytics for deal management and portfolio tracking.
 
 ### **Requirements**
+
 - Real-time dashboard with live data updates
 - Interactive charts and data visualizations
 - Customizable dashboard widgets and layouts
@@ -269,6 +302,7 @@ Build an advanced dashboard with interactive charts, real-time data, customizabl
 - Drill-down capabilities for detailed analysis
 
 ### **Dashboard Features Needed**
+
 1. **Deal Pipeline** - Visual pipeline with drag-and-drop, stage progression
 2. **KPI Metrics** - Deal volume, success rates, average deal size, time to close
 3. **Portfolio Overview** - Total portfolio value, ROI, performance trends
@@ -279,6 +313,7 @@ Build an advanced dashboard with interactive charts, real-time data, customizabl
 8. **Custom Reports** - Configurable reports, scheduled exports, data insights
 
 ### **Technical Specifications**
+
 - Use Recharts or Chart.js for data visualizations
 - Implement real-time updates with WebSocket or polling
 - Add proper loading states and error handling
@@ -288,6 +323,7 @@ Build an advanced dashboard with interactive charts, real-time data, customizabl
 - Include accessibility features for charts and data
 
 ### **Files to Create/Update**
+
 - `frontend/src/components/dashboard/` - Dashboard components and widgets
 - `frontend/src/components/charts/` - Chart components and utilities
 - `frontend/src/hooks/useDashboard.ts` - Dashboard data management
@@ -300,6 +336,7 @@ Build an advanced dashboard with interactive charts, real-time data, customizabl
 ## 🎯 **Usage Instructions**
 
 ### **Getting Started**
+
 1. **Clone the repository** and open in Cursor IDE
 2. **Start with Prompt 1** to establish the database foundation
 3. **Progress sequentially** through each prompt
@@ -308,6 +345,7 @@ Build an advanced dashboard with interactive charts, real-time data, customizabl
 6. **Iterate and refine** based on results
 
 ### **Best Practices**
+
 - **Follow BMAD methodology** for structured development
 - **Implement comprehensive testing** for each component
 - **Use TypeScript** for type safety throughout
@@ -317,6 +355,7 @@ Build an advanced dashboard with interactive charts, real-time data, customizabl
 - **Document all APIs** and components
 
 ### **Development Workflow**
+
 1. **Database First** - Establish solid data foundation
 2. **Backend APIs** - Create robust API layer
 3. **Frontend Components** - Build user interface

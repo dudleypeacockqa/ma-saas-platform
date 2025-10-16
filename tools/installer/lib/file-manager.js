@@ -1,6 +1,6 @@
 const fs = require('fs-extra');
 const path = require('node:path');
-const crypto = require('node:crypto');
+const nodeCrypto = require('node:crypto');
 const yaml = require('js-yaml');
 const chalk = require('chalk');
 const { createReadStream, createWriteStream, promises: fsPromises } = require('node:fs');
@@ -80,7 +80,7 @@ class FileManager {
     try {
       // Use streaming for hash calculation to reduce memory usage
       const stream = createReadStream(filePath);
-      const hash = crypto.createHash('sha256');
+      const hash = nodeCrypto.createHash('sha256');
 
       for await (const chunk of stream) {
         hash.update(chunk);
@@ -214,12 +214,8 @@ class FileManager {
   }
 
   async ensureDirectory(dirPath) {
-    try {
-      await fs.ensureDir(dirPath);
-      return true;
-    } catch (error) {
-      throw error;
-    }
+    await fs.ensureDir(dirPath);
+    return true;
   }
 
   async pathExists(filePath) {

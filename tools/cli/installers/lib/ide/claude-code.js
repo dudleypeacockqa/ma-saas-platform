@@ -9,7 +9,12 @@ const {
   filterAgentInstructions,
   resolveSubagentFiles,
 } = require('./shared/module-injections');
-const { getAgentsFromBmad, getTasksFromBmad, getAgentsFromDir, getTasksFromDir } = require('./shared/bmad-artifacts');
+const {
+  getAgentsFromBmad,
+  getTasksFromBmad,
+  getAgentsFromDir,
+  getTasksFromDir,
+} = require('./shared/bmad-artifacts');
 
 /**
  * Claude Code IDE setup handler
@@ -38,7 +43,13 @@ class ClaudeCodeSetup extends BaseIdeSetup {
 
     for (const moduleName of modules) {
       // Check for Claude Code sub-module injection config in SOURCE directory
-      const injectionConfigPath = path.join(sourceModulesPath, moduleName, 'sub-modules', 'claude-code', 'injections.yaml');
+      const injectionConfigPath = path.join(
+        sourceModulesPath,
+        moduleName,
+        'sub-modules',
+        'claude-code',
+        'injections.yaml',
+      );
 
       if (await this.exists(injectionConfigPath)) {
         const fs = require('fs-extra');
@@ -51,7 +62,9 @@ class ClaudeCodeSetup extends BaseIdeSetup {
 
           // Ask about subagents if they exist and we haven't asked yet
           if (injectionConfig.subagents && !config.subagentChoices) {
-            config.subagentChoices = await this.promptSubagentInstallation(injectionConfig.subagents);
+            config.subagentChoices = await this.promptSubagentInstallation(
+              injectionConfig.subagents,
+            );
 
             if (config.subagentChoices.install !== 'none') {
               // Ask for installation location
@@ -72,7 +85,9 @@ class ClaudeCodeSetup extends BaseIdeSetup {
             }
           }
         } catch (error) {
-          console.log(chalk.yellow(`  Warning: Failed to process ${moduleName} features: ${error.message}`));
+          console.log(
+            chalk.yellow(`  Warning: Failed to process ${moduleName} features: ${error.message}`),
+          );
         }
       }
     }
@@ -147,7 +162,12 @@ class ClaudeCodeSetup extends BaseIdeSetup {
     // Process Claude Code specific injections for installed modules
     // Use pre-collected configuration if available
     if (options.preCollectedConfig) {
-      await this.processModuleInjectionsWithConfig(projectDir, bmadDir, options, options.preCollectedConfig);
+      await this.processModuleInjectionsWithConfig(
+        projectDir,
+        bmadDir,
+        options,
+        options.preCollectedConfig,
+      );
     } else {
       await this.processModuleInjections(projectDir, bmadDir, options);
     }
@@ -251,14 +271,15 @@ class ClaudeCodeSetup extends BaseIdeSetup {
     let installLocation = null;
 
     // Get the actual source directory (not the installation directory)
-    const { subagentChoices: updatedChoices, installLocation: updatedLocation } = await this.processModuleInjectionsInternal({
-      projectDir,
-      modules,
-      handler: 'claude-code',
-      subagentChoices,
-      installLocation,
-      interactive: true,
-    });
+    const { subagentChoices: updatedChoices, installLocation: updatedLocation } =
+      await this.processModuleInjectionsInternal({
+        projectDir,
+        modules,
+        handler: 'claude-code',
+        subagentChoices,
+        installLocation,
+        interactive: true,
+      });
 
     if (updatedChoices) {
       subagentChoices = updatedChoices;
@@ -268,7 +289,14 @@ class ClaudeCodeSetup extends BaseIdeSetup {
     }
   }
 
-  async processModuleInjectionsInternal({ projectDir, modules, handler, subagentChoices, installLocation, interactive = false }) {
+  async processModuleInjectionsInternal({
+    projectDir,
+    modules,
+    handler,
+    subagentChoices,
+    installLocation,
+    interactive = false,
+  }) {
     let choices = subagentChoices;
     let location = installLocation;
 
@@ -282,7 +310,9 @@ class ClaudeCodeSetup extends BaseIdeSetup {
       const { config, handlerBaseDir } = configData;
 
       if (interactive) {
-        console.log(chalk.cyan(`\nConfiguring ${moduleName} ${handler.replace('-', ' ')} features...`));
+        console.log(
+          chalk.cyan(`\nConfiguring ${moduleName} ${handler.replace('-', ' ')} features...`),
+        );
       }
 
       if (interactive && config.subagents && !choices) {
@@ -315,7 +345,13 @@ class ClaudeCodeSetup extends BaseIdeSetup {
       }
 
       if (config.subagents && choices && choices.install !== 'none') {
-        await this.copySelectedSubagents(projectDir, handlerBaseDir, config.subagents, choices, location || 'project');
+        await this.copySelectedSubagents(
+          projectDir,
+          handlerBaseDir,
+          config.subagents,
+          choices,
+          location || 'project',
+        );
       }
     }
 
@@ -387,7 +423,11 @@ class ClaudeCodeSetup extends BaseIdeSetup {
         let injectionContent = injection.content;
 
         // Filter content if selective subagents chosen
-        if (subagentChoices && subagentChoices.install === 'selective' && injection.point === 'pm-agent-instructions') {
+        if (
+          subagentChoices &&
+          subagentChoices.install === 'selective' &&
+          injection.point === 'pm-agent-instructions'
+        ) {
           injectionContent = filterAgentInstructions(injection.content, subagentChoices.selected);
         }
 
@@ -436,7 +476,11 @@ class ClaudeCodeSetup extends BaseIdeSetup {
         }
 
         await fs.copyFile(sourcePath, targetPath);
-        console.log(chalk.green(`    ✓ Installed: ${subFolder === '.' ? '' : `${subFolder}/`}${path.basename(resolved.file, '.md')}`));
+        console.log(
+          chalk.green(
+            `    ✓ Installed: ${subFolder === '.' ? '' : `${subFolder}/`}${path.basename(resolved.file, '.md')}`,
+          ),
+        );
         copiedCount++;
       } catch (error) {
         console.log(chalk.yellow(`    ⚠ Error copying ${resolved.file}: ${error.message}`));

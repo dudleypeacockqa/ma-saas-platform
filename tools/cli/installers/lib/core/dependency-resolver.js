@@ -43,7 +43,11 @@ class DependencyResolver {
     const transitiveDeps = await this.resolveTransitiveDependencies(bmadDir, resolvedDeps);
 
     // Combine all files
-    const allFiles = new Set([...primaryFiles.map((f) => f.path), ...resolvedDeps, ...transitiveDeps]);
+    const allFiles = new Set([
+      ...primaryFiles.map((f) => f.path),
+      ...resolvedDeps,
+      ...transitiveDeps,
+    ]);
 
     // Organize by module
     const organizedFiles = this.organizeByModule(bmadDir, allFiles);
@@ -77,10 +81,12 @@ class DependencyResolver {
       const srcDir = path.join(bmadDir, 'src');
       if (await fs.pathExists(srcDir)) {
         // Source directory structure: src/core or src/modules/xxx
-        moduleDir = module === 'core' ? path.join(srcDir, 'core') : path.join(srcDir, 'modules', module);
+        moduleDir =
+          module === 'core' ? path.join(srcDir, 'core') : path.join(srcDir, 'modules', module);
       } else {
         // Installed directory structure: bmad/core or bmad/modules/xxx
-        moduleDir = module === 'core' ? path.join(bmadDir, 'core') : path.join(bmadDir, 'modules', module);
+        moduleDir =
+          module === 'core' ? path.join(bmadDir, 'core') : path.join(bmadDir, 'modules', module);
       }
 
       if (!(await fs.pathExists(moduleDir))) {
@@ -149,7 +155,9 @@ class DependencyResolver {
 
           const frontmatter = yaml.load(yamlContent);
           if (frontmatter.dependencies) {
-            const deps = Array.isArray(frontmatter.dependencies) ? frontmatter.dependencies : [frontmatter.dependencies];
+            const deps = Array.isArray(frontmatter.dependencies)
+              ? frontmatter.dependencies
+              : [frontmatter.dependencies];
 
             for (const dep of deps) {
               allDeps.add({
@@ -162,7 +170,9 @@ class DependencyResolver {
 
           // Check for template dependencies
           if (frontmatter.template) {
-            const templates = Array.isArray(frontmatter.template) ? frontmatter.template : [frontmatter.template];
+            const templates = Array.isArray(frontmatter.template)
+              ? frontmatter.template
+              : [frontmatter.template];
             for (const template of templates) {
               allDeps.add({
                 from: file.path,
@@ -172,7 +182,9 @@ class DependencyResolver {
             }
           }
         } catch (error) {
-          console.warn(chalk.yellow(`Failed to parse frontmatter in ${file.name}: ${error.message}`));
+          console.warn(
+            chalk.yellow(`Failed to parse frontmatter in ${file.name}: ${error.message}`),
+          );
         }
       }
 
@@ -507,7 +519,9 @@ class DependencyResolver {
         const fileName = name.endsWith('.md') ? name : `${name}.md`;
 
         const filePath =
-          module === 'core' ? path.join(bmadDir, 'core', type, fileName) : path.join(bmadDir, 'modules', module, type, fileName);
+          module === 'core'
+            ? path.join(bmadDir, 'core', type, fileName)
+            : path.join(bmadDir, 'modules', module, type, fileName);
         if (await fs.pathExists(filePath)) {
           return filePath;
         }
@@ -535,7 +549,10 @@ class DependencyResolver {
       processed.add(depPath);
 
       // Only process markdown and YAML files for transitive deps
-      if ((depPath.endsWith('.md') || depPath.endsWith('.yaml') || depPath.endsWith('.yml')) && (await fs.pathExists(depPath))) {
+      if (
+        (depPath.endsWith('.md') || depPath.endsWith('.yaml') || depPath.endsWith('.yml')) &&
+        (await fs.pathExists(depPath))
+      ) {
         const content = await fs.readFile(depPath, 'utf8');
         const subDeps = await this.parseDependencies([
           {
@@ -610,10 +627,14 @@ class DependencyResolver {
 
       // Check if file is in source directory structure
       if (file.includes('/src/core/') || file.includes('/src/modules/')) {
-        moduleBase = module === 'core' ? path.join(bmadDir, 'src', 'core') : path.join(bmadDir, 'src', 'modules', module);
+        moduleBase =
+          module === 'core'
+            ? path.join(bmadDir, 'src', 'core')
+            : path.join(bmadDir, 'src', 'modules', module);
       } else {
         // Installed structure
-        moduleBase = module === 'core' ? path.join(bmadDir, 'core') : path.join(bmadDir, 'modules', module);
+        moduleBase =
+          module === 'core' ? path.join(bmadDir, 'core') : path.join(bmadDir, 'modules', module);
       }
 
       const relative = path.relative(moduleBase, file);
@@ -646,7 +667,12 @@ class DependencyResolver {
 
     for (const [module, files] of Object.entries(organized)) {
       const isSelected = selectedModules.includes(module) || module === 'core';
-      const totalFiles = files.agents.length + files.tasks.length + files.templates.length + files.data.length + files.other.length;
+      const totalFiles =
+        files.agents.length +
+        files.tasks.length +
+        files.templates.length +
+        files.data.length +
+        files.other.length;
 
       if (totalFiles > 0) {
         console.log(chalk.cyan(`\n  ${module.toUpperCase()} module:`));
@@ -701,7 +727,10 @@ class DependencyResolver {
       if (!(await fs.pathExists(filePath))) continue;
 
       const content = await fs.readFile(filePath, 'utf8');
-      const relative = path.relative(path.dirname(resolution.primaryFiles[0]?.path || '.'), filePath);
+      const relative = path.relative(
+        path.dirname(resolution.primaryFiles[0]?.path || '.'),
+        filePath,
+      );
 
       if (filePath.includes('/agents/')) {
         bundle.agents[relative] = content;

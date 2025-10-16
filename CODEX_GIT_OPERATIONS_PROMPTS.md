@@ -3,6 +3,7 @@
 ## Specialized Prompts for Git Workflow Automation
 
 ### 📋 **Repository Context**
+
 - **Repository**: `dudleypeacockqa/ma-saas-platform`
 - **Main Branch**: `master`
 - **Current Status**: Sophisticated M&A SaaS platform ready for production
@@ -190,65 +191,65 @@ TECHNICAL REQUIREMENTS:
 ```javascript
 /**
  * BMAD-Method Codex Prompt: Automated Pull Request Workflow
- * 
+ *
  * CONTEXT:
  * - M&A SaaS platform with sophisticated multipage website
  * - Need automated PR creation with proper descriptions
  * - Repository: dudleypeacockqa/ma-saas-platform
  * - Target: Create comprehensive PRs for review and merge
- * 
+ *
  * GITHUB REPOSITORY DETAILS:
  * - Owner: dudleypeacockqa
  * - Repository: ma-saas-platform
  * - Main branch: master
  * - Common feature branches: feature/, fix/, docs/, deploy/
- * 
+ *
  * PR CREATION REQUIREMENTS:
- * 
+ *
  * 1. Branch Analysis:
  *    - Identify changed files and their categories
  *    - Generate appropriate PR title and description
  *    - Add relevant labels (frontend, backend, documentation, etc.)
  *    - Assign reviewers if applicable
- * 
+ *
  * 2. PR Description Template:
  *    - Summary of changes
  *    - Technical details
  *    - Testing performed
  *    - Deployment considerations
  *    - Screenshots (for UI changes)
- * 
+ *
  * 3. Automated Checks:
  *    - Verify all commits are properly formatted
  *    - Check for merge conflicts
  *    - Validate build requirements
  *    - Ensure environment variables are documented
- * 
+ *
  * EXAMPLE PR SCENARIOS:
- * 
+ *
  * Scenario 1: Frontend Feature Addition
  * Branch: feature/multipage-website
  * Files: frontend/src/pages/, frontend/src/components/
  * Title: "feat: Add sophisticated multipage website with enterprise navigation"
- * 
+ *
  * Scenario 2: Backend API Enhancement
  * Branch: feature/master-admin-portal
  * Files: backend/app/api/, backend/app/models/
  * Title: "feat: Implement Master Admin Portal with business management APIs"
- * 
+ *
  * Scenario 3: Deployment Configuration
  * Branch: deploy/render-optimization
  * Files: render.yaml, frontend/Dockerfile, backend/requirements.txt
  * Title: "deploy: Optimize Render configuration for production deployment"
- * 
+ *
  * GITHUB API INTEGRATION:
  * - Use GitHub CLI (gh) for PR creation
  * - Automated label assignment
  * - Template-based descriptions
  * - Reviewer assignment based on file changes
- * 
+ *
  * OBJECTIVE: Generate automated PR creation workflow
- * 
+ *
  * REQUIRED OUTPUTS:
  * 1. Branch analysis and categorization script
  * 2. PR title and description generation
@@ -264,7 +265,7 @@ TECHNICAL REQUIREMENTS:
 
 ## 🎯 **CODEX PROMPT 4: Error Detection & Resolution**
 
-```typescript
+````typescript
 /*
 BMAD-Method Codex Prompt: Git Error Detection and Resolution
 
@@ -310,9 +311,10 @@ git fetch origin
 git merge origin/master
 # Resolve any conflicts
 git push origin master
-```
+````
 
 Merge Conflict Resolution:
+
 ```bash
 git status
 # Identify conflicted files
@@ -323,6 +325,7 @@ git push origin master
 ```
 
 Branch Synchronization:
+
 ```bash
 git checkout master
 git pull origin master
@@ -334,15 +337,17 @@ git push origin feature-branch --force-with-lease
 OBJECTIVE: Generate comprehensive error handling system
 
 REQUIRED OUTPUTS:
+
 1. Error detection and parsing system
 2. Automated resolution scripts for common errors
 3. Interactive resolution for complex issues
 4. Logging and reporting of resolved errors
 5. Prevention strategies and best practices
-*/
+   \*/
 
 // Generate the Git error detection and resolution system here
-```
+
+````
 
 ---
 
@@ -428,13 +433,14 @@ on:
 # - Security compliance checks
 
 # Generate the complete Git workflow automation here
-```
+````
 
 ---
 
 ## 🛠️ **Usage Instructions**
 
 ### **Prompt Execution Order:**
+
 1. **Start with Prompt 1**: Automated commit and push workflow
 2. **Use Prompt 2**: If merge conflicts are detected
 3. **Apply Prompt 3**: For pull request creation
@@ -442,13 +448,16 @@ on:
 5. **Implement Prompt 5**: For complete workflow automation
 
 ### **Codex Optimization Tips:**
+
 - **Provide Context**: Include current repository state
 - **Specify File Paths**: Use exact directory structures
 - **Include Error Messages**: Copy exact Git error output
 - **Define Success Criteria**: Clear completion indicators
 
 ### **Emergency Resolution:**
+
 If any prompt fails or produces errors:
+
 1. **Backup Current State**: `git stash` or create backup branch
 2. **Reset to Known Good State**: `git reset --hard origin/master`
 3. **Apply Changes Incrementally**: Small, focused commits
@@ -459,12 +468,14 @@ If any prompt fails or produces errors:
 ## 📊 **Success Metrics**
 
 ### **Automation Effectiveness:**
+
 - **Commit Success Rate**: > 95% automated commits
 - **Conflict Resolution**: > 90% automated resolution
 - **PR Creation**: 100% template compliance
 - **Error Recovery**: < 5 minutes average resolution time
 
 ### **Code Quality Metrics:**
+
 - **Conventional Commits**: 100% compliance
 - **Build Success**: > 98% first-time success
 - **Test Coverage**: Maintained or improved

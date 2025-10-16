@@ -3,12 +3,14 @@
 ## 🏗️ **Architecture Guidelines**
 
 ### Multi-Tenant SaaS Architecture
+
 - **Clerk Organizations = Tenants**: Each Clerk organization represents a separate tenant
 - **Tenant Isolation**: All database queries must be scoped to the current tenant
 - **Role-Based Access Control**: Admin, Manager, User roles within each tenant
 - **Data Security**: No cross-tenant data access allowed
 
 ### Technology Stack
+
 - **Frontend**: React 18+ with TypeScript, Vite, Tailwind CSS, shadcn/ui
 - **Backend**: FastAPI with Python 3.13, SQLAlchemy, Alembic
 - **Database**: PostgreSQL with proper indexing and constraints
@@ -19,12 +21,14 @@
 ## 🔐 **Authentication & Security**
 
 ### Clerk Integration
+
 - Use `@clerk/clerk-react` for frontend authentication
 - Use `clerk-sdk-python` for backend token validation
 - Implement proper JWT token validation middleware
 - Handle Clerk webhooks for user/organization events
 
 ### Security Best Practices
+
 - All API endpoints require authentication (except public marketing pages)
 - Input validation on all endpoints using Pydantic models
 - SQL injection prevention through SQLAlchemy ORM
@@ -34,6 +38,7 @@
 ## 📊 **Database Design**
 
 ### Core Models
+
 ```python
 # Tenant (maps to Clerk Organization)
 class Tenant(Base):
@@ -64,6 +69,7 @@ class Deal(Base):
 ```
 
 ### Database Rules
+
 - **ALWAYS** include `tenant_id` in business models
 - **ALWAYS** filter by `tenant_id` in queries
 - Use UUIDs for primary keys
@@ -73,6 +79,7 @@ class Deal(Base):
 ## 🎨 **Frontend Development**
 
 ### Component Structure
+
 ```
 src/
 ├── components/
@@ -89,6 +96,7 @@ src/
 ```
 
 ### Code Style
+
 - Use TypeScript for all components and utilities
 - Implement proper error boundaries
 - Use React Query for data fetching and caching
@@ -96,14 +104,15 @@ src/
 - Use Tailwind CSS for styling with consistent design system
 
 ### Authentication Flow
+
 ```jsx
 // Protected route example
 function ProtectedRoute({ children }) {
   const { isSignedIn, isLoaded } = useAuth();
-  
+
   if (!isLoaded) return <LoadingSpinner />;
   if (!isSignedIn) return <RedirectToSignIn />;
-  
+
   return children;
 }
 ```
@@ -111,6 +120,7 @@ function ProtectedRoute({ children }) {
 ## 🚀 **Backend Development**
 
 ### API Structure
+
 ```
 app/
 ├── api/
@@ -129,6 +139,7 @@ app/
 ```
 
 ### API Endpoint Rules
+
 - Use proper HTTP methods (GET, POST, PUT, DELETE)
 - Include comprehensive OpenAPI documentation
 - Implement proper error handling with meaningful messages
@@ -136,6 +147,7 @@ app/
 - Always include tenant isolation in business logic
 
 ### Authentication Middleware
+
 ```python
 async def get_current_user(request: Request):
     # Validate Clerk JWT token
@@ -147,12 +159,14 @@ async def get_current_user(request: Request):
 ## 🤖 **AI Integration**
 
 ### Claude Integration
+
 - Use Anthropic Claude for deal analysis and insights
 - Implement proper error handling for AI service calls
 - Cache AI responses when appropriate
 - Provide fallback options when AI services are unavailable
 
 ### AI Features
+
 - Deal valuation analysis
 - Market research and insights
 - Document analysis and summarization
@@ -161,6 +175,7 @@ async def get_current_user(request: Request):
 ## 🎯 **M&A Domain Features**
 
 ### Core Functionality
+
 - **Deal Pipeline Management**: Track deals from sourcing to closing
 - **Due Diligence**: Document management and checklist tracking
 - **Valuation Models**: Financial modeling and analysis tools
@@ -168,6 +183,7 @@ async def get_current_user(request: Request):
 - **Reporting**: Custom reports and analytics dashboards
 
 ### User Workflows
+
 - **Deal Sourcing**: Lead generation and initial screening
 - **Deal Evaluation**: Financial analysis and risk assessment
 - **Due Diligence**: Document review and verification
@@ -177,11 +193,13 @@ async def get_current_user(request: Request):
 ## 📱 **Responsive Design**
 
 ### Breakpoints
+
 - Mobile: 320px - 768px
 - Tablet: 768px - 1024px
 - Desktop: 1024px+
 
 ### Design Principles
+
 - Mobile-first approach
 - Consistent spacing and typography
 - Accessible color contrast
@@ -191,12 +209,14 @@ async def get_current_user(request: Request):
 ## 🧪 **Testing Strategy**
 
 ### Frontend Testing
+
 - Unit tests for utility functions
 - Component tests with React Testing Library
 - Integration tests for user workflows
 - E2E tests with Playwright
 
 ### Backend Testing
+
 - Unit tests for business logic
 - API endpoint tests
 - Database integration tests
@@ -205,11 +225,13 @@ async def get_current_user(request: Request):
 ## 🚀 **Deployment & DevOps**
 
 ### Environment Configuration
+
 - **Development**: Local development with hot reload
 - **Staging**: Render.com staging environment
 - **Production**: Render.com with custom domain
 
 ### CI/CD Pipeline
+
 - Automated testing on pull requests
 - Automated deployment to staging
 - Manual approval for production deployment
@@ -218,12 +240,14 @@ async def get_current_user(request: Request):
 ## 📈 **Performance Optimization**
 
 ### Frontend Performance
+
 - Code splitting and lazy loading
 - Image optimization and compression
 - Efficient state management
 - Minimal bundle size
 
 ### Backend Performance
+
 - Database query optimization
 - Proper indexing strategy
 - Caching for frequently accessed data
@@ -232,12 +256,14 @@ async def get_current_user(request: Request):
 ## 🔍 **Monitoring & Logging**
 
 ### Application Monitoring
+
 - Error tracking and alerting
 - Performance monitoring
 - User analytics
 - API usage metrics
 
 ### Logging Strategy
+
 - Structured logging with proper levels
 - Request/response logging
 - Error logging with stack traces
@@ -246,12 +272,14 @@ async def get_current_user(request: Request):
 ## 📚 **Documentation**
 
 ### Code Documentation
+
 - Inline comments for complex logic
 - API documentation with OpenAPI/Swagger
 - Component documentation with Storybook
 - Database schema documentation
 
 ### User Documentation
+
 - User guides and tutorials
 - API documentation for integrations
 - Troubleshooting guides

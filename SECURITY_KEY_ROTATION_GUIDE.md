@@ -340,8 +340,8 @@ Once you've rotated the keys and updated all environments:
 ## Completion
 
 **Key Rotation Completed**: ⏸️ Pending
-**Date Completed**: ******\_******
-**Completed By**: ******\_******
+**Date Completed**: **\*\***\_**\*\***
+**Completed By**: **\*\***\_**\*\***
 **Issues Encountered**: None / [List any issues]
 **GitHub Alert Closed**: ⏸️ Pending
 

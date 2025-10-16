@@ -1,44 +1,50 @@
 name: format-check
 
-"on":
+on:
   pull_request:
     branches: ["**"]
 
 jobs:
   prettier:
     runs-on: ubuntu-latest
-    if: github.event.repository.fork != true || vars.ENABLE_CI_IN_FORK == 'true'
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        if: github.event.repository.fork != true || env.ENABLE_CI_IN_FORK == 'true'
 
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
           node-version: "20"
           cache: "npm"
+        if: github.event.repository.fork != true || env.ENABLE_CI_IN_FORK == 'true'
 
       - name: Install dependencies
         run: npm ci
+        if: github.event.repository.fork != true || env.ENABLE_CI_IN_FORK == 'true'
 
       - name: Prettier format check
         run: npm run format:check
+        if: github.event.repository.fork != true || env.ENABLE_CI_IN_FORK == 'true'
 
   eslint:
     runs-on: ubuntu-latest
-    if: github.event.repository.fork != true || vars.ENABLE_CI_IN_FORK == 'true'
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        if: github.event.repository.fork != true || env.ENABLE_CI_IN_FORK == 'true'
 
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
           node-version: "20"
           cache: "npm"
+        if: github.event.repository.fork != true || env.ENABLE_CI_IN_FORK == 'true'
 
       - name: Install dependencies
         run: npm ci
+        if: github.event.repository.fork != true || env.ENABLE_CI_IN_FORK == 'true'
 
       - name: ESLint
         run: npm run lint
+        if: github.event.repository.fork != true || env.ENABLE_CI_IN_FORK == 'true'

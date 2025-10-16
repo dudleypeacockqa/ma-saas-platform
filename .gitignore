@@ -221,7 +221,7 @@ compliance-reports/
 
 # Monitoring data
 monitoring/
-analytics/
+# Keep analytics package tracked for backend services
 metrics/
 traces/
 

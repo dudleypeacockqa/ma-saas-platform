@@ -3,6 +3,7 @@
 ## Specialized Code Generation Prompts for M&A SaaS Platform
 
 ### 📋 **Codex Optimization Notes**
+
 - Codex excels at code generation, debugging, and technical implementation
 - Provide clear code context, file structures, and specific technical requirements
 - Include existing code patterns and architectural decisions
@@ -164,13 +165,13 @@ BUSINESS METRICS TO TRACK:
 ```javascript
 /**
  * BMAD-Method Codex Prompt: Advanced M&A Platform Features
- * 
+ *
  * CONTEXT:
  * - Enterprise M&A SaaS platform with basic features operational
  * - Target market: Investment banks, M&A advisors, corporate development teams
  * - Need advanced features to compete with industry leaders
  * - Platform must handle complex M&A workflows and data
- * 
+ *
  * EXISTING BACKEND STRUCTURE:
  * /backend/app/
  * ├── api/
@@ -187,47 +188,47 @@ BUSINESS METRICS TO TRACK:
  * │   ├── document_processor.py
  * │   └── notification_service.py
  * └── main.py
- * 
+ *
  * CURRENT FEATURES:
  * - Basic deal pipeline management
  * - Document storage and sharing
  * - Team collaboration
  * - Simple analytics dashboard
- * 
+ *
  * OBJECTIVE: Implement advanced M&A-specific features
- * 
+ *
  * REQUIRED IMPLEMENTATIONS:
- * 
+ *
  * 1. AI-Powered Deal Intelligence:
  *    - Automated deal scoring and risk assessment
  *    - Market comparables analysis
  *    - Due diligence checklist generation
  *    - Financial model validation
- * 
+ *
  * 2. Advanced Document Management:
  *    - OCR and document parsing
  *    - Automated data extraction from financial statements
  *    - Version control with audit trails
  *    - Secure data room functionality
- * 
+ *
  * 3. Real-time Collaboration:
  *    - WebSocket-based live editing
  *    - Comment threading and resolution
  *    - Task assignment and tracking
  *    - Video conferencing integration
- * 
+ *
  * 4. Enterprise Integrations:
  *    - CRM system connectors (Salesforce, HubSpot)
  *    - Financial data providers (Bloomberg, Refinitiv)
  *    - Legal document management (iManage, NetDocuments)
  *    - Communication platforms (Slack, Microsoft Teams)
- * 
+ *
  * 5. Advanced Analytics:
  *    - Deal pipeline forecasting
  *    - Team performance metrics
  *    - Market trend analysis
  *    - Custom reporting engine
- * 
+ *
  * TECHNICAL SPECIFICATIONS:
  * - FastAPI backend with async/await patterns
  * - PostgreSQL with vector extensions for AI features
@@ -235,20 +236,20 @@ BUSINESS METRICS TO TRACK:
  * - Celery for background task processing
  * - Docker containerization
  * - Comprehensive error handling and logging
- * 
+ *
  * SECURITY REQUIREMENTS:
  * - SOC 2 Type II compliance
  * - End-to-end encryption for sensitive data
  * - Role-based access control (RBAC)
  * - Audit logging for all actions
  * - Data residency compliance (GDPR, CCPA)
- * 
+ *
  * PERFORMANCE REQUIREMENTS:
  * - API response times < 200ms
  * - Support for 10,000+ concurrent users
  * - 99.9% uptime SLA
  * - Horizontal scaling capability
- * 
+ *
  * INTEGRATION PATTERNS:
  * - RESTful APIs with OpenAPI documentation
  * - WebSocket connections for real-time features
@@ -427,6 +428,7 @@ OFFLINE CAPABILITIES:
 ## 🛠️ **Codex Usage Guidelines**
 
 ### **Prompt Structure for Best Results:**
+
 1. **Context Block**: Clear technical background
 2. **Code Structure**: Existing file organization
 3. **Objective**: Specific implementation goal
@@ -434,6 +436,7 @@ OFFLINE CAPABILITIES:
 5. **Quality Gates**: Success criteria and testing requirements
 
 ### **Code Generation Best Practices:**
+
 - Provide existing code patterns to maintain consistency
 - Specify exact file paths and naming conventions
 - Include error handling and edge case requirements
@@ -441,6 +444,7 @@ OFFLINE CAPABILITIES:
 - Specify testing requirements and validation steps
 
 ### **Integration Guidelines:**
+
 - Reference existing authentication (Clerk) and payment (Stripe) systems
 - Maintain current design system (Navy Blue #1E3A5F, Royal Blue #2E5B9C)
 - Ensure mobile-responsive implementations
@@ -452,6 +456,7 @@ OFFLINE CAPABILITIES:
 ## 📊 **Success Metrics for Codex Implementation**
 
 ### **Code Quality Metrics:**
+
 - TypeScript coverage > 95%
 - Test coverage > 80%
 - Performance budget compliance
@@ -459,6 +464,7 @@ OFFLINE CAPABILITIES:
 - Code maintainability index
 
 ### **Business Impact Metrics:**
+
 - Feature delivery velocity
 - Bug reduction rate
 - Customer satisfaction scores

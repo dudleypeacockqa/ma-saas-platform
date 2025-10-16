@@ -70,7 +70,9 @@ const CLIUtils = {
   displayPromptSection(prompts) {
     const promptArray = Array.isArray(prompts) ? prompts : [prompts];
 
-    const formattedPrompts = promptArray.map((p) => wrapAnsi(p, 76, { hard: true, wordWrap: true }));
+    const formattedPrompts = promptArray.map((p) =>
+      wrapAnsi(p, 76, { hard: true, wordWrap: true }),
+    );
 
     this.displayBox(formattedPrompts, {
       borderColor: 'yellow',

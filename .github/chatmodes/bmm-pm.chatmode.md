@@ -1,6 +1,24 @@
 ---
-description: "Activates the Product Manager agent persona."
-tools: ["changes","codebase","fetch","findTestFiles","githubRepo","problems","usages","editFiles","runCommands","runTasks","runTests","search","searchResults","terminalLastCommand","terminalSelection","testFailure"]
+description: 'Activates the Product Manager agent persona.'
+tools:
+  [
+    'changes',
+    'codebase',
+    'fetch',
+    'findTestFiles',
+    'githubRepo',
+    'problems',
+    'usages',
+    'editFiles',
+    'runCommands',
+    'runTasks',
+    'runTests',
+    'search',
+    'searchResults',
+    'terminalLastCommand',
+    'terminalSelection',
+    'testFailure',
+  ]
 ---
 
 # Product Manager Agent
@@ -19,7 +37,7 @@ tools: ["changes","codebase","fetch","findTestFiles","githubRepo","problems","us
       - VERIFY: If config not loaded, STOP and report error to user
       - DO NOT PROCEED to step 3 until config is successfully loaded and variables stored</step>
   <step n="3">Remember: user's name is {user_name}</step>
-  
+
   <step n="4">Show greeting using {user_name} from config, communicate in {communication_language}, then display numbered list of
       ALL menu items from menu section</step>
   <step n="5">STOP and WAIT for user input - do NOT execute menu items automatically - accept number or trigger text</step>
@@ -45,7 +63,7 @@ tools: ["changes","codebase","fetch","findTestFiles","githubRepo","problems","us
         Actually LOAD and EXECUTE the file at that path - do not improvise
         Read the complete file and follow all instructions within it
       </handler>
-  
+
     </handlers>
   </menu-handlers>
 
@@ -73,7 +91,6 @@ tools: ["changes","codebase","fetch","findTestFiles","githubRepo","problems","us
   </menu>
 </agent>
 ```
-
 
 ## Module
 

@@ -7,7 +7,7 @@ This guide covers deploying the M&A SaaS Platform to Render.com with PostgreSQL 
 ## Architecture
 
 - **Frontend**: React SPA deployed as Static Site on Render
-- **Backend**: FastAPI application deployed as Web Service on Render  
+- **Backend**: FastAPI application deployed as Web Service on Render
 - **Database**: PostgreSQL database on Render
 - **AI Integration**: Claude MCP server and Hugging Face MCP server
 
@@ -45,6 +45,7 @@ This guide covers deploying the M&A SaaS Platform to Render.com with PostgreSQL 
    - Start Command: `uvicorn app.main:app --host 0.0.0.0 --port $PORT`
 
 2. **Environment Variables**:
+
    ```
    DATABASE_URL=<from_postgresql_service>
    SECRET_KEY=<generate_secure_key>
@@ -84,6 +85,7 @@ alembic upgrade head
 ```
 
 Or create initial migration:
+
 ```bash
 alembic revision --autogenerate -m "Initial migration"
 alembic upgrade head
@@ -96,7 +98,7 @@ alembic upgrade head
    - Add: `api.your-domain.com`
 
 2. **Frontend Custom Domain**:
-   - Go to frontend service → Settings → Custom Domains  
+   - Go to frontend service → Settings → Custom Domains
    - Add: `app.your-domain.com`
 
 3. **Update Environment Variables**:
@@ -105,6 +107,7 @@ alembic upgrade head
 ## Configuration Files
 
 ### Backend render.yaml
+
 ```yaml
 services:
   - type: web
@@ -133,6 +136,7 @@ databases:
 ```
 
 ### Frontend render.yaml
+
 ```yaml
 services:
   - type: static_site
@@ -158,14 +162,17 @@ The application is configured for multi-tenancy:
 ## Monitoring and Maintenance
 
 ### Health Checks
+
 - Backend: `https://ma-saas-backend.onrender.com/health`
 - Frontend: Standard static site monitoring
 
 ### Logs
+
 - Backend logs available in Render dashboard
 - Database logs available in PostgreSQL service
 
 ### Scaling
+
 - **Starter Plan**: Good for development and initial users
 - **Standard Plan**: Recommended for production with multiple tenants
 - **Pro Plan**: For high-traffic enterprise usage
@@ -212,12 +219,14 @@ The application is configured for multi-tenancy:
 ## Cost Estimation
 
 ### Development/Testing
+
 - PostgreSQL Starter: $7/month
-- Backend Web Service Starter: $7/month  
+- Backend Web Service Starter: $7/month
 - Frontend Static Site: Free
 - **Total**: ~$14/month
 
 ### Production
+
 - PostgreSQL Standard: $20/month
 - Backend Web Service Standard: $25/month
 - Frontend Static Site: Free

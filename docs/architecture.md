@@ -3,14 +3,16 @@
 **Document Version**: 1.0  
 **Date**: October 9, 2025  
 **Architect**: BMAD Architect Agent  
-**Project**: 100 Days and Beyond M&A SaaS Platform  
+**Project**: 100 Days and Beyond M&A SaaS Platform
 
 ## 1. Architecture Overview
 
 ### 1.1 System Vision
+
 The "100 Days and Beyond" platform is designed as a cloud-native, multi-tenant SaaS application that provides comprehensive M&A management capabilities. The architecture emphasizes scalability, security, performance, and maintainability while supporting the goal of reaching £200 million in valuation.
 
 ### 1.2 Architectural Principles
+
 **Scalability First**: The system is designed to scale horizontally to support thousands of organizations and tens of thousands of users without architectural changes.
 
 **Security by Design**: Multi-layered security approach with encryption, authentication, authorization, and comprehensive audit logging throughout the system.
@@ -24,6 +26,7 @@ The "100 Days and Beyond" platform is designed as a cloud-native, multi-tenant S
 ## 2. High-Level Architecture
 
 ### 2.1 System Components
+
 The platform consists of four primary layers that work together to deliver a comprehensive M&A management solution.
 
 **Presentation Layer**: React-based frontend application providing an intuitive user interface for all platform functionality. The frontend communicates with the backend through RESTful APIs and provides real-time updates through WebSocket connections.
@@ -37,6 +40,7 @@ The platform consists of four primary layers that work together to deliver a com
 ### 2.2 Technology Stack
 
 **Frontend Technologies**
+
 - React 18 with TypeScript for type-safe component development
 - Tailwind CSS for utility-first styling and responsive design
 - shadcn/ui for consistent, accessible component library
@@ -44,6 +48,7 @@ The platform consists of four primary layers that work together to deliver a com
 - React Router for client-side routing and navigation
 
 **Backend Technologies**
+
 - FastAPI with Python 3.11 for high-performance API development
 - PostgreSQL 15 for robust, scalable data storage
 - Alembic for database migration management
@@ -51,12 +56,14 @@ The platform consists of four primary layers that work together to deliver a com
 - SQLAlchemy for object-relational mapping
 
 **Authentication and Authorization**
+
 - Clerk for user management, authentication, and subscription handling
 - JWT tokens for secure API authentication
 - Role-based access control (RBAC) for fine-grained permissions
 - Multi-factor authentication support for enhanced security
 
 **Infrastructure and DevOps**
+
 - Render for backend API hosting and database management
 - Vercel for frontend hosting and global CDN
 - GitHub Actions for continuous integration and deployment
@@ -65,6 +72,7 @@ The platform consists of four primary layers that work together to deliver a com
 ## 3. Multi-Tenant Architecture
 
 ### 3.1 Tenant Isolation Strategy
+
 The platform implements a shared database, shared schema multi-tenancy model with organization-based data isolation. Each database table includes an `organization_id` column that ensures complete data separation between tenants while maintaining cost efficiency and operational simplicity.
 
 **Data Isolation**: All queries include organization context to prevent cross-tenant data access. Database-level constraints and application-level validation ensure data integrity and security.
@@ -74,6 +82,7 @@ The platform implements a shared database, shared schema multi-tenancy model wit
 **Scalability**: The architecture supports horizontal scaling by adding database read replicas and application instances as tenant count and usage grow.
 
 ### 3.2 Organization Management
+
 **Organization Creation**: New organizations are created during user registration or through admin invitation processes. Each organization receives a unique identifier that serves as the primary tenant key.
 
 **User Association**: Users belong to one or more organizations with specific roles and permissions. The system supports multiple organization membership for users who work across different firms.
@@ -81,6 +90,7 @@ The platform implements a shared database, shared schema multi-tenancy model wit
 **Data Partitioning**: Large tables can be partitioned by organization_id to maintain query performance as data volume grows. This approach ensures consistent performance regardless of tenant size.
 
 ### 3.3 Security and Compliance
+
 **Access Control**: All API endpoints validate organization membership before processing requests. Users can only access data belonging to their authorized organizations.
 
 **Audit Logging**: Comprehensive audit trails track all data access and modifications with organization context for compliance and security monitoring.
@@ -131,6 +141,7 @@ Comprehensive disaster recovery procedures include database replication, automat
 ## 5. API Architecture
 
 ### 5.1 RESTful API Design
+
 The platform provides a comprehensive RESTful API that follows OpenAPI 3.0 specifications. All endpoints are documented with request/response schemas, authentication requirements, and usage examples.
 
 **Resource-Based URLs**: API endpoints follow RESTful conventions with resource-based URLs that clearly indicate the data being accessed or modified.
@@ -158,6 +169,7 @@ The platform provides a comprehensive RESTful API that follows OpenAPI 3.0 speci
 ## 6. Security Architecture
 
 ### 6.1 Authentication and Identity Management
+
 Clerk provides enterprise-grade authentication with support for multiple identity providers, multi-factor authentication, and session management. The integration ensures secure user onboarding and access control.
 
 **Single Sign-On**: Support for SAML and OIDC enables enterprise customers to integrate with existing identity providers for seamless user access.
@@ -185,6 +197,7 @@ Clerk provides enterprise-grade authentication with support for multiple identit
 ## 7. Performance and Scalability
 
 ### 7.1 Performance Requirements
+
 The platform is designed to meet strict performance requirements that ensure excellent user experience and support business growth objectives.
 
 **Response Time Targets**: API responses must complete within 200ms for 95% of requests under normal load conditions. Database queries are optimized and monitored to maintain these targets.
@@ -212,6 +225,7 @@ The platform is designed to meet strict performance requirements that ensure exc
 ## 8. Integration Architecture
 
 ### 8.1 Third-Party Service Integration
+
 The platform integrates with essential third-party services to provide comprehensive functionality while maintaining focus on core M&A capabilities.
 
 **Email Services**: SendGrid integration provides reliable transactional email delivery for notifications, invitations, and system communications.
@@ -239,6 +253,7 @@ The platform integrates with essential third-party services to provide comprehen
 ## 9. Deployment Architecture
 
 ### 9.1 Cloud Infrastructure
+
 The platform leverages cloud-native deployment strategies to ensure scalability, reliability, and cost efficiency while maintaining high performance standards.
 
 **Backend Deployment**: Render provides managed hosting for the FastAPI backend with automatic scaling, health monitoring, and deployment automation.
@@ -266,6 +281,7 @@ The platform leverages cloud-native deployment strategies to ensure scalability,
 ## 10. Podcast Platform Architecture
 
 ### 10.1 Self-Hosted Podcast System
+
 The integrated podcast platform provides a unique competitive advantage by enabling content marketing and thought leadership without external hosting costs.
 
 **Content Management**: Podcast episodes are managed through the same interface as other platform content with metadata, scheduling, and publishing capabilities.
@@ -285,6 +301,7 @@ The integrated podcast platform provides a unique competitive advantage by enabl
 ## 11. Compliance and Governance
 
 ### 11.1 Data Governance
+
 Comprehensive data governance ensures compliance with international privacy regulations while maintaining operational efficiency and user trust.
 
 **Data Classification**: All data is classified based on sensitivity levels with appropriate handling procedures and access controls for each classification.
@@ -312,6 +329,7 @@ Comprehensive data governance ensures compliance with international privacy regu
 ## 12. Disaster Recovery and Business Continuity
 
 ### 12.1 Backup and Recovery Strategy
+
 Comprehensive backup and recovery procedures ensure business continuity and data protection in the event of system failures or disasters.
 
 **Data Backup**: Automated daily backups with geographic distribution provide protection against data loss with configurable retention periods.
@@ -339,6 +357,7 @@ Comprehensive backup and recovery procedures ensure business continuity and data
 ## 13. Future Architecture Considerations
 
 ### 13.1 Scalability Evolution
+
 As the platform grows toward the £200 million valuation goal, the architecture will evolve to support increased scale and complexity.
 
 **Microservices Migration**: Future migration to microservices architecture will enable independent scaling and deployment of different platform components.

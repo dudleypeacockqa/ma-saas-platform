@@ -4,8 +4,8 @@ const defaultConfig = getDefaultConfig(__dirname);
 
 const config = {
   resolver: {
-    sourceExts: [...new Set([...defaultConfig.resolver.sourceExts, 'cjs'])]
-  }
+    sourceExts: [...new Set([...defaultConfig.resolver.sourceExts, 'cjs'])],
+  },
 };
 
 module.exports = mergeConfig(defaultConfig, config);

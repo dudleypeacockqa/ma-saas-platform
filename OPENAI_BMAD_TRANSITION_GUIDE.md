@@ -3,6 +3,7 @@
 ## Switch from Claude CLI to OpenAI for M&A SaaS Platform Development
 
 ### 📋 **Current Status Summary**
+
 - ✅ **Backend API**: Live at https://ma-saas-backend.onrender.com
 - ✅ **Sophisticated Multipage Website**: Ready in `branch-2`
 - ⚠️ **Deployment Pending**: Need to deploy multipage site to https://100daysandbeyond.com
@@ -13,6 +14,7 @@
 ## 🔧 **OpenAI Configuration Setup**
 
 ### **1. Environment Variables Available:**
+
 ```bash
 OPENAI_API_KEY=[your-openai-api-key]
 OPENAI_MODEL=gpt-4-turbo
@@ -20,6 +22,7 @@ OPENAI_MAX_TOKENS=4000
 ```
 
 ### **2. Model Recommendations:**
+
 - **Primary**: `gpt-4-turbo` (best for complex development tasks)
 - **Alternative**: `gpt-4` (reliable for BMAD-method implementation)
 - **Budget Option**: `gpt-3.5-turbo` (for simpler tasks)
@@ -43,11 +46,13 @@ OPENAI_MAX_TOKENS=4000
 
 **Environment Variables Ready**:
 ```
+
 VITE_API_URL=https://ma-saas-backend.onrender.com
 VITE_CLERK_PUBLISHABLE_KEY=pk_live_Y2xlcmsuMTAwZGF5c2FuZGJleW9uZC5jb20k
 VITE_STRIPE_PUBLISHABLE_KEY=pk_live_51QwSgkFVol9SKsekxmCj4lDnvd1T6XZPi9VWuI7eKkxNopxC1N60ypXZzwQdyk64AuAQJMvQxuIJ1VuLeOdbeWQC00mV7ZDNB1
 VITE_ENVIRONMENT=production
 [... full list in repository]
+
 ```
 
 **Required Actions**:
@@ -122,6 +127,7 @@ VITE_ENVIRONMENT=production
 ## 🛠️ **Technical Implementation Guidelines**
 
 ### **Code Quality Standards**:
+
 - Follow existing TypeScript/React patterns
 - Maintain enterprise-grade security practices
 - Ensure mobile-first responsive design
@@ -129,12 +135,14 @@ VITE_ENVIRONMENT=production
 - Use existing color palette: Navy Blue (#1E3A5F), Royal Blue (#2E5B9C)
 
 ### **Testing Requirements**:
+
 - Unit tests for critical business logic
 - Integration tests for payment flows
 - End-to-end tests for user journeys
 - Performance testing for scalability
 
 ### **Deployment Process**:
+
 - Use existing Render configuration
 - Maintain environment variable security
 - Implement proper CI/CD practices
@@ -145,6 +153,7 @@ VITE_ENVIRONMENT=production
 ## 📊 **Success Metrics to Track**
 
 ### **Business Metrics**:
+
 - Monthly Recurring Revenue (MRR)
 - Customer Acquisition Cost (CAC)
 - Lifetime Value (LTV)
@@ -152,6 +161,7 @@ VITE_ENVIRONMENT=production
 - Trial-to-Paid Conversion Rate
 
 ### **Technical Metrics**:
+
 - Page Load Speed
 - API Response Times
 - Uptime/Availability
@@ -173,18 +183,21 @@ VITE_ENVIRONMENT=production
 ## 💡 **OpenAI Prompt Best Practices**
 
 ### **For Complex Development Tasks**:
+
 - Provide complete context about existing codebase
 - Reference specific files and directory structure
 - Include current environment variables and configuration
 - Specify exact success criteria and testing requirements
 
 ### **For Business Strategy Tasks**:
+
 - Include current metrics and performance data
 - Reference target market (M&A professionals, investment banks)
 - Specify revenue goals and timeline
 - Include competitive landscape context
 
 ### **For Technical Implementation**:
+
 - Reference existing tech stack (React, FastAPI, Clerk, Stripe)
 - Include current deployment configuration
 - Specify performance and security requirements

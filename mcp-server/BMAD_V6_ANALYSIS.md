@@ -11,7 +11,7 @@ Based on analysis of the official BMAD-METHOD v6-alpha repository, this document
 BMAD v6 introduces a fundamental shift from traditional AI task automation to **human amplification through guided collaboration**:
 
 - **Collaboration**: Human-AI partnership where both contribute unique strengths
-- **Optimized**: Refined collaborative processes for maximum effectiveness  
+- **Optimized**: Refined collaborative processes for maximum effectiveness
 - **Reflection**: Guided thinking that helps discover better solutions
 - **Engine**: Framework orchestrating specialized agents and workflows
 
@@ -19,13 +19,13 @@ BMAD v6 introduces a fundamental shift from traditional AI task automation to **
 
 The v6 system automatically adapts workflows based on project complexity (Level 0-4):
 
-| Level | Scope | Outputs | Implementation Phase |
-|-------|-------|---------|---------------------|
-| 0 | Single atomic change | tech-spec + 1 story | Direct to Implementation |
-| 1 | 1-10 stories, 1 epic | tech-spec + epic + 2-3 stories | Direct to Implementation |
-| 2 | 5-15 stories, 1-2 epics | Focused PRD + tech-spec | Direct to Implementation |
-| 3 | 12-40 stories, 2-5 epics | Full PRD + Epics list | Requires Solutioning Phase |
-| 4 | 40+ stories, 5+ epics | Enterprise PRD + Epics | Requires Solutioning Phase |
+| Level | Scope                    | Outputs                        | Implementation Phase       |
+| ----- | ------------------------ | ------------------------------ | -------------------------- |
+| 0     | Single atomic change     | tech-spec + 1 story            | Direct to Implementation   |
+| 1     | 1-10 stories, 1 epic     | tech-spec + epic + 2-3 stories | Direct to Implementation   |
+| 2     | 5-15 stories, 1-2 epics  | Focused PRD + tech-spec        | Direct to Implementation   |
+| 3     | 12-40 stories, 2-5 epics | Full PRD + Epics list          | Requires Solutioning Phase |
+| 4     | 40+ stories, 5+ epics    | Enterprise PRD + Epics         | Requires Solutioning Phase |
 
 ### 3. Four-Phase Methodology
 
@@ -58,11 +58,11 @@ BMAD v6 implements agents as **self-contained markdown files with embedded YAML 
 
 ```yaml
 # Agent Configuration Example
-name: "bmad-analyst"
-description: "Business analysis and requirements gathering specialist"
-author: "BMad Core"
-communication_language: "English"
-persona: "Strategic business analyst with M&A expertise"
+name: 'bmad-analyst'
+description: 'Business analysis and requirements gathering specialist'
+author: 'BMad Core'
+communication_language: 'English'
+persona: 'Strategic business analyst with M&A expertise'
 ```
 
 **MCP Server Requirement**: Support dynamic agent loading from markdown files with YAML frontmatter.
@@ -99,9 +99,9 @@ BMAD v6 uses centralized configuration:
 
 ```yaml
 # core-config.yaml
-user_name: "BMad"
-communication_language: "English"
-output_folder: "{project-root}/docs"
+user_name: 'BMad'
+communication_language: 'English'
+output_folder: '{project-root}/docs'
 ```
 
 **MCP Server Requirement**: Centralized configuration management with environment-specific overrides.
@@ -113,12 +113,14 @@ output_folder: "{project-root}/docs"
 **Objective**: Establish MCP server foundation with BMAD v6 compatibility
 
 **Components**:
+
 1. **Agent Registry**: Dynamic loading of markdown-based agents
 2. **Workflow Engine**: State machine management and orchestration
 3. **Configuration Manager**: Centralized config with environment overrides
 4. **Security Layer**: API key management and authentication
 
 **Implementation**:
+
 ```python
 class BMadMCPServer:
     def __init__(self):
@@ -126,7 +128,7 @@ class BMadMCPServer:
         self.workflow_engine = WorkflowEngine()
         self.config_manager = ConfigurationManager()
         self.security_manager = SecurityManager()
-        
+
     async def load_bmad_module(self, module_path: str):
         """Load BMAD module with agents and workflows."""
         module = await self.agent_registry.load_module(module_path)
@@ -139,24 +141,26 @@ class BMadMCPServer:
 **Objective**: Implement BMAD v6 specific features
 
 **Components**:
+
 1. **Scale-Adaptive Router**: Automatically determine project complexity
 2. **Story State Machine**: Manage BACKLOG → TODO → IN PROGRESS → DONE
 3. **Context Injection System**: Provide story-specific expertise
 4. **Just-In-Time Design**: Create tech specs per epic during implementation
 
 **Implementation**:
+
 ```python
 class ScaleAdaptiveRouter:
     async def assess_project_complexity(self, project_data: dict) -> int:
         """Determine project level (0-4) based on scope and complexity."""
         # Implementation logic for scale assessment
         pass
-        
+
     async def route_to_workflow(self, level: int, project_type: str) -> str:
         """Route to appropriate workflow based on level and type."""
         routing_map = {
             0: "tech-spec-only",
-            1: "prd-with-embedded-tech-spec", 
+            1: "prd-with-embedded-tech-spec",
             2: "focused-prd-with-tech-spec",
             3: "full-prd-with-solutioning",
             4: "enterprise-prd-with-solutioning"
@@ -169,28 +173,30 @@ class ScaleAdaptiveRouter:
 **Objective**: Integrate MCP server with existing M&A SaaS platform
 
 **Components**:
+
 1. **Deal Management Agents**: Specialized agents for M&A workflows
 2. **Financial Analysis Integration**: Connect with Stripe and financial services
 3. **Document Management**: Integration with legal document templates
 4. **User Management**: Integration with Clerk authentication
 
 **Implementation**:
+
 ```python
 class MADealAgent:
     """Specialized agent for M&A deal management following BMAD v6 patterns."""
-    
+
     async def analyze_deal_opportunity(self, deal_data: dict):
         """Analyze M&A deal using BMAD methodology."""
         # Phase 1: Analysis
         market_research = await self.research_market_conditions(deal_data)
-        
-        # Phase 2: Planning  
+
+        # Phase 2: Planning
         deal_plan = await self.create_deal_plan(deal_data, market_research)
-        
+
         # Phase 3: Solutioning (if complex deal)
         if deal_plan.complexity_level >= 3:
             deal_architecture = await self.design_deal_structure(deal_plan)
-            
+
         # Phase 4: Implementation
         return await self.execute_deal_workflow(deal_plan)
 ```
@@ -200,6 +206,7 @@ class MADealAgent:
 **Objective**: Implement enterprise-grade features for £200M goal
 
 **Components**:
+
 1. **Multi-Tenant Architecture**: Support multiple organizations
 2. **Advanced Analytics**: Business intelligence and forecasting
 3. **Compliance Management**: SOC 2, GDPR, audit trails
@@ -217,15 +224,15 @@ services:
   - type: web
     name: ma-saas-mcp-server
     env: python
-    buildCommand: "pip install -r requirements.txt"
-    startCommand: "uvicorn main:app --host 0.0.0.0 --port $PORT"
+    buildCommand: 'pip install -r requirements.txt'
+    startCommand: 'uvicorn main:app --host 0.0.0.0 --port $PORT'
     envVars:
       - key: DATABASE_URL
         fromDatabase:
           name: ma-saas-db
           property: connectionString
       - key: BMAD_CONFIG_PATH
-        value: "/app/bmad"
+        value: '/app/bmad'
 ```
 
 ### API Integration Points
@@ -233,7 +240,7 @@ services:
 The MCP server will expose APIs for:
 
 1. **Agent Management**: CRUD operations for agents and workflows
-2. **Workflow Execution**: Start, monitor, and manage workflow instances  
+2. **Workflow Execution**: Start, monitor, and manage workflow instances
 3. **State Management**: Persist and retrieve workflow state
 4. **Configuration**: Manage BMAD configuration and customization
 
@@ -251,16 +258,19 @@ Following BMAD v6 principles for enterprise readiness:
 Aligned with BMAD methodology focus on measurable outcomes:
 
 ### Development Velocity Metrics
+
 - **Setup Time Reduction**: From 30 minutes to 30 seconds (60x improvement)
 - **Context Retention**: 100% persistent context across sessions
 - **Error Reduction**: 95% reduction in API key related issues
 
-### Business Impact Metrics  
+### Business Impact Metrics
+
 - **Time to Market**: 40% acceleration in feature delivery
 - **Development Cost**: £2,000+ monthly savings in overhead
 - **Team Productivity**: 3x faster iteration cycles
 
 ### Operational Excellence Metrics
+
 - **System Reliability**: 99.9% uptime target
 - **Performance**: Sub-200ms API response times
 - **Security**: Zero security incidents, complete audit compliance

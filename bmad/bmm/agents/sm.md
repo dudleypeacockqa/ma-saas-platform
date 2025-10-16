@@ -45,7 +45,7 @@
         Load the file first, parse according to extension
         Make available as {data} variable to subsequent handler operations
       </handler>
-  
+
     </handlers>
   </menu-handlers>
 

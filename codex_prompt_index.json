@@ -1,0 +1,53 @@
+{
+  "generated_on": "2025-10-15T07:09:32.444293",
+  "prompts": [
+    {
+      "story_id": "E1.P0.001",
+      "title": "Restore Customer Access to Platform Landing Page",
+      "sprint": 1,
+      "file": "codex_prompts/prompt_E1_P0_001.md"
+    },
+    {
+      "story_id": "E1.P0.002",
+      "title": "Implement User Registration with Clerk Integration",
+      "sprint": 1,
+      "file": "codex_prompts/prompt_E1_P0_002.md"
+    },
+    {
+      "story_id": "E1.P0.003",
+      "title": "Implement Subscription Plan Selection Interface",
+      "sprint": 1,
+      "file": "codex_prompts/prompt_E1_P0_003.md"
+    },
+    {
+      "story_id": "E1.P0.004",
+      "title": "Create Welcome Dashboard for New Users",
+      "sprint": 2,
+      "file": "codex_prompts/prompt_E1_P0_004.md"
+    },
+    {
+      "story_id": "E2.P1.001",
+      "title": "Implement Deal Creation Interface",
+      "sprint": 2,
+      "file": "codex_prompts/prompt_E2_P1_001.md"
+    },
+    {
+      "story_id": "E2.P1.002",
+      "title": "Implement Deal Pipeline Kanban View",
+      "sprint": 2,
+      "file": "codex_prompts/prompt_E2_P1_002.md"
+    },
+    {
+      "story_id": "E3.P1.001",
+      "title": "Implement AI-Powered Deal Analysis Interface",
+      "sprint": 3,
+      "file": "codex_prompts/prompt_E3_P1_001.md"
+    },
+    {
+      "story_id": "E4.P2.001",
+      "title": "Implement Community Networking Interface",
+      "sprint": 3,
+      "file": "codex_prompts/prompt_E4_P2_001.md"
+    }
+  ]
+}

@@ -3,7 +3,7 @@
 **Platform Vision**: Comprehensive M&A business ecosystem for £200 Million wealth building  
 **Technology Stack**: BMAD Method v6 + Claude Code CLI + OpenAI CODEX + Cursor IDE + Manus  
 **Development Timeline**: 120 Days to GTM Launch  
-**Business Model**: Dual-purpose platform serving personal wealth building and SaaS revenue  
+**Business Model**: Dual-purpose platform serving personal wealth building and SaaS revenue
 
 ## Executive Summary: Revolutionary M&A Ecosystem Platform
 

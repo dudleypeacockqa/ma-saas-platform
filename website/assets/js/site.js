@@ -8,7 +8,7 @@
     });
   }
 
-  document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+  for (const anchor of document.querySelectorAll('a[href^="#"]')) {
     anchor.addEventListener('click', (event) => {
       event.preventDefault();
       const target = document.querySelector(anchor.getAttribute('href'));
@@ -16,16 +16,16 @@
         target.scrollIntoView({ behavior: 'smooth', block: 'start' });
       }
     });
-  });
+  }
 
-  document.querySelectorAll('a[href*="signup"]').forEach((link) => {
+  for (const link of document.querySelectorAll('a[href*="signup"]')) {
     link.addEventListener('click', () => {
-      if (typeof window.gtag === 'function') {
-        window.gtag('event', 'signup_click', {
+      if (typeof globalThis.gtag === 'function') {
+        globalThis.gtag('event', 'signup_click', {
           event_category: 'engagement',
           event_label: 'header_cta',
         });
       }
     });
-  });
+  }
 })();

@@ -181,19 +181,8 @@ app.use(
           'https://fonts.googleapis.com',
           'https://fonts.gstatic.com',
         ],
-        fontSrc: [
-          "'self'",
-          'data:',
-          'https://fonts.gstatic.com',
-          'https://fonts.googleapis.com',
-        ],
-        imgSrc: [
-          "'self'",
-          'data:',
-          'https:',
-          'blob:',
-          'https://img.clerk.com',
-        ],
+        fontSrc: ["'self'", 'data:', 'https://fonts.gstatic.com', 'https://fonts.googleapis.com'],
+        imgSrc: ["'self'", 'data:', 'https:', 'blob:', 'https://img.clerk.com'],
         connectSrc: [
           "'self'",
           'https://api.100daysandbeyond.com',

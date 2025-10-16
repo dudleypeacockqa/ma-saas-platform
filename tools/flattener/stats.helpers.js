@@ -3,12 +3,13 @@
 const fs = require('node:fs/promises');
 const path = require('node:path');
 const zlib = require('node:zlib');
-const { Buffer } = require('node:buffer');
-const crypto = require('node:crypto');
+const { Buffer: NodeBuffer } = require('node:buffer');
+const nodeCrypto = require('node:crypto');
 const cp = require('node:child_process');
 
 const KB = 1024;
 const MB = 1024 * KB;
+const calcPercentOfTotal = (num, den) => (den === 0 ? 0 : (num / den) * 100);
 
 const formatSize = (bytes) => {
   if (bytes < 1024) return `${bytes} B`;
@@ -23,9 +24,10 @@ const percentile = (sorted, p) => {
   return sorted[idx];
 };
 
-async function processWithLimit(items, fn, concurrency = 64) {
+async function processWithLimit(items, mapper, concurrency = 64) {
   for (let i = 0; i < items.length; i += concurrency) {
-    await Promise.all(items.slice(i, i + concurrency).map(fn));
+    const slice = items.slice(i, i + concurrency);
+    await Promise.all(slice.map((item, index) => mapper(item, i + index)));
   }
 }
 
@@ -77,7 +79,7 @@ function buildHistogram(allFiles) {
     [100 * MB, '10–100MB'],
     [Infinity, '>=100MB'],
   ];
-  const histogram = buckets.map(([_, label]) => ({ label, count: 0, bytes: 0 }));
+  const histogram = buckets.map(([, label]) => ({ label, count: 0, bytes: 0 }));
   for (const f of allFiles) {
     for (const [i, bucket] of buckets.entries()) {
       if (f.size < bucket[0]) {
@@ -202,16 +204,16 @@ function computeDuplicates(allFiles, textFiles) {
     duplicatesBySize.set(key, arr);
   }
   const duplicateCandidates = [];
-  for (const [sizeKey, arr] of duplicatesBySize.entries()) {
-    if (arr.length < 2) continue;
-    const textGroup = arr.filter((f) => !f.isBinary);
-    const otherGroup = arr.filter((f) => f.isBinary);
+  for (const [sizeKey, allCandidates] of duplicatesBySize.entries()) {
+    if (allCandidates.length < 2) continue;
+    const textGroup = allCandidates.filter((f) => !f.isBinary);
+    const otherGroup = allCandidates.filter((f) => f.isBinary);
     const contentHashGroups = new Map();
     for (const tf of textGroup) {
       try {
         const src = textFiles.find((x) => x.absolutePath === tf.absolutePath);
         const content = src ? src.content : '';
-        const h = crypto.createHash('sha1').update(content).digest('hex');
+        const h = nodeCrypto.createHash('sha1').update(content).digest('hex');
         const g = contentHashGroups.get(h) || [];
         g.push(tf);
         contentHashGroups.set(h, g);
@@ -219,14 +221,15 @@ function computeDuplicates(allFiles, textFiles) {
         /* ignore hashing errors for duplicate detection */
       }
     }
-    for (const [_h, g] of contentHashGroups.entries()) {
-      if (g.length > 1)
+    for (const group of contentHashGroups.values()) {
+      if (group.length > 1) {
         duplicateCandidates.push({
           reason: 'same-size+text-hash',
           size: Number(sizeKey),
-          count: g.length,
-          files: g.map((f) => f.path),
+          count: group.length,
+          files: group.map((f) => f.path),
         });
+      }
     }
     if (otherGroup.length > 1) {
       duplicateCandidates.push({
@@ -248,7 +251,7 @@ function estimateCompressibility(textFiles) {
       const sampleLen = Math.min(256 * 1024, tf.size || 0);
       if (sampleLen <= 0) continue;
       const sample = tf.content.slice(0, sampleLen);
-      const gz = zlib.gzipSync(Buffer.from(sample, 'utf8'));
+      const gz = zlib.gzipSync(NodeBuffer.from(sample, 'utf8'));
       compSampleBytes += sampleLen;
       compCompressedBytes += gz.length;
     } catch {
@@ -311,7 +314,6 @@ function computeGitInfo(allFiles, rootDir, largeThreshold) {
 }
 
 function computeLargestFiles(allFiles, totalBytes) {
-  const toPct = (num, den) => (den === 0 ? 0 : (num / den) * 100);
   return [...allFiles]
     .sort((a, b) => b.size - a.size)
     .slice(0, 50)
@@ -319,7 +321,7 @@ function computeLargestFiles(allFiles, totalBytes) {
       path: f.path,
       size: f.size,
       sizeFormatted: formatSize(f.size),
-      percentOfTotal: toPct(f.size, totalBytes),
+      percentOfTotal: calcPercentOfTotal(f.size, totalBytes),
       ext: f.ext || '',
       isBinary: f.isBinary,
       mtime: f.mtimeMs ? new Date(f.mtimeMs).toISOString() : null,
@@ -334,7 +336,6 @@ function mdTable(rows, headers) {
 }
 
 function buildMarkdownReport(largestFiles, byExtensionArr, byDirectoryArr, totalBytes) {
-  const toPct = (num, den) => (den === 0 ? 0 : (num / den) * 100);
   const md = [];
   md.push(
     '\n### Top Largest Files (Top 50)\n',
@@ -356,7 +357,7 @@ function buildMarkdownReport(largestFiles, byExtensionArr, byDirectoryArr, total
       e.ext,
       String(e.count),
       formatSize(e.bytes),
-      `${toPct(e.bytes, totalBytes).toFixed(2)}%`,
+      `${calcPercentOfTotal(e.bytes, totalBytes).toFixed(2)}%`,
     ]);
   md.push(
     mdTable(topExtRows, ['Ext', 'Count', 'Bytes', '% of total']),
@@ -368,7 +369,7 @@ function buildMarkdownReport(largestFiles, byExtensionArr, byDirectoryArr, total
       d.dir,
       String(d.count),
       formatSize(d.bytes),
-      `${toPct(d.bytes, totalBytes).toFixed(2)}%`,
+      `${calcPercentOfTotal(d.bytes, totalBytes).toFixed(2)}%`,
     ]);
   md.push(mdTable(topDirRows, ['Directory', 'Files', 'Bytes', '% of total']));
   return md.join('\n');

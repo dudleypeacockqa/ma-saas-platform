@@ -143,7 +143,8 @@ class CodexSetup extends BaseIdeSetup {
     }
 
     const workflowGenerator = new WorkflowCommandGenerator();
-    const { artifacts: workflowArtifacts, counts: workflowCounts } = await workflowGenerator.collectWorkflowArtifacts(bmadDir);
+    const { artifacts: workflowArtifacts, counts: workflowCounts } =
+      await workflowGenerator.collectWorkflowArtifacts(bmadDir);
     artifacts.push(...workflowArtifacts);
 
     return {

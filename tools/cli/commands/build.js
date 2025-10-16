@@ -97,7 +97,12 @@ async function buildAgent(projectDir, agentName, force = false) {
 
     // Check if rebuild needed
     if (!force && (await fs.pathExists(outputPath))) {
-      const needsRebuild = await checkIfNeedsRebuild(standaloneYamlPath, outputPath, projectDir, agentName);
+      const needsRebuild = await checkIfNeedsRebuild(
+        standaloneYamlPath,
+        outputPath,
+        projectDir,
+        agentName,
+      );
       if (!needsRebuild) {
         console.log(chalk.dim(`  ${agentName}: already up to date`));
         return;
@@ -107,10 +112,21 @@ async function buildAgent(projectDir, agentName, force = false) {
     // Build the standalone agent
     console.log(chalk.cyan(`  Building standalone agent ${agentName}...`));
 
-    const customizePath = path.join(projectDir, 'bmad', '_cfg', 'agents', `${agentName}.customize.yaml`);
+    const customizePath = path.join(
+      projectDir,
+      'bmad',
+      '_cfg',
+      'agents',
+      `${agentName}.customize.yaml`,
+    );
     const customizeExists = await fs.pathExists(customizePath);
 
-    await builder.buildAgent(standaloneYamlPath, customizeExists ? customizePath : null, outputPath, { includeMetadata: true });
+    await builder.buildAgent(
+      standaloneYamlPath,
+      customizeExists ? customizePath : null,
+      outputPath,
+      { includeMetadata: true },
+    );
 
     console.log(chalk.green(`  ✓ ${agentName} built successfully (standalone)`));
     return;
@@ -132,7 +148,12 @@ async function buildAgent(projectDir, agentName, force = false) {
 
       // Check if rebuild needed
       if (!force && (await fs.pathExists(outputPath))) {
-        const needsRebuild = await checkIfNeedsRebuild(agentYamlPath, outputPath, projectDir, agentName);
+        const needsRebuild = await checkIfNeedsRebuild(
+          agentYamlPath,
+          outputPath,
+          projectDir,
+          agentName,
+        );
         if (!needsRebuild) {
           console.log(chalk.dim(`  ${agentName}: already up to date`));
           return;
@@ -142,10 +163,18 @@ async function buildAgent(projectDir, agentName, force = false) {
       // Build the agent
       console.log(chalk.cyan(`  Building ${agentName}...`));
 
-      const customizePath = path.join(projectDir, '.claude', '_cfg', 'agents', `${agentName}.customize.yaml`);
+      const customizePath = path.join(
+        projectDir,
+        '.claude',
+        '_cfg',
+        'agents',
+        `${agentName}.customize.yaml`,
+      );
       const customizeExists = await fs.pathExists(customizePath);
 
-      await builder.buildAgent(agentYamlPath, customizeExists ? customizePath : null, outputPath, { includeMetadata: true });
+      await builder.buildAgent(agentYamlPath, customizeExists ? customizePath : null, outputPath, {
+        includeMetadata: true,
+      });
 
       console.log(chalk.green(`  ✓ ${agentName} built successfully`));
       return;
@@ -195,7 +224,12 @@ async function buildAllAgents(projectDir, force = false) {
 
       // Check if rebuild needed
       if (!force && (await fs.pathExists(outputPath))) {
-        const needsRebuild = await checkIfNeedsRebuild(agentYamlPath, outputPath, projectDir, agentName);
+        const needsRebuild = await checkIfNeedsRebuild(
+          agentYamlPath,
+          outputPath,
+          projectDir,
+          agentName,
+        );
         if (!needsRebuild) {
           console.log(chalk.dim(`  ${agentName}: up to date`));
           skippedCount++;
@@ -205,10 +239,18 @@ async function buildAllAgents(projectDir, force = false) {
 
       console.log(chalk.cyan(`  Building standalone agent ${agentName}...`));
 
-      const customizePath = path.join(projectDir, 'bmad', '_cfg', 'agents', `${agentName}.customize.yaml`);
+      const customizePath = path.join(
+        projectDir,
+        'bmad',
+        '_cfg',
+        'agents',
+        `${agentName}.customize.yaml`,
+      );
       const customizeExists = await fs.pathExists(customizePath);
 
-      await builder.buildAgent(agentYamlPath, customizeExists ? customizePath : null, outputPath, { includeMetadata: true });
+      await builder.buildAgent(agentYamlPath, customizeExists ? customizePath : null, outputPath, {
+        includeMetadata: true,
+      });
 
       console.log(chalk.green(`  ✓ ${agentName} (standalone)`));
       builtCount++;
@@ -241,7 +283,12 @@ async function buildAllAgents(projectDir, force = false) {
 
         // Check if rebuild needed
         if (!force && (await fs.pathExists(outputPath))) {
-          const needsRebuild = await checkIfNeedsRebuild(agentYamlPath, outputPath, projectDir, agentName);
+          const needsRebuild = await checkIfNeedsRebuild(
+            agentYamlPath,
+            outputPath,
+            projectDir,
+            agentName,
+          );
           if (!needsRebuild) {
             console.log(chalk.dim(`  ${agentName}: up to date`));
             skippedCount++;
@@ -251,10 +298,21 @@ async function buildAllAgents(projectDir, force = false) {
 
         console.log(chalk.cyan(`  Building ${agentName}...`));
 
-        const customizePath = path.join(projectDir, '.claude', '_cfg', 'agents', `${agentName}.customize.yaml`);
+        const customizePath = path.join(
+          projectDir,
+          '.claude',
+          '_cfg',
+          'agents',
+          `${agentName}.customize.yaml`,
+        );
         const customizeExists = await fs.pathExists(customizePath);
 
-        await builder.buildAgent(agentYamlPath, customizeExists ? customizePath : null, outputPath, { includeMetadata: true });
+        await builder.buildAgent(
+          agentYamlPath,
+          customizeExists ? customizePath : null,
+          outputPath,
+          { includeMetadata: true },
+        );
 
         console.log(chalk.green(`  ✓ ${agentName} (${module})`));
         builtCount++;
@@ -384,7 +442,13 @@ async function checkIfNeedsRebuild(yamlPath, outputPath, projectDir, agentName) 
   }
 
   // Check customize file if it exists
-  const customizePath = path.join(projectDir, '.claude', '_cfg', 'agents', `${agentName}.customize.yaml`);
+  const customizePath = path.join(
+    projectDir,
+    '.claude',
+    '_cfg',
+    'agents',
+    `${agentName}.customize.yaml`,
+  );
   if (await fs.pathExists(customizePath)) {
     const customizeMetaMatch = outputContent.match(/customize:.*\(hash: ([a-f0-9]+)\)/);
     if (!customizeMetaMatch) {

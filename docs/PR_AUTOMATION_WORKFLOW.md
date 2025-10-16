@@ -5,23 +5,29 @@ changes, generate consistent pull request metadata, and submit PRs through the
 GitHub CLI for the `ma-saas-platform` repository.
 
 ## Prerequisites
+
 - Python 3.11 (matches the repository baseline).
 - Git installed and authenticated.
 - GitHub CLI (`gh`) authenticated with permissions to create PRs.
 - The repository checked out with your feature branch up to date with `master`.
 
 ## Quick Start
+
 1. Run an analysis for your branch:
+
    ```bash
    python tools/pr_workflow.py analyze
    ```
+
    The command summarizes changed files, recommends labels/reviewers, and prints a
    ready-to-use PR body.
 
 2. When ready to open a PR, perform a dry run to confirm the metadata:
+
    ```bash
    python tools/pr_workflow.py create
    ```
+
    Review the suggested title, labels, reviewers, and generated body. Resolve any
    warnings (e.g., commit message formatting or missing env vars).
 
@@ -33,6 +39,7 @@ GitHub CLI for the `ma-saas-platform` repository.
    PR number and the `gh pr checks` command to monitor status checks.
 
 ## What the Script Does
+
 - **Branch analysis**: fetches the base branch (defaults to `origin/master`),
   inspects `git diff`, and categorizes files (frontend, backend, docs, infra,
   tests, tooling, mobile, data, other).
@@ -53,8 +60,10 @@ GitHub CLI for the `ma-saas-platform` repository.
   `gh pr checks <number> --watch`.
 
 ## Configuration
+
 The script loads optional overrides from `.github/pr_workflow_config.json`. You
 can adjust:
+
 - `base_branch`: default branch to diff against.
 - `labels`: mapping of categories to label names.
 - `reviewers`: default reviewers per category.
@@ -62,6 +71,7 @@ can adjust:
   prefixes (e.g., `feat`).
 
 Example excerpt:
+
 ```json
 {
   "labels": {
@@ -75,6 +85,7 @@ Example excerpt:
 ```
 
 ## Recommended Workflow Checklist
+
 - Run `python tools/pr_workflow.py analyze` before staging commits to catch the
   warnings early.
 - Address all warnings:

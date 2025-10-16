@@ -69,7 +69,9 @@ class WorkflowCommandGenerator {
     }
 
     const groupedWorkflows = this.groupWorkflowsByModule(workflows);
-    for (const [module, launcherContent] of Object.entries(this.buildModuleWorkflowLaunchers(groupedWorkflows))) {
+    for (const [module, launcherContent] of Object.entries(
+      this.buildModuleWorkflowLaunchers(groupedWorkflows),
+    )) {
       artifacts.push({
         type: 'workflow-launcher',
         module,

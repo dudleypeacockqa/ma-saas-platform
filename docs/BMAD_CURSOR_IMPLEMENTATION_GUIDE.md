@@ -3,7 +3,7 @@
 **Project**: 100 Days and Beyond M&A SaaS Platform  
 **Framework**: BMAD Method v4.x  
 **IDE**: Cursor with Claude Integration  
-**Date**: October 9, 2025  
+**Date**: October 9, 2025
 
 ## Overview
 
@@ -12,12 +12,14 @@ This guide provides step-by-step instructions for implementing the BMAD Method i
 ## Prerequisites
 
 ### Required Software
+
 - **Cursor IDE**: Latest version with Claude integration
 - **Node.js**: Version 20 or higher
 - **Git**: For version control and BMAD installation
 - **Claude API Access**: Anthropic Claude API key or Cursor Pro subscription
 
 ### Project Setup
+
 - Existing M&A SaaS platform codebase
 - PostgreSQL database (local or cloud)
 - Environment variables configured
@@ -26,17 +28,21 @@ This guide provides step-by-step instructions for implementing the BMAD Method i
 ## Step 1: Install BMAD Method
 
 ### 1.1 Navigate to Project Directory
+
 ```bash
 cd /path/to/ma-saas-platform
 ```
 
 ### 1.2 Install BMAD Method
+
 ```bash
 npx bmad-method install
 ```
 
 ### 1.3 Configuration Options
+
 When prompted, select the following options:
+
 - **Directory**: Current directory (.)
 - **Core Package**: BMAD Core (default)
 - **Shard PRD**: Yes (recommended)
@@ -45,7 +51,9 @@ When prompted, select the following options:
 - **Web Bundles**: No (not needed for IDE usage)
 
 ### 1.4 Verify Installation
+
 After installation, you should see:
+
 ```
 ├── bmad/
 │   ├── agents/           # BMAD agent configurations
@@ -60,12 +68,15 @@ After installation, you should see:
 ## Step 2: Configure Cursor for BMAD
 
 ### 2.1 Open Project in Cursor
+
 ```bash
 cursor .
 ```
 
 ### 2.2 Verify BMAD Commands
+
 In Cursor, open the command palette (Cmd/Ctrl + Shift + P) and verify BMAD commands are available:
+
 - `/analyst` - Business Analyst agent
 - `/pm` - Product Manager agent
 - `/architect` - System Architect agent
@@ -74,7 +85,9 @@ In Cursor, open the command palette (Cmd/Ctrl + Shift + P) and verify BMAD comma
 - `/qa` - Quality Assurance agent
 
 ### 2.3 Configure Claude Integration
+
 Ensure Claude is properly configured in Cursor:
+
 1. Open Cursor settings
 2. Navigate to AI/Claude settings
 3. Verify API key or subscription is active
@@ -85,6 +98,7 @@ Ensure Claude is properly configured in Cursor:
 ### 3.1 Phase 1: Document Preparation
 
 #### Analyst Agent Usage
+
 Start with the Business Analyst to refine project understanding:
 
 ```
@@ -94,12 +108,14 @@ Start with the Business Analyst to refine project understanding:
 ```
 
 Available analyst commands:
+
 - `*brainstorm` - Brainstorm project ideas and features
 - `*research` - Market research and competitive analysis
 - `*brief` - Create or refine project brief
 - `*competitor` - Analyze competitors
 
 Example usage:
+
 ```
 /analyst
 
@@ -117,6 +133,7 @@ Our goal is £200 million valuation through bootstrap growth.
 ```
 
 #### Product Manager Agent Usage
+
 Use the PM agent to create or refine the PRD:
 
 ```
@@ -126,12 +143,14 @@ Use the PM agent to create or refine the PRD:
 ```
 
 Available PM commands:
+
 - `*prd` - Create or update Product Requirements Document
 - `*features` - Define feature requirements
 - `*stories` - Create user stories
 - `*acceptance` - Define acceptance criteria
 
 Example usage:
+
 ```
 /pm
 
@@ -145,6 +164,7 @@ Based on our project brief, create a comprehensive PRD for our M&A SaaS platform
 ```
 
 #### Architect Agent Usage
+
 Use the Architect agent to create or refine system architecture:
 
 ```
@@ -154,12 +174,14 @@ Use the Architect agent to create or refine system architecture:
 ```
 
 Available architect commands:
+
 - `*architecture` - Create system architecture document
 - `*design` - Design system components
 - `*tech-stack` - Define technology stack
 - `*scalability` - Plan scalability approach
 
 Example usage:
+
 ```
 /architect
 
@@ -177,6 +199,7 @@ Create a comprehensive architecture document for our M&A SaaS platform with:
 ### 3.2 Phase 2: Document Sharding
 
 #### Shard PRD Document
+
 Use the built-in shard command to break down large documents:
 
 ```bash
@@ -185,6 +208,7 @@ shard docs/prd.md
 ```
 
 This creates:
+
 ```
 docs/
 ├── epics/
@@ -199,11 +223,13 @@ docs/
 ```
 
 #### Shard Architecture Document
+
 ```bash
 shard docs/architecture.md
 ```
 
 This creates:
+
 ```
 docs/
 ├── architecture/
@@ -216,6 +242,7 @@ docs/
 ### 3.3 Phase 3: Development Cycle
 
 #### Scrum Master Agent Usage
+
 Use the SM agent to create detailed development stories:
 
 ```
@@ -225,12 +252,14 @@ Use the SM agent to create detailed development stories:
 ```
 
 Available SM commands:
+
 - `*draft` - Draft next development story
 - `*plan` - Plan sprint activities
 - `*review` - Review story completion
 - `*correct` - Correct course for project changes
 
 Example usage:
+
 ```
 /sm
 
@@ -244,6 +273,7 @@ Create a detailed development story for Epic 1, Story 1 (User Registration). Inc
 ```
 
 #### Developer Agent Usage
+
 Use the Developer agent to implement features:
 
 ```
@@ -253,12 +283,14 @@ Use the Developer agent to implement features:
 ```
 
 Available developer commands:
+
 - `*develop` - Develop a specific story
 - `*implement` - Implement feature or component
 - `*refactor` - Refactor existing code
 - `*optimize` - Optimize performance
 
 Example usage:
+
 ```
 /dev
 
@@ -272,6 +304,7 @@ Implement the user registration story following our FastAPI backend architecture
 ```
 
 #### Quality Assurance Agent Usage
+
 Use the QA agent to review and test implementations:
 
 ```
@@ -281,12 +314,14 @@ Use the QA agent to review and test implementations:
 ```
 
 Available QA commands:
+
 - `*review` - Review story implementation
 - `*test` - Create test cases
 - `*audit` - Audit code quality
 - `*compliance` - Check compliance requirements
 
 Example usage:
+
 ```
 /qa
 
@@ -303,6 +338,7 @@ Review the implementation of user registration story. Check:
 ## Step 4: Advanced BMAD Usage
 
 ### 4.1 Context Management
+
 BMAD agents automatically load relevant context from sharded documents. To optimize context:
 
 1. **Keep documents focused**: Each epic and story should be self-contained
@@ -310,6 +346,7 @@ BMAD agents automatically load relevant context from sharded documents. To optim
 3. **Use clear naming**: Follow BMAD naming conventions for automatic loading
 
 ### 4.2 Custom Agent Configuration
+
 Customize agents for your specific needs by editing files in `bmad/agents/`:
 
 ```javascript
@@ -328,6 +365,7 @@ Customize agents for your specific needs by editing files in `bmad/agents/`:
 ### 4.3 Workflow Optimization
 
 #### Best Practices
+
 1. **Start new chat sessions**: Begin fresh chat for each major task
 2. **Use specific commands**: Leverage BMAD commands rather than generic requests
 3. **Provide context**: Reference specific documents and requirements
@@ -335,6 +373,7 @@ Customize agents for your specific needs by editing files in `bmad/agents/`:
 5. **Review regularly**: Use QA agent to maintain quality
 
 #### Common Patterns
+
 ```
 # Epic Planning
 /sm -> *plan -> Review epic breakdown
@@ -352,6 +391,7 @@ Customize agents for your specific needs by editing files in `bmad/agents/`:
 ## Step 5: Integration with Existing Codebase
 
 ### 5.1 Brownfield Integration
+
 Since we have an existing codebase, use BMAD's brownfield approach:
 
 1. **Document current state**: Use analyst to document existing features
@@ -360,6 +400,7 @@ Since we have an existing codebase, use BMAD's brownfield approach:
 4. **Incremental development**: Use SM/Dev/QA cycle for new features
 
 ### 5.2 Maintaining Existing Code
+
 When working with existing code:
 
 ```
@@ -378,6 +419,7 @@ Current code is in backend/app/api/deals.py
 ```
 
 ### 5.3 Database Migrations
+
 For database changes:
 
 ```
@@ -395,6 +437,7 @@ Design database migration for new podcast analytics features:
 ## Step 6: Monitoring and Optimization
 
 ### 6.1 Performance Monitoring
+
 Use BMAD agents to optimize performance:
 
 ```
@@ -410,6 +453,7 @@ Analyze and optimize the following performance bottlenecks:
 ```
 
 ### 6.2 Security Auditing
+
 Regular security reviews:
 
 ```
@@ -425,6 +469,7 @@ Perform security audit focusing on:
 ```
 
 ### 6.3 Code Quality Maintenance
+
 Maintain code quality:
 
 ```
@@ -445,22 +490,28 @@ Review codebase for:
 ### Common Issues and Solutions
 
 #### BMAD Commands Not Available
+
 **Problem**: BMAD commands don't appear in Cursor
-**Solution**: 
+**Solution**:
+
 1. Verify installation: `ls bmad/`
 2. Restart Cursor IDE
 3. Check Cursor extensions are enabled
 
 #### Agent Context Issues
+
 **Problem**: Agents don't have proper context
 **Solution**:
+
 1. Ensure documents are sharded properly
 2. Check file paths in agent configurations
 3. Update document references after file moves
 
 #### Performance Issues
+
 **Problem**: Slow agent responses
 **Solution**:
+
 1. Reduce context size by sharding large documents
 2. Use specific commands rather than general requests
 3. Start fresh chat sessions for complex tasks
@@ -468,11 +519,13 @@ Review codebase for:
 ### Getting Help
 
 #### BMAD Community Resources
+
 - **Discord**: Join BMAD community for support
 - **GitHub**: Check issues and discussions
 - **Documentation**: Review official BMAD docs
 
 #### Project-Specific Support
+
 - **Team Communication**: Use established team channels
 - **Code Reviews**: Regular peer reviews of BMAD-generated code
 - **Documentation**: Maintain project-specific BMAD usage patterns

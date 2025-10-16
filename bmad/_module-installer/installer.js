@@ -1,7 +1,14 @@
-const fs = require('fs-extra');
-const path = require('node:path');
-const chalk = require('chalk');
-const platformCodes = require(path.join(__dirname, '../../../../tools/cli/lib/platform-codes'));
+import fs from 'fs-extra';
+import path from 'node:path';
+import chalk from 'chalk';
+import { createRequire } from 'node:module';
+import { fileURLToPath } from 'node:url';
+
+const require = createRequire(import.meta.url);
+const platformCodes = require('../../../../tools/cli/lib/platform-codes');
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 /**
  * BMM Module Installer
@@ -14,7 +21,7 @@ const platformCodes = require(path.join(__dirname, '../../../../tools/cli/lib/pl
  * @param {Object} options.logger - Logger instance for output
  * @returns {Promise<boolean>} - Success status
  */
-async function install(options) {
+export async function install(options) {
   const { projectRoot, config, installedIDEs, logger } = options;
 
   try {
@@ -98,7 +105,9 @@ async function install(options) {
 async function configureForIDE(ide, projectRoot, config, logger) {
   // Validate platform code
   if (!platformCodes.isValidPlatform(ide)) {
-    logger.warn(chalk.yellow(`  Warning: Unknown platform code '${ide}'. Skipping BMM configuration.`));
+    logger.warn(
+      chalk.yellow(`  Warning: Unknown platform code '${ide}'. Skipping BMM configuration.`),
+    );
     return;
   }
 
@@ -111,7 +120,7 @@ async function configureForIDE(ide, projectRoot, config, logger) {
     if (await fs.pathExists(platformSpecificPath)) {
       const platformHandler = require(platformSpecificPath);
 
-      if (typeof platformHandler.install === 'function') {
+      if (platformHandler && typeof platformHandler.install === 'function') {
         await platformHandler.install({
           projectRoot,
           config,
@@ -124,8 +133,12 @@ async function configureForIDE(ide, projectRoot, config, logger) {
       logger.log(chalk.dim(`  No BMM-specific configuration for ${platformName}`));
     }
   } catch (error) {
-    logger.warn(chalk.yellow(`  Warning: Could not load BMM platform-specific handler for ${platformName}: ${error.message}`));
+    logger.warn(
+      chalk.yellow(
+        `  Warning: Could not load BMM platform-specific handler for ${platformName}: ${error.message}`,
+      ),
+    );
   }
 }
 
-module.exports = { install };
+export default { install };

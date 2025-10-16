@@ -33,7 +33,9 @@ class KiloSetup extends BaseIdeSetup {
       for (const match of modeMatches) {
         existingModes.push(match[1]);
       }
-      console.log(chalk.yellow(`Found existing .kilocodemodes file with ${existingModes.length} modes`));
+      console.log(
+        chalk.yellow(`Found existing .kilocodemodes file with ${existingModes.length} modes`),
+      );
     }
 
     // Get agents

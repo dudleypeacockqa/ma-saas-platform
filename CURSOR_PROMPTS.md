@@ -3,6 +3,7 @@
 ## 🔐 **Authentication & Multi-Tenancy**
 
 ### Prompt 1: Frontend Clerk Integration
+
 ```
 I need to integrate Clerk authentication into my React M&A SaaS platform. Please help me:
 
@@ -22,6 +23,7 @@ The app should support multi-tenant architecture where Clerk organizations repre
 ```
 
 ### Prompt 2: Backend Authentication Middleware
+
 ```
 I need to create FastAPI authentication middleware that integrates with Clerk. Please help me:
 
@@ -41,6 +43,7 @@ The backend should enforce strict tenant isolation and proper authorization for 
 ```
 
 ### Prompt 3: Multi-Tenant Database Schema
+
 ```
 I need to design a comprehensive database schema for a multi-tenant M&A SaaS platform. Please create:
 
@@ -67,6 +70,7 @@ Use SQLAlchemy with proper type hints and validation.
 ## 💼 **M&A Core Features**
 
 ### Prompt 4: Deal Management System
+
 ```
 I need to create a comprehensive deal management system for M&A transactions. Please build:
 
@@ -86,6 +90,7 @@ The system should handle complex M&A workflows and provide insights for deal eva
 ```
 
 ### Prompt 5: Due Diligence Management
+
 ```
 I need to create a due diligence management system for M&A deals. Please develop:
 
@@ -109,6 +114,7 @@ Use modern React patterns with proper state management and real-time updates.
 ```
 
 ### Prompt 6: Financial Analysis Tools
+
 ```
 I need to create financial analysis tools for M&A deal evaluation. Please build:
 
@@ -134,6 +140,7 @@ The tools should be professional-grade and suitable for institutional investors.
 ## 🤖 **AI Integration**
 
 ### Prompt 7: Claude AI Deal Analysis
+
 ```
 I need to integrate Anthropic Claude for AI-powered deal analysis. Please create:
 
@@ -163,6 +170,7 @@ The AI should enhance human decision-making, not replace it.
 ```
 
 ### Prompt 8: Document Intelligence
+
 ```
 I need to create an AI-powered document intelligence system for M&A due diligence. Please build:
 
@@ -189,6 +197,7 @@ The system should handle various document types (PDFs, Word, Excel, images) and 
 ## 📊 **Analytics & Reporting**
 
 ### Prompt 9: Executive Dashboard
+
 ```
 I need to create a comprehensive executive dashboard for M&A portfolio management. Please build:
 
@@ -214,6 +223,7 @@ Use modern charting libraries (Chart.js, D3.js) and ensure fast loading with pro
 ```
 
 ### Prompt 10: Advanced Analytics
+
 ```
 I need to create advanced analytics capabilities for M&A deal intelligence. Please develop:
 
@@ -241,6 +251,7 @@ The system should provide institutional-quality analytics suitable for professio
 ## 🌐 **Website & Marketing**
 
 ### Prompt 11: Landing Page Development
+
 ```
 I need to create a world-class landing page for my M&A SaaS platform (100daysandbeyond.com). Please build:
 
@@ -263,6 +274,7 @@ The page should be conversion-optimized with clear value propositions for each a
 ```
 
 ### Prompt 12: Blog and Content System
+
 ```
 I need to create a comprehensive blog and content management system. Please build:
 
@@ -289,6 +301,7 @@ Each article should be 2000-2500 words, SEO-optimized, and provide genuine value
 ```
 
 ### Prompt 13: Podcast Integration
+
 ```
 I need to create a podcast section for "100 Days and Beyond" podcast. Please build:
 
@@ -316,6 +329,7 @@ The podcast focuses on M&A strategies, deal stories, and industry insights for p
 ## 🔧 **Technical Infrastructure**
 
 ### Prompt 14: Performance Optimization
+
 ```
 I need to optimize the performance of my M&A SaaS platform. Please help me:
 
@@ -340,6 +354,7 @@ Use modern optimization techniques and monitoring tools to achieve enterprise-gr
 ```
 
 ### Prompt 15: Security Implementation
+
 ```
 I need to implement comprehensive security measures for my M&A SaaS platform. Please help me:
 

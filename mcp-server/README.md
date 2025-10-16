@@ -137,4 +137,3 @@ Once the MCP server is deployed, it can be integrated with the existing M&A SaaS
 ## Codex Prompts
 
 For examples of how to use the MCP server with OpenAI Codex, please see the `CODEX_PROMPTS.md` file.
-

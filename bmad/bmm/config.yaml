@@ -4,8 +4,8 @@
 # Date: 2025-10-10T08:54:28.081Z
 
 project_name: ma-saas-platform
-tech_docs: '{project-root}/docs'
-dev_story_location: '{project-root}/docs/stories'
+tech_docs: "{project-root}/docs"
+dev_story_location: "{project-root}/docs/stories"
 kb_location: ~/bmad/bmm/kb.md
 desired_mcp_tools:
   - Chrome Official MCP
@@ -16,4 +16,4 @@ desired_mcp_tools:
 # Core Configuration Values
 user_name: BMad User
 communication_language: English
-output_folder: '{project-root}/docs'
+output_folder: "{project-root}/docs"

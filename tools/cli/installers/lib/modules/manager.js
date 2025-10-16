@@ -46,7 +46,11 @@ class ModuleManager {
       if (entry.isDirectory()) {
         const modulePath = path.join(this.modulesSourcePath, entry.name);
         // Check for new structure first
-        const installerConfigPath = path.join(modulePath, '_module-installer', 'install-menu-config.yaml');
+        const installerConfigPath = path.join(
+          modulePath,
+          '_module-installer',
+          'install-menu-config.yaml',
+        );
         // Fallback to old structure
         const configPath = path.join(modulePath, 'config.yaml');
 
@@ -59,7 +63,9 @@ class ModuleManager {
         };
 
         // Try to read module config for metadata (prefer new location)
-        const configToRead = (await fs.pathExists(installerConfigPath)) ? installerConfigPath : configPath;
+        const configToRead = (await fs.pathExists(installerConfigPath))
+          ? installerConfigPath
+          : configPath;
         if (await fs.pathExists(configToRead)) {
           try {
             const configContent = await fs.readFile(configToRead, 'utf8');
@@ -74,7 +80,8 @@ class ModuleManager {
             moduleInfo.description = config.description || moduleInfo.description;
             moduleInfo.version = config.version || moduleInfo.version;
             moduleInfo.dependencies = config.dependencies || [];
-            moduleInfo.defaultSelected = config.default_selected === undefined ? false : config.default_selected;
+            moduleInfo.defaultSelected =
+              config.default_selected === undefined ? false : config.default_selected;
           } catch (error) {
             console.warn(`Failed to read config for ${entry.name}:`, error.message);
           }
@@ -368,7 +375,9 @@ class ModuleManager {
       await fs.writeFile(targetFile, strippedYaml, 'utf8');
     } catch {
       // If anything fails, just copy the file as-is
-      console.warn(chalk.yellow(`  Warning: Could not process ${path.basename(sourceFile)}, copying as-is`));
+      console.warn(
+        chalk.yellow(`  Warning: Could not process ${path.basename(sourceFile)}, copying as-is`),
+      );
       await fs.copy(sourceFile, targetFile, { overwrite: true });
     }
   }
@@ -454,7 +463,9 @@ class ModuleManager {
         }
       }
     } catch (error) {
-      console.error(chalk.red(`Error running module installer for ${moduleName}: ${error.message}`));
+      console.error(
+        chalk.red(`Error running module installer for ${moduleName}: ${error.message}`),
+      );
     }
   }
 

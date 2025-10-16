@@ -2,12 +2,12 @@
   const script = document.currentScript;
   const measurementId = script?.dataset.measurementId || 'GA_MEASUREMENT_ID';
 
-  window.dataLayer = window.dataLayer || [];
+  globalThis.dataLayer = globalThis.dataLayer || [];
   function gtag() {
-    window.dataLayer.push(arguments);
+    globalThis.dataLayer.push(arguments);
   }
 
-  window.gtag = window.gtag || gtag;
-  window.gtag('js', new Date());
-  window.gtag('config', measurementId);
+  globalThis.gtag = globalThis.gtag || gtag;
+  globalThis.gtag('js', new Date());
+  globalThis.gtag('config', measurementId);
 })();

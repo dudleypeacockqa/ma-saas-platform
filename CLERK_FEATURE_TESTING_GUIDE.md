@@ -996,10 +996,10 @@ For testing issues or questions:
 
 After completing all tests, sign off here:
 
-**Tested By:** ****\*\*\*\*****\_\_\_****\*\*\*\*****
-**Date:** ****\*\*\*\*****\_\_\_****\*\*\*\*****
+**Tested By:** \***\*\*\*\*\*\*\***\_\_\_\***\*\*\*\*\*\*\***
+**Date:** \***\*\*\*\*\*\*\***\_\_\_\***\*\*\*\*\*\*\***
 **All Tests Passed:** ☐ Yes ☐ No
-**Issues Found:** ****\*\*\*\*****\_\_\_****\*\*\*\*****
+**Issues Found:** \***\*\*\*\*\*\*\***\_\_\_\***\*\*\*\*\*\*\***
 **Ready for Production:** ☐ Yes ☐ No
 
 ---

@@ -3,6 +3,7 @@
 ## Specialized Code Generation Prompts for M&A SaaS Platform
 
 ### 📋 **Updated for Master Branch Deployment**
+
 - All sophisticated multipage website code is now in **master branch**
 - Production deployment should reference **master branch**
 - Environment variables and configuration are production-ready
@@ -183,13 +184,13 @@ BUSINESS METRICS TO IMPLEMENT:
 ```javascript
 /**
  * BMAD-Method Codex Prompt: Advanced M&A Platform Features (Master Branch)
- * 
+ *
  * CONTEXT:
  * - Enterprise M&A SaaS platform deployed from master branch
  * - Target market: Investment banks, M&A advisors, corporate development teams
  * - Need advanced features to compete with industry leaders
  * - Platform must handle complex M&A workflows and enterprise data
- * 
+ *
  * MASTER BRANCH BACKEND STRUCTURE:
  * /backend/app/ (master branch)
  * ├── api/
@@ -213,7 +214,7 @@ BUSINESS METRICS TO IMPLEMENT:
  * │   ├── document_processor.py
  * │   └── notification_service.py
  * └── main.py (complete FastAPI application)
- * 
+ *
  * CURRENT MASTER BRANCH FEATURES:
  * - Comprehensive deal pipeline management
  * - Advanced document storage and collaboration
@@ -223,46 +224,46 @@ BUSINESS METRICS TO IMPLEMENT:
  * - Content creation suite for podcasts and videos
  * - Event management with EventBrite integration
  * - Lead generation and marketing automation
- * 
+ *
  * OBJECTIVE: Implement next-generation M&A platform features
- * 
+ *
  * REQUIRED IMPLEMENTATIONS:
- * 
+ *
  * 1. AI-Powered Deal Intelligence:
  *    - Machine learning deal scoring and risk assessment
  *    - Automated market comparables analysis using real-time data
  *    - Due diligence checklist generation based on deal type
  *    - Financial model validation and scenario analysis
  *    - Predictive analytics for deal success probability
- * 
+ *
  * 2. Advanced Document Management:
  *    - OCR and intelligent document parsing
  *    - Automated data extraction from financial statements
  *    - Version control with comprehensive audit trails
  *    - Secure virtual data room functionality
  *    - Document workflow automation and approval processes
- * 
+ *
  * 3. Real-time Collaboration Platform:
  *    - WebSocket-based live editing and commenting
  *    - Video conferencing integration (Zoom, Teams)
  *    - Real-time deal room collaboration
  *    - Task assignment and progress tracking
  *    - Notification system for deal milestones
- * 
+ *
  * 4. Enterprise Integrations:
  *    - CRM system connectors (Salesforce, HubSpot, Pipedrive)
  *    - Financial data providers (Bloomberg, Refinitiv, FactSet)
  *    - Legal document management (iManage, NetDocuments)
  *    - Communication platforms (Slack, Microsoft Teams)
  *    - Accounting systems (QuickBooks, Xero, SAP)
- * 
+ *
  * 5. Advanced Analytics and Business Intelligence:
  *    - Deal pipeline forecasting with machine learning
  *    - Team performance metrics and optimization
  *    - Market trend analysis and competitive intelligence
  *    - Custom reporting engine with drag-and-drop interface
  *    - Executive dashboards with real-time KPIs
- * 
+ *
  * TECHNICAL SPECIFICATIONS:
  * - FastAPI backend with async/await patterns
  * - PostgreSQL with vector extensions for AI features
@@ -271,21 +272,21 @@ BUSINESS METRICS TO IMPLEMENT:
  * - Docker containerization for scalability
  * - Comprehensive error handling and logging
  * - OpenAPI documentation for all endpoints
- * 
+ *
  * SECURITY REQUIREMENTS:
  * - SOC 2 Type II compliance implementation
  * - End-to-end encryption for sensitive M&A data
  * - Role-based access control (RBAC) with granular permissions
  * - Comprehensive audit logging for all actions
  * - Data residency compliance (GDPR, CCPA, SOX)
- * 
+ *
  * PERFORMANCE REQUIREMENTS:
  * - API response times < 200ms for all endpoints
  * - Support for 10,000+ concurrent users
  * - 99.9% uptime SLA with automatic failover
  * - Horizontal scaling capability with load balancing
  * - Database query optimization for large datasets
- * 
+ *
  * INTEGRATION PATTERNS:
  * - RESTful APIs with comprehensive OpenAPI documentation
  * - WebSocket connections for real-time collaboration
@@ -477,6 +478,7 @@ OFFLINE CAPABILITIES:
 ## 🛠️ **Master Branch Usage Guidelines**
 
 ### **Updated Deployment Instructions:**
+
 - **Repository**: `dudleypeacockqa/ma-saas-platform`
 - **Branch**: `master` (contains all latest code)
 - **Frontend Directory**: `frontend`
@@ -484,6 +486,7 @@ OFFLINE CAPABILITIES:
 - **Environment Variables**: Use production configuration from master branch
 
 ### **Key Advantages of Master Branch:**
+
 - **Production Ready**: All code is in the main branch for deployment
 - **Complete Integration**: Sophisticated multipage website fully integrated
 - **Environment Variables**: Production configuration ready
@@ -491,6 +494,7 @@ OFFLINE CAPABILITIES:
 - **Render Deployment**: Simplified configuration pointing to master
 
 ### **Immediate Next Steps:**
+
 1. **Deploy from Master**: Update Render to use master branch
 2. **Verify Environment Variables**: Ensure all production keys are configured
 3. **Test Deployment**: Confirm sophisticated website replaces basic version

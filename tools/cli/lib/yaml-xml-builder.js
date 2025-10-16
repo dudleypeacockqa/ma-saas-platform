@@ -1,7 +1,7 @@
 const yaml = require('js-yaml');
 const fs = require('fs-extra');
 const path = require('node:path');
-const crypto = require('node:crypto');
+const nodeCrypto = require('node:crypto');
 const { AgentAnalyzer } = require('./agent-analyzer');
 const { ActivationBuilder } = require('./activation-builder');
 
@@ -117,7 +117,10 @@ class YamlXmlBuilder {
 
         // Append critical actions
         if (customizeYaml.critical_actions) {
-          merged.agent.critical_actions = [...(merged.agent.critical_actions || []), ...customizeYaml.critical_actions];
+          merged.agent.critical_actions = [
+            ...(merged.agent.critical_actions || []),
+            ...customizeYaml.critical_actions,
+          ];
         }
       }
     }
@@ -202,13 +205,22 @@ class YamlXmlBuilder {
    * Build metadata comment
    */
   buildMetadataComment(metadata) {
-    const lines = ['<!-- BUILD-META', `  source: ${metadata.sourceFile || 'unknown'} (hash: ${metadata.sourceHash || 'unknown'})`];
+    const lines = [
+      '<!-- BUILD-META',
+      `  source: ${metadata.sourceFile || 'unknown'} (hash: ${metadata.sourceHash || 'unknown'})`,
+    ];
 
     if (metadata.customizeFile) {
-      lines.push(`  customize: ${metadata.customizeFile} (hash: ${metadata.customizeHash || 'unknown'})`);
+      lines.push(
+        `  customize: ${metadata.customizeFile} (hash: ${metadata.customizeHash || 'unknown'})`,
+      );
     }
 
-    lines.push(`  built: ${new Date().toISOString()}`, `  builder-version: ${metadata.builderVersion || '1.0.0'}`, '-->\n');
+    lines.push(
+      `  built: ${new Date().toISOString()}`,
+      `  builder-version: ${metadata.builderVersion || '1.0.0'}`,
+      '-->\n',
+    );
 
     return lines.join('\n');
   }
@@ -293,7 +305,8 @@ class YamlXmlBuilder {
 
         // Add handler attributes
         if (item.workflow) attrs.push(`workflow="${item.workflow}"`);
-        if (item['validate-workflow']) attrs.push(`validate-workflow="${item['validate-workflow']}"`);
+        if (item['validate-workflow'])
+          attrs.push(`validate-workflow="${item['validate-workflow']}"`);
         if (item.exec) attrs.push(`exec="${item.exec}"`);
         if (item.tmpl) attrs.push(`tmpl="${item.tmpl}"`);
         if (item.data) attrs.push(`data="${item.data}"`);
@@ -333,7 +346,7 @@ class YamlXmlBuilder {
     }
 
     const content = await fs.readFile(filePath, 'utf8');
-    return crypto.createHash('md5').update(content).digest('hex').slice(0, 8);
+    return nodeCrypto.createHash('md5').update(content).digest('hex').slice(0, 8);
   }
 
   /**
@@ -349,7 +362,9 @@ class YamlXmlBuilder {
 
     // Calculate hashes for build tracking
     const sourceHash = await this.calculateFileHash(agentYamlPath);
-    const customizeHash = customizeYamlPath ? await this.calculateFileHash(customizeYamlPath) : null;
+    const customizeHash = customizeYamlPath
+      ? await this.calculateFileHash(customizeYamlPath)
+      : null;
 
     // Extract module from path (e.g., /path/to/modules/bmm/agents/pm.yaml -> bmm)
     // or /path/to/bmad/bmm/agents/pm.yaml -> bmm
@@ -406,7 +421,9 @@ class YamlXmlBuilder {
 
     // Calculate hashes for return value
     const sourceHash = await this.calculateFileHash(agentYamlPath);
-    const customizeHash = customizeYamlPath ? await this.calculateFileHash(customizeYamlPath) : null;
+    const customizeHash = customizeYamlPath
+      ? await this.calculateFileHash(customizeYamlPath)
+      : null;
 
     return {
       success: true,
